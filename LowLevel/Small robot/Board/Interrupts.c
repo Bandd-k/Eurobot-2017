@@ -124,8 +124,8 @@ void EXTI0_IRQHandler(void)
 
   EXTI->PR=0x1;
   char temp = 2;
-  if ( pin_val(EXTI2_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+//  if ( pin_val(EXTI2_PIN) ) temp |=0x80;
+//  sendAnswer(0x1E,&temp, 1);
   ticks = ticks;
 
     timeofred = (ticks - lasttick) ;
@@ -177,8 +177,8 @@ void EXTI4_IRQHandler(void)
 
   EXTI->PR=0x10;
   char temp = 9;
-  if ( pin_val(EXTI9_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+//  if ( pin_val(EXTI9_PIN) ) temp |=0x80;
+//  sendAnswer(0x1E,&temp, 1);
 
 //  timeofred = (ticks - lasttick) ;
 //  lasttick= ticks;
@@ -239,23 +239,23 @@ void EXTI15_10_IRQHandler(void)
   {
     EXTI->PR=(1<<12);
     char temp = 3;
-    if ( pin_val(EXTI3_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI3_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<13))
   {
     EXTI->PR=(1<<13);
     char temp = 10;
-    if ( pin_val(EXTI10_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI10_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<15))
   {
       int_cnt++;
     EXTI->PR=(1<<15);
     char temp = 1;
-    if ( pin_val(EXTI1_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI1_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
 
 }

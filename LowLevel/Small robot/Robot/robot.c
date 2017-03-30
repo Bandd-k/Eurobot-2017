@@ -141,7 +141,7 @@ switch(cmd->command)
       sendAnswer(cmd->command,str, 3);
   }
   break;
-
+/*
   case 0x0B:  //Включить рассчет кинематики
   {
 
@@ -166,7 +166,7 @@ switch(cmd->command)
 //      char * str ="Ok";
 //      sendAnswer(cmd->command,str, 3);
   }
-  break;
+  break;*/
 
   case 0x0C:  //Выключить рассчет кинематики
   {
@@ -569,14 +569,14 @@ break;
 
 
 
-case 0x32:  // Flag of reached point
+  case 0x32:  // Flag of reached point
   {
       sendAnswer(cmd->command, (char *)&allpointsreached, sizeof(allpointsreached));
   }
-  break;
+    break;
 
-case 0x37:   //open umbrella
-{
+  case 0x37:   //open umbrella
+  {
     set_pin (PIN6_12V); // крутимся
     softDelay(10000000);
     softDelay(12000000);
@@ -586,11 +586,11 @@ case 0x37:   //open umbrella
 
     char * str ="Ok";
     sendAnswer(cmd->command, str, 3);
-}
+  }
 
-break;
-case 0x36:
-    {
+    break;
+  case 0x36:
+  {
     if (pin_val (EXTI2_PIN))
     {   char * str ="1";
         sendAnswer(cmd->command, str, 2);
@@ -602,8 +602,60 @@ case 0x36:
     }
 
 
-    }
-break;
+  }
+    break;
+
+  case 0x38:        // avoidance ENABLED
+  {
+    curState.collisionAvEn   = 1;
+    char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+
+  }
+    break;
+
+  case 0x39:        // avoidance ENABLED
+  {
+    curState.collisionAvEn = 0;
+    char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+  }
+    break;
+
+  case 0x3A: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+  {
+    distance_digital2[0] = pin_val(IR_FRONT_LEFT);
+    distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
+    distance_digital2[2] = pin_val(IR_FRONT_TOP);
+    distance_digital2[3] = pin_val(IR_BACK);
+
+    sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
+  }
+    break;
+
+  case 0x3B: // RGB sensor for cylinder EuroBot 2017
+  {
+    char *color = getCurrentColor();
+    //    sendAnswer(cmd->command, color, 2);
+  }
+    break;
+
+
+  case 0x3C: // switch on pump
+  {
+    switchOnPneumo();
+    char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+  }
+    break;
+
+  case 0x3D: // switch off pump
+  {
+    switchOffPneumo();
+    char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+  }
+    break;
 
   case 0x40:  // Stop command
   {
@@ -616,134 +668,26 @@ break;
     char * str ="Ok";
     sendAnswer(cmd->command,str, 3);
   }
-  break;
+    break;
 
-case 0x38:        // avoidance ENABLED
-{       curState.collisionAvEn   = 1;
-        char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-
-}
-break;
-
-case 0x39:        // avoidance ENABLED
-{       curState.collisionAvEn = 0;
-        char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-}
-break;
-
-case 0x3A: // Distance from ultrasonic sensors
+  case 0x41:  //pump manipulator rotation for EuroBot 2017
   {
-
-        distance_digital2[0] = pin_val(IR_FRONT_LEFT);
-        distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
-        distance_digital2[2] = pin_val(IR_FRONT_TOP);
-        distance_digital2[3] = pin_val(IR_BACK);
-
-        sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
-
+    servo_rotate_90(); // rotate the pump 90 degrees - horizontal
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
   }
-   break;
-
-case 0x3D: // RGB sensor for cylinder EuroBot 2017
-    {
-        char *color = getCurrentColor();
-        sendAnswer(cmd->command, color, 2);
-    }
     break;
 
-
-   case 0x3E: // switch on pump
-    {
-        switchOnPneumo();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
+  case 0x42:  //pump manipulator rotation for EuroBot 2017
+  {
+    servo_rotate_180(); // rotate the pump 180 degrees - vertical
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+  }
     break;
 
-    case 0x3F: // switch off pump
-    {
-        switchOffPneumo();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
-    break;
-
-    case 0x41:  //pump manipulator rotation for EuroBot 2017
-    {
-        servo_rotate_90(); // rotate the pump 90 degrees - horizontal
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
-    }
-    break;
-
-    case 0x42:  //pump manipulator rotation for EuroBot 2017
-    {
-        servo_rotate_180(); // rotate the pump 180 degrees - vertical
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
-    }
-    break;
-
-    case 0x4A: // Sucking manipulator
-    {
-        goInsideWithSuckingManipulator();
-    }
-    break;
-
-    case 0x44:                //this function still needs to be tested, so DON'T CALL IT YET DENIS
-    {
-        increaseByGivenAngle(LIFT_CYLINDER);
-        //it is for holding it
-    }
-    break;
-
-    case 0x45:                //this function still needs to be tested, so DON'T CALL IT YET DENIS
-    {
-        increaseByGivenAngle(STORE_CYLINDER);
-        //it is for lifting storing it
-    }
-    break;
-
-    case 0x46:                //this function still needs to be tested, so DON'T CALL IT YET DENIS
-    {
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        servo_rotate_180();
-    }
-    break;
-
-    case 0x47:                //this function still needs to be tested, so DON'T CALL IT YET DENIS
-    {
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        switchOffPneumo();
-        increaseByGivenAngle(STORE_CYLINDER);
-        servo_rotate_90();
-    }
-    break;
-
-    case 0x48:                //this function still needs to be tested, so DON'T CALL IT YET DENIS
-    {
-        decreaseByGivenAngle(LIFT_CYLINDER + STORE_CYLINDER);
-    }
-    break;
-
-    case 0x49: // Sucking manipulator
-    {
-        goOutsideWithSuckingManipulator();
-    }
-    break;
-
-    case 0x4B: // Sucking manipulator
-    {
-        dropAllCylinders();
-    }
-    break;
-
-case 0x43: // Generate new trajectory with correction
-{
+  case 0x43: // Generate new trajectory with correction
+  {
     float *(temp) ={(float*)cmd->param};
     char * ch = cmd->param + 24;
     robotCoord[0] = temp[0]; //# TODO TEST SPEED
@@ -759,8 +703,65 @@ case 0x43: // Generate new trajectory with correction
     points[lastPoint].movTask = NULL;
     char * str ="Ok";
     sendAnswer(cmd->command, str, 3);
-}
+  }
     break;
+
+  case 0x44:
+  {
+    increaseByGivenAngle(LIFT_CYLINDER);
+        //it is for holding it
+  }
+    break;
+
+  case 0x45:
+  {
+    increaseByGivenAngle(STORE_CYLINDER);
+        //it is for storing it
+  }
+    break;
+
+  case 0x46:
+  {
+    goOutsideWithSuckingManipulator();
+    switchOnPneumo();
+    servo_rotate_180();
+  }
+    break;
+
+  case 0x47:
+  {
+    goInsideWithSuckingManipulator();
+    increaseByGivenAngle(LIFT_CYLINDER);
+    switchOffPneumo();
+    increaseByGivenAngle(STORE_CYLINDER);
+    servo_rotate_90();
+  }
+    break;
+
+  case 0x48:
+  {
+    decreaseByGivenAngle(LIFT_CYLINDER + STORE_CYLINDER);
+  }
+    break;
+
+  case 0x49: // Sucking manipulator
+  {
+    goOutsideWithSuckingManipulator();
+  }
+    break;
+
+  case 0x4A: // Sucking manipulator
+  {
+    goInsideWithSuckingManipulator();
+  }
+    break;
+
+  case 0x4B: // Sucking manipulator
+  {
+    dropAllCylinders();
+  }
+    break;
+
          /*
 case 0x2E:
 {

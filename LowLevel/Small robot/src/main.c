@@ -114,62 +114,62 @@ int main(void)
 //        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
      //   setCurrentAngleAsBeginning();
-    /*    servo_rotate_90();
-        servo_rotate_180();
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER);
-        servo_rotate_90();
-        softDelay(4000000);
-
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER);
-        servo_rotate_90();
-        softDelay(4000000);
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER-50);
-        servo_rotate_90();
-        softDelay(4000000);
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-
-        softDelay(30000000);
-
-        switchOffPneumo();
-        goInsideWithSuckingManipulator();
-        dropAllCylinders();
+//        servo_rotate_90();
+//        servo_rotate_180();
+//        servo_rotate_90();
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(10000000);
+//        servo_rotate_180();
+//        goInsideWithSuckingManipulator();
+//        increaseByGivenAngle(LIFT_CYLINDER);
+//        softDelay(4000000);
+//        switchOffPneumo();
+//        softDelay(1000000);
+//        increaseByGivenAngle(STORE_CYLINDER);
+//        servo_rotate_90();
+//        softDelay(4000000);
+//
+//
+//        servo_rotate_90();
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(10000000);
+//        servo_rotate_180();
+//        goInsideWithSuckingManipulator();
+//        increaseByGivenAngle(LIFT_CYLINDER);
+//        softDelay(4000000);
+//        switchOffPneumo();
+//        softDelay(1000000);
+//        increaseByGivenAngle(STORE_CYLINDER);
+//        servo_rotate_90();
+//        softDelay(4000000);
+//
+//        servo_rotate_90();
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(10000000);
+//        servo_rotate_180();
+//        goInsideWithSuckingManipulator();
+//        increaseByGivenAngle(LIFT_CYLINDER);
+//        softDelay(4000000);
+//        switchOffPneumo();
+//        softDelay(1000000);
+//        increaseByGivenAngle(STORE_CYLINDER-60);
+//        servo_rotate_90();
+//        softDelay(4000000);
+//
+//        servo_rotate_90();
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(10000000);
+//        servo_rotate_180();
+//
+//        softDelay(10000000);
+//
+//        switchOffPneumo();
+//        goInsideWithSuckingManipulator();
+//        dropAllCylinders();
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
