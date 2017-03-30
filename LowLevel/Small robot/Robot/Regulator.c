@@ -38,7 +38,7 @@ float ACCEL_INC = 0.02;
 
 //pathPointStr defaultPoint;
 
-char lastPoint =0;// последняя активная точка в очереди
+char lastPoint = 0;// последняя активная точка в очереди
 Path curPath; //параметры активной прямой для траекторного регулятора
 
 float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
@@ -63,11 +63,11 @@ float stopRotVerySlow[5] = {0.5, 0.2, -1.0, 4.0, 3.0};
 float * speedType[7] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow,stopVelVerySlow };// типы  линейный скоростей
 float * rotType[7] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow,stopRotVerySlow};// типы угловых скоростей
 
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
-                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {0.2, 0.0, 3, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },//#1
+                                        {0.2, 0.2, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.2, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//5
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//6
                                         {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },

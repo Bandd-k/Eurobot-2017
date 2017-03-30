@@ -733,7 +733,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1490341569 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\board.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -885,12 +885,12 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1490437452 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\kinematics.c
+1490802810 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\kinematics.c
 
 1488792976 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\path.c
 	"Path.h"
 
-1490361750 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -906,7 +906,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1490290784 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -952,7 +952,7 @@
 1488792976 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\usb app\usbd_usr.c
 	"usbd_usr.h"
 
-1490341014 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\src\main.c
+1490802847 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

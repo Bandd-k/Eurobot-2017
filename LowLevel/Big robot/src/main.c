@@ -96,12 +96,12 @@ while(1){
 //OpenLauncher();
 //CloseLauncher();
     //GetDataForManipulator();
-<<<<<<< HEAD
+
      //   setVoltage(channel, duty);
-=======
 
 
->>>>>>> 0bc454ec09a6fd603d5df77bce879f61d5080e47
+
+
 //        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 //    goDownWithSuckingManipulator();
   //  goUpWithSuckingManipulator();

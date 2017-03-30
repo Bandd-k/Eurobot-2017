@@ -41,7 +41,7 @@ char execCommand(InPackStruct* cmd) //обработать входящую ко
 {
 switch(cmd->command)
 {
-  case 0x01: //Эхо
+  case 0x01: //Эх
     {
      char *key=  cmd->param;
 
