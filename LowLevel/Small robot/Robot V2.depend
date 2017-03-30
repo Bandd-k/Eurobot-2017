@@ -339,7 +339,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1490751705 source:f:\from git\lowlevel\small robot\robot\robot.c
+1490757852 source:f:\from git\lowlevel\small robot\robot\robot.c
 	"Robot.h"
 	"pins.h"
 	"usart.h"
@@ -542,7 +542,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1490755029 source:f:\from git\lowlevel\small robot\src\main.c
+1490781640 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -566,7 +566,7 @@
 1489757002 source:f:\from git\lowlevel\small robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1490753346 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1490781333 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"

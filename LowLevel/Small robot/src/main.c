@@ -114,7 +114,7 @@ int main(void)
 //        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
      //   setCurrentAngleAsBeginning();
-    /*    servo_rotate_90();
+        servo_rotate_90();
         servo_rotate_180();
         servo_rotate_90();
         goOutsideWithSuckingManipulator();
@@ -155,7 +155,7 @@ int main(void)
         softDelay(4000000);
         switchOffPneumo();
         softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER-50);
+        increaseByGivenAngle(STORE_CYLINDER-60);
         servo_rotate_90();
         softDelay(4000000);
 
@@ -165,7 +165,7 @@ int main(void)
         softDelay(10000000);
         servo_rotate_180();
 
-        softDelay(30000000);
+        softDelay(10000000);
 
         switchOffPneumo();
         goInsideWithSuckingManipulator();
