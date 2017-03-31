@@ -756,7 +756,7 @@ break;
   }
     break;
 
-  case 0x4B: // Sucking manipulator
+  /*case 0x4B: // Sucking manipulator
   {
     dropAllCylinders();
   }

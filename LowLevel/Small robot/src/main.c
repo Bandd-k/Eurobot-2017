@@ -169,7 +169,6 @@ int main(void)
 
         switchOffPneumo();
         goInsideWithSuckingManipulator();
-        dropAllCylinders();
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
