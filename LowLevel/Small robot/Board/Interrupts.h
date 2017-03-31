@@ -18,6 +18,7 @@ void EXTI0_IRQHandler(void);
 void add_ext_interrupt(unsigned char pin, char edge);
 extern void USB_OTG_BSP_TimerIRQ (void);
 extern char traceFlag;
+static uint8_t prev_val, current_val;
 void delay(__IO uint32_t nCount);
 
 

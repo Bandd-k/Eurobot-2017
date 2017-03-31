@@ -100,14 +100,14 @@ float encodermagner(float);
 void setPositionOfCylinderCarrier(float);
 
 
-#define UPPER_SWITCH  EXTI2_PIN
-#define DOWN_SWITCH EXTI1_PIN
-#define INPUT2_CONTROL EXTI3_PIN
-#define INPUT1_CONTROL EXTI4_PIN
+#define UPPER_SWITCH  EXTI4_PIN
+#define DOWN_SWITCH EXTI3_PIN
+#define INPUT2_CONTROL EXTI5_PIN
+#define INPUT1_CONTROL EXTI6_PIN
 
 
-bool goUpWithSuckingManipulator();
-bool goDownWithSuckingManipulator();
+bool goInsideWithSuckingManipulator();
+bool goOutsideWithSuckingManipulator();
 
 
 
@@ -116,8 +116,7 @@ bool goDownWithSuckingManipulator();
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-
-#define SERVO_ROTATE_90  145
+#define SERVO_ROTATE_90  135
 #define SERVO_ROTATE_180  242
 
 
@@ -128,19 +127,16 @@ bool moveSuckerManipulatorDown();
 #define ZERO_ANGLE_FUTABA_S3154 0.05
 #define MAX_ANGLE_FUTABA_S3154 0.1
 
-
 char getCurrentColor();
 
-#define LIFT_FIRST_CYLINDER 187
-#define PREPARE_FOR_SECOND_CYLINDER 188
-#define LIFT_SECOND_CYLINDER 188
-#define PREPARE_FOR_THIRD_CYLINDER 174
-#define LIFT_THIRD_CYLINDER 225
-#define LIFT_ALL 80
+#define LIFT_CYLINDER 210
+#define STORE_CYLINDER 170
 
 
 float getCurrentEncoderAngle(void);
 void increaseByGivenAngle(float);
+void decreaseByGivenAngle(float);
+void dropAllCylinders();
 void setPositionOfCylinderCarrier(float);
 
 #endif

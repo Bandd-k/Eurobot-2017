@@ -14,7 +14,7 @@ int indexSpeeds = 0, indexDists = 0;
 char traceFlag, movFlag, endFlag, allpointsreached;
 double timeofred = 0;
 int16_t int_cnt = 0;
-
+static uint8_t prev_val, current_val;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
     if (tempor !=2) {
      numberofrot += tempor;
     }
-
+ //   whole_angle = numberofrot * 360 + angle_enc_real;
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
     char i = 0;
@@ -120,29 +120,31 @@ NVIC_EnableIRQ(TIM6_DAC_IRQn);
 //#define EXTI2_PIN               pin_id(PORTD,0)         //Разъем EXTI2//
 void EXTI0_IRQHandler(void)
 {
-
+    static uint32_t lasttick;
 
   EXTI->PR=0x1;
   char temp = 2;
-  if ( pin_val(EXTI2_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+//  if ( pin_val(EXTI2_PIN) ) temp |=0x80;
+//  sendAnswer(0x1E,&temp, 1);
   ticks = ticks;
 
+    timeofred = (ticks - lasttick) ;
+    lasttick = ticks;
 
 }
 
 //#define EXTI5_PIN               pin_id(PORTD,1)         //Разъем EXTI5//
 void EXTI1_IRQHandler(void)
 {
-    static uint32_t lasttick;
+//  static uint32_t lasttick;
 
   EXTI->PR=0x2;
   char temp = 5;
 //  if ( pin_val(EXTI5_PIN) ) temp |=0x80;
 //  sendAnswer(0x1E,&temp, 1);
 
-  timeofred = (ticks - lasttick) ;
-  lasttick= ticks;
+//  timeofred = (ticks - lasttick) ;
+//  lasttick = ticks;
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
@@ -157,29 +159,59 @@ void EXTI2_IRQHandler(void)
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
 void EXTI3_IRQHandler(void)
 {
-
+  //  static uint32_t lasttick;
   EXTI->PR=0x8;
   char temp = 6;
 //  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
 //  sendAnswer(0x1E,&temp, 1);
 
+  //  timeofred = (ticks - lasttick) ;
+  //lasttick= ticks;
 
 }
 
-//#define EXTI9_PIN               pin_id(PORTE,4)         //Разъем EXTI9//
+
 void EXTI4_IRQHandler(void)
 {
+  //static uint32_t lasttick;
+
   EXTI->PR=0x10;
   char temp = 9;
 //  if ( pin_val(EXTI9_PIN) ) temp |=0x80;
 //  sendAnswer(0x1E,&temp, 1);
+
+//  timeofred = (ticks - lasttick) ;
+//  lasttick= ticks;
+
 }
 
 //#define EXTI7_PIN               pin_id(PORTD,6)         //Разъем EXTI7//
 //#define EXTI8_PIN               pin_id(PORTD,7)         //Разъем EXTI8//
+
 void EXTI9_5_IRQHandler(void)
 {
-  if (EXTI->PR&(1<<6))
+
+    current_val = pin_val(EXTI8_PIN);
+
+    if(current_val != prev_val){
+        static uint32_t lasttick;
+        timeofred = (ticks - lasttick) ;
+        lasttick= ticks;
+    }
+    prev_val = current_val;
+
+/*    if(EXTI->PR&(1<<7)){
+        static uint32_t lasttick;
+
+        EXTI->PR&(1<<7);
+        char temp = 8;
+        if ( pin_val(EXTI8_PIN) ) temp |=0x80;
+        sendAnswer(0x1E,&temp, 1);
+
+        timeofred = (ticks - lasttick) ;
+        lasttick= ticks;
+    }*/
+  /*if (EXTI->PR&(1<<6))
   {
     EXTI->PR=(1<<6);
     char temp = 7;
@@ -193,6 +225,7 @@ void EXTI9_5_IRQHandler(void)
     if ( pin_val(EXTI8_PIN) ) temp |=0x80;
     sendAnswer(0x1E,&temp, 1);
   }
+*/
 }
 
 
@@ -201,27 +234,28 @@ void EXTI9_5_IRQHandler(void)
 //#define EXTI1_PIN               pin_id(PORTA,15)        //Разъем EXTI1///
 void EXTI15_10_IRQHandler(void)
 {
+
   if (EXTI->PR&(1<<12))
   {
     EXTI->PR=(1<<12);
     char temp = 3;
-    if ( pin_val(EXTI3_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI3_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<13))
   {
     EXTI->PR=(1<<13);
     char temp = 10;
-    if ( pin_val(EXTI10_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI10_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<15))
   {
       int_cnt++;
     EXTI->PR=(1<<15);
     char temp = 1;
-    if ( pin_val(EXTI1_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+//    if ( pin_val(EXTI1_PIN) ) temp |=0x80;
+//    sendAnswer(0x1E,&temp, 1);
   }
 
 }

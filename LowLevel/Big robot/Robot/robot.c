@@ -24,11 +24,11 @@ uint16_t distance_digital1[10] = {0,0,0,0,0,0,0,0,0,0};
 float vTargetGlob_last[3]={0,0,0};
 float robotCoordTarget[3] = {0,0,0}; // Целевые координаты робота в глоб сис-ме координат
 float robotSpeedTarget[3] = {0,0,0}; // Целевые скорости робота в глоб сис-ме координат
-float motorSpeed[4];                // скорости моторов
-float motorCoord[4] = {0,0,0};      // общий пройденный колесом путь
+float motorSpeed[4];               // скорости моторов
+float motorCoord[4] = {0,0,0,0};      // общий пройденный колесом путь
 float robotCoord[3] = {0,0,0};       // Координаты робота по показаниям измерительной тележки
 float robotSpeed[3] = {0,0,0};       // скорость робота по показаниям измерительной тележки
-robStateStruct curState = {1, 1, 1, 0, 0};    // состояние регуляторов активен-1/неактвен -0
+robStateStruct curState = {1, 1, 1, 1, 0};    // состояние регуляторов активен-1/неактвен -0
 encOutPackStruct outEnc;              //буфер данных отправляемых измерительной тележке
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
@@ -86,7 +86,7 @@ switch(cmd->command)
   case 0x04:  //Установить бит направления
   {
       char * ch = cmd->param;
-      set_pin(PWM_DIR[(*ch)-1]);
+      set_pin(PWM_DIR[(*ch)]);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
 
@@ -96,7 +96,7 @@ switch(cmd->command)
   case 0x05:  //Снять бит направления
   {
       char * ch = cmd->param;
-      reset_pin(PWM_DIR[(*ch)-1]);
+      reset_pin(PWM_DIR[(*ch)]);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }

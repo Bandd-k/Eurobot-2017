@@ -6,9 +6,13 @@
 			<Cursor1 position="442" topLine="44" />
 		</Cursor>
 	</File>
-	<File name="Board\Board.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Board.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
+			<Cursor1 position="368" topLine="4" />
+=======
 			<Cursor1 position="7748" topLine="206" />
+>>>>>>> 0bc454ec09a6fd603d5df77bce879f61d5080e47
 		</Cursor>
 	</File>
 	<File name="Board\Board.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -16,14 +20,22 @@
 			<Cursor1 position="538" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Board\Interrupts.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Interrupts.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
+			<Cursor1 position="999" topLine="0" />
+=======
 			<Cursor1 position="900" topLine="104" />
+>>>>>>> 0bc454ec09a6fd603d5df77bce879f61d5080e47
 		</Cursor>
 	</File>
-	<File name="Board\Pins.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Pins.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
+			<Cursor1 position="1104" topLine="5" />
+=======
 			<Cursor1 position="594" topLine="0" />
+>>>>>>> 0bc454ec09a6fd603d5df77bce879f61d5080e47
 		</Cursor>
 	</File>
 	<File name="Board\adc.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -44,6 +56,11 @@
 	<File name="Board\tim.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="127" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Board\usart.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="170" topLine="55" />
 		</Cursor>
 	</File>
 	<File name="Library\stm32f4xx.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -71,6 +88,41 @@
 			<Cursor1 position="987" topLine="4" />
 		</Cursor>
 	</File>
+<<<<<<< HEAD
+	<File name="Robot\Manipulators.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Robot\Manipulators.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="124" />
+		</Cursor>
+	</File>
+	<File name="Robot\Regulator.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="684" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Robot\matrix.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1029" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Robot\robot.c" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19454" topLine="702" />
+		</Cursor>
+	</File>
+	<File name="Robot\robot.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2535" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="src\main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1442" topLine="47" />
+=======
 	<File name="Robot\Manipulators.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
@@ -114,6 +166,7 @@
 	<File name="src\startup_stm32f4xx.S" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="9439" topLine="161" />
+>>>>>>> 0bc454ec09a6fd603d5df77bce879f61d5080e47
 		</Cursor>
 	</File>
 </EmBlocks_layout_file>
