@@ -103,6 +103,7 @@ char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
         pwm_dir = -1;
     }
     float pwm =  (MAX_MAXON_PWM - MIN_MAXON_PWM) * REDUCTION * 60 * fabs(targetSpeed) / (MAX_RPM * 2.0 * PI * RO)   + MIN_MAXON_PWM;
+    //if ((pwm>0.1005)&&(pwm<0.11)) {pwm = 0.11;}
     setVoltageMaxon(ch, pwm_dir,  pwm);
 }
 

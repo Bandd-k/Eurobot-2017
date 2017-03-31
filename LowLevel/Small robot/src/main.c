@@ -41,10 +41,10 @@ __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 uint32_t ticks; // global "time" for mesuring frequency of rbg signal
 char color, color_check[8]; // for rgb sensor
 float r,b,R,B; //for rgb sensor
-
+//extern char lastPoint ;
 extern double timeofred;
 float ADC_8, ADC_7, ADC_6, ADC_5;
-
+int flag1 =0;
 void SysTick_Handler(void)
 {
     ticks++;
@@ -75,7 +75,6 @@ int main(void)
 	NVIC_Init(&NVIC_InitStruct);
     SysTick_Config(840);
 
-
     USBD_Init(&USB_OTG_dev,
     #ifdef USE_USB_OTG_HS
                 USB_OTG_HS_CORE_ID,
@@ -94,6 +93,7 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
     //uint8_t ID_test = 2;
   //  float ADC_8, ADC_7, ADC_6, ADC_5;
+<<<<<<< HEAD
     while(1)
     {
 
@@ -230,48 +230,15 @@ goOutsideWithSuckingManipulator();
         softDelay(10000000);
         servo_rotate_90();
 
+=======
+>>>>>>> 81b597a1b97b504d18e0f76961ef4905d74473fc
 
-        switchOffPneumo();
-        servo_rotate_180();
-*/
- //       goOutsideWithSuckingManipulator();
-   /*     switchOnPneumo();
-        servo_rotate_90();
-        servo_rotate_180();
-        switchOffPneumo();
-      /*  switchOnPneumo();
-        servo_rotate_90();
-        goInsideWithSuckingManipulator();
-        switchOffPneumo();
-        /*setDefault((uint8_t)3);
-        setID ((uint8_t)3, (uint8_t)1);*/
-//        setServoToJointMode(3);
-    /*    servo_rotate_90();*/
-  //      servo_rotate_180();
-//        setServoAngle((uint8_t)3, (uint16_t)290);
-//        setServoAngle((uint8_t)3, (uint16_t)240);
-//        setServoAngle((uint8_t)3, (uint16_t)190);
-//        setServoAngle((uint8_t)3, (uint16_t)100);
-/*        setServoAngle((uint8_t)3, (uint16_t)120);*/
- //       setServoToWheelMode((uint8_t)3);
- //       goInsideWithSuckingManipulator();
- //       getCurrentEncoderAngle(void);
-        //setPositionOfCylinderCarrier(0);
+    while(1){
+//    increaseByGivenAngle(LIFT_CYLINDER);
+//    increaseByGivenAngle(STORE_CYLINDER);
 
-//        setServoToWheelMode(3);
-  /*      setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
-        setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
-        setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);
-        setServoMovingSpeed(ID_test, (uint16_t)2046, 0x0400);
-        setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);*/
 
-        //
-//        goOutsideWithSuckingManipulator();
-//        switchOnPneumo();
-//        servo_rotate_90();
-//        goInsideWithSuckingManipulator();
-//        switchOffPneumo();
-//        servo_rotate_180();
+            //setCurrentAngleAsBeginning();
 
     }
 }
