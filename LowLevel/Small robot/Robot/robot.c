@@ -688,11 +688,15 @@ break;
 
   case 0x43: // Generate new trajectory with correction
   {
+      __disable_irq();
     float *(temp) ={(float*)cmd->param};
     char * ch = cmd->param + 24;
     robotCoord[0] = temp[0]; //# TODO TEST SPEED
     robotCoord[1] = temp[1];
     robotCoord[2] = temp[2];
+    points[lastPoint].center[0] = robotCoord[0];
+    points[lastPoint].center[1] = robotCoord[1];
+    points[lastPoint].center[2] = robotCoord[2];
     lastPoint++;
     points[lastPoint].center[0] = temp[3];
     points[lastPoint].center[1] = temp[4];
@@ -701,6 +705,7 @@ break;
     points[lastPoint].speedRotTipe = rotType[*ch];
     points[lastPoint].endTask = NULL;
     points[lastPoint].movTask = NULL;
+    __enable_irq();
     char * str ="Ok";
     sendAnswer(cmd->command, str, 3);
   }

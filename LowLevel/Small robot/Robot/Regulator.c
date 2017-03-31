@@ -64,9 +64,9 @@ float * speedType[7] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow,
 float * rotType[7] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow,stopRotVerySlow};// типы угловых скоростей
 
 pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.2, 0.0, 3, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },//#1
-                                        {0.2, 0.2, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
-                                        {0.0, 0.2, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//5
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//6
@@ -138,7 +138,7 @@ void initRegulators(void)  // инициализация регуляторов
         ortoPos.i_k = 0.05;
         ortoPos.d_k = 0.0;
         ortoPos.max_output = 4.0;
-        ortoPos.max_sum_error = 0.05;
+        ortoPos.max_sum_error = 0.2;
         ortoPos.pid_on = 1;
   }
 

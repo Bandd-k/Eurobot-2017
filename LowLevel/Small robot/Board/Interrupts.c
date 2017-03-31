@@ -10,6 +10,7 @@
 #include "board.h"
 #include "Manipulators.h"
 extern uint32_t ticks;
+extern float whole_angle,angle_enc_real;
 int indexSpeeds = 0, indexDists = 0;
 char traceFlag, movFlag, endFlag, allpointsreached;
 double timeofred = 0;
@@ -41,7 +42,8 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
     if (tempor !=2) {
      numberofrot += tempor;
     }
- //   whole_angle = numberofrot * 360 + angle_enc_real;
+    getCurrentEncoderAngle();
+    //whole_angle = numberofrot * 360 + angle_enc_real;
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
     char i = 0;
@@ -75,14 +77,22 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
         {
           traceFlag = 1;  // точка достигнута
         }
-  else {
+    else {
           traceFlag = 0;
           allpointsreached = 0;
+         }
+    if (!movFlag)
+        if (points[0].movTask) {
+            movFlag=(points[0].movTask)();}
+        else {
+            movFlag =1;} // действие в процессе движения
+    if (traceFlag&&movFlag&&(!endFlag)){
+        if (points[0].endTask)
+             endFlag = ((char (*)(float))(points[0].endTask))(points[0].endTaskP1);
+        else
+            endFlag =1;
         }
- if (!movFlag)
-    if (points[0].movTask) movFlag=(points[0].movTask)(); else movFlag =1; // действие в процессе движения
- if (traceFlag&&movFlag&&(!endFlag))
-    if (points[0].endTask) endFlag = ((char (*)(float))(points[0].endTask))(points[0].endTaskP1); else endFlag =1; // действие в конечной точке
+    // действие в конечной точке
     if (traceFlag && movFlag && endFlag)
         {
           if (lastPoint > 0) //Остались ли точки в стеке
@@ -104,9 +114,9 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 //////////////////////////// COMPUTING SPEEDS /////////////////////////////////
 
  if (curState.trackEn)
-{
-   TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
-}
+    {
+       TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
+    }
 NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 
