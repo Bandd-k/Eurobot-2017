@@ -150,37 +150,81 @@ class Robot:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
-    def take_cylinder(self): # approx time = 2
-        self.send_command('take_cylinder')
-        time.sleep(4)
-    def store_cylinder(self): # approx time = 0.5
-        self.send_command('store_cylinder')
-        time.sleep(0.5)
-    def drop_cylinder(self): # approx time = 1
-        self.send_command('drop_cylinder')
-        time.sleep(1)
-
     def left_ball_down(self):
         self.send_command('left_ball_down')
         time.sleep(1)
+
     def left_ball_up(self):
         self.send_command('left_ball_up')
         time.sleep(1)
+
     def left_ball_drop(self):
         self.send_command('left_ball_drop')
         time.sleep(1)
+
     def right_ball_down(self):
         self.send_command('right_ball_down')
         time.sleep(1)
+
     def right_ball_up(self):
         self.send_command('right_ball_up')
         time.sleep(1)
+
     def right_ball_drop(self):
         self.send_command('right_ball_drop')
         time.sleep(1)
+
     def funny(self):
-        self.send_command('funny')
+        self.send_command('funny_action')
         time.sleep(1)
+
+    def on_sucker(self):
+        self.send_command('on_sucker')
+
+    def off_sucker(self):
+        self.send_command('off_sucker')
+
+    def rotate_cylinder_horizonal(self):
+        logging.info(self.send_command('rotate_cylinder_horizonal'))
+        time.sleep(0.2)
+
+    def rotate_cylinder_vertical(self):
+        logging.info(self.send_command('rotate_cylinder_vertical'))
+        time.sleep(0.2)
+
+    def take_cylinder_outside(self):
+        logging.info(self.send_command('take_cylinder_outside'))
+        time.sleep(0.5)
+
+    def take_cylinder_inside(self):
+        logging.info(self.send_command('take_cylinder_inside'))
+        time.sleep(0.5)
+
+    def lift_up(self):
+        logging.info(self.send_command('lift_up'))
+        time.sleep(0.5)
+
+    def store(self):
+        logging.info(self.send_command('store'))
+        # time.sleep(0.5)
+
+    def out_cylinders(self):
+        logging.info(self.send_command('out_cylinders'))
+        time.sleep(0.5)
+
+    def pick_up(self):
+        self.rotate_cylinder_vertical()
+        self.take_cylinder_inside()
+        self.lift_up()
+        self.off_sucker()
+        self.store()
+        self.rotate_cylinder_horizonal()
+
+    def cyl_test(self):
+        self.pick_up()
+        self.pick_up()
+        self.pick_up()
+        self.out_cylinders()
 
 
 
@@ -193,131 +237,59 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        angle = np.pi
+        self.rotate_cylinder_horizonal()
+        angle = np.pi * 0.9
         parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 700, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [650, 1350, angle, speed]
+        parameters = [650, 1100, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, angle, speed]
+        parameters = [250, 1280, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [300, 1350, angle, speed]
+        self.on_sucker()
+        parameters = [210, 1315, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+
+        parameters = [300, 1250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+        parameters = [250, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        parameters = [210, 1315, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+
+        parameters = [300, 1250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+        parameters = [250, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        parameters = [210, 1315, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
 
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
         angle = np.pi
-        parameters = [650, 1350, angle, speed]
+        parameters = [650, 1200, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.pick_up()
         parameters = [1000, 700, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [850, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = 0.0
-        parameters = [170, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-    def test_trajectory(self,speed=1):
-        angle =3*np.pi / 2.
-        parameters = [700, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1150, 190, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1150, 1000, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1570, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1400, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        ######
-        parameters = [900, 1200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [900, 1200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        ########
-        parameters = [1150, 1200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1300, 1550, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1270, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1250, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1200, 1450, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1200, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1250, 1550, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1300, 1600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [900, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [170, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        return
-
-    def simpliest_trajectory(self,speed=1):
-        angle =3*np.pi / 2.
-        parameters = [700, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1150, 190, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1250, 190, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        time.sleep(1)
-        parameters = [1150, 190, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        #########
-        parameters = [1250, 1200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1300, 1550, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1280, 1530, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1250, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1080, 1300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
-        ####
-        parameters = [270, 1350, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1050, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 950, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1050, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-        ######
-        ## funny action
-        parameters = [270, 1150, 0, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [270, 1150, 0, speed]
-        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.out_cylinders()
+        self.out_cylinders()
 
 
 
@@ -355,40 +327,18 @@ class Robot:
         self.left_ball_drop()
         self.funny()
 
-    def first_cylinder(self,speed=1):
-        angle = np.pi
-        ############### take cylinder
-        parameters = [700, 160, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1135, 400, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi*3/2.
-        parameters = [1135, 400, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1135, 300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1135, 220, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.take_cylinder()
-        #self.store_cylinder()
-        ##############
-        parameters = [1135, 400, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.drop_cylinder()
-        return
-        self.go_to_coord_rotation(parameters)
-        parameters = [1150, 200, angle, speed]
-        angle = np.pi
-        self.go_to_coord_rotation(parameters)
-        parameters = [1150, 200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [400, 800, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [200, 800, angle, speed]
-        self.go_last(parameters)
-        self.go_to_coord_rotation(parameters)
-        parameters = [120, 800, angle, speed]
-        self.drop_cylinder()
+
+    def loc_test(self):
+        while True:
+            angle = np.pi
+            parameters = [900, 200, angle, 6]
+            self.go_to_coord_rotation(parameters)
+            parameters = [900, 400, angle, 6]
+            self.go_to_coord_rotation(parameters)
+            parameters = [900, 600, angle, 6]
+            self.go_to_coord_rotation(parameters)
+            parameters = [900, 400, angle, 6]
+            self.go_to_coord_rotation(parameters)
 
 
     def funny_action(self, signum, frame):
@@ -400,6 +350,8 @@ def test():
     rb = Robot(True)
     #rb.take_cylinder()
     #rb.first_cylinder()
+    rb.loc_test()
+    return
     i = 0
     while i<10:
         #rb.big_robot_trajectory(4)
@@ -408,13 +360,6 @@ def test():
         rb.demo_r(4)
         i+=1
 
-def tst_time():
-    rb = Robot(True)
-    stamp = time.time()
-    for i in range(100):
-        command = {'source': 'fsm', 'cmd': 'echo', 'params': 'ECHO'}
-        rb.dr.process_cmd(command)
-    print time.time()-stamp
 
 test()
 
