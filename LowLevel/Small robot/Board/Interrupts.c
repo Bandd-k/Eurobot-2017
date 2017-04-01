@@ -72,8 +72,8 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 
 
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу
-    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.04) && ((fabs(curPath.Coord_local_track[1])) < 0.04)&& // достигнута заданная точка по положению и углу
-        (fabs((curPath.phiZad)-(robotCoord[2])) < 0.02))
+    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.01) && ((fabs(curPath.Coord_local_track[1])) < 0.01)&& // достигнута заданная точка по положению и углу
+        (fabs(rangeAngle(&curPath.phiZad-&robotCoord[2])) < 0.02))
         {
           traceFlag = 1;  // точка достигнута
         }
