@@ -93,6 +93,90 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
     //uint8_t ID_test = 2;
   //  float ADC_8, ADC_7, ADC_6, ADC_5;
+    while(1)
+    {
+
+       /* ADC_8 = pin_val(GENERAL_PIN_7);
+        ADC_7 = pin_val(GENERAL_PIN_6);
+        ADC_6 = pin_val(GENERAL_PIN_5);
+        ADC_5 = pin_val(GENERAL_PIN_4);*/
+//        goInsideWithSuckingManipulator();
+//        goOutsideWithSuckingManipulator();
+        //servo_rotate_180();
+//        setPositionOfCylinderCarrier(0.0);
+//        servo_rotate_90();
+//        setCurrentAngleAsBeginning();
+ //       increaseByGivenAngle(100.0);
+
+//        color = getCurrentColor();
+
+//        goOutsideWithSuckingManipulator();
+   //     setCurrentAngleAsBeginning();
+     //   setCurrentAngleAsBeginning();
+
+   //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        /*
+        increaseByGivenAngle(LIFT_ALL);
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
+
+
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+
+
+        switchOffPneumo();
+        servo_rotate_180();
+*/
+
+/*
+goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_FIRST_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+
+        increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+        increaseByGivenAngle(PREPARE_FOR_THIRD_CYLINDER);
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_THIRD_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+        increaseByGivenAngle(LIFT_ALL);
+
+
+        goInsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+
+=======
+>>>>>>> 81b597a1b97b504d18e0f76961ef4905d74473fc
 
     while(1){
 //    increaseByGivenAngle(LIFT_CYLINDER);
