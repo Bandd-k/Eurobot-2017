@@ -38,7 +38,7 @@ float ACCEL_INC = 0.02;
 
 //pathPointStr defaultPoint;
 
-char lastPoint =0;// последняя активная точка в очереди
+char lastPoint = 0;// последняя активная точка в очереди
 Path curPath; //параметры активной прямой для траекторного регулятора
 
 float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
@@ -63,11 +63,11 @@ float stopRotVerySlow[5] = {0.5, 0.2, -1.0, 4.0, 3.0};
 float * speedType[7] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow,stopVelVerySlow };// типы  линейный скоростей
 float * rotType[7] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow,stopRotVerySlow};// типы угловых скоростей
 
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
-                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelVerySlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//5
                                         {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//6
                                         {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
@@ -138,7 +138,7 @@ void initRegulators(void)  // инициализация регуляторов
         ortoPos.i_k = 0.05;
         ortoPos.d_k = 0.0;
         ortoPos.max_output = 4.0;
-        ortoPos.max_sum_error = 0.05;
+        ortoPos.max_sum_error = 0.3;
         ortoPos.pid_on = 1;
   }
 
@@ -214,11 +214,10 @@ void FunctionalRegulator(float *V_target, float *V_out) // расчет требуемой скор
   if (fabs(MaxMotSpeed)>MAX_CAPACITANCE)
   {
 
-     c1 = fabs(MAX_CAPACITANCE/MaxMotSpeed );
+     c1 = fabs(MAX_CAPACITANCE/MaxMotSpeed);
   } else c1 = 1;
 
     matrixMultiplyS2M(&VSum[0], 4, 1, c1, &V_out[0]);
-
 }
 ////////////////////////////////////////////////////////////////////////////////
 void Regulate(float *Coord_cur, float *Speed_cur, float *tAlphZad,float *V_etalon,float *alphZad, float *V_local)
