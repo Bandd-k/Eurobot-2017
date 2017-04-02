@@ -1,35 +1,36 @@
 {
-  "_comment": "use as comment",
-  "team color": "blue",
-  "robot data":
-  {
-    "robot name": "shahid",
-    "start coord": [170, 150, 0],
-    "after seesaw": [700, 150],
-    "back rocket stand to take": [1150, 190],
-    "pass robotishe": [1250, 190],
-    "between adjust diagonal lunar slot": [1250, 1200],
-    "first module diagonal lunar slot": [1350, 1600],
-    "between adjust lateral rocket":  [1080, 1300],
-    "lateral rocket stand to take": [270, 1350],
-    "between adjust lateral slot": [270, 1350],
-    "first module lateral lunar slot": [270, 1150]
-  },
-  "game field":
-  {
-      "beacon left": [-62, -62],
-      "beacon right": [-62, 2062],
-      "beacon front": [-62, 1000],
-      "rocket back": [1150, 40],
-      "rocket lateral": [40, 1350],
-      "crater area 2": [650, 540],
-      "crater near center": [1070, 1870],
-      "module area 2": [950, 200],
-      "module near lateral": [200, 600],
-      "module near center": [800, 1850],
-      "module multicolor area 2": [1000, 600],
-      "module multicolor lateral": [500, 1100],
-      "module multicolor diagonal lunar slot": [900, 1400]
-  },
-  "strategy actions": ["move", "take cylinder", "drop cylinder"]
+	"_comment": "use as comment",
+	"team color": "b",
+	"robot data":
+	{
+		"robot_name": "shahid",
+		"start_coord": [170, 150, 0],
+		"after_seesaw": [700, 150],
+		"back_rocket_stand_to_take": [1150, 190],
+		"pass_robotishe": [1250, 190],
+		"between_adjust_diagonal_lunar_slot": [1250, 1200],
+		"first_module_diagonal_lunar_slot": [1350, 1600],
+		"between_adjust_lateral_rocket":  [1080, 1300],
+		"lateral_rocket_stand_to_take": [270, 1350],
+		"between_adjust_lateral_slot": [270, 1350],
+		"first_module_lateral_lunar_slot": [270, 1150],
+		"default": [0, 0, 0, 4]
+	},
+	"game field":
+	{
+		"beacon_left": [-62, -62],
+		"beacon_right": [-62, 2062],
+		"beacon_front": [-62, 1000],
+		"rocket_back": [1150, 40],
+		"rocket_lateral": [40, 1350],
+		"crater_area_2": [650, 540],
+		"crater_near_center": [1070, 1870],
+		"module_area_2": [950, 200],
+		"module_near_lateral": [200, 600],
+		"module_near_center": [800, 1850],
+		"module_multicolor_area_2": [1000, 600],
+		"module_multicolor_lateral": [500, 1100],
+		"module_multicolor_diagonal_lunar_slot": [900, 1400]
+	},
+	"strategy actions": ["move", "take cylinder", "drop cylinder"]
 }
