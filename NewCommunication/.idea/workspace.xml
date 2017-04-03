@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="369" column="18" lean-forward="false" selection-start-line="369" selection-start-column="18" selection-end-line="369" selection-end-column="18" />
+            <state relative-caret-position="3157">
+              <caret line="337" column="20" lean-forward="true" selection-start-line="337" selection-start-column="20" selection-end-line="337" selection-end-column="20" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/npParticle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+            <state relative-caret-position="360">
+              <caret line="164" column="23" lean-forward="true" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
               <folding>
                 <element signature="e#1#19#0" expanded="true" />
               </folding>
@@ -114,10 +114,10 @@
         <option value="$PROJECT_DIR$/Localisation.py" />
         <option value="$PROJECT_DIR$/ParticleFilter.py" />
         <option value="$PROJECT_DIR$/packets.py" />
-        <option value="$PROJECT_DIR$/npParticle.py" />
         <option value="$PROJECT_DIR$/cmd_list.py" />
         <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/main_file.py" />
+        <option value="$PROJECT_DIR$/npParticle.py" />
       </list>
     </option>
   </component>
@@ -740,22 +740,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/npParticle.py">
+    <entry file="file://$PROJECT_DIR$/main_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="3157">
+          <caret line="337" column="20" lean-forward="true" selection-start-line="337" selection-start-column="20" selection-end-line="337" selection-end-column="20" />
           <folding>
-            <element signature="e#1#19#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_file.py">
+    <entry file="file://$PROJECT_DIR$/npParticle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="369" column="18" lean-forward="false" selection-start-line="369" selection-start-column="18" selection-end-line="369" selection-end-column="18" />
+        <state relative-caret-position="360">
+          <caret line="164" column="23" lean-forward="true" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#1#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
