@@ -161,11 +161,11 @@ class ParticleFilter:
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
-        weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
+        weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*1.1)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*1.8,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
-            self.warning = True
+            #self.warning = True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean

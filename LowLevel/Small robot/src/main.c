@@ -114,61 +114,7 @@ int main(void)
 //        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
      //   setCurrentAngleAsBeginning();
-        servo_rotate_90();
-        servo_rotate_180();
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER);
-        servo_rotate_90();
-        softDelay(4000000);
 
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER);
-        servo_rotate_90();
-        softDelay(4000000);
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_CYLINDER);
-        softDelay(4000000);
-        switchOffPneumo();
-        softDelay(1000000);
-        increaseByGivenAngle(STORE_CYLINDER-60);
-        servo_rotate_90();
-        softDelay(4000000);
-
-        servo_rotate_90();
-        goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_180();
-
-        softDelay(10000000);
-
-        switchOffPneumo();
-        goInsideWithSuckingManipulator();
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
@@ -230,8 +176,6 @@ goOutsideWithSuckingManipulator();
         softDelay(10000000);
         servo_rotate_90();
 
-=======
->>>>>>> 81b597a1b97b504d18e0f76961ef4905d74473fc
 
     while(1){
 //    increaseByGivenAngle(LIFT_CYLINDER);

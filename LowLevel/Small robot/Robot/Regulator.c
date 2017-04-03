@@ -138,7 +138,7 @@ void initRegulators(void)  // инициализация регуляторов
         ortoPos.i_k = 0.05;
         ortoPos.d_k = 0.0;
         ortoPos.max_output = 4.0;
-        ortoPos.max_sum_error = 0.2;
+        ortoPos.max_sum_error = 0.3;
         ortoPos.pid_on = 1;
   }
 
@@ -214,11 +214,10 @@ void FunctionalRegulator(float *V_target, float *V_out) // расчет требуемой скор
   if (fabs(MaxMotSpeed)>MAX_CAPACITANCE)
   {
 
-     c1 = fabs(MAX_CAPACITANCE/MaxMotSpeed );
+     c1 = fabs(MAX_CAPACITANCE/MaxMotSpeed);
   } else c1 = 1;
 
     matrixMultiplyS2M(&VSum[0], 4, 1, c1, &V_out[0]);
-
 }
 ////////////////////////////////////////////////////////////////////////////////
 void Regulate(float *Coord_cur, float *Speed_cur, float *tAlphZad,float *V_etalon,float *alphZad, float *V_local)
