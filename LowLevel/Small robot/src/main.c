@@ -93,7 +93,7 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
     //uint8_t ID_test = 2;
   //  float ADC_8, ADC_7, ADC_6, ADC_5;
-<<<<<<< HEAD
+
     while(1)
     {
 
