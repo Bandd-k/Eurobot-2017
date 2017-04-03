@@ -44,7 +44,7 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         if small:
-            self.coords = Array('d',[850, 170, 0])
+            self.coords = Array('d',[850, 170, 3*np.pi / 2])
         else:
             self.coords = Array('d', [170, 170, 0])
         self.localisation = Value('b', True)
@@ -351,6 +351,62 @@ class Robot:
             self.go_to_coord_rotation(parameters)
 
 
+    def small_robot_trajectory(self,speed=1):
+        angle = 3*np.pi / 2
+        parameters = [1150, 300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        parameters = [1150, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up2()
+
+    def small_robot_trajectory_r(self, speed=1):
+        angle = np.pi
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi-np.pi/4
+        parameters = [1320, 1520, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 6
+        parameters = [1320, 1690, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        parameters = [1230, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        parameters = [1160, 1510, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        speed = 4
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+
+
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
@@ -360,14 +416,14 @@ def test():
     rb = Robot(True)
     #rb.take_cylinder()
     #rb.first_cylinder()
-    rb.loc_test()
-    return
+
     i = 0
     while i<10:
         #rb.big_robot_trajectory(4)
         #rb.big_robot_trajectory_r(4)
-        rb.demo(4)
-        rb.demo_r2(4)
+        rb.small_robot_trajectory(4)
+        rb.small_robot_trajectory_r(4)
+        return
         i+=1
 
 
