@@ -1,13 +1,16 @@
-# Time duration (empty string or float/int) : Action string (as in game_configuration.json) : parameters (or set of parameters, separated with commas)
-0:move: 175 0 0 0, 154 123 123 0
-:move: 175 0 0 0, 154 123 123 0
-0:move: after_seesaw
-0:move: back_rocket_stand_to_take
-0:move: pass_robotishe
-0:move: back_rocket_stand_to_take
-0:take cylinder: 4, 5
-0:take cylinder
-0:move: between_adjust_diagonal_lunar_slot
+# Time duration (empty string or float/int) : Action (as string name): parameters ( additional)
+15:pass robotische
+#20:take rocket back: 4
+#20:drop slot front:diagonal 4 
+#20:take rocket lateral: 3
+#15:drop slot lateral:diagonal 2
+#0:move: after_seesaw
+#0:move: back_rocket_stand_to_take
+#0:move: pass_robotishe
+#0:move: back_rocket_stand_to_take
+#0:take cylinder: 4, 5
+#0:take cylinder
+#0:move: between_adjust_diagonal_lunar_slot
 #move: first module diagonal lunar slot
 #move: between adjust lateral rocket
 #move: lateral rocket stand to take
