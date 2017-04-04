@@ -27,8 +27,10 @@ class Robot:
         sensors_number=6
         self.sensor_range = 20
         self.collision_avoidance = False
+        self.localisation = Value('b', True)
         if small:
-            self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
+            self.sensors_map = {0:(0, np.pi/3),1: (np.pi*0.5, np.pi*1.5),2: (5/3.*np.pi,2*np.pi),3: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}
+            #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
         if lidar_on:
@@ -39,6 +41,7 @@ class Robot:
                 self.lidar.convert_time = False
             except:
                 self.lidar_on = False
+                self.localisation = Value('b', False)
                 logging.warning('lidar is not connected')
         #self.x = 170  # mm
         #self.y = 150  # mm
@@ -46,8 +49,8 @@ class Robot:
         if small:
             self.coords = Array('d',[850, 170, 3*np.pi / 2])
         else:
+            driver.PORT_SNR = '325936843235'
             self.coords = Array('d', [170, 170, 0])
-        self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
@@ -56,12 +59,12 @@ class Robot:
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
-        p = Process(target=self.dr.run)
-        p.start()
-        p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
+        self.p = Process(target=self.dr.run)
+        self.p.start()
+        self.p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
-        p2.start()
+        self.p2.start()
         time.sleep(0.1)
 
     def send_command(self,name,params=None):
@@ -125,11 +128,15 @@ class Robot:
         return False
 
     def receive_sensors_data(self):
-        data = self.send_command('sensors_data')
+        data = self.send_command('sensors_data')['data']
         answer = []
         for i in range(6):
             answer.append((data & (1 << i)) != 0)
         return answer
+
+    def sensor_data(self):
+        data = self.send_command('sensors_data')['data']
+        return data
 
 
     def check_map(self,direction): # probably can be optimized However O(1)
@@ -150,6 +157,11 @@ class Robot:
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
+
+
+    ##########################################################
+    ################# BIG Robot ############################
+    ##########################################################
 
     def left_ball_down(self):
         self.send_command('left_ball_down')
@@ -175,9 +187,18 @@ class Robot:
         self.send_command('right_ball_drop')
         time.sleep(1)
 
+
+
     def funny(self):
         self.send_command('funny_action')
         time.sleep(1)
+        self.send_command('funny_action_start')
+
+
+
+    ##########################################################
+    ################# SMALL Robot ############################
+    ##########################################################
 
     def on_sucker(self):
         self.send_command('on_sucker')
@@ -229,11 +250,6 @@ class Robot:
         self.off_sucker()
         self.rotate_cylinder_horizonal()
 
-    def cyl_test(self):
-        self.pick_up()
-        self.pick_up()
-        self.pick_up()
-        self.out_cylinders()
 
 
 
@@ -353,34 +369,34 @@ class Robot:
 
     def small_robot_trajectory(self,speed=1):
         angle = 3*np.pi / 2
-        parameters = [1150, 300, angle, speed]
+        parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 250, angle, speed]
+        parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1150, 160, angle, speed]
+        parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-        parameters = [1150, 320, angle, speed]
+        parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
 
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1150, 160, angle, speed]
+        parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 320, angle, speed]
+        parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
 
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1150, 160, angle, speed]
+        parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 320, angle, speed]
+        parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up2()
 
@@ -411,7 +427,7 @@ class Robot:
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
 
-
+rb = None
 def test():
     rb = Robot(True)
     #rb.take_cylinder()
@@ -426,6 +442,11 @@ def test():
         return
         i+=1
 
+try:
+    test()
+except KeyboardInterrupt:
+    rb.p.terminate()
+    rb.p2.terminate()
 
-test()
+
 

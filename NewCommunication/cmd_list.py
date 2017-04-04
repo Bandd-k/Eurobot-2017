@@ -59,20 +59,29 @@ CMD_LIST = {
     'in+store':0x47,
     #'drop':0x48,
     #Big Robot
-    #'left_ball_down':0x44,
-    #'left_ball_up':0x45,
-    #'left_ball_drop':0x46,
-    #'right_ball_down':0x47,
-    #'right_ball_up':0x48,
-    #'right_ball_drop':0x49,
-    'funny_action':0x3b,
+
+    #balls
+    'left_ball_down':0x64,
+    'left_ball_up':0x65,
+    'left_ball_drop':0x66,
+    'right_ball_down':0x467,
+    'right_ball_up':0x68,
+    'right_ball_drop':0x69,
+    # cylinders
+
+    # face
+
+
+    'funny_action':0x77,
+    'funny_action_start':0x78,
+
 
     # General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
     'setCoordinates': 0x02,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
-    'sensors_data': 0x47,  # no parameters, returns integer with first 6 bits sensor data
+    'sensors_data': 0x3a,  # no parameters, returns integer with first 6 bits sensor data
     'getCurrentCoordinates': 0x13,
     'getCurrentSpeed': 0x14,
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
