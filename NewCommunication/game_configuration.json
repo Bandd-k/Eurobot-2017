@@ -1,36 +1,37 @@
 {
 	"_comment": "use as comment",
-	"team color": "b",
-	"robot data":
+	"color": "blue",
+	"shahid":
 	{
-		"robot_name": "shahid",
-		"start_coord": [170, 150, 0],
-		"after_seesaw": [700, 150],
-		"back_rocket_stand_to_take": [1150, 190],
-		"pass_robotishe": [1250, 190],
+		"name": "shahid",
+		"start_point": [890, 180, 0, 4],
+		"back_rocket_take": [1150, 190, "pi_2", 4],
+		"back_rocket_pass": [1250, 190, 0, 4],
 		"between_adjust_diagonal_lunar_slot": [1250, 1200],
 		"first_module_diagonal_lunar_slot": [1350, 1600],
 		"between_adjust_lateral_rocket":  [1080, 1300],
 		"lateral_rocket_stand_to_take": [270, 1350],
 		"between_adjust_lateral_slot": [270, 1350],
 		"first_module_lateral_lunar_slot": [270, 1150],
-		"default": [0, 0, 0, 4]
+		"default": [0, 0, 0, 4]	
 	},
 	"game field":
 	{
-		"beacon_left": [-62, -62],
-		"beacon_right": [-62, 2062],
-		"beacon_front": [-62, 1000],
+		"beacon_back_lateral": [-62, -62],
+		"beacon_front_lateral": [-62, 2062],
+		"beacon_middle_lateral": [3062, 1000],
 		"rocket_back": [1150, 40],
 		"rocket_lateral": [40, 1350],
-		"crater_area_2": [650, 540],
-		"crater_near_center": [1070, 1870],
-		"module_area_2": [950, 200],
-		"module_near_lateral": [200, 600],
-		"module_near_center": [800, 1850],
-		"module_multicolor_area_2": [1000, 600],
-		"module_multicolor_lateral": [500, 1100],
-		"module_multicolor_diagonal_lunar_slot": [900, 1400]
+		"crater_back": [650, 540],
+		"crater_front": [1070, 1870],
+		"crater_corner": [1070, 1870],
+		"module_mono_back": [950, 200],
+		"module_mono_middle": [200, 600],
+		"module_mono_front": [800, 1850],
+		"module_multi_back": [1000, 600],
+		"module_multi_middle": [500, 1100],
+		"module_multi_front": [900, 1400]
 	},
 	"strategy actions": ["move", "take cylinder", "drop cylinder"]
 }
+
