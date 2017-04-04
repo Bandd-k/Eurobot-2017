@@ -45,6 +45,7 @@ float r,b,R,B; //for rgb sensor
 extern double timeofred;
 float ADC_8, ADC_7, ADC_6, ADC_5;
 int flag1 =0;
+float beginning_angle;
 void SysTick_Handler(void)
 {
     ticks++;
@@ -116,7 +117,9 @@ int main(void)
      //   setCurrentAngleAsBeginning();
 
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
-        /*
+     /*
+        goOutsideWithSuckingManipulator();
+
         increaseByGivenAngle(LIFT_ALL);
         goOutsideWithSuckingManipulator();
         switchOnPneumo();
@@ -135,20 +138,104 @@ int main(void)
         switchOffPneumo();
         servo_rotate_180();
 */
-
-/*
-goOutsideWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
+        setCurrentAngleAsBeginning();
         servo_rotate_90();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_FIRST_CYLINDER);
-        switchOffPneumo();
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(5000000);
         servo_rotate_180();
+        softDelay(5000000);
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(1000000);
+        switchOffPneumo();
+        softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(5000000);
+        servo_rotate_180();
+        softDelay(5000000);
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(1000000);
+        switchOffPneumo();
+        softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(5000000);
+        servo_rotate_180();
+        softDelay(5000000);
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(1000000);
+        switchOffPneumo();
+        softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+
+        decreaseByGivenAngle((LIFT_CYLINDER + STORE_CYLINDER));
+        softDelay(5000000);
+        decreaseByGivenAngle((LIFT_CYLINDER + STORE_CYLINDER));
+        softDelay(5000000);
+        decreaseByGivenAngle((LIFT_CYLINDER + STORE_CYLINDER));
+        softDelay(5000000);
 
 
+//        setPositionOfCylinderCarrier(whole_starting_angle);
+//        softDelay(5000000);
+      /*  decreaseByGivenAngle(STORE_CYLINDER);
+        softDelay(5000000);
 
-        increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        decreaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(STORE_CYLINDER);
+        softDelay(5000000);
+/*
+        servo_rotate_90();
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(5000000);
+        servo_rotate_180();
+        softDelay(5000000);
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        switchOffPneumo();
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+
+        servo_rotate_90();
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(5000000);
+        servo_rotate_180();
+        softDelay(5000000);
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        switchOffPneumo();
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+
+        decreaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(STORE_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(STORE_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(5000000);
+        decreaseByGivenAngle(STORE_CYLINDER);
+        softDelay(5000000);
+
+
+      /*  increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
@@ -183,6 +270,6 @@ goOutsideWithSuckingManipulator();
 
 
             //setCurrentAngleAsBeginning();
-
+*/
     }
 }
