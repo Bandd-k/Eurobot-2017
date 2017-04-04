@@ -100,12 +100,12 @@ def create_fsm(robot, name, config_dict, strategy_names, parsed_strategies):
                     "pts_gain", "resources_field", "resources_picked", "parsed_strategies"]
         
         # Robot initializer with 
-        input_keys = general_in_keys[:]
-        output_keys = input_keys + ["sterr"] + ["parameter"]
-        outcomes = state_list + ["ended"]
-        transition_out = map(lambda x: x.upper(), state_list) + ["succeeded"]
+        input_keys = ["robot", "start_time", "data"]
+        output_keys = input_keys + ["sterr"]
+        outcomes = ["initialized"]
+        transition_out = ["PLANNER"]
 
-        smach.StateMachine.add('PLANNER', states.Planner( 
+        smach.StateMachine.add('ROBOT INIT', states.RobotInit( 
                         outcomes=outcomes,
                         input_keys=input_keys,
                         output_keys=output_keys),
