@@ -212,7 +212,7 @@
 	<stdbool.h>
 	<stdlib.h>
 
-1491212329 source:f:\from git\lowlevel\small robot\board\interrupts.c
+1491303520 source:f:\from git\lowlevel\small robot\board\interrupts.c
 	"Interrupts.h"
 	"gpio.h"
 	"Regulator.h"
@@ -323,7 +323,7 @@
 1489757001 source:f:\from git\lowlevel\small robot\robot\path.c
 	"Path.h"
 
-1491212329 source:f:\from git\lowlevel\small robot\robot\regulator.c
+1491303231 source:f:\from git\lowlevel\small robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -542,7 +542,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1491301653 source:f:\from git\lowlevel\small robot\src\main.c
+1491302991 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -566,7 +566,7 @@
 1489757002 source:f:\from git\lowlevel\small robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1491301354 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1491302548 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"

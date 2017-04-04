@@ -321,11 +321,12 @@ float linars(float *x, float *x0, float *x1)
   return out;
 }
 
-void rangeAngle(float * angle)
+float rangeAngle(float * angle)
 {
   *angle    = fmod(*angle,2.0*PI);
   if (*angle<-PI) *angle+=2.0*PI;
   if (*angle>PI) *angle-=2.0*PI;
+    return *angle;
 }
 
 void RotMoving(float Start_a, float Coord_a_cur, float Coord_a_targ, float* parameters, float* v_out) //расчет скорости в зависимости от пройденного пути
