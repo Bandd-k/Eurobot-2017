@@ -72,7 +72,7 @@ CMD_LIST = {
     'setCoordinates': 0x02,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
-    'sensors_data': 0x47,  # no parameters, returns integer with first 6 bits sensor data
+    #'sensors_data': 0x47,  # no parameters, returns integer with first 6 bits sensor data
     'getCurrentCoordinates': 0x13,
     'getCurrentSpeed': 0x14,
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]

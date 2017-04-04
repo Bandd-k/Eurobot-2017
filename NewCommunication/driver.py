@@ -11,7 +11,7 @@ import logging
 PORT_VID = 1155
 PORT_PID = 22336
 PORT_SNR = '3677346C3034'
-DEVICE_NAME = '/dev/ttyACM0'
+DEVICE_NAME = '/dev/ttyACM6'
 
 class DriverException(Exception):
     pass

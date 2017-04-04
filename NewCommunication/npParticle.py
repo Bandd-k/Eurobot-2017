@@ -177,6 +177,7 @@ class ParticleFilter:
 
     def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
+        #time.sleep(50)
         while True:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
