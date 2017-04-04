@@ -382,7 +382,6 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
-
         self.on_sucker()
         self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
@@ -404,7 +403,7 @@ class Robot:
         angle = np.pi
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = np.pi-np.pi/4
+        angle = 3*np.pi/4
         parameters = [1320, 1520, angle, speed]
         self.go_to_coord_rotation(parameters)
         speed = 6
@@ -429,6 +428,7 @@ class Robot:
 
 rb = None
 def test():
+    global rb
     rb = Robot(True)
     #rb.take_cylinder()
     #rb.first_cylinder()
