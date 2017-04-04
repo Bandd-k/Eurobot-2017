@@ -1,5 +1,6 @@
 # High-Level Documentation
 
+[Robot simple launch tutorial](https://gist.github.com/Bandd-k/fc296274c5f6b33cb29929696d98cb1b)
 ## Eurobot Localisation
 We use simple particle filter with NumPy operations. To understand how it works look at [Udacity course by Sebastian Thrun](https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373).  
 We combine data from odometry and lidar (HokuyoLX).  

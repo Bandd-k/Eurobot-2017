@@ -116,8 +116,8 @@ bool goOutsideWithSuckingManipulator();
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-#define SERVO_ROTATE_90  135
-#define SERVO_ROTATE_180  242
+#define SERVO_ROTATE_90  145
+#define SERVO_ROTATE_180  252
 
 
 bool moveSuckerManipulatorUp();
@@ -129,10 +129,10 @@ bool moveSuckerManipulatorDown();
 
 char getCurrentColor();
 
-#define LIFT_CYLINDER 200
-#define STORE_CYLINDER 160
+#define LIFT_CYLINDER 160
+#define STORE_CYLINDER 180
 
-
+void setCurrentAngleAsBeginning(void);
 float getCurrentEncoderAngle(void);
 void increaseByGivenAngle(float);
 void decreaseByGivenAngle(float);
