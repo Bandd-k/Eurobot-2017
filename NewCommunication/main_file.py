@@ -27,6 +27,7 @@ class Robot:
         sensors_number=6
         self.sensor_range = 20
         self.collision_avoidance = False
+        self.localisation = Value('b', True)
         if small:
             self.sensors_map = {0:(0, np.pi/3),1: (np.pi*0.5, np.pi*1.5),2: (5/3.*np.pi,2*np.pi),3: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}
             #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
@@ -40,15 +41,16 @@ class Robot:
                 self.lidar.convert_time = False
             except:
                 self.lidar_on = False
+                self.localisation = Value('b', False)
                 logging.warning('lidar is not connected')
         #self.x = 170  # mm
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         if small:
-            self.coords = Array('d',[850, 170, 3*np.pi / 2])
+            self.coords = Array('d',[3000-850, 170, 3*np.pi / 2])
         else:
+            driver.PORT_SNR = '325936843235'
             self.coords = Array('d', [170, 170, 0])
-        self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
@@ -58,12 +60,10 @@ class Robot:
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
         self.p = Process(target=self.dr.run)
-        self.p.daemon = True
         self.p.start()
         self.p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
-        self.p2.daemon = True
         self.p2.start()
         time.sleep(0.1)
 
@@ -158,6 +158,11 @@ class Robot:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
+
+    ##########################################################
+    ################# BIG Robot ############################
+    ##########################################################
+
     def left_ball_down(self):
         self.send_command('left_ball_down')
         time.sleep(1)
@@ -182,9 +187,18 @@ class Robot:
         self.send_command('right_ball_drop')
         time.sleep(1)
 
+
+
     def funny(self):
         self.send_command('funny_action')
         time.sleep(1)
+        self.send_command('funny_action_start')
+
+
+
+    ##########################################################
+    ################# SMALL Robot ############################
+    ##########################################################
 
     def on_sucker(self):
         self.send_command('on_sucker')
@@ -236,11 +250,6 @@ class Robot:
         self.off_sucker()
         self.rotate_cylinder_horizonal()
 
-    def cyl_test(self):
-        self.pick_up()
-        self.pick_up()
-        self.pick_up()
-        self.out_cylinders()
 
 
 
@@ -364,62 +373,125 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.on_sucker()
-        self.take_cylinder_outside()
+        #self.on_sucker()
+        #self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.pick_up()
+        #self.pick_up()
 
-
-        self.on_sucker()
-        self.take_cylinder_outside()
+        #self.on_sucker()
+        #self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.pick_up()
+        #self.pick_up()
 
 
-        self.on_sucker()
-        self.take_cylinder_outside()
+        #self.on_sucker()
+        #self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.pick_up2()
+        #self.pick_up2()
 
     def small_robot_trajectory_r(self, speed=1):
         angle = np.pi
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = np.pi-np.pi/4
+        angle = 3*np.pi/4
         parameters = [1320, 1520, angle, speed]
         self.go_to_coord_rotation(parameters)
         speed = 6
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
+        #self.out_cylinders()
         parameters = [1230, 1600, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
+        #self.out_cylinders()
         parameters = [1160, 1510, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
+        #self.out_cylinders()
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
+		
+	###############################
+	###Vova's code for blue side###
+	############START##############
+	###############################
+	
+    def small_robot_trajectory_blue(self,speed=1):
+        x_dm = 3000-1080
+	angle = 3*np.pi / 2
+        parameters = [x_dm, 300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [x_dm, 250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [x_dm, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        parameters = [x_dm, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [x_dm, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [x_dm, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
 
 
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [x_dm, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [x_dm, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up2()
+
+    def small_robot_trajectory_r_blue(self, speed=1):
+        angle = 0*np.pi
+        parameters = [3000-1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/4
+        parameters = [1680, 1520, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 6
+        parameters = [1680, 1690, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        parameters = [1770, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        parameters = [1840, 1510, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        speed = 4
+        parameters = [1850, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+	
+	
+	###############################
+	###Vova's code for blue side###
+	#############END###############
+	###############################
 
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
 
-
+rb = None
 def test():
+    global rb
     rb = Robot(True)
     #rb.take_cylinder()
     #rb.first_cylinder()
@@ -428,11 +500,18 @@ def test():
     while i<10:
         #rb.big_robot_trajectory(4)
         #rb.big_robot_trajectory_r(4)
-        rb.small_robot_trajectory(4)
-        rb.small_robot_trajectory_r(4)
+	#rb.small_robot_trajectory(4)
+        #rb.small_robot_trajectory_r(4)
+        rb.small_robot_trajectory_blue(4)
+	rb.small_robot_trajectory_r_blue(4)
         return
         i+=1
 
+try:
+    test()
+except KeyboardInterrupt:
+    rb.p.terminate()
+    rb.p2.terminate()
 
-test()
+
 
