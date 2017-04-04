@@ -8,9 +8,7 @@ from packets import encode_packet, decode_packet
 import logging
 
 
-PORT_VID = 1155
-PORT_PID = 22336
-PORT_SNR = '3677346C3034'
+PORT_SNR = '325936843235'
 DEVICE_NAME = '/dev/ttyACM0'
 
 class DriverException(Exception):
@@ -38,9 +36,6 @@ class Driver(Process):
     >>> d = Driver()
     >>> # send command in the blocking mode
     >>> d.process_cmd('setCoordinates', [0.0, 0.0, 0.0])
-    >>> # register queue and start process
-    >>> d.register_queue('queue_name', queue)
-    >>> d.start()
     """
 
 
@@ -58,8 +53,7 @@ class Driver(Process):
     def connect(self):
         """Connect to STM32 using serial port"""
         for port in list_ports.comports():
-            if (port.serial_number == PORT_SNR) and \
-                    (port.pid == PORT_PID) and (port.vid == PORT_VID):
+            if (port.serial_number == PORT_SNR):
                 self.device = port.device
                 break
         self.port = serial.Serial(self.device,
