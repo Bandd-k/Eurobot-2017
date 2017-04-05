@@ -392,7 +392,7 @@ bool setServoMovingSpeed (const uint8_t servoId,
     if ((speedValue > 2047 || speedValue < 1024) && direction == 0x0400)
     return false;
     if (speedValue > 1023 && direction == 0x0000 )
-        return false;
+    return false;
 
     const uint8_t params[4] = {MOVING_SPEED, (uint8_t)0x00,
                                lowByte, highByte};
@@ -400,7 +400,7 @@ bool setServoMovingSpeed (const uint8_t servoId,
     sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
-        return false;
+    return false;
 
     return true;
 }

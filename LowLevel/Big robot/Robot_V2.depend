@@ -136,7 +136,7 @@
 1489757001 f:\from git\lowlevel\big robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1489757000 f:\from git\lowlevel\big robot\robot\robot.h
+1490306691 f:\from git\lowlevel\big robot\robot\robot.h
 	"Communication.h"
 	"gpio.h"
 	<stdbool.h>
@@ -164,7 +164,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1489757000 source:f:\from git\lowlevel\big robot\board\board.c
+1490309892 source:f:\from git\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -195,7 +195,7 @@
 1489757000 f:\from git\lowlevel\big robot\board\tim.h
 	"stm32f4xx.h"
 
-1489757000 f:\from git\lowlevel\big robot\robot\regulator.h
+1490304978 f:\from git\lowlevel\big robot\robot\regulator.h
 	"stm32f4xx.h"
 	"Path.h"
 
@@ -316,9 +316,9 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1489757000 source:f:\from git\lowlevel\big robot\robot\kinematics.c
+1490301951 source:f:\from git\lowlevel\big robot\robot\kinematics.c
 
-1487692400 source:f:\from git\lowlevel\big robot\robot\manipulators.c
+1489847992 source:f:\from git\lowlevel\big robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -327,7 +327,7 @@
 1489757000 source:f:\from git\lowlevel\big robot\robot\path.c
 	"Path.h"
 
-1489757000 source:f:\from git\lowlevel\big robot\robot\regulator.c
+1490303075 source:f:\from git\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -343,7 +343,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1489757000 source:f:\from git\lowlevel\big robot\robot\robot.c
+1490310097 source:f:\from git\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -389,164 +389,164 @@
 1489757000 source:f:\from git\lowlevel\big robot\usb app\usbd_usr.c
 	"usbd_usr.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\misc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\misc.c
 	"misc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_adc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_adc.c
 	"stm32f4xx_adc.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_can.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_can.c
 	"stm32f4xx_can.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cec.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cec.c
 	"stm32f4xx_cec.h"
 	"stm32f4xx_rcc.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_cec.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_cec.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_crc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_crc.c
 	"stm32f4xx_crc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp.c
 	"stm32f4xx_cryp.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_aes.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_aes.c
 	"stm32f4xx_cryp.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_des.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_des.c
 	"stm32f4xx_cryp.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_tdes.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_cryp_tdes.c
 	"stm32f4xx_cryp.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dac.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dac.c
 	"stm32f4xx_dac.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dbgmcu.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dbgmcu.c
 	"stm32f4xx_dbgmcu.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dcmi.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dcmi.c
 	"stm32f4xx_dcmi.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dma.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dma.c
 	"stm32f4xx_dma.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dma2d.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dma2d.c
 	"stm32f4xx_dma2d.h"
 	"stm32f4xx_rcc.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_dma2d.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_dma2d.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dsi.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_dsi.c
 	"stm32f4xx_dsi.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_dsi.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_dsi.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_exti.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_exti.c
 	"stm32f4xx_exti.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_gpio.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_gpio.c
 	"stm32f4xx_gpio.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash.c
 	"stm32f4xx_hash.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash_md5.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash_md5.c
 	"stm32f4xx_hash.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash_sha1.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_hash_sha1.c
 	"stm32f4xx_hash.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_i2c.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_i2c.c
 	"stm32f4xx_i2c.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_iwdg.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_iwdg.c
 	"stm32f4xx_iwdg.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_lptim.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_lptim.c
 	"stm32f4xx_lptim.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_lptim.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_lptim.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_ltdc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_ltdc.c
 	"stm32f4xx_ltdc.h"
 	"stm32f4xx_rcc.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_ltdc.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_ltdc.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_pwr.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_pwr.c
 	"stm32f4xx_pwr.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_qspi.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_qspi.c
 	"stm32f4xx_qspi.h"
 
-1487326145 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_qspi.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_qspi.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rcc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rcc.c
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rng.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rng.c
 	"stm32f4xx_rng.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rtc.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_rtc.c
 	"stm32f4xx_rtc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_sai.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_sai.c
 	"stm32f4xx_sai.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_sai.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_sai.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_sdio.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_sdio.c
 	"stm32f4xx_sdio.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_spdifrx.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_spdifrx.c
 	"stm32f4xx_spdifrx.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_spdifrx.h
+1489757001 f:\from git\lowlevel\big robot\spl\inc\stm32f4xx_spdifrx.h
 	"stm32f4xx.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_spi.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_spi.c
 	"stm32f4xx_spi.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_syscfg.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_syscfg.c
 	"stm32f4xx_syscfg.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_tim.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_tim.c
 	"stm32f4xx_tim.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_usart.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_usart.c
 	"stm32f4xx_usart.h"
 	"stm32f4xx_rcc.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_wwdg.c
+1489757001 source:f:\from git\lowlevel\big robot\spl\src\stm32f4xx_wwdg.c
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1488979129 source:f:\from git\lowlevel\big robot\src\main.c
+1490309901 source:f:\from git\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -563,9 +563,9 @@
 	"usbd_desc.h"
 	"usbd_cdc_vcp.h"
 
-1487326146 source:f:\from git\lowlevel\big robot\src\startup_stm32f4xx.s
+1489757001 source:f:\from git\lowlevel\big robot\src\startup_stm32f4xx.s
 
-1487326146 source:f:\from git\lowlevel\big robot\src\system_stm32f4xx.c
+1489757001 source:f:\from git\lowlevel\big robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
 1488792975 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\adc.c
@@ -733,7 +733,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1490341569 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\board.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -885,12 +885,12 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1490437452 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\kinematics.c
+1490802810 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\kinematics.c
 
 1488792976 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\path.c
 	"Path.h"
 
-1490361750 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -906,7 +906,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1490290784 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.c
+1490799029 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -952,7 +952,7 @@
 1488792976 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\usb app\usbd_usr.c
 	"usbd_usr.h"
 
-1490341014 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\src\main.c
+1490802847 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

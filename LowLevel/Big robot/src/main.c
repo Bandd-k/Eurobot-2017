@@ -90,10 +90,16 @@ uint16_t detector = 0;
 //int ttime1 = 10000000;
 //uint16_t  angle = 130;
 float speed = 0;
+char channel=3;
+float duty=0.5;
 while(1){
 //OpenLauncher();
 //CloseLauncher();
     //GetDataForManipulator();
+
+     //   setVoltage(channel, duty);
+
+
 
 
 //        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);

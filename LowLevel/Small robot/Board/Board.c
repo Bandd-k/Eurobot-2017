@@ -103,6 +103,7 @@ char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
         pwm_dir = -1;
     }
     float pwm =  (MAX_MAXON_PWM - MIN_MAXON_PWM) * REDUCTION * 60 * fabs(targetSpeed) / (MAX_RPM * 2.0 * PI * RO)   + MIN_MAXON_PWM;
+    //if ((pwm>0.1005)&&(pwm<0.11)) {pwm = 0.11;}
     setVoltageMaxon(ch, pwm_dir,  pwm);
 }
 
@@ -306,30 +307,30 @@ initRegulators();
   conf_pin(GENERAL_PIN_1, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_2, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_3, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_4, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_5, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_6, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_7, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(GENERAL_PIN_4, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_5, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_6, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_7, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_8, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_9, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   adcConfig();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 //___EXTI____________________________________________________________________
-  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP); //
-  conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI3_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI4_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);//output frequency receiver
+  conf_pin(EXTI2_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);//changes between red and blue color
+  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for DOWN_SWITCH for the sucking manipulator
+  conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for the UP_SWITCH for the sucking manipulator
+  conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
+  conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
+  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 
   add_ext_interrupt(EXTI1_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI2_PIN, EXTI_BOTH_EDGES);
-  add_ext_interrupt(EXTI3_PIN, EXTI_FALLING_EDGE);
+  add_ext_interrupt(EXTI3_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI4_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI5_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI6_PIN, EXTI_BOTH_EDGES);
@@ -339,7 +340,7 @@ initRegulators();
   add_ext_interrupt(EXTI10_PIN, EXTI_BOTH_EDGES);
 
 NVIC_InitTypeDef NVIC_InitStruct;
-    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;
 	/* Set priority */
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x10;
 	/* Set sub priority */
@@ -360,6 +361,8 @@ for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
-goUpWithSuckingManipulator();
+goInsideWithSuckingManipulator();
+servo_rotate_90();
+setCurrentAngleAsBeginning();
 }
 ////////////////////////////////////////////////////////////////////////////////

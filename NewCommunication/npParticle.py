@@ -4,12 +4,19 @@ import time
 import logging
 import math
 
+color="blue"
+def rev_x(val, color):
+    if color[0] == "b":
+	return [3000-val[0], val[1]]
+    return val
+
 # Dimensions of the playing field
 WORLD_X = 3000
 WORLD_Y = 2000
 BEAC_R = 40
-BORDER = 10
-BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], [- BEAC_R-BORDER, - BEAC_R - BORDER]])
+BORDER = 15
+BEACONS = np.array([rev_x([WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], color), rev_x([-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], color),
+			rev_x([- BEAC_R-BORDER, - BEAC_R - BORDER], color) ])
 
 # parametres of lidar
 MAX_ITENS = 2600  # MAX_ITENS 2600
@@ -161,11 +168,11 @@ class ParticleFilter:
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
-        weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
+        weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*1.1)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*1.8,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
-            self.warning = True
+            #self.warning = True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean

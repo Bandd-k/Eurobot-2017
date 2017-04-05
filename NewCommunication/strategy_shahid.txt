@@ -1,0 +1,20 @@
+move: 175 0 0 0, 154 123 123 0
+move: after seesaw
+#move: back rocket stand to take
+#move: pass robotishe
+#move: between adjust diagonal lunar slot
+#move: first module diagonal lunar slot
+#move: between adjust lateral rocket
+#move: lateral rocket stand to take
+#move: between adjust lateral slot
+#move: first module lateral lunar slot
+### points for shahid strategy
+# "after seesaw": [700, 150],
+# "back rocket stand to take": [1150, 190],
+# "pass robotishe": [1250, 190],
+# "between adjust diagonal lunar slot": [1250, 1200],
+# "first module diagonal lunar slot": [1350, 1600],
+# "between adjust lateral rocket":  [1080, 1300],
+# "lateral rocket stand to take": [270, 1350],
+# "between adjust lateral slot": [270, 1350],
+# "first module lateral lunar slot": [270, 1150]
