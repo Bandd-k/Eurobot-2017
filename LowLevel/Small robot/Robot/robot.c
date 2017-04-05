@@ -644,6 +644,7 @@ break;
   case 0x3C: // switch on pump
   {
     switchOnPneumo();
+    switchOnPneumo();
     char * str ="Ok";
     sendAnswer(cmd->command, str, 3);
   }
@@ -651,6 +652,7 @@ break;
 
   case 0x3D: // switch off pump
   {
+    switchOffPneumo();
     switchOffPneumo();
     char * str ="Ok";
     sendAnswer(cmd->command, str, 3);
@@ -673,6 +675,7 @@ break;
   case 0x41:  //pump manipulator rotation for EuroBot 2017
   {
     servo_rotate_90(); // rotate the pump 90 degrees - horizontal
+    servo_rotate_90();
     char * str ="Ok";
     sendAnswer(cmd->command,str, 3);
   }
@@ -681,6 +684,7 @@ break;
   case 0x42:  //pump manipulator rotation for EuroBot 2017
   {
     servo_rotate_180(); // rotate the pump 180 degrees - vertical
+    servo_rotate_180();
     char * str ="Ok";
     sendAnswer(cmd->command,str, 3);
   }
@@ -728,7 +732,10 @@ break;
   case 0x46:
   {
     goOutsideWithSuckingManipulator();
+    goOutsideWithSuckingManipulator();
     switchOnPneumo();
+    switchOnPneumo();
+    servo_rotate_180();
     servo_rotate_180();
   }
     break;
@@ -736,9 +743,12 @@ break;
   case 0x47:
   {
     goInsideWithSuckingManipulator();
+    goInsideWithSuckingManipulator();
     increaseByGivenAngle(LIFT_CYLINDER);
     switchOffPneumo();
+    switchOffPneumo();
     increaseByGivenAngle(STORE_CYLINDER);
+    servo_rotate_90();
     servo_rotate_90();
   }
     break;
@@ -752,11 +762,13 @@ break;
   case 0x49: // Sucking manipulator
   {
     goOutsideWithSuckingManipulator();
+    goOutsideWithSuckingManipulator();
   }
     break;
 
   case 0x4A: // Sucking manipulator
   {
+    goInsideWithSuckingManipulator();
     goInsideWithSuckingManipulator();
   }
     break;
