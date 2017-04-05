@@ -12,6 +12,7 @@ logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
 
+
 console = logging.StreamHandler()
 console.setLevel(lvl)
 # set a format which is simpler for console use
@@ -29,7 +30,7 @@ class Robot:
         self.collision_avoidance = False
         self.localisation = Value('b', True)
         if small:
-            self.sensors_map = {0:(0, np.pi/3),1: (np.pi*0.5, np.pi*1.5),2: (5/3.*np.pi,2*np.pi),3: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}
+            self.sensors_map = {0:(0, np.pi/3),3: (np.pi*0.5, np.pi*1.5),1: (5/3.*np.pi,2*np.pi),2: (7/4.*np.pi,2*np.pi),4:(0,np.pi*1/4.)}
             #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
@@ -101,6 +102,7 @@ class Robot:
                 direction = (float(x) / sm, float(y) / sm)
                 if self.check_collisions(direction):
                     self.send_command('stopAllMotors')
+                    return False
                 # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
@@ -118,7 +120,7 @@ class Robot:
         angle = np.arctan2(direction[1],direction[0]) % (np.pi*2)
         sensor_angle = (angle-self.coords[2]) %(np.pi*2)
         #### switch on sensor_angle
-        collisions = [0,0,0,0,1]
+        collisions = self.sensor_data()
         for index,i in enumerate(collisions):
             if i and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]:
                 logging.info("Collision at index "+str(index))
@@ -136,7 +138,11 @@ class Robot:
 
     def sensor_data(self):
         data = self.send_command('sensors_data')['data']
+        data.append(data[2])
         return data
+
+
+
 
 
     def check_map(self,direction): # probably can be optimized However O(1)
@@ -368,6 +374,7 @@ class Robot:
 
 
     def small_robot_trajectory(self,speed=1):
+        self.rotate_cylinder_horizonal()
         angle = 3*np.pi / 2
         parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
