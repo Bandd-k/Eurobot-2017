@@ -152,7 +152,7 @@ int main(void)
 //        softDelay(1000000);
 //        increaseByGivenAngle(STORE_CYLINDER);
 //        servo_rotate_90();
-//
+////
 //        goOutsideWithSuckingManipulator();
 //        switchOnPneumo();
 //        softDelay(5000000);
@@ -178,6 +178,18 @@ int main(void)
 //        softDelay(1000000);
 //        increaseByGivenAngle(STORE_CYLINDER);
 //        servo_rotate_90();
+////
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(5000000);
+//        servo_rotate_180();
+//        softDelay(5000000);
+//        goInsideWithSuckingManipulator();
+//        softDelay(35000000);
+//        goOutsideWithSuckingManipulator();
+//        switchOffPneumo();
+//        goInsideWithSuckingManipulator();
+//        softDelay(5000000);
 //
 //        decreaseByGivenAngle((LIFT_CYLINDER + STORE_CYLINDER));
 //        softDelay(5000000);
@@ -185,7 +197,7 @@ int main(void)
 //        softDelay(5000000);
 //        decreaseByGivenAngle((LIFT_CYLINDER + STORE_CYLINDER));
 //        softDelay(5000000);
-
+//
 
 //        setPositionOfCylinderCarrier(whole_starting_angle);
 //        softDelay(5000000);
