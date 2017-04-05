@@ -102,7 +102,7 @@ class Robot:
                 direction = (float(x), float(y))
                 while self.check_collisions(direction):
                     self.send_command('stopAllMotors')
-                   time.sleep(1)
+                    time.sleep(1)
                 logging.info(self.send_command('switchOnPid'))
                 #return False
                 # check untill ok and then move!
