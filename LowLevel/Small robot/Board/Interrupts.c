@@ -69,11 +69,11 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
   TIM13->SR = 0;
  NVIC_DisableIRQ(TIM6_DAC_IRQn);  //отключение ПИД на время расчета
 
-
+float temp = (curPath.phiZad-robotCoord[2]);
 
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу
     if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.01) && ((fabs(curPath.Coord_local_track[1])) < 0.01)&& // достигнута заданная точка по положению и углу
-        (fabs(rangeAngle(&curPath.phiZad-&robotCoord[2])) < 0.02))
+        (fabs(rangeAngle(&temp)) < 0.02))
         {
           traceFlag = 1;  // точка достигнута
         }

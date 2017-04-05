@@ -8,8 +8,6 @@ from packets import encode_packet, decode_packet
 import logging
 
 
-PORT_VID = 1155
-PORT_PID = 22336
 PORT_SNR = '325936843235'
 DEVICE_NAME = '/dev/ttyACM0'
 
@@ -38,9 +36,6 @@ class Driver(Process):
     >>> d = Driver()
     >>> # send command in the blocking mode
     >>> d.process_cmd('setCoordinates', [0.0, 0.0, 0.0])
-    >>> # register queue and start process
-    >>> d.register_queue('queue_name', queue)
-    >>> d.start()
     """
 
 

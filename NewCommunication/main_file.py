@@ -26,10 +26,10 @@ class Robot:
     def __init__(self, lidar_on=True,small=True):
         sensors_number=6
         self.sensor_range = 20
-        self.collision_avoidance = False
+        self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
-            self.sensors_map = {0:(0, np.pi/3),1: (np.pi*0.5, np.pi*1.5),2: (5/3.*np.pi,2*np.pi),3: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}
+            self.sensors_map = {0:(0, np.pi/3),5:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),4:(7/4.*np.pi,2*np.pi)} #[(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]
             #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
@@ -47,7 +47,7 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         if small:
-            self.coords = Array('d',[3000-850, 170, 3*np.pi / 2])
+            self.coords = Array('d',[850, 170, 3*np.pi / 2])
         else:
             driver.PORT_SNR = '325936843235'
             self.coords = Array('d', [170, 170, 0])
@@ -98,9 +98,12 @@ class Robot:
         while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
             if self.collision_avoidance:
-                direction = (float(x) / sm, float(y) / sm)
-                if self.check_collisions(direction):
+                direction = (float(x), float(y))
+                while self.check_collisions(direction):
                     self.send_command('stopAllMotors')
+                    time.sleep(1)
+                logging.info(self.send_command('switchOnPid'))
+                #return False
                 # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
@@ -115,13 +118,14 @@ class Robot:
         return True
 
     def check_collisions(self, direction):
-        angle = np.arctan2(direction[1],direction[0]) % (np.pi*2)
+        angle = np.arctan2(direction[1],direction[0])%(np.pi*2)
         sensor_angle = (angle-self.coords[2]) %(np.pi*2)
         #### switch on sensor_angle
-        collisions = [0,0,0,0,1]
+        collisions = self.sensor_data()
         for index,i in enumerate(collisions):
-            if i and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]:
+            if (i==True and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]):
                 logging.info("Collision at index "+str(index))
+                return True
                 if self.check_map(direction):
                     continue
                 return True
@@ -136,6 +140,8 @@ class Robot:
 
     def sensor_data(self):
         data = self.send_command('sensors_data')['data']
+        data.append(data[2])
+        data.append(data[0])
         return data
 
 
@@ -368,36 +374,37 @@ class Robot:
 
 
     def small_robot_trajectory(self,speed=1):
+        self.rotate_cylinder_horizonal()
         angle = 3*np.pi / 2
         parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.on_sucker()
-        #self.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.pick_up()
+        self.pick_up()
 
-        #self.on_sucker()
-        #self.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.pick_up()
+        self.pick_up()
 
 
-        #self.on_sucker()
-        #self.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.pick_up2()
+        self.pick_up2()
 
     def small_robot_trajectory_r(self, speed=1):
         angle = np.pi
@@ -409,13 +416,13 @@ class Robot:
         speed = 6
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.out_cylinders()
+        self.out_cylinders()
         parameters = [1230, 1600, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.out_cylinders()
+        self.out_cylinders()
         parameters = [1160, 1510, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.out_cylinders()
+        self.out_cylinders()
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -489,10 +496,45 @@ class Robot:
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
 
+    def collisionTest(self,speed=1):
+        angle = 3*np.pi/2
+        while True:
+            parameters = [1145, 400, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+            while not True:
+               time.sleep(2)
+               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [1145, 800, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+            while not True:
+               time.sleep(2)
+               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [1545, 800, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+            while not True:
+               time.sleep(2)
+               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [1545, 400, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+            while not True:
+               time.sleep(2)
+               t = self.go_to_coord_rotation(parameters)
+
 rb = None
 def test():
     global rb
     rb = Robot(True)
+
+    rb.collisionTest(6)
+    
+
+    return
+    #while True:
+    #    print rb.sensor_data()
+    #    time.sleep(1)
     #rb.take_cylinder()
     #rb.first_cylinder()
 
@@ -500,10 +542,10 @@ def test():
     while i<10:
         #rb.big_robot_trajectory(4)
         #rb.big_robot_trajectory_r(4)
-	#rb.small_robot_trajectory(4)
-        #rb.small_robot_trajectory_r(4)
-        rb.small_robot_trajectory_blue(4)
-	rb.small_robot_trajectory_r_blue(4)
+	rb.small_robot_trajectory(4)
+        rb.small_robot_trajectory_r(4)
+        #rb.small_robot_trajectory_blue(4)
+	#rb.small_robot_trajectory_r_blue(4)
         return
         i+=1
 

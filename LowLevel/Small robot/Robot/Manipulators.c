@@ -131,7 +131,7 @@ char getCurrentColor(){
 float getCurrentEncoderAngle(void){
 
     angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-    angle_enc_real = 58*exp(-0.029*angle_encoder)*sin(2*3.14*angle_encoder/150) - 75*exp(-0.015*angle_encoder)*sin(2*3.14*angle_encoder/150) + 5*pow(angle_encoder, 0.735) + 30*exp(-pow((angle_encoder-160)/160,2))-10 - angle_encoder*13.5/350;;
+    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
     whole_angle = numberofrot * 360 + angle_enc_real;
     return angle_enc_real;
 }
@@ -141,108 +141,72 @@ void setCurrentAngleAsBeginning(void){
     whole_starting_angle = getCurrentEncoderAngle();
 }
 
-
-
 void setPositionOfCylinderCarrier(float desiredAngle){
 
-
     angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-    angle_enc_real = 58*exp(-0.029*angle_encoder)*sin(2*3.14*angle_encoder/150) - 75*exp(-0.015*angle_encoder)*sin(2*3.14*angle_encoder/150) + 5*pow(angle_encoder, 0.735) + 30*exp(-pow((angle_encoder-160)/160,2))-10 - angle_encoder*13.5/350;;
+    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
     whole_angle = numberofrot * 360 + angle_enc_real;
-
+    angle_before_movement = whole_angle;
 
     if(desiredAngle > whole_angle){
-    //setServoToWheelMode(3);
-        angle_before_movement = whole_angle;
+
+        whole_angle_prev = whole_angle - 10;
 
         while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle > whole_angle)){
 
-
             angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-            angle_enc_real = 58*exp(-0.029*angle_encoder)*sin(2*3.14*angle_encoder/150) - 75*exp(-0.015*angle_encoder)*sin(2*3.14*angle_encoder/150) + 5*pow(angle_encoder, 0.735) + 30*exp(-pow((angle_encoder-160)/160,2))-10 - angle_encoder*13.5/350;;
+            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
             whole_angle = numberofrot * 360 + angle_enc_real;
 
-//            setServoMovingSpeed(3, (uint16_t)(595 + 1024), 0x0400); // CW
-//            setServoMovingSpeed(2, (uint16_t)(625), 0x0000); // CCW
+            setServoMovingSpeed(3, (uint16_t)(710), 0x0000);//CCW
+            setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW
 
-            if(direction){
-                setServoMovingSpeed(2, (uint16_t)(750 + 1024), 0x0400);
-                setServoMovingSpeed(3, (uint16_t)(735), 0x0000);
+            if(((desiredAngle - whole_angle) > (desiredAngle - whole_angle_prev)) && fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
+                setServoMovingSpeed(3, (uint16_t)0, 0x0000);
+                setServoMovingSpeed(2, (uint16_t)0, 0x0000);
+//                whole_angle += 2*fabs(angle_before_movement - whole_angle);
+                break;
             }
-            else{
-                setServoMovingSpeed(3, (uint16_t)(735 + 1024), 0x0400);
-                setServoMovingSpeed(2, (uint16_t)(750), 0x0000);
-            }
-
-
-//            setServoMovingSpeed(2, (uint16_t)(605 + 1024), 0x0400);
-//            setServoMovingSpeed(3, (uint16_t)(555), 0x0000);
-            whole_angle_prev = whole_angle;
-
-            if(fabs(desiredAngle - whole_angle) > fabs(desiredAngle - whole_angle_prev)){
-                direction = !direction;
-                whole_angle = 2*angle_before_movement - whole_angle;
-
-            }
+            whole_angle_prev = whole_angle - 20;
         }
     }
 
-
     else if(desiredAngle < whole_angle){
- //   setServoToWheelMode(2);
-        angle_before_movement = whole_angle;
+
+        whole_angle_prev = whole_angle + 10;
 
         while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle < whole_angle)){
 
-
             angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-            angle_enc_real = 58*exp(-0.029*angle_encoder)*sin(2*3.14*angle_encoder/150) - 75*exp(-0.015*angle_encoder)*sin(2*3.14*angle_encoder/150) + 5*pow(angle_encoder, 0.735) + 30*exp(-pow((angle_encoder-160)/160,2))-10 - angle_encoder*13.5/350;;
+            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
             whole_angle = numberofrot * 360 + angle_enc_real;
 
-            if(direction){
-                setServoMovingSpeed(3, (uint16_t)(735 + 1024), 0x0400);
-                setServoMovingSpeed(2, (uint16_t)(750), 0x0000);
+            setServoMovingSpeed(3, (uint16_t)(780 + 1024), 0x0400);//CW
+            setServoMovingSpeed(2, (uint16_t)(810), 0x0000);//CCW
+
+            if((fabs(desiredAngle - whole_angle) > fabs(desiredAngle - whole_angle_prev)) && fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
+                setServoMovingSpeed(3, (uint16_t)0, 0x0000);
+                setServoMovingSpeed(2, (uint16_t)0, 0x0000);
+//                whole_angle -= 2*fabs(angle_before_movement - whole_angle);
+                break;
             }
-            else{
-                setServoMovingSpeed(2, (uint16_t)(750 + 1024), 0x0400);
-                setServoMovingSpeed(3, (uint16_t)(735), 0x0000);
-            }
 
-
-//            setServoMovingSpeed(2, (uint16_t)(625 + 1024), 0x0400);
-//            setServoMovingSpeed(3, (uint16_t)(595), 0x0000);
-
-//            setServoMovingSpeed(3, (uint16_t)(605 + 1024), 0x0400);
-//            setServoMovingSpeed(2, (uint16_t)(555), 0x0000);
-            whole_angle_prev = whole_angle;
-
-            if(fabs(desiredAngle - whole_angle) > fabs(desiredAngle - whole_angle_prev)){
-                direction = !direction;
-                whole_angle = 2*angle_before_movement - whole_angle;
-            }
+            whole_angle_prev = whole_angle + 20;
         }
     }
-
     setServoMovingSpeed(2, (uint16_t)0, 0x0000);
     setServoMovingSpeed(3, (uint16_t)0, 0x0000);
-
 }
 
 
 void increaseByGivenAngle(float givenAngle){
-
-    if(direction)setPositionOfCylinderCarrier(whole_angle + givenAngle);
-    else setPositionOfCylinderCarrier(whole_angle - givenAngle);
-
+    setPositionOfCylinderCarrier(whole_angle + givenAngle);
 }
 
 
 
 void decreaseByGivenAngle(float givenAngle){
-
-    if(direction)setPositionOfCylinderCarrier(whole_angle - givenAngle);
-    else setPositionOfCylinderCarrier(whole_angle + givenAngle);
-
+    setPositionOfCylinderCarrier(whole_angle - givenAngle);
 }
 
 
