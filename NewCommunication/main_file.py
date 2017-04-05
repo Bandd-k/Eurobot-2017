@@ -12,6 +12,7 @@ logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
 
+
 console = logging.StreamHandler()
 console.setLevel(lvl)
 # set a format which is simpler for console use
@@ -101,7 +102,7 @@ class Robot:
                 direction = (float(x), float(y))
                 while self.check_collisions(direction):
                     self.send_command('stopAllMotors')
-                    time.sleep(1)
+                   time.sleep(1)
                 logging.info(self.send_command('switchOnPid'))
                 #return False
                 # check untill ok and then move!
@@ -143,6 +144,9 @@ class Robot:
         data.append(data[2])
         data.append(data[0])
         return data
+
+
+
 
 
     def check_map(self,direction): # probably can be optimized However O(1)
