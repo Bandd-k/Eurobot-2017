@@ -725,6 +725,7 @@ break;
   case 0x45:
   {
     increaseByGivenAngle(STORE_CYLINDER);
+    increaseByGivenAngle(STORE_CYLINDER);
         //it is for storing it
   }
     break;
