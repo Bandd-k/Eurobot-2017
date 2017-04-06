@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1808">
-              <caret line="282" column="46" lean-forward="true" selection-start-line="282" selection-start-column="46" selection-end-line="282" selection-end-column="46" />
+            <state relative-caret-position="-98">
+              <caret line="392" column="24" lean-forward="false" selection-start-line="392" selection-start-column="24" selection-end-line="392" selection-end-column="24" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -63,10 +63,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cmd_list.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cmd_list.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmd_list.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
+            <state relative-caret-position="247">
               <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding />
             </state>
@@ -128,14 +128,14 @@
         <option value="$PROJECT_DIR$/npParticle.py" />
         <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/packets.py" />
-        <option value="$PROJECT_DIR$/main_file.py" />
         <option value="$PROJECT_DIR$/cmd_list.py" />
+        <option value="$PROJECT_DIR$/main_file.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="58" />
-    <option name="y" value="25" />
+    <option name="x" value="117" />
+    <option name="y" value="23" />
     <option name="width" value="1134" />
     <option name="height" value="734" />
   </component>
@@ -350,7 +350,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="58" y="25" width="1134" height="734" extended-state="0" />
+    <frame x="117" y="23" width="1134" height="734" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30952382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -757,21 +757,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_file.py">
+    <entry file="file://$PROJECT_DIR$/cmd_list.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1808">
-          <caret line="282" column="46" lean-forward="true" selection-start-line="282" selection-start-column="46" selection-end-line="282" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="247">
+          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmd_list.py">
+    <entry file="file://$PROJECT_DIR$/main_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-98">
+          <caret line="392" column="24" lean-forward="false" selection-start-line="392" selection-start-column="24" selection-end-line="392" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

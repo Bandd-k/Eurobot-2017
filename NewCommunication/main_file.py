@@ -14,6 +14,12 @@ logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:
 
 
 console = logging.StreamHandler()
+
+def rev_field(val, color):
+    if color == "blue":
+        return [3000-val[0], val[1], (np.pi - val[2] + 2*np.pi)%(2*np.pi)] + val[3:]
+    return val
+
 console.setLevel(lvl)
 # set a format which is simpler for console use
 formatter = logging.Formatter('%(levelname)s: %(message)s')
@@ -24,8 +30,9 @@ logger = logging.getLogger(__name__)
 
 obstacles=[]
 class Robot:
-    def __init__(self, lidar_on=True,small=True):
+    def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         sensors_number=6
+        self.color = color
         self.sensor_range = 20
         self.collision_avoidance = True
         self.localisation = Value('b', True)
@@ -50,7 +57,7 @@ class Robot:
         if small:
             self.coords = Array('d',[850, 170, 3*np.pi / 2])
         else:
-            driver.PORT_SNR = '325936843235'
+            driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', [170, 170, 0])
         self.input_queue = Queue()
         self.loc_queue = Queue()
@@ -86,6 +93,7 @@ class Robot:
             logging.warning('Lidar off')
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
+        parameters = rev_field(parameters,self.color)
         if self.PF.warning:
             time.sleep(1)
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
@@ -95,6 +103,7 @@ class Robot:
         logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
+        pids = True
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
@@ -102,8 +111,11 @@ class Robot:
                 direction = (float(x), float(y))
                 while self.check_collisions(direction):
                     self.send_command('stopAllMotors')
-                    time.sleep(1)
-                logging.info(self.send_command('switchOnPid'))
+                    pids = False
+                    time.sleep(0.5)
+                    if not pids:
+                        pids = True
+                        logging.info(self.send_command('switchOnPid'))
                 #return False
                 # check untill ok and then move!
             # add Collision Avoidance there
@@ -114,7 +126,6 @@ class Robot:
             self.coords[0] = parameters[0]
             self.coords[1] = parameters[1]
             self.coords[2] = parameters[2]
-
         logging.info('point reached')
         return True
 
@@ -267,67 +278,6 @@ class Robot:
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
-    def demo(self, speed=1):
-        """robot Demo, go to coord and take cylinder"""
-        signal.signal(signal.SIGALRM, self.funny_action)
-        signal.alarm(90)
-        # TODO take cylinder
-        self.rotate_cylinder_horizonal()
-        angle = np.pi
-        parameters = [850, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1000, 500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1000, 700, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [650, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [400, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        # return
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [160, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-        parameters = [320, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [160, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-        parameters = [320, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [160, 1360, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-    def demo_r2(self, speed=1):
-        angle = np.pi
-        parameters = [400, 1200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up2()
-        parameters = [150, 1140, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [150, 950, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [150, 800, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [600, 800, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-
 
     def big_robot_trajectory(self,speed=1):
         angle = np.pi*0.1
@@ -430,77 +380,17 @@ class Robot:
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-		
-	###############################
-	###Vova's code for blue side###
-	############START##############
-	###############################
-	
-    def small_robot_trajectory_blue(self,speed=1):
-        x_dm = 3000-1080
-	angle = 3*np.pi / 2
-        parameters = [x_dm, 300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [x_dm, 250, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [x_dm, 160, angle, speed]
-        self.go_to_coord_rotation(parameters)
 
-        parameters = [x_dm, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [x_dm, 160, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [x_dm, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [x_dm, 160, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [x_dm, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up2()
-
-    def small_robot_trajectory_r_blue(self, speed=1):
-        angle = 0*np.pi
-        parameters = [3000-1150, 1000, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi/4
-        parameters = [1680, 1520, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 6
-        parameters = [1680, 1690, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [1770, 1600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [1840, 1510, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        speed = 4
-        parameters = [1850, 1000, angle, speed]
-        self.go_to_coord_rotation(parameters)
-	
-	
-	###############################
-	###Vova's code for blue side###
-	#############END###############
-	###############################
 
     def funny_action(self, signum, frame):
-        print 'Main functionaly is off'
+        self.send_command('stopAllMotors')
+        self.on_sucker()
         print 'FUNNNY ACTION'
+        exit()
 
     def collisionTest(self,speed=1):
+        signal.signal(signal.SIGALRM, self.funny_action)
+        signal.alarm(40)
         angle = 3*np.pi/2
         while True:
             parameters = [1145, 400, angle, speed]
@@ -531,28 +421,10 @@ rb = None
 def test():
     global rb
     rb = Robot(True)
-
     rb.collisionTest(6)
-    
-
     return
-    #while True:
-    #    print rb.sensor_data()
-    #    time.sleep(1)
-    #rb.take_cylinder()
-    #rb.first_cylinder()
-
-    i = 0
-    while i<10:
-        #rb.big_robot_trajectory(4)
-        #rb.big_robot_trajectory_r(4)
-	rb.small_robot_trajectory(4)
-        rb.small_robot_trajectory_r(4)
-        #rb.small_robot_trajectory_blue(4)
-	#rb.small_robot_trajectory_r_blue(4)
-        return
-        i+=1
-
+    rb.small_robot_trajectory(4)
+    rb.small_robot_trajectory_r(4)
 try:
     test()
 except KeyboardInterrupt:
