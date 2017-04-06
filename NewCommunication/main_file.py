@@ -30,8 +30,7 @@ logger = logging.getLogger(__name__)
 
 obstacles=[]
 class Robot:
-    def __init__(self, lidar_on=True, small=True, color = 'blue'):
-        sensors_number=6
+    def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         self.color = color
         self.sensor_range = 30
         self.collision_avoidance = True
@@ -63,7 +62,7 @@ class Robot:
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
         self.PF = pf.ParticleFilter(particles=1500, sense_noise=25, distance_noise=45, angle_noise=0.2, in_x=self.coords[0],
-                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
+                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -154,7 +153,7 @@ class Robot:
         data = self.send_command('sensors_data')['data']
         data.append(data[2])
         data.append(data[0])
-        data.apeend(data[1])
+        data.append(data[1])
         return data
 
 
@@ -422,10 +421,9 @@ rb = None
 def test():
     global rb
     rb = Robot(True)
-    rb.collisionTest(6)
-    return
     rb.small_robot_trajectory(4)
     rb.small_robot_trajectory_r(4)
+    return
 
 
 
