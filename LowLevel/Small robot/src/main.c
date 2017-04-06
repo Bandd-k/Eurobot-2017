@@ -99,9 +99,12 @@ float tempora;
     {
 //        setPositionOfCylinderCarrier(tempora);
 //    distance_digital2[0] = pin_val(IR_FRONT_LEFT);
-//    distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
-//    distance_digital2[2] = pin_val(IR_FRONT_TOP);
-//    distance_digital2[3] = pin_val(IR_BACK);
+//        distance_digital2[0] = pin_val(IR_FRONT_LEFT);
+//        distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
+//        distance_digital2[2] = pin_val(IR_FRONT_TOP);
+//        distance_digital2[3] = pin_val(IR_BACK);
+//        distance_digital2[4] = pin_val(IR_LEFT);
+//        distance_digital2[5] = pin_val(IR_RIGHT);
 
        /* ADC_8 = pin_val(GENERAL_PIN_7);
         ADC_7 = pin_val(GENERAL_PIN_6);
