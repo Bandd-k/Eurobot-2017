@@ -33,7 +33,7 @@ class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         sensors_number=6
         self.color = color
-        self.sensor_range = 20
+        self.sensor_range = 10
         self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
@@ -110,12 +110,13 @@ class Robot:
             if self.collision_avoidance:
                 direction = (float(x), float(y))
                 while self.check_collisions(direction):
-                    self.send_command('stopAllMotors')
-                    pids = False
+                    if pids:
+                        self.send_command('stopAllMotors')
+                        pids = False
                     time.sleep(0.5)
-                    if not pids:
-                        pids = True
-                        logging.info(self.send_command('switchOnPid'))
+                if not pids:
+                    pids = True
+                    logging.info(self.send_command('switchOnPid'))
                 #return False
                 # check untill ok and then move!
             # add Collision Avoidance there
@@ -161,12 +162,17 @@ class Robot:
 
 
     def check_map(self,direction): # probably can be optimized However O(1)
-        for i in range(0,self.sensor_range,2):
+        sm = direction[0]+direction[1]
+        direction[0] = direction[0] / sm
+        direction[1] = direction[1] / sm
+        print "direction = "+ str(direction)
+        for i in range(0, self.sensor_range, 2):
             for dx in range(-2,2):
                 for dy in range(-2,2):
                     x = int(self.coords[0]/10+direction[0]*i+dx)
                     y = int(self.coords[1]/10+direction[1]*i+dy)
                     if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
+                        print 'Map ' + str(x) + ' ' +str(y)
                         return True
                         # Or maybe Continue
                     if self.map[x][y]:
@@ -389,8 +395,8 @@ class Robot:
         exit()
 
     def collisionTest(self,speed=1):
-        signal.signal(signal.SIGALRM, self.funny_action)
-        signal.alarm(40)
+        #signal.signal(signal.SIGALRM, self.funny_action)
+        #signal.alarm(40)
         angle = 3*np.pi/2
         while True:
             parameters = [1145, 400, angle, speed]
@@ -425,6 +431,10 @@ def test():
     return
     rb.small_robot_trajectory(4)
     rb.small_robot_trajectory_r(4)
+
+
+
+
 try:
     test()
 except KeyboardInterrupt:
