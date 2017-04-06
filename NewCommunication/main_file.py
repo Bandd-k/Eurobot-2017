@@ -30,10 +30,10 @@ logger = logging.getLogger(__name__)
 
 obstacles=[]
 class Robot:
-    def __init__(self, lidar_on=True, small=True, color = 'yellow'):
+    def __init__(self, lidar_on=True, small=True, color = 'blue'):
         sensors_number=6
         self.color = color
-        self.sensor_range = 10
+        self.sensor_range = 30
         self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
@@ -55,7 +55,7 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         if small:
-            self.coords = Array('d',[850, 170, 3*np.pi / 2])
+            self.coords = Array('d',rev_field([850, 170, 3*np.pi / 2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', [170, 170, 0])
@@ -138,7 +138,6 @@ class Robot:
         for index,i in enumerate(collisions):
             if (i==True and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]):
                 logging.info("Collision at index "+str(index))
-                return True
                 if self.check_map(direction):
                     continue
                 return True
@@ -162,21 +161,16 @@ class Robot:
 
 
     def check_map(self,direction): # probably can be optimized However O(1)
-        sm = direction[0]+direction[1]
-        direction[0] = direction[0] / sm
-        direction[1] = direction[1] / sm
-        print "direction = "+ str(direction)
+        direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
-            for dx in range(-2,2):
-                for dy in range(-2,2):
-                    x = int(self.coords[0]/10+direction[0]*i+dx)
-                    y = int(self.coords[1]/10+direction[1]*i+dy)
-                    if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
-                        print 'Map ' + str(x) + ' ' +str(y)
-                        return True
-                        # Or maybe Continue
-                    if self.map[x][y]:
-                        return True
+            for dx in range(-4,4):
+                x = int(self.coords[0]/10+direction[0]*i+dx)
+                y = int(self.coords[1]/10+direction[1]*i)
+                if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
+                    return True
+                    # Or maybe Continue
+                if self.map[x][y]:
+                    return True
         return False
 
 
