@@ -422,10 +422,7 @@ rb = None
 def test():
     global rb
     rb = Robot(True)
-    while True:
-        rb.sensor_data()
-        time.sleep(0.2)
-    #rb.collisionTest(6)
+    rb.collisionTest(6)
     return
     rb.small_robot_trajectory(4)
     rb.small_robot_trajectory_r(4)
