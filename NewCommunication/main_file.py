@@ -37,7 +37,7 @@ class Robot:
         self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
-            self.sensors_map = {0:(0, np.pi/3),5:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),4:(7/4.*np.pi,2*np.pi)} #[(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]
+            self.sensors_map = {0:(0, np.pi/3),7:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),6:(7/4.*np.pi,2*np.pi),8:(0,np.pi/4),4:(np.pi/4,3*np.pi/4),5:(np.pi*5/4,7*np.pi/4)} #[(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]
             #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
@@ -152,8 +152,9 @@ class Robot:
 
     def sensor_data(self):
         data = self.send_command('sensors_data')['data']
-        #data.append(data[2])
-        #data.append(data[0])
+        data.append(data[2])
+        data.append(data[0])
+        data.apeend(data[1])
         return data
 
 
