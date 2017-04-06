@@ -64,7 +64,7 @@ CMD_LIST = {
     'left_ball_down':0x64,
     'left_ball_up':0x65,
     'left_ball_drop':0x66,
-    'right_ball_down':0x467,
+    'right_ball_down':0x67,
     'right_ball_up':0x68,
     'right_ball_drop':0x69,
     # cylinders
