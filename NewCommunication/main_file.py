@@ -152,8 +152,8 @@ class Robot:
 
     def sensor_data(self):
         data = self.send_command('sensors_data')['data']
-        data.append(data[2])
-        data.append(data[0])
+        #data.append(data[2])
+        #data.append(data[0])
         return data
 
 
@@ -163,7 +163,7 @@ class Robot:
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
-            for dx in range(-4,4):
+            for dx in range(-8,8):
                 x = int(self.coords[0]/10+direction[0]*i+dx)
                 y = int(self.coords[1]/10+direction[1]*i)
                 if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
@@ -421,7 +421,10 @@ rb = None
 def test():
     global rb
     rb = Robot(True)
-    rb.collisionTest(6)
+    while True:
+        rb.sensor_data()
+        time.sleep(0.2)
+    #rb.collisionTest(6)
     return
     rb.small_robot_trajectory(4)
     rb.small_robot_trajectory_r(4)
