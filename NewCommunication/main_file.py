@@ -395,32 +395,33 @@ class Robot:
         while True:
             parameters = [1145, 400, angle, speed]
             t = self.go_to_coord_rotation(parameters)
-            while not True:
-               time.sleep(2)
-               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [945, 600, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+
 
             parameters = [1145, 800, angle, speed]
             t = self.go_to_coord_rotation(parameters)
-            while not True:
-               time.sleep(2)
-               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [1345, 1000, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
+
 
             parameters = [1545, 800, angle, speed]
             t = self.go_to_coord_rotation(parameters)
-            while not True:
-               time.sleep(2)
-               t = self.go_to_coord_rotation(parameters)
+
+            parameters = [1745, 600, angle, speed]
+            t = self.go_to_coord_rotation(parameters)
 
             parameters = [1545, 400, angle, speed]
             t = self.go_to_coord_rotation(parameters)
-            while not True:
-               time.sleep(2)
-               t = self.go_to_coord_rotation(parameters)
 
 rb = None
 def test():
     global rb
     rb = Robot(True)
+    rb.collisionTest(4)
+    return
     rb.small_robot_trajectory(4)
     rb.small_robot_trajectory_r(4)
     return
