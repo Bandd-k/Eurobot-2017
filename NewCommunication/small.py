@@ -32,6 +32,14 @@ logger = logging.getLogger(__name__)
 obstacles=[]
 class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
+
+
+        ## Cylinder Staff
+        self.cylinders = 0
+        self.cyl_prepare = [95.0,-265.0,-650.0]
+        self.cyl_up = [-152.0,-512.0,-700]
+        self.cyl_down = [245.0,-135.0,-485.0]
+        ##################
         self.color = color
         self.sensor_range = 35
         self.collision_avoidance = True
@@ -61,25 +69,24 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1500, sense_noise=25, distance_noise=45, angle_noise=0.2, in_x=self.coords[0],
-                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=25, distance_noise=45, angle_noise=0.2, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
 
         # driver process
-	print "Paricle filter On"
+        print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
         print "Driver On"
-	self.p = Process(target=self.dr.run)
+        self.p = Process(target=self.dr.run)
         print "Process driver Init"
-	self.p.start()
-	print "Process driver Start"
+        self.p.start()
+        print "Process driver Start"
         self.p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
         print "Process npParticle Init"
-	logging.info(self.send_command('echo','ECHO'))
+        logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
-	self.p2.start()
-	print "Process npParticle Start"
+        self.p2.start()
+        print "Process npParticle Start"
         time.sleep(0.1)
-	print "Robot __init__ done!"
+        print "Robot __init__ done!"
 
     def send_command(self,name,params=None):
         self.input_queue.put({'source': 'fsm','cmd': name,'params': params})
@@ -98,6 +105,8 @@ class Robot:
             self.lidar_on = False
             logging.warning('Lidar off')
 
+
+
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         parameters = rev_field(parameters,self.color)
         if self.PF.warning:
@@ -105,7 +114,6 @@ class Robot:
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]
-        sm = x+y
         logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
@@ -163,10 +171,6 @@ class Robot:
         data.append(data[1])
         return data
 
-
-
-
-
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
@@ -185,107 +189,6 @@ class Robot:
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
-
-
-    ##########################################################
-    ################# BIG Robot ############################
-    ##########################################################
-
-    def left_ball_down(self):
-        self.send_command('left_ball_down')
-        time.sleep(1)
-
-    def left_ball_up(self):
-        self.send_command('left_ball_up')
-        time.sleep(1)
-
-    def left_ball_drop(self):
-        self.send_command('left_ball_drop')
-        time.sleep(1)
-
-    def right_ball_down(self):
-        self.send_command('right_ball_down')
-        time.sleep(1)
-
-    def right_ball_up(self):
-        self.send_command('right_ball_up')
-        time.sleep(1)
-
-    def right_ball_drop(self):
-        self.send_command('right_ball_drop')
-        time.sleep(1)
-
-
-
-    def funny(self):
-        self.send_command('funny_action')
-        time.sleep(1)
-        self.send_command('funny_action_start')##########################################################
-    ################# BIG Robot ############################
-    ##########################################################
-
-    def left_ball_down(self):
-        self.send_command('left_ball_down')
-        time.sleep(1)
-
-    def left_ball_up(self):
-        self.send_command('left_ball_up')
-        time.sleep(1)
-
-    def left_ball_drop(self):
-        self.send_command('left_ball_drop')
-        time.sleep(1)
-
-    def right_ball_down(self):
-        self.send_command('right_ball_down')
-        time.sleep(1)
-
-    def right_ball_up(self):
-        self.send_command('right_ball_up')
-        time.sleep(1)
-
-    def right_ball_drop(self):
-        self.send_command('right_ball_drop')
-        time.sleep(1)
-
-    # servos for cylinder take
-    def front_down_cylinder_no(self):
-	self.send_command('front_down_cylinder_no')
-	time.sleep(1)
-
-    def front_up_cylinder_yes(self):
-        self.send_command('front_up_cylinder_yes')
-        time.sleep(1)
-
-    def front_drop_cylinder_yes(self):
-        self.send_command('front_drop_cylinder_yes')
-        time.sleep(1)
-
-    def back_down_cylinder_no(self):
-        self.send_command('back_down_cylinder_no')
-        time.sleep(1)
-
-    def back_up_cylinder_yes(self):
-        self.send_command('back_up_cylinder_yes')
-        time.sleep(1)
-
-    def back_drop_cylinder_yes(self):
-        self.send_command('back_drop_cylinder_yes')
-        time.sleep(1)
-    # sticks to use
-    def both_sticks_open(self, dur = 1):
-        self.send_command('both_sticks_open')
-        time.sleep(dur)
-
-    def both_sticks_close(self, dur = 1):
-        self.send_command('both_sticks_close')
-        time.sleep(dur)
-    
-    def funny(self):
-        self.send_command('funny_action')
-        time.sleep(1)
-        self.send_command('funny_action_start')
-
 
 
     ##########################################################
@@ -315,16 +218,17 @@ class Robot:
         time.sleep(0.5)
 
     def lift_up(self):
-        logging.info(self.send_command('lift_up'))
+        logging.info(self.send_command('lift_up',self.cyl_up[self.cylinders]))
         time.sleep(0.5)
 
     def store(self):
-        logging.info(self.send_command('store'))
+        logging.info(self.send_command('lift_up',self.cyl_prepare[self.cylinders]))
         # time.sleep(0.5)
 
     def out_cylinders(self):
-        logging.info(self.send_command('out_cylinders'))
+        logging.info(self.send_command('lift_up',self.cyl_down[self.cylinders-1]))
         time.sleep(0.5)
+        self.cylinders = self.cylinders -1
 
     def pick_up(self):
         self.rotate_cylinder_vertical()
@@ -333,6 +237,7 @@ class Robot:
         self.off_sucker()
         self.store()
         self.rotate_cylinder_horizonal()
+        self.cylinders = self.cylinders+1
 
 
     def pick_up2(self):
@@ -348,104 +253,7 @@ class Robot:
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
 
-    def big_robot_trajectory(self,speed=1):
-        angle = np.pi*0.1
-        self.right_ball_up()
-        self.left_ball_up()
-        self.localisation.value = False
-        parameters = rev_x([900, 150, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        angle = np.pi/2*0.8
-        #parameters = rev_x([842, 180, angle, speed], color)
-        #self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        parameters = rev_x([960, 420, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        #self.front_down_cylinder_no()
-        #self.front_up_cylinder_yes()
-        angle = 3*np.pi/4
-        speed = 1
-        parameters = rev_x([700, 1250, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/2
-        parameters = rev_x([553, 1516, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([553-130, 1516, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/2 + 2*np.pi/18
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([374, 1794, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/2
-        parameters = rev_x([374, 1794, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([254, 1794, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([374, 1794, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)	
-        speed = 4
-        self.right_ball_down()
-        self.right_ball_up()
-    ##	angle = np.pi/2
-    ##	parameters = rev_x([280, 2000 - 160, angle, speed], color)
-    ##        self.go_to_coord_rotation(parameters)
-    ##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
-    ##        self.go_to_coord_rotation(parameters)
-    ##	self.left_ball_down()
-    ##	self.left_ball_up()
-    ##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
-    ##        self.go_to_coord_rotation(parameters)
 
-    def big_robot_trajectory_r(self,speed=1):
-        angle = 3*np.pi/2 + 3*np.pi/18
-        parameters = rev_x([900, 1500, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/4
-        speed = 1
-        parameters = rev_x([700, 1250, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi/2*0.8
-        #parameters = rev_x([842, 180, angle, speed], color)
-        #self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        parameters = rev_x([1060, 420, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 0.0
-        parameters = rev_x([870, 280, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = False
-        parameters = rev_x([230, 280, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)
-        self.right_ball_drop()
-        self.right_ball_up()
-        return
-        angle = np.pi/2
-        parameters = rev_x([1100, 500, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([900, 400, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        parameters = rev_x([900, 300, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi * 0.1
-        parameters = rev_x([900, 300, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = False
-        parameters = rev_x([250, 200, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        angle = 0.0
-        parameters = rev_x([250, 250, angle, speed], color)
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        self.right_ball_drop()
-        self.right_ball_up()
-        self.funny()
 
     def loc_test(self):
         while True:
@@ -491,7 +299,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.pick_up2()
+        self.pick_up()
 
     def small_robot_trajectory_r(self, speed=1):
         angle = np.pi
@@ -527,27 +335,27 @@ class Robot:
         angle = 3*np.pi/2
         while True:
             parameters = [1145, 400, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
             parameters = [945, 600, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
 
             parameters = [1145, 800, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
             parameters = [1345, 1000, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
 
             parameters = [1545, 800, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
             parameters = [1745, 600, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
             parameters = [1545, 400, angle, speed]
-            t = self.go_to_coord_rotation(parameters)
+            self.go_to_coord_rotation(parameters)
 
 rb = None
 def test():

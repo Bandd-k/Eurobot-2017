@@ -4,11 +4,7 @@ import time
 import logging
 import math
 
-color="blue"
-def rev_x(val, color):
-    if color[0] == "b":
-	return [3000-val[0], val[1]]
-    return val
+
 
 # Dimensions of the playing field
 WORLD_X = 3000
@@ -174,7 +170,7 @@ class ParticleFilter:
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*1.8,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*3.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
 
