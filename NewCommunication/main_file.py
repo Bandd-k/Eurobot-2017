@@ -350,103 +350,103 @@ class Robot:
     ############################################################################
 
     def big_robot_trajectory(self,speed=1):
-    angle = np.pi*0.1
-    self.right_ball_up()
-    self.left_ball_up()
-    self.localisation.value = False
-    parameters = rev_x([900, 150, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.localisation.value = True
-    angle = np.pi/2*0.8
-    #parameters = rev_x([842, 180, angle, speed], color)
-    #self.go_to_coord_rotation(parameters)
-    #self.go_to_coord_rotation(parameters)
-    parameters = rev_x([960, 420, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    #self.go_to_coord_rotation(parameters)
-    #self.front_down_cylinder_no()
-    #self.front_up_cylinder_yes()
-    angle = 3*np.pi/4
-    speed = 1
-    parameters = rev_x([700, 1250, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 3*np.pi/2
-    parameters = rev_x([553, 1516, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([553-130, 1516, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 3*np.pi/2 + 2*np.pi/18
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([374, 1794, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 3*np.pi/2
-    parameters = rev_x([374, 1794, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([254, 1794, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([374, 1794, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.go_to_coord_rotation(parameters)	
-    speed = 4
-    self.right_ball_down()
-    self.right_ball_up()
-##	angle = np.pi/2
-##	parameters = rev_x([280, 2000 - 160, angle, speed], color)
-##        self.go_to_coord_rotation(parameters)
-##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
-##        self.go_to_coord_rotation(parameters)
-##	self.left_ball_down()
-##	self.left_ball_up()
-##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
-##        self.go_to_coord_rotation(parameters)
+        angle = np.pi*0.1
+        self.right_ball_up()
+        self.left_ball_up()
+        self.localisation.value = False
+        parameters = rev_x([900, 150, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = True
+        angle = np.pi/2*0.8
+        #parameters = rev_x([842, 180, angle, speed], color)
+        #self.go_to_coord_rotation(parameters)
+        #self.go_to_coord_rotation(parameters)
+        parameters = rev_x([960, 420, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        #self.go_to_coord_rotation(parameters)
+        #self.front_down_cylinder_no()
+        #self.front_up_cylinder_yes()
+        angle = 3*np.pi/4
+        speed = 1
+        parameters = rev_x([700, 1250, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2
+        parameters = rev_x([553, 1516, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([553-130, 1516, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2 + 2*np.pi/18
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([374, 1794, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2
+        parameters = rev_x([374, 1794, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([254, 1794, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([374, 1794, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)	
+        speed = 4
+        self.right_ball_down()
+        self.right_ball_up()
+    ##	angle = np.pi/2
+    ##	parameters = rev_x([280, 2000 - 160, angle, speed], color)
+    ##        self.go_to_coord_rotation(parameters)
+    ##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
+    ##        self.go_to_coord_rotation(parameters)
+    ##	self.left_ball_down()
+    ##	self.left_ball_up()
+    ##	parameters = rev_x([310, 2000 - 160, angle, speed], color)
+    ##        self.go_to_coord_rotation(parameters)
 
-def big_robot_trajectory_r(self,speed=1):
-    angle = 3*np.pi/2 + 3*np.pi/18
-    parameters = rev_x([900, 1500, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 3*np.pi/4
-    speed = 1
-    parameters = rev_x([700, 1250, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = np.pi/2*0.8
-    #parameters = rev_x([842, 180, angle, speed], color)
-    #self.go_to_coord_rotation(parameters)
-    #self.go_to_coord_rotation(parameters)
-    parameters = rev_x([1060, 420, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 0.0
-    parameters = rev_x([870, 280, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.go_to_coord_rotation(parameters)
-    self.localisation.value = False
-    parameters = rev_x([230, 280, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.localisation.value = True
-    self.go_to_coord_rotation(parameters)
-    self.go_to_coord_rotation(parameters)
-    self.right_ball_drop()
-    self.right_ball_up()
-    return
-    angle = np.pi/2
-    parameters = rev_x([1100, 500, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([900, 400, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    parameters = rev_x([900, 300, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = np.pi * 0.1
-    parameters = rev_x([900, 300, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.localisation.value = False
-    parameters = rev_x([250, 200, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    angle = 0.0
-    parameters = rev_x([250, 250, angle, speed], color)
-    self.go_to_coord_rotation(parameters)
-    self.localisation.value = True
-    self.right_ball_drop()
-    self.right_ball_up()
-    self.funny()
+    def big_robot_trajectory_r(self,speed=1):
+        angle = 3*np.pi/2 + 3*np.pi/18
+        parameters = rev_x([900, 1500, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/4
+        speed = 1
+        parameters = rev_x([700, 1250, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/2*0.8
+        #parameters = rev_x([842, 180, angle, speed], color)
+        #self.go_to_coord_rotation(parameters)
+        #self.go_to_coord_rotation(parameters)
+        parameters = rev_x([1060, 420, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 0.0
+        parameters = rev_x([870, 280, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = False
+        parameters = rev_x([230, 280, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = True
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.right_ball_drop()
+        self.right_ball_up()
+        return
+        angle = np.pi/2
+        parameters = rev_x([1100, 500, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([900, 400, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        parameters = rev_x([900, 300, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi * 0.1
+        parameters = rev_x([900, 300, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = False
+        parameters = rev_x([250, 200, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        angle = 0.0
+        parameters = rev_x([250, 250, angle, speed], color)
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = True
+        self.right_ball_drop()
+        self.right_ball_up()
+        self.funny()
 
     def loc_test(self):
         while True:
