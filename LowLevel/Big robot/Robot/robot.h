@@ -59,6 +59,13 @@
 
 #define threshhold -7
 
+#define IR_LEFT_FRONT   GENERAL_PIN_0
+#define IR_LEFT_BACK    GENERAL_PIN_1
+#define IR_FRONT        GENERAL_PIN_2
+#define IR_BACK         GENERAL_PIN_3
+#define IR_RIGHT_FRONT  GENERAL_PIN_4
+#define IR_RIGHT_BACK   GENERAL_PIN_5
+
 #pragma pack(push,1)
 typedef struct {
   char sync;
@@ -116,6 +123,8 @@ extern float robotSpeed[3] ;
 extern robStateStruct curState;
 extern encOutPackStruct outEnc;
 extern float vTargetGlob[3];
+
+extern uint8_t distance_digital2[6];
 
 extern uint32_t  PWM_DIR[10];
 extern uint32_t * PWM_CCR[10];

@@ -21,6 +21,7 @@ float distanceFromIR;
 bool flag = 1;
 uint16_t distance_digital[10] = {0,0,0,0,0,0,0,0,0,0};
 uint16_t distance_digital1[10] = {0,0,0,0,0,0,0,0,0,0};
+uint8_t distance_digital2[6] = {0,0,0,0,0,0};
 float vTargetGlob_last[3]={0,0,0};
 float robotCoordTarget[3] = {0,0,0}; // Целевые координаты робота в глоб сис-ме координат
 float robotSpeedTarget[3] = {0,0,0}; // Целевые скорости робота в глоб сис-ме координат
@@ -672,9 +673,7 @@ case 0x36:
 break;
 case 0x40: // STOP AFTER 90 SEC
 
-    {  //initAll();
-       //curState.trackEn = 0;
-        CloseFishingManipulator();
+    {
         curState.pidEnabled = 0;
         char i;
         for (i = 0; i < 4; i++)
@@ -717,7 +716,7 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
-case 0x3B: // Funny action - open lid and shoot
+case 0x77: // Funny action - open lid and shoot
   {
 
         OpenLauncher();
@@ -727,7 +726,7 @@ case 0x3B: // Funny action - open lid and shoot
   }
    break;
 
-case 0x3C: // Funny action - close lid
+case 0x78: // Funny action - close lid
   {
         CloseLauncher();
         char * str ="Ok";
@@ -811,47 +810,118 @@ break;
 
 */
 
-case  0x44:  //TURN ON RIGHT BALL COLLECTOR TO GET BALL
+case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
     {
        downRightCollectorToGetBalls();
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
     }
- case 0x45: //TURN OFF RIGHT BALLCOLLECTOR WITH BALLS
+    break;
+ case 0x65: //TURN OFF RIGHT BALLCOLLECTOR WITH BALLS
     {
        upRightCollectorWithBalls();
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
 
     }
-
- case 0x46: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
+break;
+ case 0x66: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
      {
        throwRightCollectorIntoBox();
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
      }
-
- case 0x47: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
+break;
+ case 0x67: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
     {
         downLeftCoolectorToGetBalls();
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
-
- case 0x48: // TURN OFF LEFT BALLCOLLECTOR
+break;
+ case 0x68: // TURN OFF LEFT BALLCOLLECTOR
     {
         upLeftCollectorWithBalls();
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
-
- case 0x49: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
+break;
+ case 0x69: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
     {
         throwLeftCollectorIntoBox();
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
+    break;
+    case 0x6A:
+    {
+        GetFaceCylinder();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x6B:
+    {
+      GoBackFaceCylinderManipulator();
+      char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x6C:
+    {
+        DownFaceCylinder();
+        char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x6D:
+    {
+        GetBackCylinder();
+         char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x6E:
+    {
+        GoBackBackCylinderManipulator();
+        char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x6F:
+    {
+      DownBackCylinder();
+       char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x70: //OPEN CYL CORRECTOR
+    {
+        CloseCylinderCorrector();
+        char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x71: // CLOSE CYL CORRECTOR
+    {
+        OpenCyinderCorrector();
+        char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
+    }
+    break;
+     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+  {
+    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
+    distance_digital2[1] = pin_val(IR_LEFT_BACK);
+    distance_digital2[2] = pin_val(IR_FRONT);
+    distance_digital2[3] = pin_val(IR_BACK);
+    distance_digital2[4] = pin_val(IR_RIGHT_FRONT);
+    distance_digital2[5] = pin_val(IR_RIGHT_BACK);
+
+
+    sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
+  }
+    break;
     default:
     return 0;
   break;
