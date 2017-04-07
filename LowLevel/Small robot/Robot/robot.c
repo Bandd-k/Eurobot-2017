@@ -628,6 +628,9 @@ break;
     distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
     distance_digital2[2] = pin_val(IR_FRONT_TOP);
     distance_digital2[3] = pin_val(IR_BACK);
+    distance_digital2[4] = pin_val(IR_LEFT);
+    distance_digital2[5] = pin_val(IR_RIGHT);
+
 
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
@@ -724,6 +727,7 @@ break;
 
   case 0x45:
   {
+    increaseByGivenAngle(STORE_CYLINDER);
     increaseByGivenAngle(STORE_CYLINDER);
         //it is for storing it
   }

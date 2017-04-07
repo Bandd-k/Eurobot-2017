@@ -60,7 +60,7 @@ CMD_LIST = {
 
     ## Big Robot
 
-    #balls
+    #ball
     'right_ball_down':0x64,
     'right_ball_up':0x65,
     'right_ball_drop':0x66,
@@ -92,7 +92,7 @@ CMD_LIST = {
     'getCurrentCoordinates': 0x13,
     'getCurrentSpeed': 0x14,
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
-    'stopAllMotors': 0x29,
+    'stopAllMotors': 0x40,
 
 }
 
