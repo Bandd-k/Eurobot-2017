@@ -34,8 +34,7 @@ CMD_LIST = {
     # TODO': laying field side
     # TODO: beginning of the competition sign
     # TODO: implement commands listed below 
-    #getManipulatorState = 0x26
-    #changeSuckerState = 0x27   #expected parameters: int[1]
+    #getManipulatorState = 0x26    #changeSuckerState = 0x27   #expected parameters: int[1]
     #uploadPuck = 0x28
     #unloadAllPucks = 0x29  #expected parameters: int[1]
     #changeFishingRodState = 0x30   #expected parameters: int[1]
@@ -46,7 +45,7 @@ CMD_LIST = {
 
 
 
-    # Small Robot
+    ## Small Robot
     'on_sucker':0x3c,
     'off_sucker':0x3d,
     'rotate_cylinder_horizonal':0x42,
@@ -58,25 +57,33 @@ CMD_LIST = {
     'out_cylinders':0x48,
     'in+store':0x47,
     #'drop':0x48,
-    #Big Robot
+
+    ## Big Robot
 
     #balls
-    'left_ball_down':0x64,
-    'left_ball_up':0x65,
-    'left_ball_drop':0x66,
-    'right_ball_down':0x467,
-    'right_ball_up':0x68,
-    'right_ball_drop':0x69,
+    'right_ball_down':0x64,
+    'right_ball_up':0x65,
+    'right_ball_drop':0x66,
+    'left_ball_down':0x67,
+    'left_ball_up':0x68,
+    'left_ball_drop':0x69,
     # cylinders
-
+    'front_down_cylinder_no':0x6A,
+    'front_up_cylinder_yes':0x6B,
+    'front_drop_cylinder_yes':0x6C,
+    'back_down_cylinder_no':0x6D,
+    'back_up_cylinder_yes':0x6E,
+    'back_drop_cylinder_yes':0x6F,
+    'both_sticks_open':0x70,
+    'both_sticks_close':0x71,
     # face
-
-
     'funny_action':0x77,
     'funny_action_start':0x78,
+    # sensors
+    'ir_sensors':0x76,
+    'us_sencsors':0x75,
 
-
-    # General
+    ## General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
     'setCoordinates': 0x02,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
