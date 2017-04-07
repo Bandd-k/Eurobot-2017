@@ -177,7 +177,11 @@ class ParticleFilter:
         if np.sum(weights)<self.gaus(self.sense_noise*1.8,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
-        weights /= np.sum(weights)
+
+        try:
+            weights /= np.sum(weights)
+        except:
+            weights = np.ones(self.particles_num, dtype=np.float)/self.particles_num
         return weights
         # TODO try use median instead mean
         # TODO if odometry works very bad and weights are small use only lidar
@@ -192,6 +196,8 @@ class ParticleFilter:
         while True:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
+                if type(coords[0]) is not type(100.):
+                    continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
                 print coords
