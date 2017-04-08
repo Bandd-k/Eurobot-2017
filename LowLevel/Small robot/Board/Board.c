@@ -247,7 +247,7 @@ initRegulators();
 
 //___PID_TIM________________________________________________________________
 
-  timPIDConfigure(TIM6, 13107, 64);// 20Hz
+  timPIDConfigure(TIM6, 13107/2, 64);// 2*20Hz
   NVIC_EnableIRQ(TIM6_DAC_IRQn);
 
 //___REGULATOR_TIM__________________________________________________________

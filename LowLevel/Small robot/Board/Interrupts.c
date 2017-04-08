@@ -38,12 +38,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
   GetDataForRegulators(); // обновление входных данных для ПИД
   NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn);
 
-  tempor = encodermagner(tempor);
-    if (tempor !=2) {
-     numberofrot += tempor;
-    }
-    getCurrentEncoderAngle();
-    //whole_angle = numberofrot * 360 + angle_enc_real;
+
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
     char i = 0;
@@ -51,12 +46,19 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
     {
         if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
     }
+    tempor = encodermagner(tempor);
+    if (tempor !=2)
+    {
+        numberofrot += tempor;
+    }
+    whole_angle = numberofrot * 360 + getCurrentEncoderAngle();
 }
 ////////////////////////////////////////////////////////////////////////////////
 
 void TIM7_IRQHandler() // 33kHz
 {
   TIM7->SR = 0;
+
 ////////////////////////////////////////////////////////////////////////////////
 }
 ////////////////////////////////////////////////////////////////////////////////
