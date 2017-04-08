@@ -83,8 +83,8 @@ CMD_LIST = {
     'ir_sensors':0x76,
     'us_sencsors':0x75,
     # seesaw
-    'seesaw_actuator_down':0x72,
-    'seesaw_actuator_up':0x73,
+    'seesaw_hand_down':0x72,
+    'seesaw_hand_up':0x73,
 
     ## General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
