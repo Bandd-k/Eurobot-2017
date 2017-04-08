@@ -77,11 +77,14 @@ CMD_LIST = {
     'both_sticks_open':0x70,
     'both_sticks_close':0x71,
     # face
-    'funny_action':0x77,
-    'funny_action_start':0x78,
+    'funny_action_open':0x77,
+    'funny_action_close':0x78,
     # sensors
     'ir_sensors':0x76,
     'us_sencsors':0x75,
+    # seesaw
+    'seesaw_hand_down':0x72,
+    'seesaw_hand_up':0x73,
 
     ## General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'

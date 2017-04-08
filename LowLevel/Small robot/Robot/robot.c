@@ -720,7 +720,8 @@ break;
 
   case 0x44:
   {
-    increaseByGivenAngle(LIFT_CYLINDER);
+    float *(temp) = (float*)(cmd->param);
+    setPositionOfCylinderCarrier(*temp);
         //it is for holding it
   }
     break;
