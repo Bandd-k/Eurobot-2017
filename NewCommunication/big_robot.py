@@ -14,8 +14,6 @@ lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
-
-
 console = logging.StreamHandler()
 
 def rev_field(val, color):
@@ -34,7 +32,8 @@ logger = logging.getLogger(__name__)
 
 obstacles=[]
 class Robot:
-    def __init__(self, lidar_on=True, color = 'yellow', sen_noise = 25, dist_noise = 45):
+    def __init__(self, lidar_on=True, color = 'yellow', sen_noise = 25, 
+        angle_noise=0.2, dist_noise = 45):
         self.color = color
         self.sensor_range = 30
         self.collision_avoidance = False
@@ -58,12 +57,21 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         driver.PORT_SNR = '325936843235' # need change
+        # for test
+        x1, x2, y1, y2 = 1000, 2500, 600, 1100
+        dx, dy = x2-x1, y2-y1
+        angle = np.pi/2
+        start = [x1, y1, angle]
+        #
         self.coords = Array('d', rev_field([170, 170, 0], self.color))# 170, 170
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1500, sense_noise=sen_noise, distance_noise=dist_noise, angle_noise=0.2, in_x=self.coords[0],
-                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=sen_noise, 
+            distance_noise=dist_noise, angle_noise=angle_noise, 
+            in_x=self.coords[0], in_y=self.coords[1], 
+            in_angle=self.coords[2],input_queue=self.input_queue, 
+            out_queue=self.loc_queue,color = self.color)
         # driver process
         print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -258,40 +266,45 @@ class Robot:
         time.sleep(dur)    
     
     # funny action
-    def funny_action(self):
+    def funny_action(self, signum, frame):
         self.send_command('stopAllMotors')
         self.send_command('funny_action_open')
         print 'FUNNNY ACTION'
 
+    def lin_interpol_traj(x1, y1, x2, y2, ratio):
+        return [x1+(x2-x1)*ratio, y1+(y2-y1)*ratio]
     
 
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
 
-    def big_robot_trajectory(self,speed=1):
+    def big_robot_trajectory(self,speed=4):
+        parameters = [170, 170, 0, speed]
+        self.go_to_coord_rotation(parameters)
         angle = np.pi*0.1
-        self.right_ball_up()
-        self.left_ball_up()
         self.localisation.value = False
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.localisation.value = True
         angle = np.pi/2*0.8
-        parameters = [832, 180, angle, speed]
+        parameters = [835, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
-        parameters = [940, 410, angle, speed]
+        parameters = [930, 390, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
         self.front_down_cylinder_no()
         self.front_up_cylinder_yes()
         angle = 3*np.pi/4
         speed = 1
+        parameters = [800, 850, angle, speed]
+        self.go_to_coord_rotation(parameters)
         parameters = [650, 1250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = 3*np.pi/2
         parameters = [553, 1516, angle, speed]
+        self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
         parameters = [553-130, 1516, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -300,6 +313,7 @@ class Robot:
         parameters = [374, 1794, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = 3*np.pi/2
+        speed=4
         parameters = [374, 1794, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [254, 1794, angle, speed]
@@ -332,7 +346,7 @@ class Robot:
     ##    parameters = [310, 2000 - 160, angle, speed]
     ##        self.go_to_coord_rotation(parameters)
 
-    def big_robot_trajectory_r(self,speed=1):
+    def big_robot_trajectory_r(self,speed=4):
         angle = np.pi/2 + 3*np.pi/18
         parameters = [600, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -341,28 +355,34 @@ class Robot:
         parameters = [650, 1250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi/2
-        parameters = [750, 850, angle, speed]
+        parameters = [1000, 850, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi/2*0.8
-        parameters = [1060, 420, angle, speed]
+        parameters = [940, 410, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi*0.1
         speed = 4
         parameters = [920, 260, angle, speed]
         self.go_to_coord_rotation(parameters)
+        angle = 0.0 + np.pi/18
+        parameters = [870, 250, angle, speed]
+        self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
         self.seesaw_hand_down()
         self.localisation.value = False
         parameters = [245, 250, angle, speed]
-        self.seesaw_hand_up()
         self.go_to_coord_rotation(parameters)
+        self.seesaw_hand_up()
         self.localisation.value = True
         angle = 0.0
         parameters = [235, 340, angle, speed]
         self.go_to_coord_rotation(parameters)
         ## check boarder; set exact coordinates
         while 1:
-            coords = rb.send_command('getCurrentCoordinates')['data']
+            coords = self.send_command('getCurrentCoordinates')['data']
+            if type(coords) is not type(list()):
+                logging.critical("Incorrect coordinates format")
+                continue
             if type(coords[0]) is type(1000.):
                 break
         coords[2] = 0.0 # angle 
@@ -389,19 +409,46 @@ class Robot:
         #self.left_ball_up()
         #self.funny()
         
+    def loc_test2(self, speed=4, angle=np.pi, n_times=3):
+        x1, x2, y1, y2 = 1000, 2500, 600, 1100
+        dx, dy = x2-x1, y2-y1
+        angle = np.arctan2(dy, dx) + np.pi
+        start = [x1, y1, angle]
+        for i in xrange(n_times):
+            parameters = [start[0] + 0*dx/3, start[1] + 0*dy/3, start[2], speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0] + 1*dx/3, start[1] + 1*dy/3, start[2], speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0] + 2*dx/3, start[1] + 2*dy/3, start[2], speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0] + 3*dx/3, start[1] + 3*dy/3, start[2], speed]
+            self.go_to_coord_rotation(parameters)
+        parameters = [start[0], start[1], start[2], speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
 
-    def loc_test(self):
-        while True:
-            angle = np.pi
-            parameters = [900, 200, angle, 6]
-            self.go_to_coord_rotation(parameters)
-            parameters = [900, 400, angle, 6]
-            self.go_to_coord_rotation(parameters)
-            parameters = [900, 600, angle, 6]
-            self.go_to_coord_rotation(parameters)
-            parameters = [900, 400, angle, 6]
-            self.go_to_coord_rotation(parameters)
 
+    def loc_test(self, speed=4, angle=np.pi, n_times=3):
+        x1, x2, y1, y2 = 1000, 2500, 600, 1100
+        dx, dy = x2-x1, y2-y1
+        angle = np.pi/2
+        start = [x1, y1, angle]
+        for i in xrange(n_times):
+            parameters = [start[0], start[1], start[2] + 0*np.pi/2, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0], start[1], start[2] + 1*np.pi/2, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0], start[1], start[2] + 2*np.pi/2, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [start[0], start[1], start[2] + 3*np.pi/2, speed]
+            self.go_to_coord_rotation(parameters)
+            #parameters = [start[0], start[1], start[2] + 4*np.pi/2, speed]
+            #self.go_to_coord_rotation(parameters)
+        parameters = [start[0], start[1], start[2], speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        
+        
 
     def localisation_test(self, point_lst = [[500, 1100]],
                           angle_lst = [0], speed_lst = [4], n_times = 1):
@@ -462,16 +509,32 @@ class Robot:
 rb = None
 def test():
     global rb
-    rb = Robot(lidar_on=True, color = 'yellow')
+    rb = Robot(lidar_on=True, color = 'yellow', sen_noise=25, 
+        dist_noise=30, angle_noise=0.3)
     ### LOCALISATION TEST
     #points = [[500, 1100], [1000, 1100]]#[750-40, 1400]]
     #odometry_coords = rb.localisation_test(point_lst = points,
                           #angle_lst = [0, np.pi], speed_lst = [4, 1], n_times = 1)
     #return
     ### END
+    #rb.send_command('funny_action_open')
+    #time.sleep(2)
     #rb.send_command('funny_action_close')
-    signal.signal(signal.SIGALRM, rb.funny_action)
-    signal.alarm(60)
+    #signal.signal(signal.SIGALRM, rb.funny_action)
+    #signal.alarm(90)
+    #while 1:
+    #    rb.loc_test(n_times=2, speed=4)
+    #    rb.loc_test(n_times=2, speed=1)
+    #    return
+        #rb.go_to_coord_rotation([500, 1100, np.pi, speed])
+        #rb.go_to_coord_rotation([1000, 1100, np.pi, speed])
+        #rb.go_to_coord_rotation([1500, 1100, np.pi, speed])
+        #rb.go_to_coord_rotation([2000, 1100, np.pi, speed])
+        #rb.go_to_coord_rotation([2500, 1100, np.pi, speed])
+    #rb.loc_test(speed=4, angle=np.pi, n_times=2)
+    #rb.loc_test(speed=4, angle=0, n_times=2)
+    #rb.loc_test(speed=1, angle=np.pi, n_times=2)
+    #rb.loc_test(speed=1, angle=0, n_times=2)
     i = 0
     while i<10:
     ########## Big robot test START
@@ -481,7 +544,7 @@ def test():
         while 1:
             angle = np.pi
             speed = 4
-            parameters = [160, 180, angle, speed]
+            parameterss = [160, 180, angle, speed]
             rb.go_to_coord_rotation(parameters)
             parameters = [180, 180, angle, speed]
             rb.go_to_coord_rotation(parameters)
