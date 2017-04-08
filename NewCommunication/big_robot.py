@@ -92,6 +92,9 @@ class Robot:
     def send_command(self,name,params=None):
         self.input_queue.put({'source': 'fsm','cmd': name,'params': params})
         return self.fsm_queue.get()
+        
+    def is_start(self):
+        return self.send_command('start_flag')['data']
 
     def get_raw_lidar(self):
         # return np.load('scan.npy')[::-1]
@@ -193,6 +196,7 @@ class Robot:
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
+            
         
     
     ##########################################################
@@ -511,6 +515,21 @@ def test():
     global rb
     rb = Robot(lidar_on=True, color = 'yellow', sen_noise=25, 
         dist_noise=30, angle_noise=0.3)
+        
+    #rb.left_ball_up()
+    rb.left_ball_down()
+    #rb.left_ball_up()
+    return
+    rb.right_ball_down()
+    rb.right_ball_up()
+    rb.right_ball_drop()
+    rb.right_ball_up()
+    
+    rb.left_ball_down()
+    rb.left_ball_up()
+    rb.left_ball_drop()
+    rb.left_ball_up()
+    return
     ### LOCALISATION TEST
     #points = [[500, 1100], [1000, 1100]]#[750-40, 1400]]
     #odometry_coords = rb.localisation_test(point_lst = points,
@@ -520,21 +539,14 @@ def test():
     #rb.send_command('funny_action_open')
     #time.sleep(2)
     #rb.send_command('funny_action_close')
+    while not rb.is_start():
+        continue
     #signal.signal(signal.SIGALRM, rb.funny_action)
     #signal.alarm(90)
     #while 1:
     #    rb.loc_test(n_times=2, speed=4)
     #    rb.loc_test(n_times=2, speed=1)
     #    return
-        #rb.go_to_coord_rotation([500, 1100, np.pi, speed])
-        #rb.go_to_coord_rotation([1000, 1100, np.pi, speed])
-        #rb.go_to_coord_rotation([1500, 1100, np.pi, speed])
-        #rb.go_to_coord_rotation([2000, 1100, np.pi, speed])
-        #rb.go_to_coord_rotation([2500, 1100, np.pi, speed])
-    #rb.loc_test(speed=4, angle=np.pi, n_times=2)
-    #rb.loc_test(speed=4, angle=0, n_times=2)
-    #rb.loc_test(speed=1, angle=np.pi, n_times=2)
-    #rb.loc_test(speed=1, angle=0, n_times=2)
     i = 0
     while i<10:
     ########## Big robot test START
