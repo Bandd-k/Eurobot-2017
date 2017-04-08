@@ -96,6 +96,7 @@ CMD_LIST = {
     'getCurrentSpeed': 0x14,
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
     'stopAllMotors': 0x40,
+    'start_flag': 0x80,
 
 }
 

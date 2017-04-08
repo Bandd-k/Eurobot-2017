@@ -116,7 +116,7 @@ bool goOutsideWithSuckingManipulator();
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-#define SERVO_ROTATE_90  145
+#define SERVO_ROTATE_90  160//145
 #define SERVO_ROTATE_180  252
 
 
@@ -129,8 +129,8 @@ bool moveSuckerManipulatorDown();
 
 char getCurrentColor();
 
-#define LIFT_CYLINDER 150
-#define STORE_CYLINDER 150
+#define LIFT_CYLINDER 145
+#define STORE_CYLINDER 145
 
 void setCurrentAngleAsBeginning(void);
 float getCurrentEncoderAngle(void);
@@ -138,5 +138,8 @@ void increaseByGivenAngle(float);
 void decreaseByGivenAngle(float);
 void dropAllCylinders();
 void setPositionOfCylinderCarrier(float);
+extern float magnetincoderdata[10];
+
+float filtrating(float* array_to_filtrate, float new_data, int len_of_array);
 
 #endif
