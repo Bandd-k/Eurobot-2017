@@ -147,4 +147,5 @@ char execCommand(InPackStruct* cmd);
 void pushByte(char inByte);
 char sendAnswer(char cmd,char * param,int paramSize);
 
+extern char startFlag;
 #endif

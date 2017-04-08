@@ -1274,7 +1274,7 @@
 1491282096 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1491574959 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\robot.h
+1491670096 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\robot.h
 	"Communication.h"
 	"gpio.h"
 	<stdbool.h>
@@ -1302,7 +1302,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1491572739 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\board\board.c
+1491594891 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -1339,7 +1339,7 @@
 
 1491282096 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\path.h
 
-1491581579 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\manipulators.h
+1491594706 c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -1454,9 +1454,9 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1491408609 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\kinematics.c
+1491655765 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\kinematics.c
 
-1491488210 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\manipulators.c
+1491595684 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -1465,7 +1465,7 @@
 1491282096 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\path.c
 	"Path.h"
 
-1491409000 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\regulator.c
+1491655930 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -1481,7 +1481,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1491575204 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\robot.c
+1491655897 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -1684,7 +1684,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1491499660 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\src\main.c
+1491669962 source:c:\users\пользователь\desktop\евробот17\eurobot-2017-master\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

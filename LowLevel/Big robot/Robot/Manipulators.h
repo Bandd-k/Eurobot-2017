@@ -129,7 +129,7 @@ void servo_rotate_180();
 
 #define DNMXL_LEFT_ANGLE_MAN_ON 150
 #define DNMXL_LEFT_ANGLE_MAN_OFF 65
-#define DNMXL_ANGLE_MAN_THROW 80
+#define DNMXL_ANGLE_MAN_THROW 59
 #define DNMXL_ANGLE_MAN_UP_RIGHT 77
 #define DNMXL_ANGLE_MAN_UP_LEFT 84
 
@@ -182,8 +182,14 @@ void GoBackBackCylinderManipulator();
 void CloseGetterBackCylinderManipulator();
 ///////////////////////////////////////////////////////////////////
 
-
-
+//////////////////////////SEESAW CORRECTOR/////////////////////////
+#define DNMXL_SEESAW 3
+#define DNMXL_SEESAW_PRE_ON 76
+#define DNMXL_SEESAW_ON 60
+#define DNMXL_SEESAW_OFF 145
+void OpenSeesawCorrector();
+void CloseSeesawCorrector();
+///////////////////////////////////////////////////////////////////
 
 /////////////////small robot eurobot 2017 for manipulators
 

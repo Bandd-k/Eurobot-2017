@@ -363,6 +363,7 @@ polulu_outside_left();
 OpenCyinderCorrector();
 upLeftCollectorWithBalls();
 upRightCollectorWithBalls();
+setServoTorque(DNMXL_SEESAW,950);
 __enable_irq();
 }
 ////////////////////////////////////////////////////////////////////////////////

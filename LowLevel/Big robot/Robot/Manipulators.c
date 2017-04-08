@@ -545,3 +545,14 @@ void CloseGetterBackCylinderManipulator()
     setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
 }
 //////////////////////////////////////////////////////////////////////
+
+///////////////////////////SEESAW CORRECOR/////////////////////////////
+void OpenSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_ON);
+}
+void CloseSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_OFF);
+}
+///////////////////////////////////////////////////////////////////////
