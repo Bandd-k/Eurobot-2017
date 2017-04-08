@@ -353,7 +353,7 @@ NVIC_InitTypeDef NVIC_InitStruct;
 __enable_irq();
 
 set_pin(PWM_INHIBIT);
-softDelay(500000);
+softDelay(5000000);
 reset_pin(PWM_INHIBIT);
 //___MAXON'S_PWM________________________________________________________________
 int i = 0;

@@ -102,36 +102,13 @@ float tempora;
 numberofrot = 0;
     while(1)
     {
-//        setServoMovingSpeed(3, (uint16_t)(710), 0x0000);//CCW // leviu v verh ccw
-//        setPositionOfCylinderCarrier(205);
-//        setPositionOfCylinderCarrier(205);
-//        setPositionOfCylinderCarrier(95);
-//        setPositionOfCylinderCarrier(95);
-//        setPositionOfCylinderCarrier(-152);
-//        setPositionOfCylinderCarrier(-152);
-//        softDelay(20000000);
-//        setPositionOfCylinderCarrier(-265);
-//        setPositionOfCylinderCarrier(-265);
-//        setPositionOfCylinderCarrier(-512);
-//        setPositionOfCylinderCarrier(-512);
-//        softDelay(20000000);
-//        setPositionOfCylinderCarrier(-640);
-//        setPositionOfCylinderCarrier(-640);
-//        softDelay(20000000);
-//        setPositionOfCylinderCarrier(-485);
-//        setPositionOfCylinderCarrier(-485);
-//        softDelay(20000000);
-//        setPositionOfCylinderCarrier(-135);
-//        setPositionOfCylinderCarrier(-135);
-//        softDelay(20000000);
-//        setPositionOfCylinderCarrier(245);
-//        setPositionOfCylinderCarrier(245);
-//        softDelay(20000000);
-//
-//        setPositionOfCylinderCarrier(95);
-//        softDelay(10000000);
-//        setPositionOfCylinderCarrier(205);
-//        softDelay(10000000);
+
+        if (pin_val (EXTI9_PIN)){
+            startFlag = 1;
+        }
+        else{
+            startFlag = 0;
+        }
 
     }
 }
