@@ -49,7 +49,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="small.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="small.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/small.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
@@ -61,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/npParticle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="150">
+              <caret line="195" column="68" lean-forward="false" selection-start-line="195" selection-start-column="68" selection-end-line="195" selection-end-column="68" />
               <folding>
                 <element signature="e#1#19#0" expanded="true" />
               </folding>
@@ -139,8 +139,8 @@
         <option value="$PROJECT_DIR$/cmd_list.py" />
         <option value="$PROJECT_DIR$/packets.py" />
         <option value="$PROJECT_DIR$/main_file.py" />
-        <option value="$PROJECT_DIR$/npParticle.py" />
         <option value="$PROJECT_DIR$/small.py" />
+        <option value="$PROJECT_DIR$/npParticle.py" />
       </list>
     </option>
   </component>
@@ -748,16 +748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/npParticle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="e#1#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmd_list.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
@@ -782,6 +772,16 @@
           <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/npParticle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="195" column="68" lean-forward="false" selection-start-line="195" selection-start-column="68" selection-end-line="195" selection-end-column="68" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

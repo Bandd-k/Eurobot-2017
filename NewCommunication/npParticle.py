@@ -193,6 +193,7 @@ class ParticleFilter:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
                 if type(coords[0]) is not type(100.):
+                    logging.critical("Incorrect coordinates format")
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
