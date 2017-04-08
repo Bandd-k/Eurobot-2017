@@ -313,6 +313,9 @@ bool switchOffPneumo()
 /////////////////////////////RIGHT BALL COLLECTOR/////////////////////
 bool downRightCollectorToGetBalls()
 {
+    setServoTorque(DNMXL_MAN_RIGHT,200);
+    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
+    setServoTorque(DNMXL_MAN_RIGHT,200);
     setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
         //setVoltage(5,1);
         //set_pin(EXTI_SERVOPOLOL1);
@@ -326,12 +329,25 @@ bool downRightCollectorToGetBalls()
 
 bool upRightCollectorWithBalls()
 {
+    setServoTorque(DNMXL_MAN_RIGHT,850);
    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_OFF);
 }
 
+void polulu_outside_right (){
+      set_pin(EXTI_POLOL1_RIGHT);
+         reset_pin(EXTI_POLOL2_RIGHT);
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+        {
+            ;
+        }//setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_RIGHT);
+             reset_pin(EXTI_POLOL1_RIGHT);
+
+}
 
 bool throwRightCollectorIntoBox()
 {
+         setServoTorque(DNMXL_MAN_RIGHT,127);
         float throwAnggle;
          setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_THROW);
          getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
@@ -341,7 +357,7 @@ bool throwRightCollectorIntoBox()
              ;
          }*/
          //setVoltage(5,-1);
-          set_pin(EXTI_POLOL2_RIGHT);
+         set_pin(EXTI_POLOL2_RIGHT);
          reset_pin(EXTI_POLOL1_RIGHT);
          while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
          {
@@ -359,32 +375,46 @@ bool throwRightCollectorIntoBox()
         }//setVoltage(5,0);
              reset_pin(EXTI_POLOL2_RIGHT);
              reset_pin(EXTI_POLOL1_RIGHT);
+}
+bool r12()
+{
 
+   set_pin(EXTI_POLOL1_RIGHT);
+reset_pin(EXTI_POLOL2_RIGHT);
 }
 
 /////////////LEFT BALL COLLECTOR//////////////////////////////////////
 
 bool downLeftCoolectorToGetBalls()
 {
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_ON);
-        //setVoltage(5,1);
-        //set_pin(EXTI_SERVOPOLOL1);
-        //reset_pin(EXTI_SERVOPOLOL2);
-        //while ((pin_val (EXTI_HIGHERSENSOR)))
-        //{
-          //  setVoltage(5,0);
-          //reset_pin(EXTI_SERVOPOLOL1);
-        //}
+    setServoTorque(DNMXL_MAN_LEFT,150);
+    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
+    setServoTorque(DNMXL_MAN_LEFT,150);
+    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
 }
 
 bool upLeftCollectorWithBalls()
 {
-   setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_OFF);
+   setServoTorque(DNMXL_MAN_LEFT,850);
+   setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_OFF);
+
+
 }
 
+void  polulu_outside_left (){
+     set_pin(EXTI_POLOL1_LEFT);
+         reset_pin(EXTI_POLOL2_LEFT);
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+        {
+            ;
+        }//setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_LEFT);
+             reset_pin(EXTI_POLOL1_LEFT);
+}
 
 bool throwLeftCollectorIntoBox()
 {
+         setServoTorque(DNMXL_MAN_LEFT,127);
         float throwAnggle;
          setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_THROW);
          getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
@@ -394,7 +424,7 @@ bool throwLeftCollectorIntoBox()
              ;
          }*/
          //setVoltage(5,-1);
-          set_pin(EXTI_POLOL2_LEFT);
+         set_pin(EXTI_POLOL2_LEFT);
          reset_pin(EXTI_POLOL1_LEFT);
          while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
          {
@@ -410,7 +440,108 @@ bool throwLeftCollectorIntoBox()
         {
             ;
         }//setVoltage(5,0);
-             reset_pin(EXTI_POLOL2_RIGHT);
-             reset_pin(EXTI_POLOL1_RIGHT);
+             reset_pin(EXTI_POLOL2_LEFT);
+             reset_pin(EXTI_POLOL1_LEFT);
 
 }
+bool r14()
+{
+
+   set_pin(EXTI_POLOL1_LEFT);
+reset_pin(EXTI_POLOL2_LEFT);
+}
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////FACE CYLINDER MANIPULATOR///////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+void GetFaceCylinder()
+{
+    setPWM((char)SRV_GETTER_FACE_BTN,(float)OPEN_GETTER_FACE);
+    softDelay(6400000);
+    setPWM((char)SRV_FACE_BTN,(float)DOWN_FACE_CYL);
+
+}
+void DownFaceCylinder()
+{
+    setPWM((char)SRV_FACE_BTN,(float)DOWN_FACE_CYL);
+    softDelay(6200000);
+    setPWM((char)SRV_GETTER_FACE_BTN,(float)OPEN_GETTER_FACE);
+    softDelay(6400000);
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_CLOSE);
+    softDelay(6400000);
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_OPEN);
+    setPWM((char)SRV_FACE_BTN,(float)UP_FACE_CYL);
+}
+
+/*void GoToTripFaceCylinder()
+{
+   setPWM((char)SRV_GETTER_FACE_BTN,(float)CLOSE_GETTER_FACE);
+   softDelay(6400000);
+   setPWM((char)SRV_FACE_BTN,(float)TRIP_FACE_CYL);
+}*/
+
+void OpenCyinderCorrector()
+{
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_OPEN);
+}
+void CloseCylinderCorrector()
+{
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_CLOSE);
+}
+void OpenFaceCylinderGetter()
+{
+    setPWM((char)SRV_GETTER_FACE_BTN,(float)OPEN_GETTER_FACE);
+}
+void GoBackFaceCylinderManipulator()
+{
+    setPWM((char)SRV_GETTER_FACE_BTN,(float)CLOSE_GETTER_FACE);
+    softDelay(6400000);
+    setPWM((char)SRV_FACE_BTN,(float)UP_FACE_CYL);
+}
+void CloseGetterFaceCylinderManipulator()
+{
+   setPWM((char)SRV_GETTER_FACE_BTN,(float)CLOSE_GETTER_FACE);
+}
+////////////////////////////////////////////////////////////////////
+
+
+///////////////////////BACK CYLINDER MANIPULATOR////////////////////
+void GetBackCylinder(){
+    setPWM((char)SRV_BACK_GETTER_BTN,(float)OPEN_GETTER_BACK);
+    softDelay(6200000);
+    setPWM((char)SRV_BACK_BTN,(float)DOWN_BACK_CYL);
+}
+void DownBackCylinder()
+{
+    setPWM((char)SRV_BACK_BTN,(float)DOWN_BACK_CYL);
+    softDelay(6200000);
+    setPWM((char)SRV_BACK_GETTER_BTN,(float)OPEN_GETTER_BACK);
+    softDelay(6400000);
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_CLOSE);
+    softDelay(6400000);
+    setPWM((char)CORRECTOR_SRV_BTN,(float)CORRECTOR_OPEN);
+    setPWM((char)SRV_BACK_BTN,(float)UP_BACK_CYL);
+
+}
+
+/*void GoToTripBackCylinder()
+{
+   setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
+   softDelay(6400000);
+   setPWM((char)SRV_BACK_BTN,(float)TRIP_BACK_CYL);
+}*/
+void OpenBackCylinderGetter()
+{
+    setPWM((char)SRV_BACK_GETTER_BTN,(float)OPEN_GETTER_BACK);
+}
+void GoBackBackCylinderManipulator()
+{
+    setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
+    softDelay(6400000);
+    setPWM((char)SRV_BACK_BTN,(float)UP_BACK_CYL);
+
+}
+void CloseGetterBackCylinderManipulator()
+{
+    setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
+}
+//////////////////////////////////////////////////////////////////////

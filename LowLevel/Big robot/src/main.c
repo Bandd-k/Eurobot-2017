@@ -89,10 +89,26 @@ uint16_t detector = 0;
 //int ttime = 19000000;
 //int ttime1 = 10000000;
 //uint16_t  angle = 130;
-float speed = 0;
-char channel=3;
-float duty=0.5;
-while(1){
+//float speed = 0;
+//char channel=3;
+//float duty=0.5;
+uint16_t angle1=100, angle2=100;
+while(1){// start system
+//        char temp = pin_val (EXTI10_PIN);
+//      if (temp)
+//      {
+//        curState.trackEn = 1;
+//      }
+//      else
+//      {
+//        curState.trackEn = 0;
+//        vTargetGlob[0] = 0;
+//        vTargetGlob[1] = 0;
+//        vTargetGlob[2] = 0;
+//      }
+
+
+//throwRightCollectorIntoBox();
 //OpenLauncher();
 //CloseLauncher();
     //GetDataForManipulator();

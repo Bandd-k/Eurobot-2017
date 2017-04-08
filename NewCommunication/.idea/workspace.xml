@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="435" column="3" lean-forward="true" selection-start-line="435" selection-start-column="3" selection-end-line="435" selection-end-column="3" />
+            <state relative-caret-position="111">
+              <caret line="571" column="37" lean-forward="true" selection-start-line="571" selection-start-column="37" selection-end-line="571" selection-end-column="37" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -30,8 +30,8 @@
       <file leaf-file-name="driver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
-              <caret line="79" column="30" lean-forward="false" selection-start-line="79" selection-start-column="30" selection-end-line="79" selection-end-column="30" />
+            <state relative-caret-position="382">
+              <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -42,18 +42,30 @@
       <file leaf-file-name="packets.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/packets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="960">
+            <state relative-caret-position="6">
               <caret line="67" column="28" lean-forward="false" selection-start-line="67" selection-start-column="28" selection-end-line="67" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="small.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/small.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/npParticle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+            <state relative-caret-position="150">
+              <caret line="195" column="68" lean-forward="false" selection-start-line="195" selection-start-column="68" selection-end-line="195" selection-end-column="68" />
               <folding>
                 <element signature="e#1#19#0" expanded="true" />
               </folding>
@@ -64,8 +76,8 @@
       <file leaf-file-name="cmd_list.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmd_list.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+            <state relative-caret-position="121">
+              <caret line="54" column="19" lean-forward="true" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -82,7 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_beacons_Marko</find>
       <find>weight2</find>
       <find>Mark</find>
       <find>gaussian</find>
@@ -112,6 +123,7 @@
       <find>2a</find>
       <find>s</find>
       <find>get</find>
+      <find>send_command</find>
     </findStrings>
     <replaceStrings>
       <replace>particle</replace>
@@ -126,13 +138,14 @@
         <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/cmd_list.py" />
         <option value="$PROJECT_DIR$/packets.py" />
-        <option value="$PROJECT_DIR$/npParticle.py" />
         <option value="$PROJECT_DIR$/main_file.py" />
+        <option value="$PROJECT_DIR$/small.py" />
+        <option value="$PROJECT_DIR$/npParticle.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="86" />
+    <option name="x" value="93" />
     <option name="y" value="23" />
     <option name="width" value="1134" />
     <option name="height" value="733" />
@@ -152,7 +165,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -167,6 +179,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -348,7 +361,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="86" y="23" width="1134" height="733" extended-state="0" />
+    <frame x="93" y="23" width="1134" height="733" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30952382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -380,14 +393,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cmd_list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="25" lean-forward="false" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_file.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -727,8 +732,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/driver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="79" column="30" lean-forward="false" selection-start-line="79" selection-start-column="30" selection-end-line="79" selection-end-column="30" />
+        <state relative-caret-position="382">
+          <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
@@ -737,36 +742,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/packets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
+        <state relative-caret-position="6">
           <caret line="67" column="28" lean-forward="false" selection-start-line="67" selection-start-column="28" selection-end-line="67" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/npParticle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-          <folding>
-            <element signature="e#1#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmd_list.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        <state relative-caret-position="121">
+          <caret line="54" column="19" lean-forward="true" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="435" column="3" lean-forward="true" selection-start-line="435" selection-start-column="3" selection-end-line="435" selection-end-column="3" />
+        <state relative-caret-position="111">
+          <caret line="571" column="37" lean-forward="true" selection-start-line="571" selection-start-column="37" selection-end-line="571" selection-end-column="37" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/small.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/npParticle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="195" column="68" lean-forward="false" selection-start-line="195" selection-start-column="68" selection-end-line="195" selection-end-column="68" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
