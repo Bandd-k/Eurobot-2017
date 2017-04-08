@@ -7,7 +7,7 @@ import math
 color="blue"
 def rev_x(val, color):
     if color[0] == "b":
-	return [3000-val[0], val[1]]
+		return [3000-val[0], val[1]]
     return val
 
 # Dimensions of the playing field
@@ -192,6 +192,8 @@ class ParticleFilter:
         while True:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
+                if type(coords[0]) is not type(1000.):
+                    continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
                 print coords
