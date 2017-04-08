@@ -25,7 +25,7 @@ class ParticleFilter:
     def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150, in_angle=0.0, input_queue=None, out_queue=None,color='blue'):
         global BEACONS
         if(color =='blue'):
-            BEACONS = np.array([[BEAC_R+BORDER, WORLD_Y / 2.], [(WORLD_X - BEAC_R-BORDER), (WORLD_Y + BEAC_R+BORDER)], [(WORLD_X - BEAC_R-BORDER), (- BEAC_R - BORDER)]])
+            BEACONS = np.array([[-BEAC_R-BORDER, WORLD_Y / 2.], [(WORLD_X + BEAC_R+BORDER), (WORLD_Y + BEAC_R+BORDER)], [(WORLD_X + BEAC_R+BORDER), (- BEAC_R - BORDER)]])
         stamp = time.time()
         self.input_queue = input_queue
         self.out_queue = out_queue

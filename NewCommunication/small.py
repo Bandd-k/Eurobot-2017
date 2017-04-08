@@ -6,6 +6,7 @@ import signal
 import npParticle as pf
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
+import sys
 from multiprocessing.queues import Queue as QueueType
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
@@ -230,6 +231,9 @@ class Robot:
         time.sleep(0.5)
         self.cylinders = self.cylinders -1
 
+    def is_start(self):
+        return self.send_command('start_flag')['data']
+
     def pick_up(self):
         self.rotate_cylinder_vertical()
         self.take_cylinder_inside()
@@ -273,6 +277,7 @@ class Robot:
         angle = 3*np.pi / 2
         parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
+
         parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.on_sucker()
@@ -305,9 +310,11 @@ class Robot:
         angle = np.pi
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
         angle = 3*np.pi/4
         parameters = [1320, 1520, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside()
         speed = 6
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -321,7 +328,8 @@ class Robot:
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-
+        parameters = [850, 170, 3*np.pi / 2,speed]
+        self.go_last(parameters)
 
     def funny_action(self, signum, frame):
         self.send_command('stopAllMotors')
@@ -361,8 +369,11 @@ rb = None
 def test():
     global rb
     rb = Robot(lidar_on=True, small=True)
-    rb.small_robot_trajectory(4)
-    rb.small_robot_trajectory_r(4)
+    while True:
+        print rb.is_start()
+        time.sleep(0.1)
+    #rb.small_robot_trajectory(4)
+    #rb.small_robot_trajectory_r(4)
     return
 
 
@@ -371,6 +382,3 @@ try:
 except KeyboardInterrupt:
     rb.p.terminate()
     rb.p2.terminate()
-
-
-
