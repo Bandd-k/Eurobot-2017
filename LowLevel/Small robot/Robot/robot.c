@@ -781,7 +781,7 @@ break;
 
   case 0x80:  //Start flag command
   {
-    sendAnswer(cmd->command, startFlag, sizeof(startFlag));
+    sendAnswer(cmd->command, &startFlag, sizeof(startFlag));
   }
     break;
     default:
