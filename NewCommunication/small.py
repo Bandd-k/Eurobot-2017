@@ -6,15 +6,12 @@ import signal
 import npParticle as pf
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
-import sys
-from multiprocessing.queues import Queue as QueueType
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
-
-
 console = logging.StreamHandler()
+
 
 def rev_field(val, color):
     if color == "blue":
@@ -30,12 +27,9 @@ logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
 
 
-obstacles=[]
 class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
-
-
-        ## Cylinder Staff
+        # Cylinder Staff
         self.cylinders = 0
         self.cyl_prepare = [95.0,-265.0,-650.0]
         self.cyl_up = [-152.0,-512.0,-700]
@@ -59,9 +53,9 @@ class Robot:
                 self.lidar_on = False
                 self.localisation = Value('b', False)
                 logging.warning('lidar is not connected')
-        #self.x = 170  # mm
-        #self.y = 150  # mm
-        #self.angle = 0.0  # pi
+        # self.x = 170  # mm
+        # self.y = 150  # mm
+        # self.angle = 0.0  # pi
         if small:
             self.coords = Array('d',rev_field([850, 170, 3*np.pi / 2],self.color))
         else:
@@ -106,8 +100,6 @@ class Robot:
             self.lidar_on = False
             logging.warning('Lidar off')
 
-
-
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         parameters = rev_field(parameters,self.color)
         if self.PF.warning:
@@ -132,7 +124,7 @@ class Robot:
                 if not pids:
                     pids = True
                     logging.info(self.send_command('switchOnPid'))
-                #return False
+                # return False
                 # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
@@ -229,7 +221,7 @@ class Robot:
     def out_cylinders(self):
         logging.info(self.send_command('lift_up',self.cyl_down[self.cylinders-1]))
         time.sleep(0.5)
-        self.cylinders = self.cylinders -1
+        self.cylinders -= 1
 
     def is_start(self):
         return self.send_command('start_flag')['data']
@@ -241,8 +233,7 @@ class Robot:
         self.off_sucker()
         self.store()
         self.rotate_cylinder_horizonal()
-        self.cylinders = self.cylinders+1
-
+        self.cylinders += 1
 
     def pick_up2(self):
         self.rotate_cylinder_vertical()
@@ -257,8 +248,6 @@ class Robot:
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
 
-
-
     def loc_test(self):
         while True:
             angle = np.pi
@@ -270,7 +259,6 @@ class Robot:
             self.go_to_coord_rotation(parameters)
             parameters = [900, 400, angle, 6]
             self.go_to_coord_rotation(parameters)
-
 
     def small_robot_trajectory(self,speed=1):
         self.rotate_cylinder_horizonal()
@@ -296,7 +284,6 @@ class Robot:
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
-
 
         self.on_sucker()
         self.take_cylinder_outside()
@@ -366,14 +353,16 @@ class Robot:
             self.go_to_coord_rotation(parameters)
 
 rb = None
+
+
 def test():
     global rb
     rb = Robot(lidar_on=True, small=True)
-    while True:
-        print rb.is_start()
-        time.sleep(0.1)
-    #rb.small_robot_trajectory(4)
-    #rb.small_robot_trajectory_r(4)
+    # start system
+    while not rb.is_start():
+        continue
+    rb.small_robot_trajectory(4)
+    rb.small_robot_trajectory_r(4)
     return
 
 
