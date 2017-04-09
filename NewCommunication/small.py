@@ -32,7 +32,7 @@ class Robot:
         # Cylinder Staff
         self.cylinders = 0
         self.cyl_prepare = [95.0,-265.0,-650.0]
-        self.cyl_up = [-152.0,-512.0,-700]
+        self.cyl_up = [-152.0,-512.0,-700.0]
         self.cyl_down = [245.0,-135.0,-485.0]
         ##################
         self.color = color
@@ -211,15 +211,15 @@ class Robot:
         time.sleep(0.5)
 
     def lift_up(self):
-        logging.info(self.send_command('lift_up',self.cyl_up[self.cylinders]))
+        logging.info(self.send_command('lift_up',[self.cyl_up[self.cylinders]]))
         time.sleep(0.5)
 
     def store(self):
-        logging.info(self.send_command('lift_up',self.cyl_prepare[self.cylinders]))
+        logging.info(self.send_command('lift_up',[self.cyl_prepare[self.cylinders]]))
         # time.sleep(0.5)
 
     def out_cylinders(self):
-        logging.info(self.send_command('lift_up',self.cyl_down[self.cylinders-1]))
+        logging.info(self.send_command('lift_up',[self.cyl_down[self.cylinders-1]]))
         time.sleep(0.5)
         self.cylinders -= 1
 
@@ -297,7 +297,6 @@ class Robot:
         angle = np.pi
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.take_cylinder_outside()
         angle = 3*np.pi/4
         parameters = [1320, 1520, angle, speed]
         self.go_to_coord_rotation(parameters)

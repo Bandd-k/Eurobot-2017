@@ -81,6 +81,7 @@ class Driver(Process):
             List of command parameters
         '''
         cmd_id = CMD_LIST[cmd]
+        logging.critical(cmd_id)
         packet = encode_packet(cmd_id, params)
         logging.debug('data_to_stm:' + ','.join([str(i) for i in packet]))
         self.port.write(packet)
