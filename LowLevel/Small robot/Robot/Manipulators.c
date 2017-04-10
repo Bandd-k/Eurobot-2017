@@ -239,7 +239,30 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 
 }
 
+void setPositionOfCylinderCarrierByTime(long int time){
+    time *= 1000;
+    if (time>0){
+             time= time*1.00; //experimental difference in speed
+             setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW  ¬√–”«»“‹
+             softDelay(time);
 
+             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+    }
+    else {
+
+            setServoMovingSpeed(3, (uint16_t)(827 + 1024), 0x0400);//CW ¬€√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(860), 0x0000);//CCW  ¬€√–”«»“‹
+            softDelay(-time);
+            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+    }
+}
 
 void increaseByGivenAngle(float givenAngle){
     setPositionOfCylinderCarrier(whole_angle - givenAngle);
@@ -262,9 +285,9 @@ void servo_elevate_out()
     setServoAngle((uint8_t)SERVO_ELEVATE, (uint16_t) SERVO_ELEVATE_OUT);
 }
 
-void servo_rotate_90()
+void servo_rotate_90(int angl)
 {
-    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_90);
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 
 void servo_rotate_180()

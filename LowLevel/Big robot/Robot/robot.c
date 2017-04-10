@@ -34,7 +34,7 @@ encOutPackStruct outEnc;              //буфер данных отправля
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
 char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, WHEEL4_CH}; //каналы подкючения колес
-
+char startFlag = 0;
 //extern CDC_IF_Prop_TypeDef  APP_FOPS;
 
 char execCommand(InPackStruct* cmd) //обработать входящую команду
@@ -753,14 +753,16 @@ case 0x42: // ЗАКРЫТЬ ДВЕРИ
     }
     break;
 
-    case 0x43: // Generate new trajectory with correction
-
+case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;
 robotCoord[0] = temp[0];
 robotCoord[1] = temp[1];
 robotCoord[2] = temp[2];
+points[lastPoint].center[0] = robotCoord[0];
+points[lastPoint].center[1] = robotCoord[1];
+points[lastPoint].center[2] = robotCoord[2];
 lastPoint++;
 points[lastPoint].center[0] = temp[3];
 points[lastPoint].center[1] = temp[4];
@@ -827,8 +829,10 @@ case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
 break;
  case 0x66: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
      {
-       throwRightCollectorIntoBox();
-       char * str ="Ok";
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwRightCollectorIntoBox(angle);
+        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
      }
 break;
@@ -848,7 +852,9 @@ break;
 break;
  case 0x69: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
     {
-        throwLeftCollectorIntoBox();
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwLeftCollectorIntoBox(angle);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
@@ -909,7 +915,22 @@ break;
     sendAnswer(cmd->command, str, 3);
     }
     break;
-     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+
+    case 0x72: // OPEN SEESAW CORRECTOR
+    {
+        OpenSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x73: // CLOSE SEESAW CORRECTOR
+    {
+        CloseSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+  case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
   {
     distance_digital2[0] = pin_val(IR_LEFT_FRONT);
     distance_digital2[1] = pin_val(IR_LEFT_BACK);
@@ -921,6 +942,13 @@ break;
 
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
+  break;
+
+  case 0x80: // Start flag command
+  {
+    sendAnswer(cmd->command, (char* )&startFlag, sizeof(startFlag));
+  }
+
     break;
     default:
     return 0;
@@ -928,9 +956,7 @@ break;
 }
 
 
-
 }
-
 
 
 void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
@@ -969,7 +995,6 @@ void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
     //*flag = 0;
 }
 
-
 void stopmove(){
         //curState.trackEn=0;
         vTargetGlob[2]=0.0;
@@ -1005,17 +1030,11 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
     distanceData[2][4] = adcData[adc_number3]* 0.0822 * 2.54;
     distanceData[2][5] = (distanceData[2][2]  + distanceData[2][1]  + distanceData[2][0] + distanceData[2][3]+distanceData[2][4] ) / 5.0;
 
-
-
-
     if (adcData[4]> 0.15*4096.0/3.0)
     {
       distanceFromIR = ((20.0 / ((3.0 * adcData[4] / 4096.0) - 0.15)) );
     } else
     distanceFromIR = (20.0 / ((0.01))) ;
-
-
-
 
     distance_digital[1]=distance_digital[2];
     distance_digital[2]=distance_digital[3];
@@ -1071,17 +1090,4 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
      distance_digital1[9]=0;
      }
 
-
-
 }
-
-/*void soft_delay(long int ticks)
-{
-    for(; ticks > 0; ticks-- );
-}
-    uint16_t stVal = 0;
-    uint16_t finalVal = 0;
-    uint16_t curLoad;*/
-//______________________________________________________//
-
-

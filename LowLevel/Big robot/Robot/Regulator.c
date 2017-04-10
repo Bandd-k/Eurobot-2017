@@ -61,7 +61,7 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
 pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {1.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
+                                        {0.0, 1.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
                                         {1.0, 1.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },
                                         {1.0, 1.0, 3.14, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
                                         {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },

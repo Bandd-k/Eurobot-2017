@@ -37,7 +37,9 @@ def encode_params(params):
             res += param
         elif isinstance(param, int):
             if not 0<= param <= 255:
-                raise ValueError("Can't encode int: %d" % param)
+                res += struct.pack('<i', param)
+                continue
+                #raise ValueError("Can't encode int: %d" % param)
             #res += chr(param)
             res += struct.pack('<B', param)
         elif isinstance(param, float):

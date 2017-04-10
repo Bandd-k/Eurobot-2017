@@ -124,14 +124,14 @@ void servo_rotate_180();
 #define EXTI_POLOL2_RIGHT EXTI2_PIN
 #define EXTI_POLOL1_LEFT EXTI5_PIN
 #define EXTI_POLOL2_LEFT EXTI6_PIN
-#define DNMXL_ANGLE_MAN_ON 140
-#define DNMXL_ANGLE_MAN_OFF 38
+#define DNMXL_ANGLE_MAN_ON 180
+#define DNMXL_ANGLE_MAN_OFF 90
 
 #define DNMXL_LEFT_ANGLE_MAN_ON 150
-#define DNMXL_LEFT_ANGLE_MAN_OFF 65
-#define DNMXL_ANGLE_MAN_THROW 80
-#define DNMXL_ANGLE_MAN_UP_RIGHT 77
-#define DNMXL_ANGLE_MAN_UP_LEFT 84
+#define DNMXL_LEFT_ANGLE_MAN_OFF 58
+//#define DNMXL_ANGLE_MAN_THROW 59
+//#define DNMXL_ANGLE_MAN_UP_RIGHT 77
+//#define DNMXL_ANGLE_MAN_UP_LEFT 84
 
 bool downRightCollectorToGetBalls();
 bool upRightCollectorWithBalls();
@@ -154,7 +154,7 @@ void polulu_outside_left();
 #define TRIP_FACE_CYL 0.02354
 #define CORRECTOR_SRV_BTN 7
 #define CORRECTOR_OPEN 0.1072
-#define CORRECTOR_CLOSE 0.049
+#define CORRECTOR_CLOSE 0.05
 void DownFaceCylinder();
 void GetFaceCylinder();
 //void GoToTripFaceCylinder();
@@ -172,7 +172,7 @@ void CloseGetterFaceCylinderManipulator();
 #define SRV_BACK_BTN 5
 #define SRV_BACK_GETTER_BTN 6
 #define OPEN_GETTER_BACK 0.0375
-#define CLOSE_GETTER_BACK 0.081
+#define CLOSE_GETTER_BACK 0.0827
 #define TRIP_BACK_CYL 0.002354
 void DownBackCylinder();
 void GetBackCylinder();
@@ -182,8 +182,14 @@ void GoBackBackCylinderManipulator();
 void CloseGetterBackCylinderManipulator();
 ///////////////////////////////////////////////////////////////////
 
-
-
+//////////////////////////SEESAW CORRECTOR/////////////////////////
+#define DNMXL_SEESAW 3
+#define DNMXL_SEESAW_PRE_ON 76
+#define DNMXL_SEESAW_ON 60
+#define DNMXL_SEESAW_OFF 145
+void OpenSeesawCorrector();
+void CloseSeesawCorrector();
+///////////////////////////////////////////////////////////////////
 
 /////////////////small robot eurobot 2017 for manipulators
 

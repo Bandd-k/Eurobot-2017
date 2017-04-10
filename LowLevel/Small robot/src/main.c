@@ -88,17 +88,9 @@ int main(void)
 
     __enable_irq();
 
+// 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
 
-//    set_pin(EXTI2_PIN);
-//    reset_pin(EXTI1_PIN);
-//    set_pin(EXTI7_PIN); // LED to PD7
-    //uint8_t ID_test = 2;
-  //  float ADC_8, ADC_7, ADC_6, ADC_5;
-float tempora;
-//zero-205 first - 95 second - 152  3rd -265 4th- -512 5th -640
-//6th -873
-
-//releasing: -490; -135; 245
+long int tempora = 1000000*3 ;
 numberofrot = 0;
     while(1)
     {
@@ -109,6 +101,36 @@ numberofrot = 0;
         else{
             startFlag = 0;
         }
+
+//        setPositionOfCylinderCarrierByTime(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(1000000*2);
+//        softDelay(1000000*2);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(4000000);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
+
+
+
+
 
     }
 }

@@ -93,7 +93,7 @@ void UnTearFish(); //otсоеденить
 
 void servo_elevate_in();
 void servo_elevate_out();
-void servo_rotate_90();
+void servo_rotate_90(int angle1);
 void servo_rotate_180();
 float encodermagner(float);
 

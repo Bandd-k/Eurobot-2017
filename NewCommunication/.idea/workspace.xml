@@ -18,8 +18,8 @@
       <file leaf-file-name="driver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1395">
-              <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+            <state relative-caret-position="1125">
+              <caret line="82" column="30" lean-forward="false" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -27,21 +27,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="packets.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="packets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/packets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+            <state relative-caret-position="289">
+              <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="small.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="small.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/small.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5340">
-              <caret line="356" column="0" lean-forward="true" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+            <state relative-caret-position="450">
+              <caret line="37" column="26" lean-forward="true" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -52,8 +52,8 @@
       <file leaf-file-name="cmd_list.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmd_list.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="99" column="0" lean-forward="true" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+            <state relative-caret-position="79">
+              <caret line="49" column="22" lean-forward="false" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -111,18 +111,18 @@
       <list>
         <option value="$PROJECT_DIR$/Localisation.py" />
         <option value="$PROJECT_DIR$/ParticleFilter.py" />
-        <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/main_file.py" />
         <option value="$PROJECT_DIR$/npParticle.py" />
-        <option value="$PROJECT_DIR$/packets.py" />
         <option value="$PROJECT_DIR$/cmd_list.py" />
+        <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/small.py" />
+        <option value="$PROJECT_DIR$/packets.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="80" />
-    <option name="y" value="24" />
+    <option name="x" value="58" />
+    <option name="y" value="41" />
     <option name="width" value="1134" />
     <option name="height" value="731" />
   </component>
@@ -141,6 +141,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -155,7 +156,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -337,7 +337,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="80" y="24" width="1134" height="731" extended-state="0" />
+    <frame x="58" y="41" width="1134" height="731" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30952382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -635,37 +635,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/driver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1395">
-          <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+        <state relative-caret-position="1125">
+          <caret line="82" column="30" lean-forward="false" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/packets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmd_list.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="99" column="0" lean-forward="true" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+        <state relative-caret-position="79">
+          <caret line="49" column="22" lean-forward="false" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/small.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5340">
-          <caret line="356" column="0" lean-forward="true" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+        <state relative-caret-position="450">
+          <caret line="37" column="26" lean-forward="true" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/packets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>

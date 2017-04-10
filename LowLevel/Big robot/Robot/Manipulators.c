@@ -345,18 +345,19 @@ void polulu_outside_right (){
 
 }
 
-bool throwRightCollectorIntoBox()
+bool throwRightCollectorIntoBox(int angle)
 {
          setServoTorque(DNMXL_MAN_RIGHT,127);
-        float throwAnggle;
-         setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_THROW);
-         getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
+//        float throwAnggle;
+         setServoAngle(DNMXL_MAN_RIGHT,angle);
+//         getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
 
          /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
          {
              ;
          }*/
          //setVoltage(5,-1);
+         softDelay(8780000);
          set_pin(EXTI_POLOL2_RIGHT);
          reset_pin(EXTI_POLOL1_RIGHT);
          while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
@@ -412,18 +413,19 @@ void  polulu_outside_left (){
              reset_pin(EXTI_POLOL1_LEFT);
 }
 
-bool throwLeftCollectorIntoBox()
+bool throwLeftCollectorIntoBox(int angle)
 {
          setServoTorque(DNMXL_MAN_LEFT,127);
-        float throwAnggle;
-         setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_THROW);
-         getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
+       // float throwAnggle;
+         setServoAngle(DNMXL_MAN_LEFT,angle);
+         //getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
 
          /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
          {
              ;
          }*/
          //setVoltage(5,-1);
+         softDelay(8780000);
          set_pin(EXTI_POLOL2_LEFT);
          reset_pin(EXTI_POLOL1_LEFT);
          while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
@@ -545,3 +547,14 @@ void CloseGetterBackCylinderManipulator()
     setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
 }
 //////////////////////////////////////////////////////////////////////
+
+///////////////////////////SEESAW CORRECOR/////////////////////////////
+void OpenSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_ON);
+}
+void CloseSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_OFF);
+}
+///////////////////////////////////////////////////////////////////////
