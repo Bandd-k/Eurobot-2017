@@ -63,10 +63,10 @@ CMD_LIST = {
     #ball
     'right_ball_down':0x64,
     'right_ball_up':0x65,
-    'right_ball_drop':0x66,
+    'right_ball_drop':0x66, #expected parameters: float32[1] (angle)
     'left_ball_down':0x67,
     'left_ball_up':0x68,
-    'left_ball_drop':0x69,
+    'left_ball_drop':0x69,#expected parameters: float32[1] (angle)
     # cylinders
     'front_down_cylinder_no':0x6A,
     'front_up_cylinder_yes':0x6B,

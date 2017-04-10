@@ -12,10 +12,10 @@ import logging
 #PORT_VID = 1155
 #PORT_PID = 22336
 #PORT_SNR = '3677346C3034'
-#DEVICE_NAME = '/dev/ttyACM6'
+#DEVICE_NAME = '/dev/ttyACM0'
 #=======
 PORT_SNR = '325936843235'
-DEVICE_NAME = '/dev/ttyACM0'
+DEVICE_NAME = '/dev/ttyACM0'# 'ACMO'
 #>>>>>>> 4ead14e6dbd7bdcaae48a8ba2a886a9ec203a0d3
 
 class DriverException(Exception):

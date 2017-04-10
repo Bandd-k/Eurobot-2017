@@ -35,12 +35,12 @@ class Robot:
     def __init__(self, lidar_on=True, color = 'yellow', sen_noise = 25, 
         angle_noise=0.2, dist_noise = 45):
         self.color = color
-        self.sensor_range = 30
-        self.collision_avoidance = False
+        self.sensor_range = 35
+        self.collision_avoidance = True
         self.localisation = Value('b', True)
         #change for collision
         #self.sensors_map = {0:(0, np.pi/3),7:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),6:(7/4.*np.pi,2*np.pi),8:(0,np.pi/4),4:(np.pi/4,3*np.pi/4),5:(np.pi*5/4,7*np.pi/4)} #[(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]
-        #self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
+        self.sensors_map= {0: (np.pi/6, np.pi/2+np.pi/6), 1: (np.pi/2-np.pi/6, np.pi*5/6), 2: (0, np.pi/4), 3: (np.pi - np.pi/4, np.pi + np.pi/4), 4: (3*np.pi/2-np.pi/6,11*np.pi/6), 5: (np.pi+np.pi/6,3*np.pi/2+np.pi/6), 6:(7*np.pi/4,2*np.pi)}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
         if lidar_on:
@@ -64,6 +64,7 @@ class Robot:
         start = [x1, y1, angle]
         #
         self.coords = Array('d', rev_field([170, 170, 0], self.color))# 170, 170
+        #self.coords = Array('d',rev_field([850, 170, 3*np.pi / 2],self.color))
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
@@ -168,10 +169,8 @@ class Robot:
         return answer
 
     def sensor_data(self):
-        data = self.send_command('sensors_data')['data']
+        data = self.send_command('ir_sensors')['data']
         data.append(data[2])
-        data.append(data[0])
-        data.append(data[1])
         return data
 
 
@@ -203,71 +202,104 @@ class Robot:
     ################# BIG Robot ############################
     ##########################################################
 
-    def left_ball_down(self):
+    def left_ball_down(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('left_ball_down')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def left_ball_up(self):
+    def left_ball_up(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('left_ball_up')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def left_ball_drop(self):
-        self.send_command('left_ball_drop')
-        time.sleep(1)
+    def left_ball_drop(self, angle = 90.0, dur = 1):
+        rb.collision_avoidance = False
+        self.send_command('left_ball_drop', [angle])
+        time.sleep(dur)
+        rb.collision_avoidance = True 
 
-    def right_ball_down(self):
+    def right_ball_down(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('right_ball_down')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def right_ball_up(self):
+    def right_ball_up(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('right_ball_up')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def right_ball_drop(self):
-        self.send_command('right_ball_drop')
-        time.sleep(1)
+    def right_ball_drop(self, angle = 120.0, dur = 1):
+        rb.collision_avoidance = False
+        self.send_command('right_ball_drop', [angle])
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
     # servos for cylinder take
-    def front_down_cylinder_no(self):
+    def front_down_cylinder_no(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('front_down_cylinder_no')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def front_up_cylinder_yes(self):
+    def front_up_cylinder_yes(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('front_up_cylinder_yes')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def front_drop_cylinder_yes(self):
+    def front_drop_cylinder_yes(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('front_drop_cylinder_yes')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def back_down_cylinder_no(self):
+    def back_down_cylinder_no(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('back_down_cylinder_no')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def back_up_cylinder_yes(self):
+    def back_up_cylinder_yes(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('back_up_cylinder_yes')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
 
-    def back_drop_cylinder_yes(self):
+    def back_drop_cylinder_yes(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('back_drop_cylinder_yes')
-        time.sleep(1)
+        time.sleep(dur)
+        rb.collision_avoidance = True
+
     # sticks to use
     def both_sticks_open(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('both_sticks_open')
         time.sleep(dur)
+        rb.collision_avoidance = True
 
     def both_sticks_close(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('both_sticks_close')
         time.sleep(dur)
+        rb.collision_avoidance = True
     
     #seesaw manipulator
     def seesaw_hand_down(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('seesaw_hand_down')
         time.sleep(dur)
+        rb.collision_avoidance = True
         
     def seesaw_hand_up(self, dur = 1):
+        rb.collision_avoidance = False
         self.send_command('seesaw_hand_up')
         time.sleep(dur)    
+        rb.collision_avoidance = True
     
     # funny action
     def funny_action(self, signum, frame):
@@ -284,6 +316,7 @@ class Robot:
     ############################################################################
 
     def big_robot_trajectory(self,speed=4):
+        self.collision_avoidance = False
         parameters = [170, 170, 0, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi*0.1
@@ -291,21 +324,26 @@ class Robot:
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.localisation.value = True
-        angle = np.pi/2*0.8
+        angle = np.pi/2
         parameters = [835, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)
-        parameters = [930, 390, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        speed = 1
+        #parameters = [930, 390, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        angle = np.pi/2*0.88
+        parameters = [935, 440, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
         self.front_down_cylinder_no()
         self.front_up_cylinder_yes()
-        angle = 3*np.pi/4
+        self.collision_avoidance = True
+        #angle = 3*np.pi/4
         speed = 1
-        parameters = [800, 850, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [650, 1250, angle, speed]
-        self.go_to_coord_rotation(parameters)
+        #parameters = [800, 850, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        #parameters = [650, 1250, angle, speed]
+        #self.go_to_coord_rotation(parameters)
         angle = 3*np.pi/2
         parameters = [553, 1516, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -320,11 +358,12 @@ class Robot:
         speed=4
         parameters = [374, 1794, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [254, 1794, angle, speed]
+        parameters = [324, 1794, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [374, 1794, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)    
+        self.go_to_coord_rotation(parameters)   
+        self.go_to_coord_rotation(parameters)     
         speed = 4
         self.right_ball_down()
         time.sleep(1.5)
@@ -333,12 +372,18 @@ class Robot:
         parameters = [254, 1794  - 10, angle, speed]
         self.go_to_coord_rotation(parameters)
         speed = 1
-        parameters = [384, 1794 - 100, angle, speed]
+        parameters = [384, 1794 - 120, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)    
         speed = 4
-        #self.left_ball_down()
-        #time.sleep(1.5)
+        angle = np.pi/2
+        parameters = [400, 1794 - 120, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        parameters = [384, 1794 - 120, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.left_ball_down()
+        time.sleep(1.5)
         #self.left_ball_up()
     ##    angle = np.pi/2
     ##    parameters = [280, 2000 - 160, angle, speed]
@@ -351,9 +396,13 @@ class Robot:
     ##        self.go_to_coord_rotation(parameters)
 
     def big_robot_trajectory_r(self,speed=4):
+        self.localisation.value = True
+        self.collision_avoidance = False
         angle = np.pi/2 + 3*np.pi/18
         parameters = [600, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.left_ball_up(dur = 1.5)
+        self.collision_avoidance = True
         angle = np.pi/2 + np.pi/4
         speed = 1
         parameters = [650, 1250, angle, speed]
@@ -371,37 +420,45 @@ class Robot:
         angle = 0.0 + np.pi/18
         parameters = [870, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
+        parameters = [860, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.seesaw_hand_down()
         self.localisation.value = False
-        parameters = [245, 250, angle, speed]
+        parameters = [265, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.seesaw_hand_up()
         self.localisation.value = True
         angle = 0.0
-        parameters = [235, 340, angle, speed]
+        parameters = [235, 250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        parameters = [235, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         ## check boarder; set exact coordinates
-        while 1:
-            coords = self.send_command('getCurrentCoordinates')['data']
-            if type(coords) is not type(list()):
-                logging.critical("Incorrect coordinates format")
-                continue
-            if type(coords[0]) is type(1000.):
-                break
-        coords[2] = 0.0 # angle 
-        coords[1] = 280 # y - precise
-        coords[0] = coords[0] # x
-        self.send_command('setCoordinates', 
-                          [coords[0] / 1000.,
-                           coords[1] / 1000.,
-                           coords[2]])
-        self.coords = coords
+        #~ while 1:
+            #~ coords = self.send_command('getCurrentCoordinates')['data']
+            #~ print type(coords)
+            #~ if type(coords[0]) is not type(1000.):
+                #~ logging.critical("Incorrect coordinates format")
+                #~ continue
+            #~ else:
+                #~ break
+        #~ coords[2] = 0.0 # angle 
+        #~ coords[1] = 280.0# y - precise
+        #~ coords[0] = coords[0]*1000.0 # x
+        #~ self.send_command('setCoordinates', 
+                          #~ [coords[0] / 1000.,
+                           #~ coords[1] / 1000.,
+                           #~ coords[2]])
+        #~ self.coords = Array('d', coords)
         ##
         self.front_drop_cylinder_yes()
         self.right_ball_drop()
         self.right_ball_up()
+        speed = 4
+        angle = 0.0
         parameters = [180, 180, angle, speed]
+        self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
         angle = np.pi
         parameters = [180, 180, angle, speed]
@@ -409,9 +466,8 @@ class Robot:
         parameters = [235, 280, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
-        #self.left_ball_drop()
-        #self.left_ball_up()
-        #self.funny()
+        self.left_ball_drop()
+        self.left_ball_up()
         
     def loc_test2(self, speed=4, angle=np.pi, n_times=3):
         x1, x2, y1, y2 = 1000, 2500, 600, 1100
@@ -485,7 +541,7 @@ class Robot:
     def collisionTest(self,speed=1):
         #signal.signal(signal.SIGALRM, self.funny_action)
         #signal.alarm(40)
-        angle = 3*np.pi/2
+        angle = np.pi/2
         while True:
             parameters = [1145, 400, angle, speed]
             t = self.go_to_coord_rotation(parameters)
@@ -514,35 +570,66 @@ rb = None
 def test():
     global rb
     rb = Robot(lidar_on=True, color = 'yellow', sen_noise=25, 
-        dist_noise=30, angle_noise=0.3)
-        
+        dist_noise=45, angle_noise=0.2)
+    #rb.collisionTest(4)
+    #return
+    #rb.right_ball_down()
+    #rb.collision_avoidance = False
+    #rb.right_ball_down()
+    #rb.right_ball_up()
+    #return
+    #rb.right_ball_down()
+    #rb.right_ball_up()
+    #rb.right_ball_drop(angle = 120.0)
+    #rb.right_ball_up()
+    #rb.left_ball_down()
     #rb.left_ball_up()
-    rb.left_ball_down()
+    #rb.left_ball_drop(angle = 90.0)
     #rb.left_ball_up()
-    return
-    rb.right_ball_down()
-    rb.right_ball_up()
-    rb.right_ball_drop()
-    rb.right_ball_up()
-    
-    rb.left_ball_down()
-    rb.left_ball_up()
-    rb.left_ball_drop()
-    rb.left_ball_up()
-    return
+    #return
     ### LOCALISATION TEST
     #points = [[500, 1100], [1000, 1100]]#[750-40, 1400]]
     #odometry_coords = rb.localisation_test(point_lst = points,
                           #angle_lst = [0, np.pi], speed_lst = [4, 1], n_times = 1)
     #return
-    ### END
-    #rb.send_command('funny_action_open')
-    #time.sleep(2)
-    #rb.send_command('funny_action_close')
+    #### END
+    rb.send_command('funny_action_open')
+    time.sleep(2)
+    rb.send_command('funny_action_close')
+    #speed = 4
     while not rb.is_start():
         continue
-    #signal.signal(signal.SIGALRM, rb.funny_action)
-    #signal.alarm(90)
+    #~ angle = 0.0
+    #~ parameters = [170, 170, angle, speed]
+    #~ rb.go_to_coord_rotation(parameters)
+    #~ parameters = [235, 340, angle, speed]
+    #~ rb.go_to_coord_rotation(parameters)
+    ## check boarder; set exact coordinates
+    #~ while 1:
+        #~ coords = rb.send_command('getCurrentCoordinates')['data']
+        #~ if type(coords) is not type(list()):
+            #~ logging.critical("Incorrect coordinates format")
+            #~ continue
+        #~ if type(coords[0]) is type(1000.):
+            #~ break
+    #~ coords[2] = 0.0 # angle 
+    #~ coords[1] = 280.0# y - precise
+    #~ coords[0] = coords[0] # x
+    #~ rb.send_command('setCoordinates', 
+                      #~ [coords[0] / 1000.,
+                       #~ coords[1] / 1000.,
+                       #~ coords[2]])
+    #~ rb.coords = coords
+    #~ ##
+    #~ rb.front_drop_cylinder_yes()
+    #~ rb.right_ball_drop()
+    #~ rb.right_ball_up()
+    #~ return
+    #rb.right_ball_down()
+    #rb.right_ball_up()
+    #return
+    signal.signal(signal.SIGALRM, rb.funny_action)
+    signal.alarm(90)
     #while 1:
     #    rb.loc_test(n_times=2, speed=4)
     #    rb.loc_test(n_times=2, speed=1)
