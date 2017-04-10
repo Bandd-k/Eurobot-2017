@@ -721,9 +721,8 @@ break;
 
   case 0x44:
   {
-    float *(temp) = (float*)(cmd->param);
-    setPositionOfCylinderCarrier(*temp);
-        //it is for holding it
+    int *(temp) = (int*)(cmd->param);
+    setPositionOfCylinderCarrierByTime(*temp);
   }
     break;
 

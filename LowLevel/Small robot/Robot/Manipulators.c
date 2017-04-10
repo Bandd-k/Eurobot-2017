@@ -240,6 +240,7 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 }
 
 void setPositionOfCylinderCarrierByTime(long int time){
+    time *= 1000;
     if (time>0){
              time= time*1.00; //experimental difference in speed
              setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ÂÃĞÓÇÈÒÜ

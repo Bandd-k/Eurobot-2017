@@ -102,31 +102,31 @@ numberofrot = 0;
             startFlag = 0;
         }
 
-        setPositionOfCylinderCarrierByTime(1000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        setPositionOfCylinderCarrierByTime(2000000*3);
-        softDelay(2000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        setPositionOfCylinderCarrierByTime(1000000*2);
-        softDelay(1000000*2);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        setPositionOfCylinderCarrierByTime(2000000*3);
-        softDelay(2000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        softDelay(1000000*3);
-        setPositionOfCylinderCarrierByTime(4000000);
-        softDelay(2000000*3);
-        softDelay(2000000*3);
-        softDelay(2000000*3);
-        softDelay(2000000*3);
-        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
+//        setPositionOfCylinderCarrierByTime(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(1000000*2);
+//        softDelay(1000000*2);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(4000000);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
 
 
 
