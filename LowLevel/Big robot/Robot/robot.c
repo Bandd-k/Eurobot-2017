@@ -829,8 +829,10 @@ case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
 break;
  case 0x66: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
      {
-       throwRightCollectorIntoBox();
-       char * str ="Ok";
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwRightCollectorIntoBox(angle);
+        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
      }
 break;
@@ -850,7 +852,9 @@ break;
 break;
  case 0x69: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
     {
-        throwLeftCollectorIntoBox();
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwLeftCollectorIntoBox(angle);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
@@ -925,6 +929,7 @@ break;
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
+    break;
   case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
   {
     distance_digital2[0] = pin_val(IR_LEFT_FRONT);
@@ -937,6 +942,7 @@ break;
 
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
+  break;
 
   case 0x80: // Start flag command
   {

@@ -68,12 +68,13 @@ __enable_irq();
 
 
 while(1){
-      if (pin_val(EXTI9_PIN))
+
+    if (pin_val(EXTI9_PIN))
       {
         startFlag = 1;
       }
-      else
-      {
+     else
+     {
         startFlag = 0;
       }
    }
