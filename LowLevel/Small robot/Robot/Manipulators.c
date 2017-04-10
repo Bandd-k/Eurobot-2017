@@ -285,9 +285,9 @@ void servo_elevate_out()
     setServoAngle((uint8_t)SERVO_ELEVATE, (uint16_t) SERVO_ELEVATE_OUT);
 }
 
-void servo_rotate_90()
+void servo_rotate_90(int angl)
 {
-    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_90);
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 
 void servo_rotate_180()

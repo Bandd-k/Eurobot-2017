@@ -678,8 +678,10 @@ break;
 
   case 0x41:  //pump manipulator rotation for EuroBot 2017
   {
-    servo_rotate_90(); // rotate the pump 90 degrees - horizontal
-    servo_rotate_90();
+    float *(temp) ={(float*)cmd->param};
+    int angleofsucker = (int) *temp;
+    servo_rotate_90(angleofsucker); // rotate the pump 90 degrees - horizontal
+    servo_rotate_90(angleofsucker);
     char * str ="Ok";
     sendAnswer(cmd->command,str, 3);
   }
@@ -753,8 +755,8 @@ break;
     switchOffPneumo();
     switchOffPneumo();
     increaseByGivenAngle(STORE_CYLINDER);
-    servo_rotate_90();
-    servo_rotate_90();
+    //servo_rotate_90();
+    //servo_rotate_90();
   }
     break;
 
