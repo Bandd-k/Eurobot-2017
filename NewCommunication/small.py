@@ -31,9 +31,9 @@ class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         # Cylinder Staff
         self.cylinders = 0
-        self.cyl_prepare = [95.0,-265.0,-650.0]
-        self.cyl_up = [-152.0,-512.0,-700.0]
-        self.cyl_down = [245.0,-135.0,-485.0]
+        self.cyl_prepare = [3000,2000,2000]
+        self.cyl_up = [6000,6000,6000]
+        self.cyl_down = [-9000,-8000,-8000]
         ##################
         self.color = color
         self.sensor_range = 35
@@ -273,13 +273,14 @@ class Robot:
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-        parameters = [1145, 320, angle, speed]
+        parameters = [1245, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
+        time.sleep(3)
 
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1145, 160, angle, speed]
+        parameters = [1145, 160, angle*0.95, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -350,6 +351,31 @@ class Robot:
 
             parameters = [1545, 400, angle, speed]
             self.go_to_coord_rotation(parameters)
+
+
+    def cylinder_test(self):
+        #### Cylinder test
+        rb.on_sucker()
+        rb.take_cylinder_outside()
+        time.sleep(2)
+        rb.pick_up()
+
+        rb.on_sucker()
+        rb.take_cylinder_outside()
+        time.sleep(2)
+        rb.pick_up()
+
+        rb.on_sucker()
+        rb.take_cylinder_outside()
+        time.sleep(2)
+        rb.pick_up()
+        time.sleep(4)
+
+        rb.out_cylinders()
+        rb.out_cylinders()
+        rb.out_cylinders()
+        return
+
 
 rb = None
 
