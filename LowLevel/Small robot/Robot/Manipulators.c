@@ -239,7 +239,29 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 
 }
 
+void setPositionOfCylinderCarrierByTime(long int time){
+    if (time>0){
+             time= time*1.00; //experimental difference in speed
+             setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW  ¬√–”«»“‹
+             softDelay(time);
 
+             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+    }
+    else {
+
+            setServoMovingSpeed(3, (uint16_t)(827 + 1024), 0x0400);//CW ¬€√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(860), 0x0000);//CCW  ¬€√–”«»“‹
+            softDelay(-time);
+            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+    }
+}
 
 void increaseByGivenAngle(float givenAngle){
     setPositionOfCylinderCarrier(whole_angle - givenAngle);

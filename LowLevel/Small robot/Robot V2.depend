@@ -894,7 +894,7 @@
 
 1489755891 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\kinematics.c
 
-1491647329 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.c
+1491805913 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -1096,7 +1096,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1491669793 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\src\main.c
+1491805754 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
