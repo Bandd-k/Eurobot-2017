@@ -832,8 +832,8 @@ break;
         float *(temp) = (float*)(cmd -> param);
         int angle = (int) *temp;
         throwRightCollectorIntoBox(angle);
-        char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//       sendAnswer(cmd->command, str, 3);
      }
 break;
  case 0x67: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
@@ -855,8 +855,8 @@ break;
         float *(temp) = (float*)(cmd -> param);
         int angle = (int) *temp;
         throwLeftCollectorIntoBox(angle);
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6A:
