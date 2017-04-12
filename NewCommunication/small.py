@@ -32,11 +32,12 @@ class Robot:
         # Cylinder Staff
         self.cylinders = 0
         self.cyl_prepare = [3000,2000,2000]
-        self.cyl_up = [6000,6000,6000]
-        self.cyl_down = [-9000,-8000,-8000]
+        self.cyl_up = [7000,7000,9000]
+        self.cyl_down = [-10000,-9000,-10000]
         ##################
         self.color = color
         self.sensor_range = 35
+        self.collision_d = 9
         self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
@@ -167,7 +168,7 @@ class Robot:
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
-            for dx in range(-9,9):
+            for dx in range(-self.collision_d,self.collision_d):
                 x = int(self.coords[0]/10+direction[0]*i+dx)
                 y = int(self.coords[1]/10+direction[1]*i)
                 if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
@@ -199,7 +200,7 @@ class Robot:
         time.sleep(0.3)
 
     def rotate_cylinder_vertical(self):
-        logging.info(self.send_command('rotate_cylinder_vertical'))
+        logging.info(self.send_command('rotate_cylinder_vertical',[140.0]))
         time.sleep(0.3)
 
     def take_cylinder_outside(self):
@@ -265,26 +266,23 @@ class Robot:
         angle = 3*np.pi / 2
         parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
-
+        self.collision_avoidance = False
+        self.sensor_range = 60
         parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
         self.on_sucker()
+        self.sensor_range = 35
         self.take_cylinder_outside()
         parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-        parameters = [1245, 320, angle, speed]
+        parameters = [1345, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
-        time.sleep(3)
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [1145, 160, angle*0.95, speed]
-        self.go_to_coord_rotation(parameters)
+        #time.sleep(3)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.pick_up()
 
         self.on_sucker()
         self.take_cylinder_outside()
@@ -293,6 +291,24 @@ class Robot:
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        speed = 6
+        parameters = [1145, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1145, 290, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
+
+        speed = 4
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [1145, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1145, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
 
     def small_robot_trajectory_r(self, speed=1):
         angle = np.pi
@@ -305,17 +321,34 @@ class Robot:
         speed = 6
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
+        self.off_sucker()
+        self.take_cylinder_inside()
         parameters = [1210, 1580, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.out_cylinders()
         parameters = [1100, 1470, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.out_cylinders()
+        parameters = [1000, 1370, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 170, 3*np.pi / 2,speed]
+
+
+
+        ####
+        parameters = [750, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [830, 1380, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        ##
+        parameters = [950, 270, 3*np.pi / 2,speed]
         self.go_last(parameters)
 
     def funny_action(self, signum, frame):
@@ -335,13 +368,11 @@ class Robot:
             parameters = [945, 600, angle, speed]
             self.go_to_coord_rotation(parameters)
 
-
             parameters = [1145, 800, angle, speed]
             self.go_to_coord_rotation(parameters)
 
             parameters = [1345, 1000, angle, speed]
             self.go_to_coord_rotation(parameters)
-
 
             parameters = [1545, 800, angle, speed]
             self.go_to_coord_rotation(parameters)
@@ -355,25 +386,25 @@ class Robot:
 
     def cylinder_test(self):
         #### Cylinder test
-        rb.on_sucker()
-        rb.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         time.sleep(2)
-        rb.pick_up()
+        self.pick_up()
 
-        rb.on_sucker()
-        rb.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         time.sleep(2)
-        rb.pick_up()
+        self.pick_up()
 
-        rb.on_sucker()
-        rb.take_cylinder_outside()
+        self.on_sucker()
+        self.take_cylinder_outside()
         time.sleep(2)
-        rb.pick_up()
+        self.pick_up()
         time.sleep(4)
 
-        rb.out_cylinders()
-        rb.out_cylinders()
-        rb.out_cylinders()
+        self.out_cylinders()
+        self.out_cylinders()
+        self.out_cylinders()
         return
 
 
