@@ -1871,7 +1871,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\board.c
+1491928215 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -1908,7 +1908,7 @@
 
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\path.h
 
-1491834527 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.h
+1491927852 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -2230,7 +2230,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1491906967 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\src\main.c
+1491922848 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -2252,13 +2252,13 @@
 1491833482 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1491906846 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.c
+1491928169 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
 	"Board.h"
 
-1491906670 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.c
+1491927675 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"

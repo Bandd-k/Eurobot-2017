@@ -311,12 +311,12 @@ bool switchOffPneumo()
 
 
 /////////////////////////////RIGHT BALL COLLECTOR/////////////////////
-bool downRightCollectorToGetBalls()
+bool downRightCollectorToGetBalls(int angle_down)//, int speed)
 {
+//    setServoTorque(DNMXL_MAN_RIGHT,200);
+//    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_TRANSIT_ON);
     setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
+    setServoAngle(DNMXL_MAN_RIGHT,angle_down);
         //setVoltage(5,1);
         //set_pin(EXTI_SERVOPOLOL1);
         //reset_pin(EXTI_SERVOPOLOL2);
@@ -327,10 +327,10 @@ bool downRightCollectorToGetBalls()
         //}
 }
 
-bool upRightCollectorWithBalls()
+bool upRightCollectorWithBalls(int angle_up)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_RIGHT,850);
-   setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_OFF);
+    setServoTorque(DNMXL_MAN_RIGHT,700);
+   setServoAngle(DNMXL_MAN_RIGHT,angle_up);
 }
 
 void polulu_outside_right (){
@@ -385,19 +385,17 @@ reset_pin(EXTI_POLOL2_RIGHT);
 }
 
 /////////////LEFT BALL COLLECTOR//////////////////////////////////////
-
-bool downLeftCoolectorToGetBalls()
+bool downLeftCoolectorToGetBalls(int angle_down)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
+
+    setServoTorque(DNMXL_MAN_LEFT,200);
+    setServoAngle(DNMXL_MAN_LEFT,angle_down);
 }
 
-bool upLeftCollectorWithBalls()
+bool upLeftCollectorWithBalls(int angle_up)//, int speed)
 {
-   setServoTorque(DNMXL_MAN_LEFT,850);
-   setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_OFF);
+   setServoTorque(DNMXL_MAN_LEFT,700);
+   setServoAngle(DNMXL_MAN_LEFT,angle_up);
 
 
 }

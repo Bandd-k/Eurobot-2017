@@ -812,16 +812,22 @@ break;
 
 */
 
-case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
+case  0x64:  //DWN LIGHT BALL COLLECTOR TO GET BALL
     {
-       downRightCollectorToGetBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_down = (int) *temp;
+        //int speed = (int) *(temp+1);
+       downRightCollectorToGetBalls(angle_down);//,speed);
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
     }
     break;
- case 0x65: //TURN OFF RIGHT BALLCOLLECTOR WITH BALLS
+ case 0x65: //UP BALLCOLLECTOR WITH BALLS
     {
-       upRightCollectorWithBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_up = (int) *temp;
+        //int speed = (int) *(temp+1);
+       upRightCollectorWithBalls(angle_up);//, speed);
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
 
@@ -836,16 +842,22 @@ break;
 //       sendAnswer(cmd->command, str, 3);
      }
 break;
- case 0x67: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
+ case 0x67: //DWN LEFT BALLCOLLECTOR TO GET BALLS
     {
-        downLeftCoolectorToGetBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_down = (int) *temp;
+        //int speed = (int) *(temp+1);
+        downLeftCoolectorToGetBalls(angle_down);//,speed);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
 break;
- case 0x68: // TURN OFF LEFT BALLCOLLECTOR
+ case 0x68: // UP LEFT BALLCOLLECTOR
     {
-        upLeftCollectorWithBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_up = (int) *temp;
+        //int speed = (int) *(temp+1);
+        upLeftCollectorWithBalls(angle_up);//,speed);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
@@ -862,43 +874,43 @@ break;
     case 0x6A:
     {
         GetFaceCylinder();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6B:
     {
       GoBackFaceCylinderManipulator();
-      char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//      char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6C:
     {
         DownFaceCylinder();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6D:
     {
         GetBackCylinder();
-         char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//         char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6E:
     {
         GoBackBackCylinderManipulator();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6F:
     {
       DownBackCylinder();
-       char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//       char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x70: //OPEN CYL CORRECTOR
