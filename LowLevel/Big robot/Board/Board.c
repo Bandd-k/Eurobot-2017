@@ -356,13 +356,13 @@ initRegulators();
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
 
-upLeftCollectorWithBalls(38);
-upRightCollectorWithBalls(90);
+upLeftCollectorWithBalls(86);
+upRightCollectorWithBalls(55);
 polulu_outside_right();
 polulu_outside_left();
 OpenCyinderCorrector();
-upLeftCollectorWithBalls(38);
-upRightCollectorWithBalls(90);
+upLeftCollectorWithBalls(86);
+upRightCollectorWithBalls(55);
 setServoTorque(DNMXL_SEESAW,950);
 __enable_irq();
 }
