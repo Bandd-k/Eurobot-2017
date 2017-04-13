@@ -23,7 +23,7 @@ def rev_field(val, color):
     
 
 ## TODO: Defined according to mechanical situation, make from scrath to 90, 90, 180, 180 (left_up, right_up, left_down, right_down)
-angle_left_up, angle_right_up, angle_left_down, angle_right_down = 80., 55., 170., 143.
+angle_left_up, angle_right_up, angle_left_down, angle_right_down = 80., 55., 173., 146.
 
 console.setLevel(lvl)
 # set a format which is simpler for console use
@@ -33,7 +33,7 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
 
-
+funny_done = 0
 obstacles=[]
 class Robot:
     def __init__(self, lidar_on=True, color = 'yellow', sen_noise = 20, 
@@ -213,13 +213,13 @@ class Robot:
         self.collision_avoidance = False
         self.send_command('left_ball_down', [angle, speed])
         time.sleep(dur)
-        self.collision_avoidance = False
+        self.collision_avoidance = True
 
     def left_ball_up(self, dur = 1, angle = angle_left_up, speed = 100.0):
         self.collision_avoidance = False
         self.send_command('left_ball_up', [angle, speed])
         time.sleep(dur)
-        self.collision_avoidance = False
+        self.collision_avoidance = True
 
     def left_ball_drop(self, dur = 1, angle = angle_left_up + 33., speed = 100.0):
         self.collision_avoidance = False
@@ -231,7 +231,7 @@ class Robot:
         self.collision_avoidance = False
         self.send_command('right_ball_down', [angle, speed])
         time.sleep(dur)
-        self.collision_avoidance = False
+        self.collision_avoidance = True
 
     def right_ball_up(self, dur = 1, angle = angle_right_up, speed = 100.):
         self.collision_avoidance = False
@@ -312,7 +312,9 @@ class Robot:
     def funny_action(self, signum, frame):
         self.send_command('stopAllMotors')
         self.send_command('funny_action_open')
-        print 'FUNNNY ACTION'
+        funny_done = 1
+        logging.info('FUNNNY ACTION')
+        raise ValueError
 
     def lin_interpol_traj(x1, y1, x2, y2, ratio):
         return [x1+(x2-x1)*ratio, y1+(y2-y1)*ratio]
@@ -323,55 +325,125 @@ class Robot:
     ############################################################################
 
     def init_manipulators(self):
-        self.left_ball_up(dur = 0)
-        self.right_ball_up(dur = 0)
-        self.seesaw_hand_up(dur = 0)
+        self.left_ball_up(dur = 0.1)
+        self.right_ball_up(dur = 0.1)
+        self.seesaw_hand_up(dur = 0.1)
 
 
     def another_trajectory(self,speed = 4):
-        signal.signal(signal.SIGALRM, self.funny_action)
-        signal.alarm(90)
         speed = 1
         angle = np.pi/6
         self.collision_avoidance = False
-        
         self.localisation.value = False
-        parameters = [850, 170, angle, speed]
+        parameters = [900, 170, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.localisation.value = True
-        angle = 6*np.pi/7
+        angle = np.pi/2
         parameters = [900, 600, angle, speed]
-        self.go_last(parameters)
-        speed = 4
-        parameters = [250, 1850, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
+        speed = 1
+        angle = np.pi/2
+        parameters = [640, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [640, 1820, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi/2
-        parameters = [350, 1800, angle, speed]
-        self.go_last(parameters)
+        speed = 4
+        parameters = [530, 1820, angle, speed]
+        self.go_to_coord_rotation(parameters)
         self.left_ball_down()
-        parameters = [400, 1850, angle, speed]
+        parameters = [640, 1820, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.left_ball_up()
-        angle = 3*np.pi/2*0.95
-        parameters = [330, 1800, angle, speed]
+        angle = np.pi/2
+        speed = 1
+        parameters = [640, 2000-480, angle, speed]
         self.go_to_coord_rotation(parameters)
-        #self.go_last(parameters)
-        parameters = [400, 1600, angle, speed]
+        angle = np.pi
+        parameters = [640, 2000-480, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [350, 1600, angle, speed]
+        parameters = [220, 2000-480, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_last(parameters, dur = 3)
         self.right_ball_down()
-        parameters = [400, 1600, angle, speed]
+        parameters = [320, 2000-580, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.right_ball_up()
+        self.right_ball_up(dur = 0.5)
+        self.go_to_coord_rotation(parameters)
         
         speed = 1
         angle = 6*np.pi/7
-        parameters = [900, 600, angle, speed]
-        self.go_last(parameters)
-        parameters = [950, 170, angle, speed]
+        parameters = [700, 1250, angle, speed]
         self.go_to_coord_rotation(parameters)
+        angle = np.pi/2
+        parameters = [1000, 600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/18
+        parameters = [880, 280, angle, speed]
+        self.go_last(parameters)
+        self.seesaw_hand_down()
+        self.collision_avoidance = False
+        self.localisation.value = False
+        parameters = [235, 280, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.seesaw_hand_up()
+        self.localisation.value = True
+        self.collision_avoidance = True
+        angle = 0.0
+        parameters = [235, 280, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters)
+        #~ parameters = [235, 320, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ ## check boarder; set exact coordinates
+        #~ while 1:
+            #~ logging.info("Boarder localisation")
+            #~ coords = self.send_command('getCurrentCoordinates')['data']
+            #~ #print type(coords)
+            #~ if type(coords[0]) is not type(1000.):
+                #~ logging.critical("Incorrect coordinates format")
+                #~ continue
+            #~ else:
+                #~ break
+        #~ coords[2] = 0.0 # angle 
+        #~ coords[1] = 280.0# y - precise
+        #~ coords[0] = coords[0]*1000.0 # x
+        #~ self.send_command('setCoordinates', 
+                          #~ [coords[0] / 1000.,
+                           #~ coords[1] / 1000.,
+                           #~ coords[2]])
+        #~ self.coords = Array('d', coords)
+        #~ ##
+        #~ self.collision_avoidance = False
+        #self.front_drop_cylinder_yes()
+        self.right_ball_drop()
+        self.right_ball_up()
+
+        speed = 1
+        angle = 0.0
+        parameters = [200, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi
+        parameters = [200, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 1
+        parameters = [235, 280, angle, speed]
+        self.go_last(parameters, dur = 3)
+        self.left_ball_drop()
+        self.left_ball_up()
+        return
+        # TODO: go once more
+        angle = np.pi/6
+        parameters = [5, 180, angle, speed]
+        rb.go_to_coord_rotation(parameters)
+        self.localisation.value = False
+        parameters = [900, 170, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = True
+        angle = np.pi/2
+        parameters = [900, 600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
         
     def big_robot_trajectory(self,speed=4):
         
@@ -660,9 +732,6 @@ def test():
     #rb.left_ball_down()
     #rb.collisionTest(4)
     #return
-    if True: # den staff
-        rb.another_trajectory()
-        return
     if False:
         parameters = [1000., 600., np.pi, 4]
         #rb.go_to_coord_rotation(parameters)
@@ -686,14 +755,16 @@ def test():
     #                      angle_lst = [np.pi, 0], speed_lst = [1], n_times = 3)
     #return
     #### END
-    if False:
+    if True:
         rb.send_command('funny_action_open')
         time.sleep(2)
         rb.send_command('funny_action_close')
     #speed = 4
-    if False:
+    if True:
         while not rb.is_start():
             continue
+    signal.signal(signal.SIGALRM, rb.funny_action)
+    signal.alarm(90)
     #rb.localisation.value = False
     #parameters = [-750, 1250, -np.pi/6, 1]
     #rb.go_to_coord_rotation(parameters)
@@ -703,6 +774,9 @@ def test():
     #    rb.loc_test2(x1x2y1y2 = x1x2y1y2, n_times=2, speed=4, angle = 0.0, deltas = 1)
     #    rb.loc_test2(x1x2y1y2 = x1x2y1y2, n_times=2, speed=1, angle = 0.0, deltas = 1)
     #return
+    if True: # den staff
+        rb.another_trajectory()
+        return
     i = 0
     while i<10:
     ########## Big robot test START
@@ -727,11 +801,18 @@ def test():
 try:
     test()
 except KeyboardInterrupt:
-    logging.info("Time for strategy passes:  ", time.time() - tmstmp)
-    rb.PF.debug_info += [time.time() - tmstmp, [], []]
-    np.savetxt("localisation_debug.txt", np.array(rb.PF.debug_info))
+    logging.exception('KeyboardInterrupt!')
+except Exception:
+    #logging.info("Time for strategy passes:  ", time.time() - tmstmp)
+    #rb.PF.debug_info += [time.time() - tmstmp, [], []]
+    #np.savetxt("localisation_debug.txt", np.array(rb.PF.debug_info))
+    logging.exception('High level Error!')
+finally:
+    while not funny_done:
+        continue
     rb.p.terminate()
     rb.p2.terminate()
+    
 
 
 
