@@ -86,8 +86,6 @@ class Driver(Process):
         self.port.write(packet)
         data = self.port.read(size=3)
         if len(data) != 3:
-            self.port.reset_input_buffer()
-            self.port.reset_output_buffer()
             logging.critical('Couldn\'t read 3 bytes')
             return {'cmd':'cylinder staff','data':'ok'}
         data = bytearray(data)
