@@ -6,12 +6,14 @@ import signal
 import npParticle as pf
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
+from multiprocessing.queues import Queue as QueueType
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
-console = logging.StreamHandler()
 
+
+console = logging.StreamHandler()
 
 def rev_field(val, color):
     if color == "blue":
@@ -27,17 +29,19 @@ logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
 
 
+obstacles=[]
 class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
-        # Cylinder Staff
+
+
+        ## Cylinder Staff
         self.cylinders = 0
-        self.cyl_prepare = [3000,2000,2000]
-        self.cyl_up = [7000,7000,9000]
-        self.cyl_down = [-11000,-9000,-10000]
+        self.cyl_prepare = [95.0,-265.0,-650.0]
+        self.cyl_up = [-162.0,-522.0,-780.0]
+        self.cyl_down = [245.0,-135.0,-485.0]
         ##################
         self.color = color
         self.sensor_range = 35
-        self.collision_d = 9
         self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
@@ -54,12 +58,11 @@ class Robot:
                 self.lidar_on = False
                 self.localisation = Value('b', False)
                 logging.warning('lidar is not connected')
-        # self.x = 170  # mm
-        # self.y = 150  # mm
-        # self.angle = 0.0  # pi
+        #self.x = 170  # mm
+        #self.y = 150  # mm
+        #self.angle = 0.0  # pi
         if small:
-            #850 170 3p/2
-            self.coords = Array('d',rev_field([850, 170, 3*np.pi/2],self.color))
+            self.coords = Array('d',rev_field([850, 170, 3*np.pi / 2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
@@ -102,6 +105,8 @@ class Robot:
             self.lidar_on = False
             logging.warning('Lidar off')
 
+
+
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         parameters = rev_field(parameters,self.color)
         if self.PF.warning:
@@ -126,7 +131,7 @@ class Robot:
                 if not pids:
                     pids = True
                     logging.info(self.send_command('switchOnPid'))
-                # return False
+                #return False
                 # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
@@ -169,7 +174,7 @@ class Robot:
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
-            for dx in range(-self.collision_d,self.collision_d):
+            for dx in range(-9,9):
                 x = int(self.coords[0]/10+direction[0]*i+dx)
                 y = int(self.coords[1]/10+direction[1]*i)
                 if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
@@ -201,32 +206,29 @@ class Robot:
         time.sleep(0.3)
 
     def rotate_cylinder_vertical(self):
-        logging.info(self.send_command('rotate_cylinder_vertical',[150.0]))
+        logging.info(self.send_command('rotate_cylinder_vertical'))
         time.sleep(0.3)
 
     def take_cylinder_outside(self):
         logging.info(self.send_command('take_cylinder_outside'))
-        time.sleep(0.4)
+        time.sleep(0.5)
 
     def take_cylinder_inside(self):
         logging.info(self.send_command('take_cylinder_inside'))
-        time.sleep(0.4)
+        time.sleep(0.8)
 
     def lift_up(self):
-        logging.info(self.send_command('lift_up',[self.cyl_up[self.cylinders]]))
+        logging.info(self.send_command('lift_up',[self.cyl_prepare[self.cylinders]]))
         time.sleep(0.5)
 
     def store(self):
-        logging.info(self.send_command('lift_up',[self.cyl_prepare[self.cylinders]]))
+        logging.info(self.send_command('lift_up',[self.cyl_up[self.cylinders]]))
         # time.sleep(0.5)
 
     def out_cylinders(self):
         logging.info(self.send_command('lift_up',[self.cyl_down[self.cylinders-1]]))
         time.sleep(0.5)
-        self.cylinders -= 1
-
-    def is_start(self):
-        return self.send_command('start_flag')['data']
+        self.cylinders = self.cylinders -1
 
     def pick_up(self):
         self.rotate_cylinder_vertical()
@@ -235,7 +237,8 @@ class Robot:
         self.off_sucker()
         self.store()
         self.rotate_cylinder_horizonal()
-        self.cylinders += 1
+        self.cylinders = self.cylinders+1
+
 
     def pick_up2(self):
         self.rotate_cylinder_vertical()
@@ -250,6 +253,8 @@ class Robot:
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
 
+
+
     def loc_test(self):
         while True:
             angle = np.pi
@@ -262,60 +267,39 @@ class Robot:
             parameters = [900, 400, angle, 6]
             self.go_to_coord_rotation(parameters)
 
+
     def small_robot_trajectory(self,speed=1):
         self.rotate_cylinder_horizonal()
         angle = 3*np.pi / 2
-        
         parameters = [1145, 300, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1345, 300, angle, speed]
+        parameters = [1145, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
-        time.sleep(2)
-        self.collision_avoidance = False
-        self.sensor_range = 60
-        speed =1
-        parameters = [1145, 200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1145, 150, angle, speed]
+        parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-        parameters = [1345, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-        #time.sleep(3)
-        parameters = [1145, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [1145, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
         self.on_sucker()
         self.take_cylinder_outside()
-        parameters = [1145, 150, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 6
-        parameters = [1145, 300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.pick_up()
-
-        speed = 4
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        parameters = [1145, 190, angle, speed]
+        parameters = [1145, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1145, 320, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.rotate_cylinder_vertical()
-        self.sensor_range = 35
+        self.pick_up()
+
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        parameters = [1145, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1145, 320, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up()
 
     def small_robot_trajectory_r(self, speed=1):
         angle = np.pi
@@ -327,38 +311,17 @@ class Robot:
         speed = 6
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.off_sucker()
-        self.take_cylinder_inside()
+        self.out_cylinders()
         parameters = [1210, 1580, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.out_cylinders()
-        parameters = [1115, 1490, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.out_cylinders()
-        parameters = [1040, 1420, angle, speed]
+        parameters = [1100, 1470, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.out_cylinders()
         speed = 4
-        logging.info(self.send_command('lift_up',[30000]))
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-
-
-        ####
-        speed = 1
-        parameters = [750, 1300, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [830, 1380, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 4
-
-        parameters = [1150, 1000, angle, speed]
-        self.go_to_coord_rotation(parameters)
-
-        ##
-        parameters = [950, 270, 3*np.pi / 2,speed]
-        self.go_last(parameters)
 
     def funny_action(self, signum, frame):
         self.send_command('stopAllMotors')
@@ -377,11 +340,13 @@ class Robot:
             parameters = [945, 600, angle, speed]
             self.go_to_coord_rotation(parameters)
 
+
             parameters = [1145, 800, angle, speed]
             self.go_to_coord_rotation(parameters)
 
             parameters = [1345, 1000, angle, speed]
             self.go_to_coord_rotation(parameters)
+
 
             parameters = [1545, 800, angle, speed]
             self.go_to_coord_rotation(parameters)
@@ -392,54 +357,34 @@ class Robot:
             parameters = [1545, 400, angle, speed]
             self.go_to_coord_rotation(parameters)
 
-
-    def cylinder_test(self):
-        #### Cylinder test
-        self.on_sucker()
-        self.take_cylinder_outside()
-        time.sleep(2)
-        self.pick_up()
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        time.sleep(2)
-        self.pick_up()
-
-        self.on_sucker()
-        self.take_cylinder_outside()
-        time.sleep(2)
-        self.pick_up()
-        time.sleep(4)
-
-        self.out_cylinders()
-        self.out_cylinders()
-        self.out_cylinders()
-        return
-
-
 rb = None
-
-
 def test():
     global rb
     rb = Robot(lidar_on=True, small=True)
-    #parameters = [1000, 600, np.pi, 4]
-    #rb.go_last(parameters)
-    #return
-    #rb.rotate_cylinder_horizonal()
-    #while True:
-    #    time.sleep(3)
-    #    rb.take_cylinder_outside()
-    #    time.sleep(3)
-    #    rb.take_cylinder_inside()
-    #return
- #   logging.info(rb.send_command('lift_up',[30000]))
- #   return
-    # start system
-    while not rb.is_start():
-        continue
-    rb.small_robot_trajectory(4)
-    rb.small_robot_trajectory_r(4)
+    rb.rotate_cylinder_horizonal()
+    rb.take_cylinder_outside()
+    rb.on_sucker()
+    time.sleep(1)
+    rb.pick_up()
+
+    
+    rb.take_cylinder_outside()
+    rb.on_sucker()
+    time.sleep(3)
+    rb.pick_up()
+    
+    rb.take_cylinder_outside()
+    rb.on_sucker()
+    time.sleep(3)
+    rb.pick_up()
+    
+    #rb.take_cylinder_outside()
+    time.sleep(5)
+    rb.out_cylinders()
+    rb.out_cylinders()
+    rb.out_cylinders()
+    #rb.small_robot_trajectory(4)
+    #rb.small_robot_trajectory_r(4)
     return
 
 
@@ -448,3 +393,6 @@ try:
 except KeyboardInterrupt:
     rb.p.terminate()
     rb.p2.terminate()
+
+
+
