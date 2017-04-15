@@ -77,5 +77,7 @@ while(1){
      {
         startFlag = 0;
       }
+       //throwLeftCollectorIntoBox(120);
    }
+
 }
