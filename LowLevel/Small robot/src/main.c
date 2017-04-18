@@ -90,18 +90,25 @@ int main(void)
 
 // 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
 
-long int tempora = 1000000*3 ;
-numberofrot = 0;
+//long int tempora = 1000000*3 ;
+//numberofrot = 0;
     while(1)
     {
 
-        if (pin_val (EXTI9_PIN)){
-            startFlag = 1;
-        }
-        else{
-            startFlag = 0;
-        }
+//        if (pin_val (EXTI9_PIN)){
+//            startFlag = 1;
+//        }
+//        else{
+//            startFlag = 0;
+//        }
 
+//        goOutsideWithSuckingManipulator();
+//        switchOnPneumo();
+//        softDelay(3000000);
+//        goInsideWithSuckingManipulator();
+//        switchOffPneumo();
+//        softDelay(3000000);
+//        servo_rotate_90((uint16_t)160);
 //        setPositionOfCylinderCarrierByTime(1000000*3);
 //        softDelay(1000000*3);
 //        softDelay(1000000*3);
