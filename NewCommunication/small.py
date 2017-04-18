@@ -38,9 +38,11 @@ class Robot:
         self.color = color
         self.sensor_range = 35
         self.collision_d = 9
+        self.coll_ind = -1
         self.collision_avoidance = False
         self.localisation = Value('b', True)
         if small:
+            self.sensors_places = [0.0,0.0,np.pi,np.pi/2,3*np.pi/2,0,0,0]
             self.sensors_map = {0:(0, np.pi/3),7:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),6:(7/4.*np.pi,2*np.pi),8:(0,np.pi/4),4:(np.pi/4,3*np.pi/4),5:(np.pi*5/4,7*np.pi/4)}
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
@@ -103,6 +105,18 @@ class Robot:
             self.lidar_on = False
             logging.warning('Lidar off')
 
+    def go_to(self, parameters):
+        # beta version of clever go_to
+        distance = 100
+        ok = self.go_to_coord_rotation(parameters)
+        if not ok:
+            angle = (self.coords[2] + self.sensors_places[self.coll_ind] - np.pi) %(np.pi*2)
+            direction = (np.cos(angle),np.sin(angle))
+            pm = [self.coords[0]+direction[0]*distance,self.coords[1]+direction[1]*distance,self.coords[2],parameters[3]]
+            self.go_to_coord_rotation(pm)
+            self.go_to_coord_rotation(parameters)
+        
+
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         parameters = rev_field(parameters,self.color)
         if self.PF.warning:
@@ -124,13 +138,18 @@ class Robot:
                         self.send_command('stopAllMotors')
                         pids = False
                     time.sleep(0.5)
+                    if (time.time() - stamp) > 7:
+                        # return self.coll_ind
+                        # ha
+                        #self.send_command('setCoordinates',)
+                        
                 if not pids:
                     pids = True
                     logging.info(self.send_command('switchOnPid'))
                 # return False
                 # check untill ok and then move!
             # add Collision Avoidance there
-            if (time.time() - stamp) > 30:
+            if (time.time() - stamp) > 7:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
         if self.localisation.value == 0:
             self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
@@ -142,14 +161,16 @@ class Robot:
 
     def check_collisions(self, direction):
         angle = np.arctan2(direction[1],direction[0])%(np.pi*2)
-        sensor_angle = (angle-self.coords[2]) %(np.pi*2)
+        sensor_angle = (angle-self.coords[2]) %(np.pi*2) 
         #### switch on sensor_angle
         collisions = self.sensor_data()
         for index,i in enumerate(collisions):
             if (i==True and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]):
                 logging.info("Collision at index "+str(index))
-                if self.check_map(direction):
+                angle_map = (self.coords[2] + self.sensors_places[index]) %(np.pi*2) 
+                if self.check_map2(angle_map):
                     continue
+                self.coll_ind = index
                 return True
         return False
 
@@ -166,6 +187,24 @@ class Robot:
         data.append(data[0])
         data.append(data[1])
         return data
+
+
+    def check_map2(self,angle):
+        direction = (np.cos(angle),np.sin(angle))
+        for i in range(0, self.sensor_range, 2):
+            for dx in range(-self.collision_d,self.collision_d):
+                x = int(self.coords[0]/10+direction[0]*i+dx)
+                y = int(self.coords[1]/10+direction[1]*i)
+                logging.info("x = "+str(x)+" y = " + str(y))
+                if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
+                    return True
+                    # Or maybe Continue
+                if self.map[x][y]:
+                    return True
+        return False
+        
+        
+        
 
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
@@ -365,6 +404,7 @@ class Robot:
         parameters = [1320, 1520, angle, speed]
         self.go_to_coord_rotation(parameters)
         speed = 6
+        return
         parameters = [1320, 1690, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.off_sucker()
@@ -506,8 +546,8 @@ rb = None
 def test():
     global rb
     rb = Robot(lidar_on=True, small=True)
-    #parameters = [900, 200, 0.0, 4]
-    #rb.go_last(parameters)
+    parameters = [900, 200, 0.0, 4]
+    rb.go_last(parameters)
     #return
     #rb.go_last(parameters)
     #return
