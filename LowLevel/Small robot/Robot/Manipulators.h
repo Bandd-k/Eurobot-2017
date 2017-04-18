@@ -117,7 +117,7 @@ bool goOutsideWithSuckingManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  252
+#define SERVO_ROTATE_180  252 //240 or 235
 
 
 bool moveSuckerManipulatorUp();

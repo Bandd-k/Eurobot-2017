@@ -35,13 +35,23 @@ void softDelay(__IO unsigned long int ticks)
 
 bool goInsideWithSuckingManipulator(){
 
+
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
+
+    softDelay(6000000);
+
+    reset_pin(INPUT1_CONTROL);
+
+    servo_rotate_180();
+
+    set_pin(INPUT1_CONTROL);
 
     while(!pin_val(UPPER_SWITCH));
 
 
     reset_pin(INPUT1_CONTROL);
+
 }
 
 bool goOutsideWithSuckingManipulator(){

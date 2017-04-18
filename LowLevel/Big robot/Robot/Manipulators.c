@@ -401,7 +401,7 @@ bool upLeftCollectorWithBalls(int angle_up)//, int speed)
 }
 
 void  polulu_outside_left (){
-     set_pin(EXTI_POLOL1_LEFT);
+         set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
          while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
         {
