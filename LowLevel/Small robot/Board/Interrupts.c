@@ -160,20 +160,23 @@ void EXTI1_IRQHandler(void)
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
-void EXTI2_IRQHandler(void)
+
+void EXTI2_IRQHandler(void) // DOWN CONTACT
 {
   EXTI->PR=0x4;
   char temp = 4;
+
   //if ( pin_val(EXTI4_PIN) ) temp |=0x80;
   //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
-void EXTI3_IRQHandler(void)
+void EXTI3_IRQHandler(void) // UP CONTACT
 {
   //  static uint32_t lasttick;
   EXTI->PR=0x8;
   char temp = 6;
+
 //  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
 //  sendAnswer(0x1E,&temp, 1);
 
