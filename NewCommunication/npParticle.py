@@ -15,7 +15,7 @@ BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.],
                 [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
-MAX_ITENS = 2600  # MAX_ITENS 2600
+MAX_ITENS = 3500  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
 
@@ -197,9 +197,6 @@ class ParticleFilter:
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
-                print coords
-                print shared_coords[0]
-                print shared_coords[1]
                 self.move_particles(
                     [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
                 # add aproximation
@@ -220,7 +217,7 @@ class ParticleFilter:
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
-            time.sleep(0.2)
+            time.sleep(0.1)
 
 
 
@@ -235,7 +232,7 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4+ np.pi) % (2 * np.pi), distances  # delete +np.pi for our robot
+    return (angles + np.pi / 4) % (2 * np.pi), distances  # delete +np.pi for our robot
 
 
 def p_trans(agl, pit):
