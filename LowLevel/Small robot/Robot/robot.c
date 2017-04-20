@@ -58,20 +58,16 @@ switch(cmd->command)
   case 0x02:  //Установить текущие координаты
   {
       float *(temp) ={(float*)cmd->param};
-      ortoPos.max_output = 0.0;
 
       robotCoord[0]= temp[0];
       robotCoord[1]= temp[1];
       robotCoord[2]= temp[2];
-      if (robotCoord[0] == 0 &robotCoord[1] == 0)
-      {
-          points[0].center[0]= temp[0];
-          points[0].center[1]= temp[1];
-          points[0].center[2]= temp[2];
-          CreatePath(&points[0], &points[0], &curPath);
-      }
-      //
-      ortoPos.max_output = 4.0;
+
+      points[0].center[0]= temp[0];
+      points[0].center[1]= temp[1];
+      points[0].center[2]= temp[2];
+
+      CreatePath(&points[0], &points[0], &curPath);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
 }
@@ -784,7 +780,27 @@ break;
     goInsideWithSuckingManipulator();
   }
     break;
+  case 0x99:
+    {
+        float *(temp) ={(float*)cmd->param};
+      ortoPos.max_output = 0.0;
 
+      robotCoord[0]= temp[0];
+      robotCoord[1]= temp[1];
+      robotCoord[2]= temp[2];
+//      if (robotCoord[0] == 0 & robotCoord[1] == 0)
+//      {
+//          points[0].center[0]= temp[0];
+//          points[0].center[1]= temp[1];
+//          points[0].center[2]= temp[2];
+//          CreatePath(&points[0], &points[0], &curPath);
+//      }
+      //
+      ortoPos.max_output = 4.0;
+      char * str ="Ok";
+      sendAnswer(cmd->command,str, 3);
+    }
+    break;
   case 0x80:  //Start flag command
   {
     sendAnswer(cmd->command, &startFlag, sizeof(startFlag));
