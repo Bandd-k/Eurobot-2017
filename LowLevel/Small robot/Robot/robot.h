@@ -115,6 +115,7 @@ typedef struct {
   char collisionAvEn;
 } robStateStruct;
 
+
 extern float robotCoordTarget[3];
 extern float robotSpeedTarget[3] ;
 extern float motorSpeed[4];
@@ -140,6 +141,7 @@ extern InPackStruct inCommand;
 extern char inData[64];
 extern char dataIndex;
 extern float distanceData[3][6];
+
 //void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_number3);
 void stopmove();
 //void checkCollisionAvoid_small(float *rV , float* vTargetGlob);

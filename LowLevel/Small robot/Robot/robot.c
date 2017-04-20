@@ -16,6 +16,7 @@
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
 extern char allpointsreached;
+extern PidStruct ortoPos;
 float distanceData[3][6] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float distanceFromIR;
 bool flag = 1;
@@ -57,16 +58,20 @@ switch(cmd->command)
   case 0x02:  //Установить текущие координаты
   {
       float *(temp) ={(float*)cmd->param};
+      ortoPos.max_output = 0.0;
 
       robotCoord[0]= temp[0];
       robotCoord[1]= temp[1];
       robotCoord[2]= temp[2];
-
-      points[0].center[0]= temp[0];
-      points[0].center[1]= temp[1];
-      points[0].center[2]= temp[2];
-
-      CreatePath(&points[0], &points[0], &curPath);
+      if (robotCoord[0] == 0 &robotCoord[1] == 0)
+      {
+          points[0].center[0]= temp[0];
+          points[0].center[1]= temp[1];
+          points[0].center[2]= temp[2];
+          CreatePath(&points[0], &points[0], &curPath);
+      }
+      //
+      ortoPos.max_output = 4.0;
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
 }

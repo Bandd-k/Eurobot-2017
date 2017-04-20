@@ -20,9 +20,6 @@ typedef struct {
   int curWorkAdr;
 } dmaPackStruct;
 
-
-
-
 int putchar(char ch);  //отправить байт
 uint32_t packetCheck(char* dataToCheck, char size);  // Вычислить контрольную сумму CRC
 char sendPacket(char* dataToCheck, char size);     // отправить пакет

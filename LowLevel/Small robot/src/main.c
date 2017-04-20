@@ -92,6 +92,7 @@ int main(void)
 
 long int tempora = 1000000*3 ;
 numberofrot = 0;
+
     while(1)
     {
 
@@ -101,7 +102,6 @@ numberofrot = 0;
         else{
             startFlag = 0;
         }
-
 //        setPositionOfCylinderCarrierByTime(1000000*3);
 //        softDelay(1000000*3);
 //        softDelay(1000000*3);
