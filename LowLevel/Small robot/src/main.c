@@ -75,7 +75,6 @@ int main(void)
 	// Add to NVIC
 	NVIC_Init(&NVIC_InitStruct);
     SysTick_Config(840);
-
     USBD_Init(&USB_OTG_dev,
     #ifdef USE_USB_OTG_HS
                 USB_OTG_HS_CORE_ID,
