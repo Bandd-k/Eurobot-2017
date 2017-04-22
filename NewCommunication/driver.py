@@ -8,8 +8,15 @@ from packets import encode_packet, decode_packet
 import logging
 
 
+#<<<<<<< HEAD
+#PORT_VID = 1155
+#PORT_PID = 22336
+#PORT_SNR = '3677346C3034'
+#DEVICE_NAME = '/dev/ttyACM6'
+#=======
 PORT_SNR = '325936843235'
 DEVICE_NAME = '/dev/ttyACM0'
+#>>>>>>> 4ead14e6dbd7bdcaae48a8ba2a886a9ec203a0d3
 
 class DriverException(Exception):
     pass

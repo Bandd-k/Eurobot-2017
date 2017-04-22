@@ -234,9 +234,9 @@ initRegulators();
 
   timPWMConfigure(TIM4, 70, MAX_PWM, 1, 1, 1, 1); // 1000Hz
   timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
-  timPWMConfigure(TIM10, 14, MAX_PWM, 1, 0, 0, 0);
-  timPWMConfigure(TIM9, 14, MAX_PWM, 1, 1, 0, 0);
-  timPWMConfigure(TIM12, 7, MAX_PWM, 1, 1, 0, 0);
+  timPWMConfigure(TIM10, 2*1667, MAX_PWM, 1, 0, 0, 0);
+  timPWMConfigure(TIM9, 2*1667, MAX_PWM, 1, 1, 0, 0);
+  timPWMConfigure(TIM12, 2*1667, MAX_PWM, 1, 1, 0, 0);
 
 //___PID_TIM________________________________________________________________
 
@@ -296,12 +296,12 @@ initRegulators();
 
 //___ADC____________________________________________________________________
 
-  conf_pin(GENERAL_PIN_0, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);//conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_DOWN);//
-  conf_pin(GENERAL_PIN_1, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_2, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_3, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_4, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_5, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_UP);//conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_DOWN);//
+  conf_pin(GENERAL_PIN_1, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_2, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_3, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_4, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_5, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_6, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_7, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_8, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
@@ -355,6 +355,14 @@ initRegulators();
 //RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  //I2C2
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
+
+upLeftCollectorWithBalls();
+upRightCollectorWithBalls();
+polulu_outside_right();
+polulu_outside_left();
+OpenCyinderCorrector();
+upLeftCollectorWithBalls();
+upRightCollectorWithBalls();
 __enable_irq();
 }
 ////////////////////////////////////////////////////////////////////////////////

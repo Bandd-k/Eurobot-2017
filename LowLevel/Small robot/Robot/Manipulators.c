@@ -7,6 +7,7 @@
 
 double timeofred;
 char color, color_check[8];
+float magnetincoderdata[10];
 
 float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
@@ -127,14 +128,30 @@ char getCurrentColor(){
     return color;
 }
 
-
 float getCurrentEncoderAngle(void){
 
-    angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
-    whole_angle = numberofrot * 360 + angle_enc_real;
+    angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+    angle_enc_real  = filtrating(&magnetincoderdata[0],angle_enc_real,10);
+    //whole_angle = numberofrot * 360 + angle_enc_real;
     return angle_enc_real;
 }
+
+float filtrating(float* array_to_filtrate, float new_data, int len_of_array){
+    int i;
+    float sum=0;
+    for (i=0;i<len_of_array-1;i++){
+            array_to_filtrate[i]=array_to_filtrate[i+1];
+    }
+    array_to_filtrate[len_of_array-1] = new_data;
+    for (i=0;i<len_of_array;i++){
+        sum += array_to_filtrate[i];
+    }
+    sum = sum/len_of_array;
+    return sum;
+}
+
+
 
 void setCurrentAngleAsBeginning(void){
     whole_angle = getCurrentEncoderAngle();
@@ -143,25 +160,34 @@ void setCurrentAngleAsBeginning(void){
 
 void setPositionOfCylinderCarrier(float desiredAngle){
 
-    angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
-    whole_angle = numberofrot * 360 + angle_enc_real;
+//    angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+//    angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+//    whole_angle = numberofrot * 360 + angle_enc_real;
     angle_before_movement = whole_angle;
 
-    if(desiredAngle > whole_angle){
+    if(desiredAngle < whole_angle){
 
-        whole_angle_prev = whole_angle - 10;
+        while(fabs(desiredAngle - whole_angle) > 30 || (desiredAngle < whole_angle)){
 
-        while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle > whole_angle)){
+//            angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+//            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+//            whole_angle = numberofrot * 360 + angle_enc_real;
 
-            angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
-            whole_angle = numberofrot * 360 + angle_enc_real;
+           setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ÂÃÐÓÇÈÒÜ
+            setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW  ÂÃÐÓÇÈÒÜ
 
-            setServoMovingSpeed(3, (uint16_t)(710), 0x0000);//CCW
-            setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW
+//            setServoMovingSpeed(3, (uint16_t)(800 + 1024), 0x0400);//CW
+//            setServoMovingSpeed(2, (uint16_t)(810), 0x0000);//CCW
 
-            if(((desiredAngle - whole_angle) > (desiredAngle - whole_angle_prev)) && fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
+
+//            if((int)fabs((angle_enc_real)) % 360 > 353){
+//                softDelay(800000);
+//                angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+//                angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+//                whole_angle = numberofrot * 360 + angle_enc_real;
+//            }
+
+            if(fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
                 setServoMovingSpeed(3, (uint16_t)0, 0x0000);
                 setServoMovingSpeed(2, (uint16_t)0, 0x0000);
 //                whole_angle += 2*fabs(angle_before_movement - whole_angle);
@@ -169,22 +195,34 @@ void setPositionOfCylinderCarrier(float desiredAngle){
             }
             whole_angle_prev = whole_angle - 20;
         }
+
     }
 
-    else if(desiredAngle < whole_angle){
+    else if(desiredAngle > whole_angle){
 
         whole_angle_prev = whole_angle + 10;
 
-        while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle < whole_angle)){
+        while(fabs(desiredAngle - whole_angle) > 30 || (desiredAngle > whole_angle)){
 
-            angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
-            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27/360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
-            whole_angle = numberofrot * 360 + angle_enc_real;
+//            angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+//            angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+//            whole_angle = numberofrot * 360 + angle_enc_real;
 
-            setServoMovingSpeed(3, (uint16_t)(780 + 1024), 0x0400);//CW
-            setServoMovingSpeed(2, (uint16_t)(810), 0x0000);//CCW
+            setServoMovingSpeed(3, (uint16_t)(827 + 1024), 0x0400);//CW ÂÛÃÐÓÇÈÒÜ
+            setServoMovingSpeed(2, (uint16_t)(860), 0x0000);//CCW  ÂÛÃÐÓÇÈÒÜ
 
-            if((fabs(desiredAngle - whole_angle) > fabs(desiredAngle - whole_angle_prev)) && fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
+//            setServoMovingSpeed(3, (uint16_t)(710), 0x0000);//CCW
+//            setServoMovingSpeed(2, (uint16_t)(815 + 1024), 0x0400);//CW
+
+
+//            if((int)fabs(angle_enc_real) % 360 > 353){
+//                softDelay(600000);
+//                angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096.0;
+//                angle_enc_real = 32*pow(angle_encoder, 0.41) - 27./360 * angle_encoder + 30 - 65*exp(-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
+//                whole_angle = numberofrot * 360 + angle_enc_real;
+//            }
+
+            if(/*(fabs(desiredAngle - whole_angle) > fabs(desiredAngle - whole_angle_prev)) && */fabs(angle_before_movement - whole_angle) > fabs(desiredAngle - angle_before_movement)){//-10 at the end
                 setServoMovingSpeed(3, (uint16_t)0, 0x0000);
                 setServoMovingSpeed(2, (uint16_t)0, 0x0000);
 //                whole_angle -= 2*fabs(angle_before_movement - whole_angle);
@@ -193,20 +231,24 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 
             whole_angle_prev = whole_angle + 20;
         }
+
     }
+
     setServoMovingSpeed(2, (uint16_t)0, 0x0000);
     setServoMovingSpeed(3, (uint16_t)0, 0x0000);
+
 }
 
 
+
 void increaseByGivenAngle(float givenAngle){
-    setPositionOfCylinderCarrier(whole_angle + givenAngle);
+    setPositionOfCylinderCarrier(whole_angle - givenAngle);
 }
 
 
 
 void decreaseByGivenAngle(float givenAngle){
-    setPositionOfCylinderCarrier(whole_angle - givenAngle);
+    setPositionOfCylinderCarrier(whole_angle + givenAngle);
 }
 
 
@@ -236,7 +278,7 @@ float arCubesCatcherAngle[10];
 
 float encodermagner(float prevencodermagner){
 
-        arCubesCatcherAngle[9] = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;//*360/3.3
+        arCubesCatcherAngle[9] = angle_enc_real;//adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;//*360/3.3
         int i = 0;
         float smoothed = 0;
         for (i;i<9;i++) {
@@ -246,11 +288,11 @@ float encodermagner(float prevencodermagner){
         smoothed /= 10;
 
 
-        if ((arCubesCatcherAngle[0] - prevCubesCatcherAngle) > 100) {
+        if ((arCubesCatcherAngle[0] - arCubesCatcherAngle[9]) > 100) {
                 diff = 1;
                 //softDelay(100000);
         }
-        else if ((arCubesCatcherAngle[0]- prevCubesCatcherAngle) < -100) {
+        else if ((arCubesCatcherAngle[0]- arCubesCatcherAngle[9]) < -100) {
                 diff = -1;
                 //softDelay(100000);
         }

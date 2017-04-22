@@ -9,7 +9,9 @@ WORLD_X = 3000
 WORLD_Y = 2000
 BEAC_R = 40
 BORDER = 15
-BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], [- BEAC_R-BORDER, - BEAC_R - BORDER]])
+
+BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [(-BEAC_R-BORDER), WORLD_Y + BEAC_R+BORDER], [(- BEAC_R-BORDER), - BEAC_R - BORDER]])
+
 
 # parametres of lidar
 MAX_ITENS = 2600  # MAX_ITENS 2600
@@ -18,7 +20,11 @@ BEAC_DIST_THRES = 200
 
 
 class ParticleFilter:
-    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150, in_angle=0.0, input_queue=None, out_queue=None):
+    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150, in_angle=0.0, input_queue=None, out_queue=None,color='blue'):
+        global BEACONS
+        if(color =='blue'):
+        BEACONS = np.array([[-BEAC_R-BORDER, WORLD_Y / 2.], [(WORLD_X + BEAC_R+BORDER), (WORLD_Y + BEAC_R+BORDER)], [(WORLD_X + BEAC_R+BORDER), (- BEAC_R - BORDER)]])
+
         stamp = time.time()
         self.input_queue = input_queue
         self.out_queue = out_queue
@@ -163,10 +169,14 @@ class ParticleFilter:
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*1.8,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*3.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
-        weights /= np.sum(weights)
+
+        try:
+            weights /= np.sum(weights)
+        except:
+            weights = np.ones(self.particles_num, dtype=np.float)/self.particles_num
         return weights
         # TODO try use median instead mean
         # TODO if odometry works very bad and weights are small use only lidar
@@ -177,9 +187,13 @@ class ParticleFilter:
 
     def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
+        #time.sleep(50)
         while True:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
+                if type(coords[0]) is not type(100.):
+                    logging.critical("Incorrect coordinates format")
+                    continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
                 print coords

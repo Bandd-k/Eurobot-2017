@@ -35,6 +35,7 @@ encOutPackStruct outEnc;              //буфер данных отправля
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
 char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, WHEEL4_CH}; //каналы подкючения колес
 
+char startFlag = 0;
 //extern CDC_IF_Prop_TypeDef  APP_FOPS;
 
 char execCommand(InPackStruct* cmd) //обработать входящую команду
@@ -628,6 +629,9 @@ break;
     distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
     distance_digital2[2] = pin_val(IR_FRONT_TOP);
     distance_digital2[3] = pin_val(IR_BACK);
+    distance_digital2[4] = pin_val(IR_LEFT);
+    distance_digital2[5] = pin_val(IR_RIGHT);
+
 
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
@@ -717,13 +721,15 @@ break;
 
   case 0x44:
   {
-    increaseByGivenAngle(LIFT_CYLINDER);
+    float *(temp) = (float*)(cmd->param);
+    setPositionOfCylinderCarrier(*temp);
         //it is for holding it
   }
     break;
 
   case 0x45:
   {
+    increaseByGivenAngle(STORE_CYLINDER);
     increaseByGivenAngle(STORE_CYLINDER);
         //it is for storing it
   }
@@ -773,169 +779,15 @@ break;
   }
     break;
 
-  /*case 0x4B: // Sucking manipulator
+  case 0x80:  //Start flag command
   {
-    dropAllCylinders();
+    sendAnswer(cmd->command, &startFlag, sizeof(startFlag));
   }
     break;
-
-         /*
-case 0x2E:
-{
-    SERVO_EVEVATE_IN(); // move servo inside
-    char * str ="Ok";
-    sendAnswer(cmd->command,str, 3);
-
-}
-break;
-
-case 0x45:
-    {
-        SERVO_EVEVATE_OUT(); // move servo out
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
-    }
-break;
-
-case 0x46:
-    {
-        servo_ROTATE_90(); // rotate the pump 90 degrees
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
-    }
-break;
-
-case 0x47:
-    {
-        servo_ROTATE_180(); // rotate the pump 180 degrees
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
-    }
-break;
-
-*/
-
-
-
-
-
-
     default:
     return 0;
   break;
 }
 
-
-
 }
-
-
-
-/*void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
-{
-
-          float realRad        = robotCoord[2];
-
-  //float Ml[4][2]     = {(sinus+cosinus), (cosinus-sinus), (cosinus-sinus), -(sinus+cosinus), (cosinus-sinus), -(sinus+cosinus), (sinus+cosinus), (cosinus-sinus)};
- // float Mfi[4]       = {-(0.14), -(0.14),-(0.14), -(0.14)};  //матрица расчета угловой скорости
-            float Mrot[3][3]   = {cos(realRad) , sin(realRad), 0,
-                        -sin(realRad), cos(realRad), 0,
-                                    0,            0, 1};  //матрица пересчета глобальных скоростей в локальные
-            float localVelocity[3];
-            matrixMultiplyM2M(&Mrot[0][0], 3, 3, vTargetGlob, 3, 1, &localVelocity[0]);//Ml*Velocity speed in local coordinate system
-
-    //if (*flag) {memcpy( vTargetGlob_last, vTargetGlob, sizeof( float)*3);}
-//ang3 = adcData[3] * 0.0822 * 2.54;
-    //if (fabs( vTargetGlob[2])>0.05 &&((distanceData[1][5]<=threshhold ) || (distanceData[2][5]<=threshhold )||distanceData[0][5]<=threshhold))
-     //   {stopmove();}
-    //if ((vTargetGlob[0] >0) && (vTargetGlob[1]>0) && (distanceData[1][5]<=threshhold )){
-        //stopmove();
-      //  stopmove();
-       // }
-
-     if ((localVelocity[0]>0) && (localVelocity[1]<0) && ((distanceData[0][5]<=threshhold ) || (distanceData[1][5]<=threshhold ) || (distance_digital[0] == 0))){
-            stopmove();}
-
-    else if ((localVelocity[0]<=0) && (localVelocity[1]<=0) && (distanceData[0][5]<=threshhold || (distance_digital[0] == 0))  ) {
-        stopmove();}
-//    else if ((localVelocity[0]<=0) && (localVelocity[1] >0) && ((distanceData[2][5]<=threshhold ) || (distance_digital1[0] == 0))) {
-  //      stopmove();}
-    else {
-        //curState.trackEn = 1;
-        //*flag = 1;
-        }
-    //*flag = 0;
-}
-
-
-void stopmove(){
-        //curState.trackEn=0;
-        vTargetGlob[2]=0.0;
-        vTargetGlob[0]=0.0;
-        vTargetGlob[1]=0.0;
-        vTargetGlobF[2]=0.0;
-        vTargetGlobF[0]=0.0;
-        vTargetGlobF[1]=0.0;
-        }
-
-//void takeadc(int adc_number1,int adc_number2,int adc_number3)
-//{
-
-    //figure out how many distance sensors we will have - 6 IR
-
-
-
-/*
-    for(i=1;i<8:i++)distance_digital[i]=distance_digital[i+1];
-    distance_digital[8] = pin_val(EXTI1_PIN);
-
-    //distance_digital[0]= distance_digital[1]*distance_digital[2]*distance_digital[3]*distance_digital[4]*distance_digital[5]*distance_digital[6];
-    int i =0;
-    for (i = 1; i <= 5; i++) // 0-4
-    {
-        if (distance_digital[i]==0)
-        {
-            distance_digital[9]=1; //flag
-        }
-    }
-    if (distance_digital[9]==1)
-    {distance_digital[0]=0;
-     distance_digital[9]=0;}
-    else
-     {distance_digital[0]=1;
-     distance_digital[9]=0;
-     }
-
-    for(i=1;i<8:i++)distance_digital1[i]=distance_digital1[i+1];
-    distance_digital1[8] = pin_val(EXTI2_PIN);
-
-    //distance_digital[0]= distance_digital[1]*distance_digital[2]*distance_digital[3]*distance_digital[4]*distance_digital[5]*distance_digital[6];
-
-    for (i = 1; i <= 5; i++) // 0-4
-    {
-        if (distance_digital1[i]==0)
-        {
-            distance_digital1[9]=1; //flag
-        }
-    }
-    if (distance_digital1[9]==1)
-    {distance_digital1[0]=0; //this means there is an obstacle in this sensor
-     distance_digital1[9]=0;}
-    else
-     {distance_digital1[0]=1;
-     distance_digital1[9]=0;
-     }
-*/
-
-//}
-
-/*void soft_delay(long int ticks)
-{
-    for(; ticks > 0; ticks-- );
-}
-    uint16_t stVal = 0;
-    uint16_t finalVal = 0;
-    uint16_t curLoad;*/
-//______________________________________________________//
-
 

@@ -247,7 +247,7 @@ initRegulators();
 
 //___PID_TIM________________________________________________________________
 
-  timPIDConfigure(TIM6, 13107, 64);// 20Hz
+  timPIDConfigure(TIM6, 13107/2, 64);// 2*20Hz
   NVIC_EnableIRQ(TIM6_DAC_IRQn);
 
 //___REGULATOR_TIM__________________________________________________________
@@ -305,8 +305,8 @@ initRegulators();
 
   conf_pin(GENERAL_PIN_0, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);//conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_DOWN);//
   conf_pin(GENERAL_PIN_1, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_2, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_3, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(GENERAL_PIN_2, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(GENERAL_PIN_3, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_4, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_5, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_6, INPUT, PUSH_PULL, FAST_S, PULL_UP);
@@ -353,7 +353,7 @@ NVIC_InitTypeDef NVIC_InitStruct;
 __enable_irq();
 
 set_pin(PWM_INHIBIT);
-softDelay(500000);
+softDelay(5000000);
 reset_pin(PWM_INHIBIT);
 //___MAXON'S_PWM________________________________________________________________
 int i = 0;

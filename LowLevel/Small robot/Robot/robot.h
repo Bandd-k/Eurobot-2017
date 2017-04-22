@@ -60,6 +60,8 @@
 #define IR_FRONT_RIGHT GENERAL_PIN_6
 #define IR_FRONT_TOP GENERAL_PIN_5
 #define IR_BACK GENERAL_PIN_4
+#define IR_LEFT GENERAL_PIN_3
+#define IR_RIGHT GENERAL_PIN_2
 
 #define FIRST_CYLINDER_ANGLE 400
 #define SECOND_CYLINDER_ANGLE 800
@@ -147,4 +149,5 @@ char execCommand(InPackStruct* cmd);
 void pushByte(char inByte);
 char sendAnswer(char cmd,char * param,int paramSize);
 
+extern char startFlag;
 #endif
