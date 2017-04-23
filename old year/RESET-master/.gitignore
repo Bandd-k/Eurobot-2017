@@ -1,0 +1,20 @@
+# Lines starting with '#' are considered comments.
+# Ignore files and derectories
+Robot V2/bin/
+Robot V2/obj/
+Dynamixel lib/bin/
+Dynamixel lib/obj/
+Sonar_ADC/bin/
+Sonar_ADC/obj/
+BreezyLidar/
+line_profiler.py
+kernprof.py
+*.o
+*.elay
+*.depend
+*.hex
+*.out
+*.map
+*.py~
+*.pyc
+*.lprof
