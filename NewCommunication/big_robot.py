@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import driver
 import time
 import sys
@@ -11,7 +13,12 @@ import npParticle as pf
 import numpy as np
 
 lvl = logging.INFO
-logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
+if sys.argv[-1][0] != "l":
+    filename = 'Eurobot.log'
+else:
+    filename = sys.argv[-1]
+    
+logging.basicConfig(filename=filename, filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
 console = logging.StreamHandler()
@@ -23,7 +30,7 @@ def rev_field(val, color):
     
 
 ## TODO: Defined according to mechanical situation, make from scrath to 90, 90, 180, 180 (left_up, right_up, left_down, right_down)
-angle_left_up, angle_right_up, angle_left_down, angle_right_down = 80., 55., 173., 146.
+angle_left_up, angle_right_up, angle_left_down, angle_right_down = 80., 45., 173., 136.
 
 console.setLevel(lvl)
 # set a format which is simpler for console use
@@ -39,12 +46,12 @@ class Robot:
     def __init__(self, lidar_on=True, color = 'yellow', sen_noise = 20, 
         angle_noise=0.2, dist_noise = 45, init_coord = [170, 170, 0]):
         self.color = color
-        self.sensor_range = 50
-        self.collision_avoidance = True
+        self.sensor_range = 60
+        self.collision_avoidance = False
         self.localisation = Value('b', True)
         #change for collision
         #self.sensors_map = {0:(0, np.pi/3),7:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),6:(7/4.*np.pi,2*np.pi),8:(0,np.pi/4),4:(np.pi/4,3*np.pi/4),5:(np.pi*5/4,7*np.pi/4)} #[(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]
-        self.sensors_map= {0: (np.pi/6, np.pi/2+np.pi/6), 1: (np.pi/2-np.pi/6, np.pi*5/6), 2: (0, np.pi/4), 3: (np.pi - np.pi/4, np.pi + np.pi/4), 4: (3*np.pi/2-np.pi/6,11*np.pi/6), 5: (np.pi+np.pi/6,3*np.pi/2+np.pi/6), 6:(7*np.pi/4,2*np.pi)}  # can be problem with 2pi and 0
+        self.sensors_map= {0: (np.pi/6, np.pi/2+np.pi/3), 1: (np.pi/2-np.pi/3, np.pi*5/6), 2: (0, np.pi/4), 3: (np.pi - np.pi/3, np.pi + np.pi/3), 4: (3*np.pi/2-np.pi/3,11*np.pi/6), 5: (np.pi-np.pi/6,3*np.pi/2+np.pi/3), 6:(3*np.pi/2 + np.pi/4, 2*np.pi)}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
         if lidar_on:
@@ -127,14 +134,15 @@ class Robot:
         pids = True
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.send_command('is_point_was_reached')['data']:
-            time.sleep(0.05)
+            time.sleep(0.01)
             if self.collision_avoidance:
                 direction = (float(x), float(y))
                 while self.check_collisions(direction):
+                    logging.info("Collision made!")
                     if pids:
                         self.send_command('stopAllMotors')
                         pids = False
-                    time.sleep(0.5)
+                    time.sleep(1)
                 if not pids:
                     pids = True
                     logging.info(self.send_command('switchOnPid'))
@@ -176,10 +184,6 @@ class Robot:
         data.append(data[2])
         return data
 
-
-
-
-
     def check_map(self,direction): # probably can be optimized However O(1)
         direction = (direction[0]/np.sum(np.abs(direction)),direction[1]/np.sum(np.abs(direction)))
         for i in range(0, self.sensor_range, 2):
@@ -199,7 +203,7 @@ class Robot:
         if dur is not None:
             tmstmp = time.time()
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
-            print 'calibrate'
+            logging.info('Calibrate')
             self.go_to_coord_rotation(parameters)
             if tmstmp is not None and time.time() - tmstmp > dur:
                 break
@@ -212,109 +216,118 @@ class Robot:
     def left_ball_down(self, dur = 1, angle = angle_left_down, speed = 100.0):
         self.collision_avoidance = False
         self.send_command('left_ball_down', [angle, speed])
+        logging.info("left_ball_down")
         time.sleep(dur)
-        self.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def left_ball_up(self, dur = 1, angle = angle_left_up, speed = 100.0):
         self.collision_avoidance = False
         self.send_command('left_ball_up', [angle, speed])
+        logging.info("left_ball_up")
         time.sleep(dur)
-        self.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def left_ball_drop(self, dur = 1, angle = angle_left_up + 33., speed = 100.0):
         self.collision_avoidance = False
         self.send_command('left_ball_drop', [angle, speed])
+        logging.info("left_ball_drop")
         time.sleep(dur)
-        self.collision_avoidance = True 
+        #self.collision_avoidance = True 
 
     def right_ball_down(self, dur = 1, angle = angle_right_down, speed = 100.):
         self.collision_avoidance = False
         self.send_command('right_ball_down', [angle, speed])
+        logging.info("right_ball_down")
         time.sleep(dur)
-        self.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def right_ball_up(self, dur = 1, angle = angle_right_up, speed = 100.):
         self.collision_avoidance = False
         self.send_command('right_ball_up', [angle, speed])
+        logging.info("right_ball_up")
         time.sleep(dur)
-        self.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def right_ball_drop(self, dur = 1, angle = angle_right_up + 35., speed = 100.0):
-        rb.collision_avoidance = False
+        rselfcollision_avoidance = False
         self.send_command('right_ball_drop', [angle, speed])
+        logging.info("right_ball_drop")
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
-    # servos for cylinder take
+    ### servos for cylinder take
     def front_down_cylinder_no(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('front_down_cylinder_no')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def front_up_cylinder_yes(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('front_up_cylinder_yes')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def front_drop_cylinder_yes(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('front_drop_cylinder_yes')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def back_down_cylinder_no(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('back_down_cylinder_no')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def back_up_cylinder_yes(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('back_up_cylinder_yes')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def back_drop_cylinder_yes(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('back_drop_cylinder_yes')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     # sticks to use
     def both_sticks_open(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('both_sticks_open')
+        #self.collision_avoidance = True
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
 
     def both_sticks_close(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('both_sticks_close')
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
     
-    #seesaw manipulator
+    ### seesaw manipulator
     def seesaw_hand_down(self, dur = 1):
-        rb.collision_avoidance = False
+        self.collision_avoidance = False
         self.send_command('seesaw_hand_down')
+        logging.info("seesaw_hand_down")
         time.sleep(dur)
-        rb.collision_avoidance = True
+        #self.collision_avoidance = True
         
     def seesaw_hand_up(self, dur = 1):
         self.collision_avoidance = False
         self.send_command('seesaw_hand_up')
+        logging.info("seesaw_hand_up")
         time.sleep(dur)    
-        self.collision_avoidance = True
+        #self.collision_avoidance = True
     
     # funny action
     def funny_action(self, signum, frame):
-        self.send_command('stopAllMotors')
-        self.send_command('funny_action_open')
+        #self.send_command('stopAllMotors')
+        #self.send_command('funny_action_open')
         funny_done = 1
-        logging.info('FUNNNY ACTION')
-        raise ValueError
+        logging.info('FUNNY ACTION')
+        raise Exception
 
     def lin_interpol_traj(x1, y1, x2, y2, ratio):
         return [x1+(x2-x1)*ratio, y1+(y2-y1)*ratio]
@@ -324,303 +337,413 @@ class Robot:
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
 
-    def init_manipulators(self):
-        self.left_ball_up(dur = 0.1)
-        self.right_ball_up(dur = 0.1)
-        self.seesaw_hand_up(dur = 0.1)
+    def init_manipulators(self, dur = 1):
+        self.left_ball_up(dur=dur)
+        self.right_ball_up(dur=dur)
+        self.seesaw_hand_up(dur=0.1)
 
 
-    def another_trajectory(self,speed = 4):
+    def first_trajectory(self, speed = 4, mode=1):
+        self.collision_avoidance = False #True
+        if mode == 1:
+            speed = 1
+            angle = np.pi/2
+            parameters = [950, 200, angle, speed]
+            self.go_to_coord_rotation(parameters)
+        elif mode == 2:
+            speed = 1
+            angle = np.pi/6
+            if self.color == "yellow":
+                angle = np.pi/6
+            else:
+                angle = 2*np.pi - np.pi/6
+            self.collision_avoidance = False
+            #self.localisation.value = False
+            parameters = [900, 170, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            #self.localisation.value = True
+            #parameters = [900, 170, angle, speed]
+            #self.go_to_coord_rotation(parameters)
+        else:
+            peed = 1
+            angle = np.pi/2
+            parameters = [950, 200, angle, speed]
+            self.go_to_coord_rotation(parameters)
+        
+        angle = np.pi/2
+        if mode == 1:
+            speed = 0
+        else:
+            speed = 1
+        parameters = [900, 700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = False #True
+        parameters = [740, 1000, angle, 0]
+        self.go_to_coord_rotation(parameters)
+        #self.go_last(parameters, dur = 4)
+        #self.localisation.value = 
         speed = 1
-        angle = np.pi/6
+        parameters = [640, 1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        
+        speed = 4
+        parameters = [500, 1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #self.left_ball_down()
+        if self.color == "yellow":
+            self.left_ball_down()
+        else:
+            self.right_ball_down()
+        parameters = [640, 1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #self.left_ball_up()
+        dur = 0.3
+        if self.color == "yellow":
+            self.left_ball_up(dur=dur)
+        else:
+            self.right_ball_up(dur=dur)
+        speed = 1
+        #angle = np.pi/2
+        #parameters = [640, 2000-450, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        angle = np.pi + np.pi/4
+        parameters = [640, 2000-450, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 4
+        parameters = [320, 2000-400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #self.right_ball_down()
+        dur = 1
+        if self.color == "yellow":
+            self.right_ball_down(dur=dur)
+        else:
+            self.left_ball_down(dur=dur)
         self.collision_avoidance = False
-        self.localisation.value = False
+        parameters = [440, 2000-570, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = False#True
+        #self.right_ball_up(dur = 0.5)
+        dur = 0.3
+        if self.color == "yellow":
+            self.right_ball_up(dur = dur)
+        else:
+            self.left_ball_up(dur = dur)
+        
+        speed = 1
+        #angle = 6*np.pi/7
+        #parameters = [965, 1100, angle,0] # 865 1100
+        #self.go_to_coord_rotation(parameters)
+        angle = np.pi/2
+        parameters = [965, 1100, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        
+        self.collision_avoidance = False#True
+        speed = 1
+        parameters = [900, 230, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/10
+        if self.color == "yellow":
+            angle = np.pi/10#np.pi/6
+        else:
+            angle = 2*np.pi - np.pi/10
+        parameters = [900, 230, angle, speed]
+        self.go_last(parameters, dur=3)
+        parameters = [870, 230, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.seesaw_hand_down()
+        self.collision_avoidance = False
+        #self.localisation.value = False
+        parameters = [235, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.seesaw_hand_up()
+        #self.localisation.value = True
+        self.collision_avoidance = False#True
+        angle = 0.0
+        parameters = [225, 280, angle, speed]
+        self.go_last(parameters, dur = 3)
+        ## BOARDER localisation can be pasted
+        ## end
+        #self.right_ball_drop()
+        #self.right_ball_up()
+        if self.color == "yellow":
+            self.right_ball_drop()
+            self.right_ball_up()
+        else:
+            self.left_ball_drop()
+            self.left_ball_up()
+
+        speed = 1
+        angle = 0.0
+        parameters = [200, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi
+        parameters = [200, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 1
+        parameters = [225, 280, angle, speed]
+        self.go_last(parameters, dur=3)
+        #self.left_ball_drop()
+        #self.left_ball_up()
+        if self.color == "yellow":
+            self.left_ball_drop()
+            self.left_ball_up()
+        else:
+            self.right_ball_drop()
+            self.right_ball_up()
+        
+        # TODO: go once more
+        speed = 4
+        angle = np.pi + np.pi/6
+        if self.color == "yellow":
+            angle = np.pi + np.pi/6#np.pi/6
+        else:
+            angle = 2*np.pi - np.pi - np.pi/6
+        parameters = [170, 170, angle, speed]
+        rb.go_last(parameters, dur = 1)
+        speed = 1
+        self.collision_avoidance = False
+        #self.localisation.value = False
         parameters = [900, 170, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        angle = np.pi/2
-        parameters = [900, 600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
+        #self.localisation.value = True
+        self.collision_avoidance = False#True
+        angle = 3*np.pi/2
+        parameters = [900, 550, angle, speed]
+        self.go_last(parameters, dur = 3)
+        self.collision_avoidance = False#True
+        #self.right_ball_down(dur = 1)
+        #self.right_ball_up(dur = 0.2)
+        if self.color == "yellow":
+            self.right_ball_down(dur = 1)
+            self.right_ball_up(dur = 0.2)
+        else:
+            self.left_ball_down(dur = 1)
+            self.left_ball_up(dur = 0.2)
+        
+        #####################
+        if True:
+            speed = 1
+            angle = 3*np.pi/2
+            parameters = [860, 200, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            #self.right_ball_drop()
+            #self.right_ball_up()
+            if self.color == "yellow":
+                self.right_ball_drop()
+                self.right_ball_up()
+            else:
+                self.left_ball_drop()
+                self.left_ball_up()
+            return
+        
+        #####################################
+        if False:
+            parameters = [1000, 280, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            angle = np.pi/18
+            if self.color == "yellow":
+                angle = np.pi/18
+            else:
+                angle = 2*np.pi - np.pi/18
+            parameters = [880, 230, angle, speed]
+            self.go_last(parameters, dur = 4)
+            self.seesaw_hand_down()
+            self.collision_avoidance = False
+            #self.localisation.value = False
+            parameters = [235, 230, angle, speed]
+            self.go_last(parameters)
+            self.seesaw_hand_up()
+            #self.localisation.value = True
+            #self.collision_avoidance = True
+            angle = 0.0
+            parameters = [235, 250, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            self.go_last(parameters, dur = 1)
+            return
+            ## BOARDER localisation can be pasted
+            ## end
+            if self.color == "yellow":
+                self.right_ball_drop()
+                self.right_ball_up()
+            else:
+                self.left_ball_drop()
+                self.left_ball_up()
+            return
+        ####################################
+            
+    def first_traverse_trajectory(self,speed = 4):
         speed = 1
-        angle = np.pi/2
-        parameters = [640, 1000, angle, speed]
+        angle = np.pi/6
+        if self.color == "yellow":
+            angle = np.pi/6
+        else:
+            angle = 2*np.pi - np.pi/10
+        self.collision_avoidance = False
+        #self.localisation.value = False
+        parameters = [950, 200, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [640, 1820, angle, speed]
+        #self.localisation.value = True
+        #parameters = [1000, 170, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        angle = np.pi/2
+        parameters = [950, 600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #self.collision_avoidance = True
+
+        parameters = [640, 1000, angle, speed]
+        self.go_last(parameters, dur = 4)
+        parameters = [640, 1800, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi/2
         speed = 4
-        parameters = [530, 1820, angle, speed]
+        parameters = [500, 1800, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.left_ball_down()
-        parameters = [640, 1820, angle, speed]
+        #self.left_ball_down()
+        if self.color == "yellow":
+            self.left_ball_down()
+        else:
+            self.right_ball_down()
+        parameters = [640, 1800, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.left_ball_up()
+        #self.left_ball_up()
+        if self.color == "yellow":
+            self.left_ball_up()
+        else:
+            self.right_ball_up()
         angle = np.pi/2
         speed = 1
-        parameters = [640, 2000-480, angle, speed]
+        parameters = [640, 2000-450, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = np.pi
-        parameters = [640, 2000-480, angle, speed]
+        speed = 1
+        angle = np.pi + np.pi/4
+        parameters = [640, 2000-450, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [220, 2000-480, angle, speed]
+        speed = 4
+        parameters = [320, 2000-400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.right_ball_down()
-        parameters = [320, 2000-580, angle, speed]
+        #self.right_ball_down()
+        if self.color == "yellow":
+            self.right_ball_down()
+        else:
+            self.left_ball_down()
+        self.collision_avoidance = False
+        parameters = [440, 2000-570, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.right_ball_up(dur = 0.5)
-        self.go_to_coord_rotation(parameters)
+        #self.collision_avoidance = True
+        #self.right_ball_up(dur = 0.5)
+        if self.color == "yellow":
+            self.right_ball_up(dur = 0.5)
+        else:
+            self.left_ball_up(dur = 0.5)
         
         speed = 1
         angle = 6*np.pi/7
-        parameters = [700, 1250, angle, speed]
+        parameters = [865, 1100, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = np.pi/2
-        parameters = [1000, 600, angle, speed]
+        angle = 3*np.pi/2
+        parameters = [865, 1100, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        
+        #self.collision_avoidance = True
+        speed = 1
+        angle = 3*np.pi/2
+        parameters = [865, 210, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi/18
-        parameters = [880, 280, angle, speed]
-        self.go_last(parameters)
-        self.seesaw_hand_down()
-        self.collision_avoidance = False
-        self.localisation.value = False
-        parameters = [235, 280, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.seesaw_hand_up()
-        self.localisation.value = True
-        self.collision_avoidance = True
-        angle = 0.0
-        parameters = [235, 280, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
-        #~ parameters = [235, 320, angle, speed]
-        #~ self.go_to_coord_rotation(parameters)
-        #~ ## check boarder; set exact coordinates
-        #~ while 1:
-            #~ logging.info("Boarder localisation")
-            #~ coords = self.send_command('getCurrentCoordinates')['data']
-            #~ #print type(coords)
-            #~ if type(coords[0]) is not type(1000.):
-                #~ logging.critical("Incorrect coordinates format")
-                #~ continue
-            #~ else:
-                #~ break
-        #~ coords[2] = 0.0 # angle 
-        #~ coords[1] = 280.0# y - precise
-        #~ coords[0] = coords[0]*1000.0 # x
-        #~ self.send_command('setCoordinates', 
-                          #~ [coords[0] / 1000.,
-                           #~ coords[1] / 1000.,
-                           #~ coords[2]])
-        #~ self.coords = Array('d', coords)
-        #~ ##
-        #~ self.collision_avoidance = False
-        #self.front_drop_cylinder_yes()
-        self.right_ball_drop()
-        self.right_ball_up()
-
-        speed = 1
-        angle = 0.0
-        parameters = [200, 200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi
-        parameters = [200, 200, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 1
-        parameters = [235, 280, angle, speed]
-        self.go_last(parameters, dur = 3)
-        self.left_ball_drop()
-        self.left_ball_up()
-        return
-        # TODO: go once more
-        angle = np.pi/6
-        parameters = [5, 180, angle, speed]
-        rb.go_to_coord_rotation(parameters)
-        self.localisation.value = False
-        parameters = [900, 170, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        angle = np.pi/2
-        parameters = [900, 600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
-        
-    def big_robot_trajectory(self,speed=4):
-        
-        signal.signal(signal.SIGALRM, self.funny_action)
-        signal.alarm(90)
-        speed = 4
-        angle = np.pi/4
-        self.collision_avoidance = False
-        parameters = [170, 170, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 4
-        self.localisation.value = False
-        parameters = [950, 170, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        angle = np.pi/2 + np.pi/3 + np.pi/18
-        parameters = [1000, 600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
-        #angle = np.pi/2
-        #parameters = [835, 180, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        #speed = 4
-        #parameters = [930, 390, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #angle = np.pi/2*0.88
-        #parameters = [935, 440, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        #self.front_down_cylinder_no()
-        #self.front_up_cylinder_yes()
-        #angle = 3*np.pi/4
-        speed = 1
-        #parameters = [800, 850, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [650, 1250, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #angle = np.pi/2
-        #parameters = [950, 200, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #angle = np.pi
-        angle = np.pi/2 + np.pi/3 + np.pi/18
-        parameters = [1000, 600, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
-        self.localisation.value = False
-        #self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
-        ##parameters = [600, 1250, angle, speed]
-        ##self.go_to_coord_rotation(parameters)
-        #parameters = [553, 1516, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [553-130, 1516, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #angle = 3*np.pi/2 + 2*np.pi/18
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [374, 1794, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #angle = 3*np.pi/2
-        #speed=4
-        #parameters = [374, 1794, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        speed = 1
-        #angle = np.pi/2 + np.pi/3 
-        parameters = [50, 1950, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.localisation.value = True
-        self.go_last(parameters)
-        #self.go_last(parameters)
-        #time.sleep(5)
-        #self.collision_avoidance = False
-        angle = np.pi/2
-        parameters = [300, 1794, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [374, 1794, angle, speed]
-        self.go_to_coord_rotation(parameters)   
-        #self.go_to_coord_rotation(parameters)     
-        speed = 1
-        self.left_ball_down()
-        time.sleep(1.5) # to take balls
-        parameters = [400, 1794, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.left_ball_up(dur = 0.5)
-        angle = 3*np.pi/2
-        parameters = [254, 1794  - 10, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 1
-        parameters = [384, 1794 - 120, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        speed = 4
-        angle = 3*np.pi/2
-        parameters = [400, 1794 - 120, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        parameters = [384, 1794 - 120, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        self.right_ball_down()
-        time.sleep(1) # to take balls
-        #self.left_ball_up()
-
-    def big_robot_trajectory_r(self,speed=4):
-        self.localisation.value = True
-        self.collision_avoidance = False
-        speed = 4
-        angle = 3*np.pi/2 + 3*np.pi/18
-        parameters = [450, 1500, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.right_ball_up(dur = 0.5)
-        self.collision_avoidance = True
-        angle = 3*np.pi/2 + np.pi/4
-        speed = 1
-        parameters = [650, 1250, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/2
-        parameters = [1000, 850, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = 3*np.pi/2*0.8
-        parameters = [940, 410, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = np.pi*0.1
-        speed = 1
-        parameters = [920, 260, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        angle = 0.0 + np.pi/18
-        parameters = [870, 250, angle, speed]
-        self.go_to_coord_rotation(parameters)
+        if self.color == "yellow":
+            angle = np.pi/18#np.pi/6
+        else:
+            angle = 2*np.pi - np.pi/18
         parameters = [860, 250, angle, speed]
-        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters, dur = 4)
         self.seesaw_hand_down()
-        self.localisation.value = False
-        parameters = [265, 250, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        self.seesaw_hand_up()
-        self.localisation.value = True
-        angle = 0.0
+        self.collision_avoidance = False
+        #self.localisation.value = False
         parameters = [235, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_to_coord_rotation(parameters)
-        parameters = [235, 320, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        ## check boarder; set exact coordinates
-        while 1:
-            logging.info("Boarder localisation")
-            coords = self.send_command('getCurrentCoordinates')['data']
-            #print type(coords)
-            if type(coords[0]) is not type(1000.):
-                logging.critical("Incorrect coordinates format")
-                continue
-            else:
-                break
-        coords[2] = 0.0 # angle 
-        coords[1] = 280.0# y - precise
-        coords[0] = coords[0]*1000.0 # x
-        self.send_command('setCoordinates', 
-                          [coords[0] / 1000.,
-                           coords[1] / 1000.,
-                           coords[2]])
-        self.coords = Array('d', coords)
-        ##
-        self.collision_avoidance = False
-        self.front_drop_cylinder_yes()
-        self.right_ball_drop()
-        self.right_ball_up()
-        speed = 4
+        self.seesaw_hand_up()
+        #self.localisation.value = True
+        #self.collision_avoidance = True
         angle = 0.0
-        parameters = [180, 180, angle, speed]
+        parameters = [225, 280, angle, speed]
+        self.go_last(parameters, dur = 3)
+        ## BOARDER localisation can be pasted
+        ## end
+        #self.right_ball_drop()
+        #self.right_ball_up()
+        if self.color == "yellow":
+            self.right_ball_drop()
+            self.right_ball_up()
+        else:
+            self.left_ball_drop()
+            self.left_ball_up()
+
+        speed = 1
+        angle = 0.0
+        parameters = [200, 200, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi
-        parameters = [180, 180, angle, speed]
+        parameters = [200, 200, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [235, 280, angle, speed]
+        speed = 1
+        parameters = [225, 280, angle, speed]
+        self.go_last(parameters, dur = 2)
+        #self.left_ball_drop()
+        #self.left_ball_up()
+        if self.color == "yellow":
+            self.left_ball_drop()
+            self.left_ball_up()
+        else:
+            self.right_ball_drop()
+            self.right_ball_up()
+        
+        # TODO: go once more
+        speed = 4
+        angle = np.pi + np.pi/6
+        if self.color == "yellow":
+            angle = np.pi + np.pi/6#np.pi/6
+        else:
+            angle = 2*np.pi - np.pi - np.pi/6
+        parameters = [170, 170, angle, speed]
+        rb.go_last(parameters, dur = 1)
+        speed = 1
+        self.collision_avoidance = False
+        #self.localisation.value = False
+        parameters = [1000, 170, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.left_ball_drop()
-        self.left_ball_up()
+        #self.localisation.value = True
+        #self.collision_avoidance = True
+        angle = 3*np.pi/2
+        parameters = [1000, 550, angle, speed]
+        self.go_last(parameters, dur = 3)
+        #self.collision_avoidance = True
+        #self.right_ball_down(dur = 1)
+        #self.right_ball_up(dur = 0.2)
+        if self.color == "yellow":
+            self.right_ball_down(dur = 1)
+            self.right_ball_up(dur = 0.2)
+        else:
+            self.left_ball_down(dur = 1)
+            self.left_ball_up(dur = 0.2)
+        
+        
+        speed = 1
+        angle = 3*np.pi/2
+        parameters = [800, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #self.localisation.value = True
+        #self.right_ball_drop()
+        #self.right_ball_up()
+        if self.color == "yellow":
+            self.right_ball_drop()
+            self.right_ball_up()
+        else:
+            self.left_ball_drop()
+            self.left_ball_up()
+        return
+        
+        
+    
         
     def loc_test2(self,  x1x2y1y2 = [500, 1500, 1000, 1000], speed=4, 
                     angle=np.pi, n_times=3, deltas = 1):
@@ -633,12 +756,6 @@ class Robot:
             for j in xrange(deltas+1):
                 parameters = [start[0] + j*dx/deltas, start[1] + j*dy/deltas, start[2], speed]
                 self.go_to_coord_rotation(parameters)
-            #~ parameters = [start[0] + 1*dx/3, start[1] + 1*dy/3, start[2], speed]
-            #~ self.go_to_coord_rotation(parameters)
-            #~ parameters = [start[0] + 2*dx/3, start[1] + 2*dy/3, start[2], speed]
-            #~ self.go_to_coord_rotation(parameters)
-            #~ parameters = [start[0] + 3*dx/3, start[1] + 3*dy/3, start[2], speed]
-            #~ self.go_to_coord_rotation(parameters)
         parameters = [start[0], start[1], start[2], speed]
         self.go_to_coord_rotation(parameters)
         self.go_to_coord_rotation(parameters)
@@ -694,9 +811,7 @@ class Robot:
         return odometry_coords
 
     
-    def collisionTest(self,speed=1):
-        #signal.signal(signal.SIGALRM, self.funny_action)
-        #signal.alarm(40)
+    def collision_test(self,speed=1):
         angle = np.pi/2
         while True:
             parameters = [1145, 400, angle, speed]
@@ -724,92 +839,113 @@ class Robot:
 
 rb = None
 tmstmp = None
-init_coord = [170., 170., np.pi/6]
+
 def test():
     global rb
-    rb = Robot(lidar_on=True, color = 'yellow', sen_noise=25, 
-        dist_noise=45., angle_noise=0.2, init_coord = init_coord)
-    #rb.left_ball_down()
-    #rb.collisionTest(4)
-    #return
-    if False:
-        parameters = [1000., 600., np.pi, 4]
-        #rb.go_to_coord_rotation(parameters)
+    global tmstmp
+
+    # Color 
+    if len(sys.argv) > 1:
+        color = sys.argv[1]
+    else:
+        color == "yellow"
+    # Strategy mode
+    if len(sys.argv) > 2:
+        mode = int(sys.argv[2])
+    else:
+        mode = 1
+    # initialize coordinates from this two parameters
+    init_coordinates = {(1, 'y'): [950, 200, np.pi/2],
+                        (1, 'b'): [950, 200, np.pi/2],
+                        (2, 'y'): [170., 170., np.pi/6],
+                        (2, 'b'): [170., 200., 2*np.pi - np.pi/10]}
+    init_coord = init_coordinates[(mode, color[0])]
+    # Init robot
+    rb = Robot(lidar_on=True, color=color, sen_noise=25., 
+        dist_noise=35., angle_noise=0.2, init_coord=init_coord)
+    ########### Various tests ###########
+    if False: # collision avoidance and localisation test
+        rb.collision_avoidance = False
+        rb.collision_test(1)
+        return
+    if False: # inplace test for localisation
+        parameters = init_coord + [4]
         rb.go_last(parameters)
         return
-    if False:
+    if False: # 90 seconds funny action  (on STM) test
+        rb.send_command('funny_action_open')
+        time.sleep(2)
+        rb.send_command('funny_action_close')
+        while 1:
+            rb.right_ball_down()
+            rb.right_ball_up()
+            rb.right_ball_drop()
+            rb.right_ball_up()
+        #rb.funny_action(None, None)
+        return
+    ####################################
+    # Funny action prepare
+    if len(sys.argv) == 1 or len(sys.argv) > 3 and sys.argv[3][0] == "f":
+        rb.send_command('funny_action_open') 
+        time.sleep(2)
+        rb.send_command('funny_action_close')
+    # All system tests (all in all)
+    if len(sys.argv) == 1 or len(sys.argv) > 4 and sys.argv[4][0] == "m":
+        while not rb.is_start():
+            continue
         rb.right_ball_up()#(angle = angle_right_up)
         rb.right_ball_down()#(angle = angle_right_down)
         rb.right_ball_up()#(angle = angle_right_up)
-        rb.right_ball_drop(angle = angle_right_up + 35.)#(angle = angle_right_up + 35.)
+        rb.right_ball_drop()#(angle = angle_right_up + 35.)
         rb.right_ball_up()#(angle = angle_right_up)
         rb.left_ball_up()#(angle = angle_left_up)
         rb.left_ball_down()#(angle = angle_left_dwon)
         rb.left_ball_up()#(angle = angle_left_up)
-        rb.left_ball_drop(angle = angle_left_up + 33.)#()
+        rb.left_ball_drop()#(angle = angle_right_up + 33.)
         rb.left_ball_up()#(angle = angle_left_down)
+        rb.seesaw_hand_down()
+        rb.seesaw_hand_up()
+        #rb.front_down_cylinder_no()
+        #rb.front_up_cylinder_yes()
+        #rb.back_down_cylinder_no()
+        rb.back_up_cylinder_yes()
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(3)
+        parameters = [500, 500, 0., 4]
+        rb.go_to_coord_rotation(parameters)
         return
-    ### LOCALISATION TEST
-    #points = [[500, 1000], [1500, 1000]]#[750-40, 1400]]
-    #odometry_coords = rb.localisation_test(point_lst = points,
-    #                      angle_lst = [np.pi, 0], speed_lst = [1], n_times = 3)
-    #return
-    #### END
-    if True:
-        rb.send_command('funny_action_open')
-        time.sleep(2)
-        rb.send_command('funny_action_close')
-    #speed = 4
     if True:
         while not rb.is_start():
             continue
+    logging.info("Start Game!")
+    tmstmp = time.time()
     signal.signal(signal.SIGALRM, rb.funny_action)
     signal.alarm(90)
-    #rb.localisation.value = False
-    #parameters = [-750, 1250, -np.pi/6, 1]
-    #rb.go_to_coord_rotation(parameters)
-    #return
-    #while 1:
-    #    x1x2y1y2 = [500, 1000, 600, 1100]
-    #    rb.loc_test2(x1x2y1y2 = x1x2y1y2, n_times=2, speed=4, angle = 0.0, deltas = 1)
-    #    rb.loc_test2(x1x2y1y2 = x1x2y1y2, n_times=2, speed=1, angle = 0.0, deltas = 1)
-    #return
-    if True: # den staff
-        rb.another_trajectory()
-        return
-    i = 0
-    while i<10:
-    ########## Big robot test START
-        tmstmp = time.time()
-        rb.big_robot_trajectory(4)
-        rb.big_robot_trajectory_r(4)
-        logging.info("Time for strategy passes:  ", time.time() - tmstmp)
-        rb.PF.debug_info += [time.time() - tmstmp, [], []]
-        np.savetxt("localisation_debug.txt", np.array(rb.PF.debug_info))
-        return
-        while 1:
-            angle = np.pi
-            speed = 4
-            parameterss = [160, 180, angle, speed]
-            rb.go_to_coord_rotation(parameters)
-            parameters = [180, 180, angle, speed]
-            rb.go_to_coord_rotation(parameters)
-    rb = Robot(True)
-    rb.collisionTest(4)
-    return
+    if len(sys.argv) == 1 or len(sys.argv) > 1:
+        if len(sys.argv) == 1 or sys.argv[1][0] != "b":
+            rb.color = "yellow"
+            rb.first_trajectory(mode=mode)
+            return
+        else:
+            rb.color = "blue"
+            rb.first_traverse_trajectory(mode=mode)
+            return
 
+    
+    
 try:
     test()
 except KeyboardInterrupt:
     logging.exception('KeyboardInterrupt!')
 except Exception:
-    #logging.info("Time for strategy passes:  ", time.time() - tmstmp)
+    logging.exception('High level Error!')
     #rb.PF.debug_info += [time.time() - tmstmp, [], []]
     #np.savetxt("localisation_debug.txt", np.array(rb.PF.debug_info))
-    logging.exception('High level Error!')
 finally:
-    while not funny_done:
-        continue
+    #while not funny_done:
+    #    continue
+    logging.info("Time for strategy passes:  ", time.time() - tmstmp)
+    logging.exception("Finally done")
     rb.p.terminate()
     rb.p2.terminate()
     

@@ -55,7 +55,12 @@ class Driver(Process):
         self.input_cmd_queue = inp_queue
         self.output_queues = {'fsm':fsm_queue,'loc':loc_queue}
         if connect:
-            self.connect()
+            try:
+                self.connect()
+            except:
+                self.device = '/dev/ttyACM1'
+                self.connect()
+                
 
     def connect(self):
         """Connect to STM32 using serial port"""
