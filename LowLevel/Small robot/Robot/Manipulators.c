@@ -41,7 +41,11 @@ bool goInsideWithSuckingManipulator(){
     reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
 
+<<<<<<< HEAD
     softDelay(1500000);
+=======
+    softDelay(6000000/2);
+>>>>>>> 7e58750adde99a3953a07ba9e419ed231a6a4dcc
 
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);

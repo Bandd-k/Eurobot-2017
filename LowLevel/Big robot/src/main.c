@@ -42,9 +42,10 @@ __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 
 char mode;
 float distance[4];
-
+int stop_cnt = 0; flag_kostil = 0 ;
 int main(void)
 {
+
     __disable_irq();
     initAll();
     CloseLauncher();
@@ -63,21 +64,28 @@ int main(void)
 
 
 //    __disable_irq();
+
 //    conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 __enable_irq();
 
 
 while(1){
-
-    if (pin_val(EXTI9_PIN))
+        //throwRightCollectorIntoBox(76);
+ if (pin_val(EXTI9_PIN))
       {
+        flag_kostil  = 1;
         startFlag = 1;
       }
-     else
-     {
+     else if (flag_kostil == 0)
+      {
+        stop_cnt = 0;
         startFlag = 0;
       }
-       //throwLeftCollectorIntoBox(120);
+//        distance[1] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+
+//        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[2] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
    }
 
 }

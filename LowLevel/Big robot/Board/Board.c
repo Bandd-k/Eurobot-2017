@@ -9,6 +9,7 @@
 #include "Regulator.h"
 #include "Manipulators.h"
 #include "Dynamixel_control.h"
+#include "robot.h"
 uint16_t adcData[10];
 uint8_t pinType[10];
 uint8_t extiType[10];
@@ -232,7 +233,7 @@ initRegulators();
   conf_af(BTN10_PWM_PIN, AF9);
 
 
-  timPWMConfigure(TIM4, 70, MAX_PWM, 1, 1, 1, 1); // 1000Hz
+  timPWMConfigure(TIM4, 2*33600, MAX_PWM, 1, 1, 1, 1); // 1000Hz
   timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM10, 2*1667, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM9, 2*1667, MAX_PWM, 1, 1, 0, 0);
@@ -355,14 +356,22 @@ initRegulators();
 //RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  //I2C2
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
-
-upLeftCollectorWithBalls(86);
-upRightCollectorWithBalls(55);
+set_pin(PWM_INHIBIT);
+softDelay(5000000);
+reset_pin(PWM_INHIBIT);
+//___MAXON'S_PWM________________________________________________________________
+int i = 0;
+for(i; i < 4; i++)
+{
+    setSpeedMaxon(WHEELS[i], (float) 0.0);
+}
+upLeftCollectorWithBalls(80);
+upRightCollectorWithBalls(45);
 polulu_outside_right();
 polulu_outside_left();
 OpenCyinderCorrector();
-upLeftCollectorWithBalls(86);
-upRightCollectorWithBalls(55);
+upLeftCollectorWithBalls(80);
+upRightCollectorWithBalls(45);
 setServoTorque(DNMXL_SEESAW,950);
 __enable_irq();
 }

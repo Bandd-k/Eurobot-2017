@@ -94,7 +94,13 @@ int main(void)
 //numberofrot = 0;
     while(1)
     {
+<<<<<<< HEAD
 //
+=======
+
+
+
+>>>>>>> 7e58750adde99a3953a07ba9e419ed231a6a4dcc
 //        if (pin_val (EXTI9_PIN)){
 //            startFlag = 1;
 //        }

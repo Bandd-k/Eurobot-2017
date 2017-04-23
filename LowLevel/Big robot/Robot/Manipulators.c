@@ -2,7 +2,7 @@
 #include "Dynamixel_control.h"
 #include "Regulator.h"
 #include "Board.h"
-
+#include "Interrupts.h"
 void softDelay(__IO unsigned long int ticks)
 {
     for(; ticks > 0; ticks--);
@@ -336,7 +336,7 @@ bool upRightCollectorWithBalls(int angle_up)//, int speed)
 void polulu_outside_right (){
       set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900) )
         {
             ;
         }//setVoltage(5,0);
@@ -360,7 +360,7 @@ bool throwRightCollectorIntoBox(int angle)
          softDelay(8780000);
          set_pin(EXTI_POLOL2_RIGHT);
          reset_pin(EXTI_POLOL1_RIGHT);
-         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -370,7 +370,7 @@ bool throwRightCollectorIntoBox(int angle)
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);
@@ -401,9 +401,9 @@ bool upLeftCollectorWithBalls(int angle_up)//, int speed)
 }
 
 void  polulu_outside_left (){
-         set_pin(EXTI_POLOL1_LEFT);
+     set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <= 8900))
         {
             ;
         }//setVoltage(5,0);
@@ -426,7 +426,7 @@ bool throwLeftCollectorIntoBox(int angle)
          softDelay(8780000);
          set_pin(EXTI_POLOL2_LEFT);
          reset_pin(EXTI_POLOL1_LEFT);
-         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -436,7 +436,7 @@ bool throwLeftCollectorIntoBox(int angle)
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);
