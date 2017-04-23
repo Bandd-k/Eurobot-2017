@@ -10,20 +10,20 @@ WORLD_Y = 2000
 BEAC_R = 40
 BORDER = 15
 
-BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [(-BEAC_R-BORDER), WORLD_Y + BEAC_R+BORDER], [(- BEAC_R-BORDER), - BEAC_R - BORDER]])
-
+BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], 
+                [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], 
+                [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
-MAX_ITENS = 2600  # MAX_ITENS 2600
+MAX_ITENS = 3500  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
-
 
 class ParticleFilter:
     def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150, in_angle=0.0, input_queue=None, out_queue=None,color='blue'):
         global BEACONS
         if(color =='blue'):
-        BEACONS = np.array([[-BEAC_R-BORDER, WORLD_Y / 2.], [(WORLD_X + BEAC_R+BORDER), (WORLD_Y + BEAC_R+BORDER)], [(WORLD_X + BEAC_R+BORDER), (- BEAC_R - BORDER)]])
+            BEACONS = np.array([[-BEAC_R-BORDER, WORLD_Y / 2.], [(WORLD_X + BEAC_R+BORDER), (WORLD_Y + BEAC_R+BORDER)], [(WORLD_X + BEAC_R+BORDER), (- BEAC_R - BORDER)]])
 
         stamp = time.time()
         self.input_queue = input_queue
@@ -39,7 +39,10 @@ class ParticleFilter:
         orient = np.random.normal(in_angle, angle_noise, particles) % (2 * np.pi)
         self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
         logging.info('initialize time: '+str(time.time()-stamp))
-
+        # Added Andrei for debug
+        self.debug_info = []
+        self.start_time = time.time()
+        
     def gaus(self, x, mu=0, sigma=1):
         """calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma"""
         return np.exp(- ((x-mu) ** 2) / (sigma ** 2) / 2.0) / np.sqrt(2.0 * np.pi * (sigma ** 2))
@@ -64,7 +67,7 @@ class ParticleFilter:
         #                    + np.array([delta]))
         # self.particles[:, 2] %= 2 * np.pi
         # END instead of
-        logging.info('Particle Move time: ' + str(time.time() - stamp))
+        #logging.info('Particle Move time: ' + str(time.time() - stamp))
 
     def resample(self, weights):
         # OLD START
@@ -95,8 +98,8 @@ class ParticleFilter:
         temporary = ((self.particles[:, 2]-zero_elem+np.pi) % (2.0 * np.pi))+zero_elem-np.pi
         orient = np.mean(temporary)
         answer = (x, y, orient)
-        logging.info('main_calculation time' + str(time.time() - stamp))
-        logging.info(answer)
+        #logging.info('main_calculation time' + str(time.time() - stamp))
+        #logging.info("Particle Filter coordinates: "+str(answer))
         return answer
 
     def particle_sense(self, scan):
@@ -173,9 +176,9 @@ class ParticleFilter:
             logging.info("Dangerous Situation")
             #self.warning = True
 
-        try:
+        if np.sum(weights) > 0:
             weights /= np.sum(weights)
-        except:
+        else:
             weights = np.ones(self.particles_num, dtype=np.float)/self.particles_num
         return weights
         # TODO try use median instead mean
@@ -190,15 +193,13 @@ class ParticleFilter:
         #time.sleep(50)
         while True:
             if localisation.value:
+                tmstmp = time.time() - self.start_time
                 coords = self.send_command('getCurrentCoordinates')['data']
-                if type(coords[0]) is not type(100.):
+                if coords and type(coords[0]) is not type(100.):
                     logging.critical("Incorrect coordinates format")
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
-                print coords
-                print shared_coords[0]
-                print shared_coords[1]
                 self.move_particles(
                     [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
                 # add aproximation
@@ -219,11 +220,14 @@ class ParticleFilter:
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
+                logging.info("Odometry        coords: " + str(list(coords[:2] 
+                                + [np.rad2deg(coords[2])])))
+                logging.info("Particel Filter coords: " + str(shared_coords[:2]
+                                + [np.rad2deg(shared_coords[2])]))
+                self.debug_info += [time.time() - tmstmp, list(coords[:2] + 
+                                    [np.rad2deg(coords[2])]),
+                                    shared_coords[:2] + [np.rad2deg(shared_coords[2])]]
             time.sleep(0.2)
-
-
-
-
 
 # help functions
 
@@ -233,7 +237,7 @@ def get_landmarks(scan):
     ind = np.where(np.logical_and(scan[:, 1] > MAX_ITENS, scan[:, 0] < MAX_DIST))[0]
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
-    logging.info('scan preproccesing time: ' + str(time.time() - stamp))
+    #logging.info('scan preproccesing time: ' + str(time.time() - stamp))
     return (angles + np.pi / 4+ np.pi) % (2 * np.pi), distances  # delete +np.pi for our robot
 
 

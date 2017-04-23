@@ -2,7 +2,7 @@
 #include "Dynamixel_control.h"
 #include "Regulator.h"
 #include "Board.h"
-
+#include "Interrupts.h"
 void softDelay(__IO unsigned long int ticks)
 {
     for(; ticks > 0; ticks--);
@@ -311,12 +311,12 @@ bool switchOffPneumo()
 
 
 /////////////////////////////RIGHT BALL COLLECTOR/////////////////////
-bool downRightCollectorToGetBalls()
+bool downRightCollectorToGetBalls(int angle_down)//, int speed)
 {
+//    setServoTorque(DNMXL_MAN_RIGHT,200);
+//    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_TRANSIT_ON);
     setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
+    setServoAngle(DNMXL_MAN_RIGHT,angle_down);
         //setVoltage(5,1);
         //set_pin(EXTI_SERVOPOLOL1);
         //reset_pin(EXTI_SERVOPOLOL2);
@@ -327,16 +327,16 @@ bool downRightCollectorToGetBalls()
         //}
 }
 
-bool upRightCollectorWithBalls()
+bool upRightCollectorWithBalls(int angle_up)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_RIGHT,850);
-   setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_OFF);
+    setServoTorque(DNMXL_MAN_RIGHT,700);
+   setServoAngle(DNMXL_MAN_RIGHT,angle_up);
 }
 
 void polulu_outside_right (){
       set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900) )
         {
             ;
         }//setVoltage(5,0);
@@ -345,21 +345,22 @@ void polulu_outside_right (){
 
 }
 
-bool throwRightCollectorIntoBox()
+bool throwRightCollectorIntoBox(int angle)
 {
          setServoTorque(DNMXL_MAN_RIGHT,127);
-        float throwAnggle;
-         setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_THROW);
-         getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
+//        float throwAnggle;
+         setServoAngle(DNMXL_MAN_RIGHT,angle);
+//         getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
 
          /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
          {
              ;
          }*/
          //setVoltage(5,-1);
+         softDelay(8780000);
          set_pin(EXTI_POLOL2_RIGHT);
          reset_pin(EXTI_POLOL1_RIGHT);
-         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -369,7 +370,7 @@ bool throwRightCollectorIntoBox()
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);
@@ -384,19 +385,17 @@ reset_pin(EXTI_POLOL2_RIGHT);
 }
 
 /////////////LEFT BALL COLLECTOR//////////////////////////////////////
-
-bool downLeftCoolectorToGetBalls()
+bool downLeftCoolectorToGetBalls(int angle_down)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
+
+    setServoTorque(DNMXL_MAN_LEFT,200);
+    setServoAngle(DNMXL_MAN_LEFT,angle_down);
 }
 
-bool upLeftCollectorWithBalls()
+bool upLeftCollectorWithBalls(int angle_up)//, int speed)
 {
-   setServoTorque(DNMXL_MAN_LEFT,850);
-   setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_OFF);
+   setServoTorque(DNMXL_MAN_LEFT,700);
+   setServoAngle(DNMXL_MAN_LEFT,angle_up);
 
 
 }
@@ -404,7 +403,7 @@ bool upLeftCollectorWithBalls()
 void  polulu_outside_left (){
      set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <= 8900))
         {
             ;
         }//setVoltage(5,0);
@@ -412,21 +411,22 @@ void  polulu_outside_left (){
              reset_pin(EXTI_POLOL1_LEFT);
 }
 
-bool throwLeftCollectorIntoBox()
+bool throwLeftCollectorIntoBox(int angle)
 {
          setServoTorque(DNMXL_MAN_LEFT,127);
-        float throwAnggle;
-         setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_THROW);
-         getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
+       // float throwAnggle;
+         setServoAngle(DNMXL_MAN_LEFT,angle);
+         //getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
 
          /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
          {
              ;
          }*/
          //setVoltage(5,-1);
+         softDelay(8780000);
          set_pin(EXTI_POLOL2_LEFT);
          reset_pin(EXTI_POLOL1_LEFT);
-         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -436,7 +436,7 @@ bool throwLeftCollectorIntoBox()
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);
@@ -545,3 +545,14 @@ void CloseGetterBackCylinderManipulator()
     setPWM((char)SRV_BACK_GETTER_BTN,(float)CLOSE_GETTER_BACK);
 }
 //////////////////////////////////////////////////////////////////////
+
+///////////////////////////SEESAW CORRECOR/////////////////////////////
+void OpenSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_ON);
+}
+void CloseSeesawCorrector()
+{
+    setServoAngle(DNMXL_SEESAW,DNMXL_SEESAW_OFF);
+}
+///////////////////////////////////////////////////////////////////////

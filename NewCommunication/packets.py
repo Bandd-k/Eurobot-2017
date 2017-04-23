@@ -37,7 +37,9 @@ def encode_params(params):
             res += param
         elif isinstance(param, int):
             if not 0<= param <= 255:
-                raise ValueError("Can't encode int: %d" % param)
+                res += struct.pack('<i', param)
+                continue
+                #raise ValueError("Can't encode int: %d" % param)
             #res += chr(param)
             res += struct.pack('<B', param)
         elif isinstance(param, float):
@@ -62,7 +64,7 @@ def decode_params(cmd, params):
             struct.unpack('<f', params[i*4:(i+1)*4])[0]  # TODO check correctness
             for i in range(3)
         ]
-    if cmd == 'sensors_data':
+    if cmd == 'sensors_data' or cmd =='ir_sensors':
         return [
             struct.unpack('>B', params[i * 1:(i + 1) * 1])[0]==0  # TODO check correctness
             for i in range(6)

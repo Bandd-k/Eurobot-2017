@@ -12,10 +12,10 @@ import logging
 #PORT_VID = 1155
 #PORT_PID = 22336
 #PORT_SNR = '3677346C3034'
-#DEVICE_NAME = '/dev/ttyACM6'
+#DEVICE_NAME = '/dev/ttyACM0'
 #=======
 PORT_SNR = '325936843235'
-DEVICE_NAME = '/dev/ttyACM0'
+DEVICE_NAME = '/dev/ttyACM0'# 'ACMO'
 #>>>>>>> 4ead14e6dbd7bdcaae48a8ba2a886a9ec203a0d3
 
 class DriverException(Exception):
@@ -55,7 +55,12 @@ class Driver(Process):
         self.input_cmd_queue = inp_queue
         self.output_queues = {'fsm':fsm_queue,'loc':loc_queue}
         if connect:
-            self.connect()
+            try:
+                self.connect()
+            except:
+                self.device = '/dev/ttyACM1'
+                self.connect()
+                
 
     def connect(self):
         """Connect to STM32 using serial port"""
@@ -86,8 +91,6 @@ class Driver(Process):
         self.port.write(packet)
         data = self.port.read(size=3)
         if len(data) != 3:
-            self.port.reset_input_buffer()
-            self.port.reset_output_buffer()
             logging.critical('Couldn\'t read 3 bytes')
             return {'cmd':'cylinder staff','data':'ok'}
         data = bytearray(data)

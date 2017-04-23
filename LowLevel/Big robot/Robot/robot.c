@@ -34,7 +34,7 @@ encOutPackStruct outEnc;              //буфер данных отправля
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
 char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, WHEEL4_CH}; //каналы подкючения колес
-
+char startFlag = 0;
 //extern CDC_IF_Prop_TypeDef  APP_FOPS;
 
 char execCommand(InPackStruct* cmd) //обработать входящую команду
@@ -673,16 +673,16 @@ case 0x36:
 break;
 case 0x40: // STOP AFTER 90 SEC
 
+   {
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
     {
-        curState.pidEnabled = 0;
-        char i;
-        for (i = 0; i < 4; i++)
-        {
-            setVoltage(WHEELS[i], (float) 0);
-        }
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+  }
 
     break;
 
@@ -703,15 +703,19 @@ break;
 
 case 0x3A: // Distance from ultrasonic sensors
 {
-        float distance[4];
+        float distance[2];
 
-        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[FRONT] = 10 + MAX_DIST + (float)adcData[FRONT]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 
-        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-        distance[BACK_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[BACK] = 10 + MAX_DIST + (float)adcData[BACK]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 
-        sendAnswer(cmd->command, (char* )distance, sizeof(distance));
+        char distancec[2];
+        distancec[0] = (char) distance[0];
+        distancec[1] = (char) distance[1];
+
+        sendAnswer(cmd->command, (char* )distancec, sizeof(distancec));
 
   }
    break;
@@ -753,14 +757,16 @@ case 0x42: // ЗАКРЫТЬ ДВЕРИ
     }
     break;
 
-    case 0x43: // Generate new trajectory with correction
-
+case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;
 robotCoord[0] = temp[0];
 robotCoord[1] = temp[1];
 robotCoord[2] = temp[2];
+points[lastPoint].center[0] = robotCoord[0];
+points[lastPoint].center[1] = robotCoord[1];
+points[lastPoint].center[2] = robotCoord[2];
 lastPoint++;
 points[lastPoint].center[0] = temp[3];
 points[lastPoint].center[1] = temp[4];
@@ -810,16 +816,22 @@ break;
 
 */
 
-case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
+case  0x64:  //DWN LIGHT BALL COLLECTOR TO GET BALL
     {
-       downRightCollectorToGetBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_down = (int) *temp;
+        //int speed = (int) *(temp+1);
+       downRightCollectorToGetBalls(angle_down);//,speed);
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
     }
     break;
- case 0x65: //TURN OFF RIGHT BALLCOLLECTOR WITH BALLS
+ case 0x65: //UP BALLCOLLECTOR WITH BALLS
     {
-       upRightCollectorWithBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_up = (int) *temp;
+        //int speed = (int) *(temp+1);
+       upRightCollectorWithBalls(angle_up);//, speed);
        char * str ="Ok";
        sendAnswer(cmd->command, str, 3);
 
@@ -827,72 +839,82 @@ case  0x64:  //TURN ON LIGHT BALL COLLECTOR TO GET BALL
 break;
  case 0x66: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
      {
-       throwRightCollectorIntoBox();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwRightCollectorIntoBox(angle);
+//        char * str ="Ok";
+//       sendAnswer(cmd->command, str, 3);
      }
 break;
- case 0x67: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
+ case 0x67: //DWN LEFT BALLCOLLECTOR TO GET BALLS
     {
-        downLeftCoolectorToGetBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_down = (int) *temp;
+        //int speed = (int) *(temp+1);
+        downLeftCoolectorToGetBalls(angle_down);//,speed);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
 break;
- case 0x68: // TURN OFF LEFT BALLCOLLECTOR
+ case 0x68: // UP LEFT BALLCOLLECTOR
     {
-        upLeftCollectorWithBalls();
+        float *(temp) = (float*)(cmd -> param);
+        int angle_up = (int) *temp;
+        //int speed = (int) *(temp+1);
+        upLeftCollectorWithBalls(angle_up);//,speed);
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
     }
 break;
  case 0x69: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
     {
-        throwLeftCollectorIntoBox();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
+        float *(temp) = (float*)(cmd -> param);
+        int angle = (int) *temp;
+        throwLeftCollectorIntoBox(angle);
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6A:
     {
         GetFaceCylinder();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6B:
     {
       GoBackFaceCylinderManipulator();
-      char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//      char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6C:
     {
         DownFaceCylinder();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6D:
     {
         GetBackCylinder();
-         char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//         char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6E:
     {
         GoBackBackCylinderManipulator();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//        char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x6F:
     {
       DownBackCylinder();
-       char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+//       char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
     }
     break;
     case 0x70: //OPEN CYL CORRECTOR
@@ -909,7 +931,22 @@ break;
     sendAnswer(cmd->command, str, 3);
     }
     break;
-     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+
+    case 0x72: // OPEN SEESAW CORRECTOR
+    {
+        OpenSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x73: // CLOSE SEESAW CORRECTOR
+    {
+        CloseSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+  case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
   {
     distance_digital2[0] = pin_val(IR_LEFT_FRONT);
     distance_digital2[1] = pin_val(IR_LEFT_BACK);
@@ -921,6 +958,13 @@ break;
 
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
+  break;
+
+  case 0x80: // Start flag command
+  {
+    sendAnswer(cmd->command, (char* )&startFlag, sizeof(startFlag));
+  }
+
     break;
     default:
     return 0;
@@ -928,9 +972,7 @@ break;
 }
 
 
-
 }
-
 
 
 void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
@@ -969,7 +1011,6 @@ void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
     //*flag = 0;
 }
 
-
 void stopmove(){
         //curState.trackEn=0;
         vTargetGlob[2]=0.0;
@@ -1005,17 +1046,11 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
     distanceData[2][4] = adcData[adc_number3]* 0.0822 * 2.54;
     distanceData[2][5] = (distanceData[2][2]  + distanceData[2][1]  + distanceData[2][0] + distanceData[2][3]+distanceData[2][4] ) / 5.0;
 
-
-
-
     if (adcData[4]> 0.15*4096.0/3.0)
     {
       distanceFromIR = ((20.0 / ((3.0 * adcData[4] / 4096.0) - 0.15)) );
     } else
     distanceFromIR = (20.0 / ((0.01))) ;
-
-
-
 
     distance_digital[1]=distance_digital[2];
     distance_digital[2]=distance_digital[3];
@@ -1071,17 +1106,4 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
      distance_digital1[9]=0;
      }
 
-
-
 }
-
-/*void soft_delay(long int ticks)
-{
-    for(; ticks > 0; ticks-- );
-}
-    uint16_t stVal = 0;
-    uint16_t finalVal = 0;
-    uint16_t curLoad;*/
-//______________________________________________________//
-
-

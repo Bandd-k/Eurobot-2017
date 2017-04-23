@@ -63,7 +63,7 @@ int main(void)
     __disable_irq();
     initAll();
 
-
+/*
     NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;
 	// Set priority
@@ -73,7 +73,7 @@ int main(void)
 	// Enable interrupt
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	// Add to NVIC
-	NVIC_Init(&NVIC_InitStruct);
+	NVIC_Init(&NVIC_InitStruct);*/
     SysTick_Config(840);
 
     USBD_Init(&USB_OTG_dev,
@@ -88,27 +88,61 @@ int main(void)
 
     __enable_irq();
 
+// 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
 
-//    set_pin(EXTI2_PIN);
-//    reset_pin(EXTI1_PIN);
-//    set_pin(EXTI7_PIN); // LED to PD7
-    //uint8_t ID_test = 2;
-  //  float ADC_8, ADC_7, ADC_6, ADC_5;
-float tempora;
-//zero-205 first - 95 second - 152  3rd -265 4th- -512 5th -640
-//6th -873
-
-//releasing: -490; -135; 245
-numberofrot = 0;
+//long int tempora = 1000000*3 ;
+//numberofrot = 0;
     while(1)
     {
+//        if (pin_val (EXTI9_PIN)){
+//            startFlag = 1;
+//        }
+//        else{
+//            startFlag = 0;
+//        }
+//        lowerCylinderRGBManipulator();
+//        rotateColoredCylinder();
+//        while(getCurrentColor() == 'B');
+//        stopRotateColoredCylinder();
+//        liftCylinderRGBManipulator();
+//        rotateColoredCylinder();
+//        stopRotateColoredCylinder();
 
-        if (pin_val (EXTI9_PIN)){
-            startFlag = 1;
-        }
-        else{
-            startFlag = 0;
-        }
+//        goOutsideWithSuckingManipulator();
+//        softDelay(2000000*3);
+//        goInsideWithSuckingManipulator();
+//        softDelay(2000000*3);
+//        rotateColoredCylinder();
+//        stopRotateColoredCylinder();
+//        setPositionOfCylinderCarrierByTime(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(1000000*2);
+//        softDelay(1000000*2);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        softDelay(1000000*3);
+//        setPositionOfCylinderCarrierByTime(4000000);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        softDelay(2000000*3);
+//        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
+
+
+
+
 
     }
 }

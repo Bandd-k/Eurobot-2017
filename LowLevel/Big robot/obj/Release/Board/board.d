@@ -15,4 +15,5 @@ obj\release\board\board.o: Board\Board.c Board\Board.h \
  Board\Pins.h Board\gpio.h Library/stm32f4xx_conf.h Board\i2c.h \
  Board\Interrupts.h Board\usart.h Board\tim.h Board\adc.h \
  Robot/Regulator.h Robot/Path.h Robot/Manipulators.h Board/pins.h \
- Robot/Dynamixel_control.h
+ Robot/Dynamixel_control.h Robot/robot.h Robot/Communication.h \
+ Robot/robot.h USB\ App/usbd_conf.h USB\ App/usb_conf.h Board/gpio.h
