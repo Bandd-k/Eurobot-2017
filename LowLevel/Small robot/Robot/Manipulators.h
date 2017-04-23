@@ -104,11 +104,24 @@ void setPositionOfCylinderCarrier(float);
 #define DOWN_SWITCH EXTI3_PIN
 #define INPUT2_CONTROL EXTI5_PIN
 #define INPUT1_CONTROL EXTI6_PIN
+#define INPUT4_CONTROL EXTI7_PIN
+#define INPUT3_CONTROL EXTI8_PIN
 
 
 bool goInsideWithSuckingManipulator();
 bool goOutsideWithSuckingManipulator();
 
+
+
+#define RGB_Cylinder 3
+#define CLOSE_RGB_Cylinder 0.045
+#define OPEN_RGB_Cylinder 0.09
+
+bool rotateColoredCylinder();
+bool stopRotateColoredCylinder();
+
+void lowerCylinderRGBManipulator();
+void liftCylinderRGBManipulator();
 
 
 #define SERVO_ELEVATE  2//defining servos
@@ -117,7 +130,7 @@ bool goOutsideWithSuckingManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  252
+#define SERVO_ROTATE_180  245
 
 
 bool moveSuckerManipulatorUp();

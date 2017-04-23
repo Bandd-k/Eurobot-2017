@@ -1,5 +1,3 @@
-#include "Interrupts.h"
-
 #include "gpio.h"
 #include "Regulator.h"
 #include "Path.h"
@@ -9,8 +7,9 @@
 #include "robot.h"
 #include "board.h"
 #include "Manipulators.h"
+#include "Interrupts.h"
 
-int indexSpeeds = 0, indexDists = 0;
+int indexSpeeds = 0, indexDists= 0;
 char traceFlag, movFlag, endFlag;
 
 int16_t int_cnt = 0;
@@ -30,8 +29,29 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 {
 //static char i=0; // Divider by 2 to get 10Hz frequency
    //   set_pin(PWM_DIR[8]);
+  if (startFlag) {
+    stop_cnt ++;
+  }
+  if (stop_cnt >= 8900){//8900
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
+    {
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
+    }
+        float angle_;
+//        getServoAngle(DNMXL_MAN_RIGHT,&angle_);
+//        setServoAngle(DNMXL_MAN_RIGHT,angle_);
+//        getServoAngle(DNMXL_MAN_LEFT,&angle_);
+//        setServoAngle(DNMXL_MAN_LEFT,angle_);
+//        getServoAngle(DNMXL_SEESAW,&angle_);
+//        getServoAngle(DNMXL_SEESAW,&angle_);
 
 
+  }
+ if (stop_cnt >= 9100){//9100
+     OpenLauncher();
+ }
   TIM6->SR = 0;
 
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
@@ -53,7 +73,13 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlobF[0], &robotCoordTarget[0], &robotCoordTarget[0], &regulatorOut[0]); // рассчет  кинематики и насыщения
 
-  pidLowLevel();
+
+    char i = 0;
+    for(i; i < 4; i++)
+    {
+        if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
+    }
+//  pidLowLevel();
   //pidLowLevelManipulator();
 
    //   reset_pin(PWM_DIR[8]);

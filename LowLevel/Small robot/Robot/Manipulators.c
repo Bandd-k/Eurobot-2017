@@ -8,7 +8,7 @@
 double timeofred;
 char color, color_check[8];
 float magnetincoderdata[10];
-
+uint16_t count_polulu;
 float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
 bool direction = true;
@@ -32,28 +32,63 @@ void softDelay(__IO unsigned long int ticks)
     for(; ticks > 0; ticks--);
 }
 
+void lowerCylinderRGBManipulator(){
+    setPWM((char)RGB_Cylinder, (float)OPEN_RGB_Cylinder);
+}
+
+void liftCylinderRGBManipulator(){
+    setPWM((char)RGB_Cylinder, (float)CLOSE_RGB_Cylinder);
+}
+
+bool rotateColoredCylinder(){
+    set_pin(INPUT3_CONTROL);
+    set_pin(INPUT3_CONTROL);
+    reset_pin(INPUT4_CONTROL);
+    reset_pin(INPUT4_CONTROL);
+    lowerCylinderRGBManipulator();
+}
+
+bool stopRotateColoredCylinder(){
+    reset_pin(INPUT3_CONTROL);
+    reset_pin(INPUT3_CONTROL);
+}
+
 
 bool goInsideWithSuckingManipulator(){
 
+    count_polulu = 0;
+    set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
+    reset_pin(INPUT2_CONTROL);
 
-    while(!pin_val(UPPER_SWITCH));
-
+    softDelay(6000000/2);
 
     reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+
+    servo_rotate_180();
+
+    set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+
+    while(!pin_val(UPPER_SWITCH) && count_polulu < 10000000)count_polulu++;
+
+    reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+    count_polulu = 0;
 }
 
 bool goOutsideWithSuckingManipulator(){
 
+    count_polulu = 0;
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
     reset_pin(INPUT1_CONTROL);
 
-
-    while(!pin_val(DOWN_SWITCH));
-
+    while(!pin_val(DOWN_SWITCH) && count_polulu < 10000000)count_polulu++;
 
     reset_pin(INPUT2_CONTROL);
+    count_polulu = 0;
 }
 /*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
@@ -108,14 +143,10 @@ char getCurrentColor(){
         b = timeofred;
         B = 10000./(b);
 ////
-        if(R >= B){
-            if(R/B>2)color = 'Y';
-            else color = 'W';
-        }
-        else{
-            if(B<200 && B/R>1.1) color = 'B';
-            else color = 'W';
-        }
+        if(R > B  &&  R/B > 1.7)color = 'Y';
+        else if(B > R  &&  B/R > 1.6) color = 'B';
+        else color = 'W';
+
         softDelay(500);
         for(j=0;j<7;j++)color_check[j] = color_check[j+1]; //filter
         color_check[7] = color;
@@ -244,7 +275,7 @@ void setPositionOfCylinderCarrierByTime(long int time){
     if (time>0){
              time= time*1.00; //experimental difference in speed
              setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ¬√–”«»“‹
-             setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW  ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(870 + 1024), 0x0400);//CW  ¬√–”«»“‹
              softDelay(time);
 
              setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹

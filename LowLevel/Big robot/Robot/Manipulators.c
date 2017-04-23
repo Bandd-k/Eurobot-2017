@@ -2,7 +2,7 @@
 #include "Dynamixel_control.h"
 #include "Regulator.h"
 #include "Board.h"
-
+#include "Interrupts.h"
 void softDelay(__IO unsigned long int ticks)
 {
     for(; ticks > 0; ticks--);
@@ -311,12 +311,12 @@ bool switchOffPneumo()
 
 
 /////////////////////////////RIGHT BALL COLLECTOR/////////////////////
-bool downRightCollectorToGetBalls()
+bool downRightCollectorToGetBalls(int angle_down)//, int speed)
 {
+//    setServoTorque(DNMXL_MAN_RIGHT,200);
+//    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_TRANSIT_ON);
     setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_RIGHT,200);
-    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
+    setServoAngle(DNMXL_MAN_RIGHT,angle_down);
         //setVoltage(5,1);
         //set_pin(EXTI_SERVOPOLOL1);
         //reset_pin(EXTI_SERVOPOLOL2);
@@ -327,16 +327,16 @@ bool downRightCollectorToGetBalls()
         //}
 }
 
-bool upRightCollectorWithBalls()
+bool upRightCollectorWithBalls(int angle_up)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_RIGHT,850);
-   setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_OFF);
+    setServoTorque(DNMXL_MAN_RIGHT,700);
+   setServoAngle(DNMXL_MAN_RIGHT,angle_up);
 }
 
 void polulu_outside_right (){
       set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900) )
         {
             ;
         }//setVoltage(5,0);
@@ -360,7 +360,7 @@ bool throwRightCollectorIntoBox(int angle)
          softDelay(8780000);
          set_pin(EXTI_POLOL2_RIGHT);
          reset_pin(EXTI_POLOL1_RIGHT);
-         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -370,7 +370,7 @@ bool throwRightCollectorIntoBox(int angle)
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_RIGHT);
          reset_pin(EXTI_POLOL2_RIGHT);
-         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);
@@ -385,19 +385,17 @@ reset_pin(EXTI_POLOL2_RIGHT);
 }
 
 /////////////LEFT BALL COLLECTOR//////////////////////////////////////
-
-bool downLeftCoolectorToGetBalls()
+bool downLeftCoolectorToGetBalls(int angle_down)//, int speed)
 {
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
-    setServoTorque(DNMXL_MAN_LEFT,150);
-    setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_ON);
+
+    setServoTorque(DNMXL_MAN_LEFT,200);
+    setServoAngle(DNMXL_MAN_LEFT,angle_down);
 }
 
-bool upLeftCollectorWithBalls()
+bool upLeftCollectorWithBalls(int angle_up)//, int speed)
 {
-   setServoTorque(DNMXL_MAN_LEFT,850);
-   setServoAngle(DNMXL_MAN_LEFT,DNMXL_LEFT_ANGLE_MAN_OFF);
+   setServoTorque(DNMXL_MAN_LEFT,700);
+   setServoAngle(DNMXL_MAN_LEFT,angle_up);
 
 
 }
@@ -405,7 +403,7 @@ bool upLeftCollectorWithBalls()
 void  polulu_outside_left (){
      set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <= 8900))
         {
             ;
         }//setVoltage(5,0);
@@ -428,7 +426,7 @@ bool throwLeftCollectorIntoBox(int angle)
          softDelay(8780000);
          set_pin(EXTI_POLOL2_LEFT);
          reset_pin(EXTI_POLOL1_LEFT);
-         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
+         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)) && (stop_cnt <=8900))
          {
             ;
           } //setVoltage(5,0);
@@ -438,7 +436,7 @@ bool throwLeftCollectorIntoBox(int angle)
          //setVoltage(5,1);
          set_pin(EXTI_POLOL1_LEFT);
          reset_pin(EXTI_POLOL2_LEFT);
-         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)) && (stop_cnt <=8900))
         {
             ;
         }//setVoltage(5,0);

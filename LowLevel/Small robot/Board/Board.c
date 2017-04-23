@@ -323,8 +323,8 @@ initRegulators();
   conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for the UP_SWITCH for the sucking manipulator
   conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
   conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
-  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI8_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 
@@ -364,5 +364,6 @@ for(i; i < 4; i++)
 goInsideWithSuckingManipulator();
 servo_rotate_90((uint16_t)160);
 setCurrentAngleAsBeginning();
+liftCylinderRGBManipulator();
 }
 ////////////////////////////////////////////////////////////////////////////////

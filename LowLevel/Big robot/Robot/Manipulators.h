@@ -29,7 +29,7 @@ bool close_tower(int8_t);
 #define CUBES_CATCHER_ADC 1
 #define CUBES_CATCHER_MOTOR_CH 5
 
-extern uint16_t adcData[10];
+extern uint16_t l[10];
 
 bool openCubesCatcher();
 bool closeCubesCatcher(uint8_t*);
@@ -39,7 +39,7 @@ void pidLowLevelManipulator(float, float);
 
 //////////////////////////FUNNY ACTION IN EUROBOT 2017/////////////////////////////////////
 
-#define CLOSE_LID_VALUE 0.027
+#define CLOSE_LID_VALUE 0.0401
 #define OPEN_LID_VALUE 0.07
 #define FUNNY_ACTION_BTN_CHANNEL 4
 
@@ -100,8 +100,6 @@ void servo_rotate_90();
 void servo_rotate_180();
 
 
-
-
 #define SERVO_ELEVATE  1 //defining servos
 #define SERVO_ROTATE 2
 
@@ -124,21 +122,22 @@ void servo_rotate_180();
 #define EXTI_POLOL2_RIGHT EXTI2_PIN
 #define EXTI_POLOL1_LEFT EXTI5_PIN
 #define EXTI_POLOL2_LEFT EXTI6_PIN
-#define DNMXL_ANGLE_MAN_ON 180
-#define DNMXL_ANGLE_MAN_OFF 90
+//#define DNMXL_ANGLE_MAN_ON 89
+//#define DNMXL_ANGLE_MAN_OFF 3
+#define DNMXL_ANGLE_MAN_TRANSIT_ON 140
 
-#define DNMXL_LEFT_ANGLE_MAN_ON 150
-#define DNMXL_LEFT_ANGLE_MAN_OFF 58
+//#define DNMXL_LEFT_ANGLE_MAN_ON 150
+//#define DNMXL_LEFT_ANGLE_MAN_OFF 58
 //#define DNMXL_ANGLE_MAN_THROW 59
 //#define DNMXL_ANGLE_MAN_UP_RIGHT 77
 //#define DNMXL_ANGLE_MAN_UP_LEFT 84
 
-bool downRightCollectorToGetBalls();
-bool upRightCollectorWithBalls();
-bool throwRightCollectorIntoBox();
-bool downLeftCoolectorToGetBalls();
-bool upLeftCollectorWithBalls();
-bool throwLeftCollectorIntoBox();
+bool downRightCollectorToGetBalls(int);
+bool upRightCollectorWithBalls(int);
+bool throwRightCollectorIntoBox(int);
+bool downLeftCoolectorToGetBalls(int);
+bool upLeftCollectorWithBalls(int);
+bool throwLeftCollectorIntoBox(int);
 bool r12();
 void polulu_outside_right();
 void polulu_outside_left();
@@ -203,6 +202,6 @@ bool goUpWithSuckingManipulator();
 bool goDownWithSuckingManipulator();
 
 */
-
+extern int stop_cnt;
 
 #endif

@@ -15,7 +15,7 @@ BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.],
                 [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
-MAX_ITENS = 2600  # MAX_ITENS 2600
+MAX_ITENS = 3500  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
 
@@ -200,8 +200,6 @@ class ParticleFilter:
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
-                #print shared_coords[0]
-                #print shared_coords[1]
                 self.move_particles(
                     [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
                 # add aproximation
