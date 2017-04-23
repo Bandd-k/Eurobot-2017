@@ -168,6 +168,9 @@ class ParticleFilter:
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
+        # median version
+        #weights = self.gaus(np.median(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
+        # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
         if np.sum(weights)<self.gaus(self.sense_noise*3.0,mu =0,sigma= self.sense_noise)*self.particles_num:
@@ -217,7 +220,8 @@ class ParticleFilter:
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
-            time.sleep(0.1)
+                #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
+            time.sleep(0.08)
 
 
 

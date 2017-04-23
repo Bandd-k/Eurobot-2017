@@ -89,6 +89,7 @@ CMD_LIST = {
     ## General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
     'setCoordinates': 0x02,  # expected parameters: float32[3]
+    'setCoordinates2': 0x99,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
     'sensors_data': 0x3a,  # no parameters, returns integer with first 6 bits sensor data
@@ -97,6 +98,8 @@ CMD_LIST = {
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
     'stopAllMotors': 0x40,
     'start_flag': 0x80,
+    'off_wheels':0x81,
+    'on_wheels':0x82 ,
 
 }
 
