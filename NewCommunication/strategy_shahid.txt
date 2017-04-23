@@ -1,16 +1,8 @@
-# Time duration (empty string or float/int) : Action (as string name): parameters ( additional)
-15:pass robotische
-#20:take rocket back: 4
-#20:drop slot front:diagonal 4 
-#20:take rocket lateral: 3
-#15:drop slot lateral:diagonal 2
-#0:move: after_seesaw
-#0:move: back_rocket_stand_to_take
-#0:move: pass_robotishe
-#0:move: back_rocket_stand_to_take
-#0:take cylinder: 4, 5
-#0:take cylinder
-#0:move: between_adjust_diagonal_lunar_slot
+move: 175 0 0 0, 154 123 123 0
+move: after seesaw
+#move: back rocket stand to take
+#move: pass robotishe
+#move: between adjust diagonal lunar slot
 #move: first module diagonal lunar slot
 #move: between adjust lateral rocket
 #move: lateral rocket stand to take
@@ -26,9 +18,3 @@
 # "lateral rocket stand to take": [270, 1350],
 # "between adjust lateral slot": [270, 1350],
 # "first module lateral lunar slot": [270, 1150]
-
-
-# in a file can only be lines:
-# "tmstmp : action : parameters"
-# "<<empty line>>"
-# "# line comment"

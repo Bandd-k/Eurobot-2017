@@ -3,223 +3,330 @@
 import sys
 import time
 import json
-import math 
+#from multiprocessing import Process, Queue, Value,Array
 
 import robot_class
-import states
+from hokuyolx import HokuyoLX
+#import main_file
 
 import smach
 
-# import roslib
-# import smach_ros
-# import rospy
+import roslib
+import smach_ros
+import rospy
 
+# import logging
+# logging.getLogger('rosout').setLevel(logging.CRITICAL)
+# class Filter(logging.Filter):
+#     def filter(sf, record):
+#         return 'State machine transitioning' not in record.msg
+#         return 'State machine transitioning' not in record.msg
+# logging.getLogger('rosout').addFilter(Filter())
+
+
+test_time = 0
+duration = 2
 
 def parse_strategy(strategy_text, config_dict):
 
-    commands_nocomments = [[part.strip() for part in line.split(":")] # get rid of empty lines and comments
-                    for line in strategy_text.split('\n') if len(line.strip()) != 0 and line.strip()[0] != '#']
-    durs, actions, par_list = [], [] ,[]
-    # ===============================
-    def isfloat(val):
-        try:
-            float(val)
-            return True
-        except:
-            return False
-    ### convert str to float
-    def str_to_float(par_vals):
-        new_vals = []
-        for val in par_vals:
+    commands_nocomments = [[part.strip() for part in line.split(":")]
+                for line in strategy_text.split('\n') if line[0] != '#']
+
+    def parameter_parse(command):
+        def isfloat(value): # check if value can be converted to float
             try:
-                f = float(val)
-                new_vals += [f]
+                float(value)
+                return True
             except:
-                fl = 0
-                check_strs = ['', 'pi', 'pi_12', 'pi_32', 'pi_34']
-                check_vals = [None, math.pi, math.pi/2, 3*math.pi/2]
-                for strs, vals in zip(check_str, check_vals):
-                    if val == strs:
-                        new_vals += [vals]; fl = 1; break
-                if not fl:
-                    new_vals += map(float, map_str_to_config(val))
-        return new_vals
-    ## revert according to color
-    def map_str_to_config(string, config_dict=config_dict):
-        ## TODO: special mapping if wrong string
-        if string in config_dict["robot data"]:
-            return config_dict["robot data"][string]
-        elif string in config_dict:
-            return config_dict[string]
-        else:
-            return None
-    # ===============================
-    for command in commands_nocomments:
-        if isfloat(command[0]):
-                command[0] = float(command[0])
-        if len(command) == 2:
-            durs += [command[0]]; actions += [command[1]]; par_list += [None]
-            continue
-
-        dur, action, pars = command
-        pars = pars.split(',') # if it is a sequence of parameters in a command
+                return False
+        if len(command) == 1:
+            return [command[0], None]
+        pars = command[1].split(',') # if it is a sequence of parameters in a command
         pars = map(lambda x: x.strip().split(' '), pars) # parsed any string not whitespace
+
         for i, par_vals in enumerate(pars):
-                pars[i] = str_to_float(map(lambda x: x.strip(), par_vals))
-        durs += [dur]; actions += [action]; par_list += [pars]
-    
-    return [durs, actions, par_list]
+            if not isfloat(par_vals[0].strip()):# check if parameter was a string parameter
+                pars[i] = config_dict[' '.join(par_vals).strip()] # use hardcoded value from game_conf json
+            else:
+                 pars[i] = [float(val) for val in par_vals]
+        return [command[0], pars]
 
-def create_fsm(robot, name, config_dict, strategy_names, parsed_strategies):
+    return map(parameter_parse, commands_nocomments)
 
-    game_fsm = smach.StateMachine(outcomes=['succeeded', 'aborted', 'preempted'],
+class RobotInit(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        #ud.robot = Robot(config_data=ud.robot_data)
+        # checking for button in a loop...
+        #time.sleep(1)
+
+        ud.robot = robot_class.Robot(config_data=ud.robot_data)
+        ud.start_time = time.time()
+        #time.sleep(test_time)
+        time.sleep(1)
+        return 'robot initialized'
+
+
+class Timer(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        #cnt = 10
+        while 'start_time' not in ud:# and cnt:
+            print('>>> TIMER Waiting for data...')
+            #cnt -=1
+            time.sleep(0.5)
+        print('>>> TIMER GOT DATA! x = '+str(ud.start_time))
+        time.sleep(ud.duration)
+        return 'time elapsed'
+
+class CommandHandler(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+        sf.command_num = 0
+
+    def execute(sf, ud):
+        #time.sleep(test_time)
+        #print 'Command handler userdata keys', ud.__getattr__()
+        while 'robot' not in ud:
+            print 'Command handler userdata keys', '\n'.join([str(key) + str(ud[key]) for key in ud.keys()])#__contains__()
+            print('>>> COMMAND HANDLER Waiting for data...')
+            time.sleep(0.5)
+        if not sf.command_num:
+            print('>>> COMMAND HANDLER GOT ROBOT!')
+        if sf.command_num == len(ud.parsed_strategy):
+            return 'strategy ended'
+        if sf.preempt_requested():
+            sf.service_preempt()
+            return 'preempted'
+        command = ud.parsed_strategy[sf.command_num]
+        sf.command_num += 1
+        #ud.action = command[0]
+        ud.parameter = command[1]
+        return command[0].lower()
+
+    def request_preempt(sf):
+        """Overload the preempt request method just to spew an error."""
+        smach.State.request_preempt(sf)
+        #rospy.logwarn("Preempted!")
+
+class Motion(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        time.sleep(test_time)
+        return 'succeeded'
+
+    def request_preempt(sf):
+        """Overload the preempt request method just to spew an error."""
+        smach.State.request_preempt(sf)
+        #rospy.logwarn("Preempted!")
+
+class TakeCylinder(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        time.sleep(test_time)
+        return 'succeeded'
+
+class DropCylinder(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        time.sleep(test_time)
+        return 'succeeded'
+
+class CollisionHandler(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        time.sleep(test_time)
+        ud.new_point = None
+        return 'succeeded'
+    def request_preempt(sf):
+        """Overload the preempt request method just to spew an error."""
+        smach.State.request_preempt(sf)
+        #rospy.logwarn("Preempted!")
+
+class FunnyAction(smach.State):
+    def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
+        smach.State.__init__(sf, outcomes, input_keys, output_keys)
+
+    def execute(sf, ud):
+        time.sleep(test_time)
+        return 'succeeded'
+
+    def request_preempt(sf):
+        """Overload the preempt request method just to spew an error."""
+        smach.State.request_preempt(sf)
+        #rospy.logwarn("Preempted!")
+
+
+# gets called when ANY child state terminates
+def startup_child_term_cb(outcome_map):
+    # terminate all running states if TIMER finished with outcome 'time elapsed'
+    if outcome_map['TIMER'] == 'time elapsed':
+        return True
+    if outcome_map['ROBOT'] == 'aborted':
+        return True
+    # We need to wait for 90 seconds (when timer ends)
+    # terminate all running states if ROBOT finished
+    #if outcome_map['ROBOT']:
+    #    return True
+    # in all other case, just keep running, don't terminate anything
+    return False
+
+
+    # gets called when ALL child states are terminated
+def startup_out_cb(outcome_map):
+    if outcome_map['ROBOT'] == 'strategy ended':
+        # print(outcome_map)
+        return 'strategy succeeded'
+    elif outcome_map['TIMER'] == 'time elapsed':
+        return 'timer ended'
+    elif outcome_map['ROBOT'] == 'aborted':
+        return 'robot aborted'
+    else:
+        return 'strategy succeeded'
+
+
+def create_fsm():
+
+    game_fsm = smach.StateMachine(outcomes=['succeeded', 'aborted'],
                                   output_keys = [])
-
-    ud = game_fsm.userdata
-    ud.robot = robot
-    ud.color = config_dict["color"]
-    ud.data = config_dict[name]
-    ud.start_time = None
-    # TODO include beacons from npParticle or vice versa
-    #ud.beacons =
-    ud.pts_gain = 0
-    elements_names = ["ro_ba", "ro_la", "mo_mo_ba", "mo_mo_mi", "mo_mo_fr",
-            "mo_mu_ba", "mo_mu_fr", "mo_mu_mi", "cr_ba", "cr_fr", "cr_co"]
-    ud.resources_field = dict(zip(elements_names, [4, 4] +  6*[1] + [5, 5, 20]))
-    ud.resources_picked = dict(zip(["mo_mo", "mu_mo", "tit_or"], 3*[0]))
-    ud.parsed_strategies = dict(zip(strategy_names, parsed_strategies))
-
-    state_list = ["take rocket back", "take rocket lateral", #"take crater corner", 
-            #"take crater front", "take crater back", "drop starting area 2",
-            "drop slot front", "drop slot lateral", #"drop cargo bay", 
-            "pass robotische"]
-
     with game_fsm:
 
-        general_in_keys = ["robot", "color", "name", "data", "start_time", 
-                    "pts_gain", "resources_field", "resources_picked", "parsed_strategies"]
-        
-        # Robot initializer with 
-        input_keys = ["robot", "start_time", "data"]
-        output_keys = input_keys + ["sterr"]
-        outcomes = ["initialized"]
-        transition_out = ["PLANNER"]
+        robot_strategy_fsm = smach.Concurrence(
+            outcomes=['timer ended', 'strategy succeeded', 'robot aborted'],
+            default_outcome='timer ended',
+            input_keys=[],
+            output_keys=[],
+            child_termination_cb = startup_child_term_cb, # use instead of outcome_map
+            outcome_cb = startup_out_cb
+        )
 
-        smach.StateMachine.add('ROBOT INIT', states.RobotInit( 
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
+        with open(sys.argv[1]) as config_f:
+            config_dict = json.load(config_f)
 
-        # Main Planner (decision making tuned with prepared strategy)
-        input_keys = general_in_keys[:]
-        output_keys = input_keys + ["sterr"] + ["parameter"]
-        outcomes = state_list + ["ended"]
-        transition_out = map(lambda x: x.upper(), state_list) + ["succeeded"]
+        robot_strategy_ud = robot_strategy_fsm.userdata
+        robot_strategy_ud.robot_data = config_dict['robot data']
+        actions =[action_str.encode('ascii','ignore') for action_str in config_dict['strategy actions']]
+        robot_strategy_ud.game_field = config_dict['game field']
 
-        smach.StateMachine.add('PLANNER', states.Planner( 
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
+        with open(sys.argv[2]) as f_rob_strategy:
+            robot_strategy_ud.parsed_strategy = parse_strategy(f_rob_strategy.read(),robot_strategy_ud.robot_data)
 
-        # Pass robotische at the start
-        input_keys = general_in_keys[:] + ["points"]
-        input_keys.remove("name")
-        input_keys.remove("parsed_strategies")
-        output_keys = ["sterr", "time", "robot"]
-        outcomes = ["succeeded", "aborted"]
-        transition_out = ["PLANNER", "PLANNER"]
+        robot_strategy_ud.duration = sys.argv[3] if len(sys.argv) > 3 else duration # 90 default seconds duration of the game timer
+        #startup_ud.start_time = None
 
-        smach.StateMachine.add('PASS ROBOTISCHE', states.PassRobotische( 
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
+        smach.StateMachine.add('ROBOT STRATEGY', robot_strategy_fsm,
+                               transitions={'timer ended': 'FUNNY ACTION',
+                                            'strategy succeeded': 'FUNNY ACTION',
+                                            'robot aborted': 'aborted'})
 
-        # Take modules from rocket at back
-        input_keys = general_in_keys[:] + ["n_modules", "points"]
-        input_keys.remove("name")
-        input_keys.remove("parsed_strategies")
-        output_keys = ["sterr", "time", "robot"]
-        outcomes = ["succeeded", "aborted"]
-        transition_out = ["PLANNER", "PLANNER"]
+        smach.StateMachine.add('FUNNY ACTION', FunnyAction(outcomes=['succeeded', 'aborted'],
+                                                           input_keys=['robot', 'parameter', 'state'],
+                                                           output_keys=[]),
+                               transitions={'succeeded': 'succeeded',
+                                            'aborted': 'aborted'})
 
-        smach.StateMachine.add('TAKE ROCKET BACK', states.TakeRocketBack(
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
 
-        # Drop modules to front slots (diagonal)
-        input_keys = general_in_keys[:] + ["n_modules", "points"]
-        input_keys.remove("name")
-        input_keys.remove("parsed_strategies")
-        output_keys = ["sterr", "time", "robot"]
-        outcomes = ["succeeded", "aborted"]
-        transition_out = ["PLANNER", "PLANNER"]
- 
-        smach.StateMachine.add('DROP SLOT FRONT', states.DropSlotFront( 
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
+        with robot_strategy_fsm:
 
-        # Take modules from lateral rocket
-        input_keys = general_in_keys[:] + ["n_modules", "points"]
-        input_keys.remove("name")
-        input_keys.remove("parsed_strategies")
-        output_keys = ["sterr", "time", "robot"]
-        outcomes = ["succeeded", "aborted"]
-        transition_out = ["PLANNER", "PLANNER"]
+            # Here we initialize and wait the end of it
+            smach.Concurrence.add('ROBOT INIT', RobotInit(outcomes=['robot initialized', 'initialization failed'],
+                                                               input_keys=['robot_data', 'parsed_strategy'],#['robot_data']
+                                                               output_keys=['start_time', 'robot', 'parsed_strategy']))
+                                       # transitions={'robot initialized': 'ROBOT STRATEGY',
+                                       #              'initialization failed': 'aborted'})
 
-        smach.StateMachine.add('TAKE ROCKET LATERAL', states.TakeRocketLateral(
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
+            smach.Concurrence.add('TIMER', Timer(outcomes=['time elapsed'],
+                                                 input_keys=['start_time', 'duration'],
+                                                 output_keys=['deadline1']))
 
-        # Drop modules to lateral slots
-        input_keys = general_in_keys[:] + ["n_modules", "points"]
-        input_keys.remove("name")
-        input_keys.remove("parsed_strategies")
-        output_keys = ["sterr", "time", "robot"]
-        outcomes = ["succeeded", "aborted"]
-        transition_out = ["PLANNER", "PLANNER"]
 
-        smach.StateMachine.add('DROP SLOT LATERAL', states.DropSlotLateral( 
-                        outcomes=outcomes,
-                        input_keys=input_keys,
-                        output_keys=output_keys),
-                        transitions=dict(zip(outcomes, transition_out)),
-                        remapping=dict(zip(output_keys, output_keys)))
-   
+            sm_robot = smach.StateMachine(outcomes=['aborted', 'strategy ended', 'preempted'],
+                                          input_keys = ['game_field', 'parsed_strategy', 'robot'],
+                                          output_keys=[])
+
+            smach.Concurrence.add('ROBOT', sm_robot)
+
+
+
+
+            with sm_robot:
+                # Command Hadler
+
+                # Actions as states
+                smach.StateMachine.add('TAKE CYLINDER', TakeCylinder(outcomes=['succeeded', 'aborted'],
+                                                                 input_keys=['parameter', 'robot'],
+                                                                 output_keys=[]),
+                                       #state = 0, 1, 2  0 - succeded, 1 - aborted
+                                       transitions={'succeeded': 'COMMAND HANDLER',
+                                                    'aborted': 'COMMAND HANDLER'})
+
+                smach.StateMachine.add('DROP CYLINDER', DropCylinder(outcomes=['succeeded', 'aborted'],
+                                                                 input_keys=['parameter', 'robot'],
+                                                                 output_keys=[]),
+                                       #state = 0, 1, 2  0 - succeded, 1 - aborted
+                                       transitions={'succeeded': 'COMMAND HANDLER',
+                                                    'aborted': 'COMMAND HANDLER'})
+
+                motion_fsm = smach.Concurrence(
+                    outcomes=['succeeded', 'aborted'],
+                    default_outcome='succeeded',
+                    input_keys=['point', 'robot'], # parameter remapping
+                    output_keys=['new_point', 'robot'],
+                    #TODO#        child_termination_cb = child_term_cb, // use instead of outcome_map
+                    #TODO#        outcome_cb = out_cb,
+                    outcome_map = {
+                        'succeeded': {'COLLISION HANDLER': 'succeeded', 'MOTION': 'succeeded'},
+                        'aborted': {'COLLISION HANDLER': 'aborted'},
+                        #'aborted': {'ROBOT': 'aborted'}
+                    }
+                )
+
+                smach.StateMachine.add('MOVE', motion_fsm,
+                                            transitions={'succeeded': 'COMMAND HANDLER',
+                                                    'aborted': 'COMMAND HANDLER'},
+                                            remapping = {'point':'parameter'})
+
+                with motion_fsm:
+                    smach.Concurrence.add('MOTION', Motion(outcomes=['succeeded', 'aborted'],
+                                                            input_keys=['point', 'robot'],
+                                                            output_keys=[]))
+                    smach.Concurrence.add('COLLISION HANDLER', CollisionHandler(outcomes=['succeeded', 'aborted'],
+                                                                               input_keys=['point', 'robot'],
+                                                                               output_keys=['new_point']))
+
+                command_handler_trans = {action:action.upper() for action in actions} # commands parsing for Command handler
+                command_handler_trans.update({'strategy ended':'strategy ended', 'preempted':'preempted'})
+
+                smach.StateMachine.add('COMMAND HANDLER', CommandHandler(outcomes=actions + ['strategy ended'] + ['preempted'],
+                                                                         input_keys=['parsed_strategy', 'robot'],
+                                                                         output_keys=['parameter', 'robot']),
+                                       transitions=command_handler_trans)
+
+            # End Robot states initialisation, except Funny action
     #End of FSM description
     return game_fsm
 
 if __name__ == "__main__":
-
-    with open(sys.argv[1]) as config_f:
-            config_dict = json.load(config_f)
-    with open(sys.argv[2]) as strategy_f:
-            parsed_strategy = parse_strategy(strategy_f.read(), config_dict)
-
-    name = sys.argv[2].split(".")[0].split("_")[1]
-    robot = robot_class.Robot()
-    fsm = create_fsm(robot, name, config_dict, ["min"], [parsed_strategy])
-    #rospy.init_node('FSM', anonymous=True)
-    #sis = smach_ros.IntrospectionServer('server_name', fsm, '/SM_ROOT')
-    #sis.start()
-    ## Execute the state machine
     tmp  = time.time()
+    fsm = create_fsm()
+    rospy.init_node('FSM', anonymous=True)
+    sis = smach_ros.IntrospectionServer('server_name', fsm, '/SM_ROOT')
+    sis.start()
+    # Execute the state machine
     fsm.execute()
-    print 'FSM elapsed after: ', time.time() - tmp, ' sec'
-    ## Wait for ctrl-c to stop the application
+    # Wait for ctrl-c to stop the application
     #rospy.spin()
-    #sis.stop()
+    sis.stop()
+    print 'FSM elapsed after: ', time.time() - tmp, ' sec'
