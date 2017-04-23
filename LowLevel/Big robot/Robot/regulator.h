@@ -4,7 +4,7 @@
 #include "stm32f4xx.h"
 #include "Path.h"
 
-#define MAX_WHEEL_SPEED	    0.9// м/с
+#define MAX_WHEEL_SPEED	    1.5// м/с
 #define MAX_RAD_SPEED       4.0 // рад/с
 #define LINE_SPEED_WEIGHT   0.8
 #define ROTATE_SPEED_WEIGHT 1-LINE_SPEED_WEIGHT
@@ -20,7 +20,7 @@
 #define JOYST_RAD_VEL_KOFF  MAX_RAD_SPEED/128.0 //(MAX_WHEEL_SPEED/distA/128.0/5.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/106496.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/4096.0/26)
-#define DISKR_TO_REAL       (2.0*PI*RO/2800)
+#define DISKR_TO_REAL       (2.0*PI*RO/106496/1.65)
 #define ONE_RO_COS_PHI      1.0                   // 23.0947
 //#define COFF_TO_RAD         (2.0*PI/(4658.346666667))
 #define MAX_CAPACITANCE     0.9 //(120.0*DISKR_TO_REAL/PID_PERIOD)*1.5   // Максимальный вектор задания на ПИДЫ

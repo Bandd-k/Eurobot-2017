@@ -45,17 +45,17 @@
 #define EXTI_DIG_OUTPUT 4
 #define NO_MOTOR 255
 
-#define MAX_DIST 520
-#define MIN_DIST 115
+#define MAX_DIST 390
+#define MIN_DIST 77
 
 #define MAX_RAW_SENSOR 4095
 #define MIN_RAW_SENSOR 392
 
 #define CRITICAL_DIST 200
-#define FRONT_LEFT 0
-#define FRONT_RIGHT 1
-#define BACK_LEFT 2
-#define BACK_RIGHT 3
+#define FRONT 7
+//#define FRONT_RIGHT 1
+//#define BACK_LEFT 2
+#define BACK 6
 
 #define threshhold -7
 

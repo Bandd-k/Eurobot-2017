@@ -95,6 +95,8 @@ int main(void)
     while(1)
     {
 
+
+
 //        if (pin_val (EXTI9_PIN)){
 //            startFlag = 1;
 //        }

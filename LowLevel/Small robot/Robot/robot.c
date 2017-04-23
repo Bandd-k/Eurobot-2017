@@ -785,6 +785,21 @@ break;
     sendAnswer(cmd->command, &startFlag, sizeof(startFlag));
   }
     break;
+    case 0x81:  //Start flag command
+  {
+      set_pin(PWM_INHIBIT);
+      char * str ="Ok";
+      sendAnswer(cmd->command, str, 3);
+  }
+    break;
+    case 0x82:  //Start flag command
+  {
+      reset_pin(PWM_INHIBIT);
+      char * str ="Ok";
+      sendAnswer(cmd->command, str, 3);
+  }
+    break;
+
     default:
     return 0;
   break;

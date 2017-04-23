@@ -1,4 +1,4 @@
-obj\release\board\interrupts.o: Board\Interrupts.c Board\Interrupts.h \
+obj\release\board\interrupts.o: Board\Interrupts.c Board\gpio.h \
  Library/stm32f4xx.h Library/core_cm4.h cmsis/core_cmInstr.h \
  cmsis/core_cmFunc.h cmsis/core_cm4_simd.h Library/system_stm32f4xx.h \
  Library/stm32f4xx_conf.h SPL\inc/stm32f4xx_adc.h SPL\inc/stm32f4xx_can.h \
@@ -12,8 +12,7 @@ obj\release\board\interrupts.o: Board\Interrupts.c Board\Interrupts.h \
  SPL\inc/stm32f4xx_sdio.h SPL\inc/stm32f4xx_spi.h \
  SPL\inc/stm32f4xx_syscfg.h SPL\inc/stm32f4xx_tim.h \
  SPL\inc/stm32f4xx_usart.h SPL\inc/stm32f4xx_wwdg.h SPL\inc/misc.h \
- Board\gpio.h Library/stm32f4xx_conf.h Robot/Regulator.h Robot/Path.h \
- Robot/Path.h Board\Pins.h Board\usart.h Robot/robot.h \
- Robot/Communication.h Robot/robot.h USB\ App/usbd_conf.h \
- USB\ App/usb_conf.h Board/gpio.h Board\board.h Robot/Manipulators.h \
- Board/pins.h
+ Library/stm32f4xx_conf.h Robot/Regulator.h Robot/Path.h Robot/Path.h \
+ Board\Pins.h Board\usart.h Robot/robot.h Robot/Communication.h \
+ Robot/robot.h USB\ App/usbd_conf.h USB\ App/usb_conf.h Board/gpio.h \
+ Board\board.h Robot/Manipulators.h Board/pins.h Board\Interrupts.h
