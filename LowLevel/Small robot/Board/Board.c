@@ -319,10 +319,10 @@ initRegulators();
 //___EXTI____________________________________________________________________
   conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);//output frequency receiver
   conf_pin(EXTI2_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);//changes between red and blue color
-  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for DOWN_SWITCH for the sucking manipulator (correct)
+  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for DOWN_SWITCH for the sucking manipulator
   conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for the UP_SWITCH for the sucking manipulator
-  conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling (controller) the direction of sucking manipulator
-  conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling (controller) the direction of sucking manipulator
+  conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
+  conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
   conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);

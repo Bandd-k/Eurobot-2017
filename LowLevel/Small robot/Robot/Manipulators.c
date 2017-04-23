@@ -8,7 +8,7 @@
 double timeofred;
 char color, color_check[8];
 float magnetincoderdata[10];
-
+uint16_t count_polulu;
 float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
 bool direction = true;
@@ -35,35 +35,37 @@ void softDelay(__IO unsigned long int ticks)
 
 bool goInsideWithSuckingManipulator(){
 
-
+    count_polulu = 0;
+    set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
+    reset_pin(INPUT2_CONTROL);
 
-    softDelay(6000000);
+    softDelay(1500000);
 
     reset_pin(INPUT1_CONTROL);
-
+    reset_pin(INPUT1_CONTROL);
     servo_rotate_180();
-
+    set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
 
-    while(!pin_val(UPPER_SWITCH));
-
+    while(!pin_val(UPPER_SWITCH) && count_polulu < 10000000)count_polulu++;
 
     reset_pin(INPUT1_CONTROL);
-
+    reset_pin(INPUT1_CONTROL);
+    count_polulu = 0;
 }
 
 bool goOutsideWithSuckingManipulator(){
 
+    count_polulu = 0;
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
     reset_pin(INPUT1_CONTROL);
 
-
-    while(!pin_val(DOWN_SWITCH));
-
+    while(!pin_val(DOWN_SWITCH) && count_polulu < 10000000)count_polulu++;
 
     reset_pin(INPUT2_CONTROL);
+    count_polulu = 0;
 }
 /*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
@@ -254,7 +256,7 @@ void setPositionOfCylinderCarrierByTime(long int time){
     if (time>0){
              time= time*1.00; //experimental difference in speed
              setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ¬√–”«»“‹
-             setServoMovingSpeed(2, (uint16_t)(850 + 1024), 0x0400);//CW  ¬√–”«»“‹
+             setServoMovingSpeed(2, (uint16_t)(870 + 1024), 0x0400);//CW  ¬√–”«»“‹
              softDelay(time);
 
              setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹

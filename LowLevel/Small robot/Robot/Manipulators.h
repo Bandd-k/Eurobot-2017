@@ -102,7 +102,7 @@ void setPositionOfCylinderCarrier(float);
 
 #define UPPER_SWITCH  EXTI4_PIN
 #define DOWN_SWITCH EXTI3_PIN
-#define INPUT2_CONTROL EXTI5_PIN
+#define INPUT2_CONTROL EXTI7_PIN
 #define INPUT1_CONTROL EXTI6_PIN
 
 
@@ -117,7 +117,7 @@ bool goOutsideWithSuckingManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  252 //240 or 235
+#define SERVO_ROTATE_180  245
 
 
 bool moveSuckerManipulatorUp();

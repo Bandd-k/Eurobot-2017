@@ -63,7 +63,7 @@ int main(void)
     __disable_irq();
     initAll();
 
-
+/*
     NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;
 	// Set priority
@@ -73,7 +73,7 @@ int main(void)
 	// Enable interrupt
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	// Add to NVIC
-	NVIC_Init(&NVIC_InitStruct);
+	NVIC_Init(&NVIC_InitStruct);*/
     SysTick_Config(840);
 
     USBD_Init(&USB_OTG_dev,
@@ -94,21 +94,18 @@ int main(void)
 //numberofrot = 0;
     while(1)
     {
-
+//
 //        if (pin_val (EXTI9_PIN)){
 //            startFlag = 1;
 //        }
 //        else{
 //            startFlag = 0;
 //        }
-
 //        goOutsideWithSuckingManipulator();
-//        switchOnPneumo();
-//        softDelay(3000000);
+//        softDelay(2000000*3);
 //        goInsideWithSuckingManipulator();
-//        switchOffPneumo();
-//        softDelay(3000000);
-//        servo_rotate_90((uint16_t)160);
+//        softDelay(2000000*3);
+
 //        setPositionOfCylinderCarrierByTime(1000000*3);
 //        softDelay(1000000*3);
 //        softDelay(1000000*3);

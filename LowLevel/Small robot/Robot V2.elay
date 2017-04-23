@@ -6,9 +6,9 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Board\Board.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Board.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="13248" topLine="311" />
+			<Cursor1 position="13885" topLine="308" />
 		</Cursor>
 	</File>
 	<File name="Board\Board.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -16,24 +16,24 @@
 			<Cursor1 position="868" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Board\Interrupts.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Interrupts.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5603" topLine="146" />
+			<Cursor1 position="6409" topLine="145" />
 		</Cursor>
 	</File>
-	<File name="Board\Interrupts.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Interrupts.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="155" topLine="0" />
+			<Cursor1 position="127" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Board\Pins.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Pins.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1724" topLine="18" />
+			<Cursor1 position="6054" topLine="77" />
 		</Cursor>
 	</File>
-	<File name="Board\gpio.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\gpio.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2966" topLine="78" />
+			<Cursor1 position="3244" topLine="97" />
 		</Cursor>
 	</File>
 	<File name="Board\usart.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -66,11 +66,6 @@
 			<Cursor1 position="3661" topLine="107" />
 		</Cursor>
 	</File>
-	<File name="Library\core_cm4.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="76487" topLine="1258" />
-		</Cursor>
-	</File>
 	<File name="Library\core_cmInstr.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="10851" topLine="376" />
@@ -91,14 +86,14 @@
 			<Cursor1 position="10886" topLine="368" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Manipulators.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="797" topLine="13" />
+			<Cursor1 position="8529" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Manipulators.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3259" topLine="100" />
+			<Cursor1 position="2846" topLine="89" />
 		</Cursor>
 	</File>
 	<File name="Robot\Regulator.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -111,19 +106,19 @@
 			<Cursor1 position="0" topLine="77" />
 		</Cursor>
 	</File>
-	<File name="Robot\robot.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\robot.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="20865" topLine="754" />
+			<Cursor1 position="20836" topLine="752" />
 		</Cursor>
 	</File>
 	<File name="Robot\robot.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2143" topLine="42" />
+			<Cursor1 position="2143" topLine="83" />
 		</Cursor>
 	</File>
 	<File name="USB App\stm32fxxx_it.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2452" topLine="56" />
+			<Cursor1 position="3884" topLine="127" />
 		</Cursor>
 	</File>
 	<File name="USB App\stm32fxxx_it.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -171,9 +166,9 @@
 			<Cursor1 position="50927" topLine="1274" />
 		</Cursor>
 	</File>
-	<File name="src\main.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1517" topLine="96" />
+			<Cursor1 position="1791" topLine="118" />
 		</Cursor>
 	</File>
 	<File name="src\startup_stm32f4xx.S" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
