@@ -29,7 +29,7 @@ bool close_tower(int8_t);
 #define CUBES_CATCHER_ADC 1
 #define CUBES_CATCHER_MOTOR_CH 5
 
-extern uint16_t adcData[10];
+extern uint16_t l[10];
 
 bool openCubesCatcher();
 bool closeCubesCatcher(uint8_t*);
@@ -98,8 +98,6 @@ void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90();
 void servo_rotate_180();
-
-
 
 
 #define SERVO_ELEVATE  1 //defining servos

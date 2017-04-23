@@ -94,24 +94,26 @@ int main(void)
 //numberofrot = 0;
     while(1)
     {
-<<<<<<< HEAD
-//
-=======
-
-
-
->>>>>>> 7e58750adde99a3953a07ba9e419ed231a6a4dcc
 //        if (pin_val (EXTI9_PIN)){
 //            startFlag = 1;
 //        }
 //        else{
 //            startFlag = 0;
 //        }
+        lowerCylinderRGBManipulator();
+        rotateColoredCylinder();
+        while(getCurrentColor() == 'B');
+        stopRotateColoredCylinder();
+        liftCylinderRGBManipulator();
+//        rotateColoredCylinder();
+//        stopRotateColoredCylinder();
+
 //        goOutsideWithSuckingManipulator();
 //        softDelay(2000000*3);
 //        goInsideWithSuckingManipulator();
 //        softDelay(2000000*3);
-
+//        rotateColoredCylinder();
+//        stopRotateColoredCylinder();
 //        setPositionOfCylinderCarrierByTime(1000000*3);
 //        softDelay(1000000*3);
 //        softDelay(1000000*3);

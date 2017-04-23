@@ -32,6 +32,27 @@ void softDelay(__IO unsigned long int ticks)
     for(; ticks > 0; ticks--);
 }
 
+void lowerCylinderRGBManipulator(){
+    setPWM((char)RGB_Cylinder, (float)OPEN_RGB_Cylinder);
+}
+
+void liftCylinderRGBManipulator(){
+    setPWM((char)RGB_Cylinder, (float)CLOSE_RGB_Cylinder);
+}
+
+bool rotateColoredCylinder(){
+    set_pin(INPUT3_CONTROL);
+    set_pin(INPUT3_CONTROL);
+    reset_pin(INPUT4_CONTROL);
+    reset_pin(INPUT4_CONTROL);
+    lowerCylinderRGBManipulator();
+}
+
+bool stopRotateColoredCylinder(){
+    reset_pin(INPUT3_CONTROL);
+    reset_pin(INPUT3_CONTROL);
+}
+
 
 bool goInsideWithSuckingManipulator(){
 
@@ -41,15 +62,13 @@ bool goInsideWithSuckingManipulator(){
     reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
 
-<<<<<<< HEAD
-    softDelay(1500000);
-=======
     softDelay(6000000/2);
->>>>>>> 7e58750adde99a3953a07ba9e419ed231a6a4dcc
 
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
+
     servo_rotate_180();
+
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
 
@@ -124,14 +143,10 @@ char getCurrentColor(){
         b = timeofred;
         B = 10000./(b);
 ////
-        if(R >= B){
-            if(R/B>2)color = 'Y';
-            else color = 'W';
-        }
-        else{
-            if(B<200 && B/R>1.1) color = 'B';
-            else color = 'W';
-        }
+        if(R > B  &&  R/B > 1.7)color = 'Y';
+        else if(B > R  &&  B/R > 1.6) color = 'B';
+        else color = 'W';
+
         softDelay(500);
         for(j=0;j<7;j++)color_check[j] = color_check[j+1]; //filter
         color_check[7] = color;
