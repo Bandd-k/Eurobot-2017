@@ -114,8 +114,8 @@ bool goOutsideWithSuckingManipulator();
 
 
 #define RGB_Cylinder 3
-#define CLOSE_RGB_Cylinder 0.06
-#define OPEN_RGB_Cylinder 0.12
+#define CLOSE_RGB_Cylinder 0.045
+#define OPEN_RGB_Cylinder 0.09
 
 bool rotateColoredCylinder();
 bool stopRotateColoredCylinder();

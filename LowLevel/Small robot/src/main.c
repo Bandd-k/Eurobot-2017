@@ -100,11 +100,11 @@ int main(void)
 //        else{
 //            startFlag = 0;
 //        }
-        lowerCylinderRGBManipulator();
-        rotateColoredCylinder();
-        while(getCurrentColor() == 'B');
-        stopRotateColoredCylinder();
-        liftCylinderRGBManipulator();
+//        lowerCylinderRGBManipulator();
+//        rotateColoredCylinder();
+//        while(getCurrentColor() == 'B');
+//        stopRotateColoredCylinder();
+//        liftCylinderRGBManipulator();
 //        rotateColoredCylinder();
 //        stopRotateColoredCylinder();
 

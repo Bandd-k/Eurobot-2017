@@ -711,7 +711,11 @@ case 0x3A: // Distance from ultrasonic sensors
 //        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
         distance[BACK] = 10 + MAX_DIST + (float)adcData[BACK]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 
-        sendAnswer(cmd->command, (char* )distance, sizeof(distance));
+        char distancec[2];
+        distancec[0] = (char) distance[0];
+        distancec[1] = (char) distance[1];
+
+        sendAnswer(cmd->command, (char* )distancec, sizeof(distancec));
 
   }
    break;
