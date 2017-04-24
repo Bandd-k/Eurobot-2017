@@ -576,7 +576,6 @@ class Robot:
                 self.left_ball_drop()
                 self.left_ball_up()
             return
-        ####################################
             
     def first_traverse_trajectory(self,speed = 4):
         speed = 1
@@ -943,7 +942,8 @@ def test():
             return
         else:
             rb.color = "blue"
-            rb.first_traverse_trajectory(mode=mode)
+            #rb.first_traverse_trajectory(mode=mode)
+            rb.first_trajectory(mode=mode)
             return
 
     
