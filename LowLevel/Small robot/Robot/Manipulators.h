@@ -111,7 +111,7 @@ void setPositionOfCylinderCarrier(float);
 bool goInsideWithSuckingManipulator();
 bool goOutsideWithSuckingManipulator();
 
-
+bool goInsideButDifferentRotate();
 
 #define RGB_Cylinder 3
 #define CLOSE_RGB_Cylinder 0.045
