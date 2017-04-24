@@ -79,7 +79,7 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=6000, sense_noise=sen_noise, 
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=sen_noise, 
             distance_noise=dist_noise, angle_noise=angle_noise, 
             in_x=self.coords[0], in_y=self.coords[1], 
             in_angle=self.coords[2],input_queue=self.input_queue, 
@@ -478,7 +478,6 @@ class Robot:
         else:
             self.left_ball_drop()
             self.left_ball_up()
-            
         speed = 1
         angle = 0.0
         parameters = [200, 200, angle, speed]
@@ -863,13 +862,13 @@ def test():
     # initialize coordinates from this two parameters
     init_coordinates = {(1, 'y'): [950, 200, np.pi/2],
                         (1, 'b'): [950, 200, np.pi/2],
-                        (2, 'y'): [170., 170., np.pi + np.pi/6],
+                        (2, 'y'): [170., 170., np.pi/6],
                         (2, 'b'): [170., 200., 2*np.pi - np.pi/10]}
     init_coord = init_coordinates[(mode, color[0])]
     # Init robot
     rb = Robot(lidar_on=True, color=color, sen_noise=25., 
         dist_noise=35., angle_noise=0.2, init_coord=init_coord)
-    if False:
+    if False: # test funny action while drop
         while not rb.is_start():
             continue
         while 1:
@@ -916,7 +915,7 @@ def test():
         rb.left_ball_down()#(angle = angle_left_dwon)
         rb.left_ball_up()#(angle = angle_left_up)
         rb.left_ball_drop()#(angle = angle_right_up + 33.)
-        rb.left_ball_up()#(angle =() angle_left_down)
+        rb.left_ball_up()#(angle = angle_left_down)
         rb.seesaw_hand_down()
         rb.seesaw_hand_up()
         #rb.front_down_cylinder_no()
