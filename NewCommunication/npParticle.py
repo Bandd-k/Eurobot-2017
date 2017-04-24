@@ -224,9 +224,18 @@ class ParticleFilter:
                                 + [np.rad2deg(coords[2])])))
                 logging.info("Particel Filter coords: " + str(shared_coords[:2]
                                 + [np.rad2deg(shared_coords[2])]))
+<<<<<<< HEAD
+                #self.debug_info += [time.time() - tmstmp, list(coords[:2] + 
+                #                    [np.rad2deg(coords[2])]),
+                #                    shared_coords[:2] + [np.rad2deg(shared_coords[2])]]          
+                #logging.info(self.send_command('setCoordinates', [shared_coords[0]/1000.,
+                #                                                   shared_coords[1]/1000.,
+                #                                                    shared_coords[2]]))
+=======
                 self.debug_info += [time.time() - tmstmp, list(coords[:2] + 
                                     [np.rad2deg(coords[2])]),
                                     shared_coords[:2] + [np.rad2deg(shared_coords[2])]]
+>>>>>>> d3e667a8cc12054335c7c1703930fd2050f89ee7
             time.sleep(0.2)
 
 # help functions

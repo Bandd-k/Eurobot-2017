@@ -100,6 +100,7 @@ int main(void)
 //        else{
 //            startFlag = 0;
 //        }
+
 //        lowerCylinderRGBManipulator();
 //        rotateColoredCylinder();
 //        while(getCurrentColor() == 'B');
@@ -107,10 +108,17 @@ int main(void)
 //        liftCylinderRGBManipulator();
 //        rotateColoredCylinder();
 //        stopRotateColoredCylinder();
-
+//        servo_rotate_90((uint16_t)160);
+//
 //        goOutsideWithSuckingManipulator();
-//        softDelay(2000000*3);
+////        softDelay(2000000*3);
 //        goInsideWithSuckingManipulator();
+//
+//        goOutsideWithSuckingManipulator();
+//
+//        servo_rotate_180();
+//
+//        goInsideButDifferentRotate();
 //        softDelay(2000000*3);
 //        rotateColoredCylinder();
 //        stopRotateColoredCylinder();
