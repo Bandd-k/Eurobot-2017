@@ -50,8 +50,11 @@ class Robot:
         self.collision_avoidance = True
         self.sensor_range = 60
         self.map = np.load('npmap.npy')
-        self.sensors_places = [0,0,0,np.pi,np.pi/2,3*np.pi/2,0,0,0] # DIRECTION OF SENSORS
-        self.sensors_map= {0: (np.pi/6, np.pi/2+np.pi/3), 1: (np.pi/2-np.pi/3, np.pi*5/6), 2: (0, np.pi/4), 3: (np.pi - np.pi/3, np.pi + np.pi/3), 4: (3*np.pi/2-np.pi/3,11*np.pi/6), 5: (np.pi-np.pi/6,3*np.pi/2+np.pi/3), 6:(3*np.pi/2 + np.pi/4, 2*np.pi)}  # can be problem with 2pi and 0
+        self.sensors_places = [np.pi/2, np.pi/2, 0, np.pi, 3*np.pi/2, 3*np.pi/2, 0] # DIRECTION OF SENSORS
+        self.sensors_map= {0: (np.pi/6, np.pi/2+np.pi/3), 1: (np.pi/2-np.pi/3, np.pi*5/6), 2: (0, np.pi/4), 
+                            3: (np.pi - np.pi/3, np.pi + np.pi/3), 4: (3*np.pi/2-np.pi/3,11*np.pi/6),
+                            5: (np.pi-np.pi/6,3*np.pi/2+np.pi/3), 6:(3*np.pi/2 + np.pi/4, 2*np.pi)}  # DIRECTIONS OF RANGES 
+                            #can be problems ith 2*np.pi and 0
         self.lidar_on = lidar_on
         self.coll_go = False
         # localisation settings
