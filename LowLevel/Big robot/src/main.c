@@ -83,9 +83,9 @@ while(1){
         stop_cnt = 0;
         startFlag = 0;
       }
-//        distance[FRONT] = 10 + MAX_DIST + (float)adcData[FRONT]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[FRONT] = MAX_DIST_FRONT + (float)adcData[FRONT]*(MIN_DIST_FRONT - MAX_DIST_FRONT)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 ////        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 ////        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-//        distance[BACK] = 10 + MAX_DIST + (float)adcData[BACK]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[BACK] = MAX_DIST_BACK + 10 + (float)adcData[BACK]*(MIN_DIST_BACK - MAX_DIST_BACK)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
     }
 }

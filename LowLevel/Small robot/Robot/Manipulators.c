@@ -62,6 +62,9 @@ bool goInsideWithSuckingManipulator(){
     count_polulu = 0;
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+
+    reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
 
@@ -69,9 +72,11 @@ bool goInsideWithSuckingManipulator(){
 
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
 
     servo_rotate_180();
 
+    set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
 
@@ -109,11 +114,16 @@ bool goInsideButDifferentRotate(){
 bool goOutsideWithSuckingManipulator(){
 
     count_polulu = 0;
+
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
+    set_pin(INPUT2_CONTROL);
+
+    reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
     while(!pin_val(DOWN_SWITCH) && count_polulu < 10000000)count_polulu++;
 
+    reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
     count_polulu = 0;
 }

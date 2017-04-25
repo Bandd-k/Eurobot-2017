@@ -94,12 +94,17 @@ int main(void)
 //numberofrot = 0;
     while(1)
     {
-//        if (pin_val (EXTI9_PIN)){
-//            startFlag = 1;
-//        }
-//        else{
-//            startFlag = 0;
-//        }
+        if (pin_val (EXTI9_PIN)){
+            startFlag = 1;
+        }
+        else{
+            startFlag = 0;
+        }
+//        goOutsideWithSuckingManipulator();
+//        servo_rotate_90((uint16_t)160);
+//        switchOnPneumo();
+//        goInsideWithSuckingManipulator();
+//        switchOffPneumo();
 
 //        lowerCylinderRGBManipulator();
 //        rotateColoredCylinder();

@@ -130,7 +130,7 @@ void liftCylinderRGBManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  245
+#define SERVO_ROTATE_180  260
 
 
 bool moveSuckerManipulatorUp();
