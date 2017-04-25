@@ -57,7 +57,7 @@ bool stopRotateColoredCylinder(){
 
 
 
-bool goInsideWithSuckingManipulator(){
+bool goInsideWithSuckingManipulator(int angle){
 
     count_polulu = 0;
     set_pin(INPUT1_CONTROL);
@@ -74,7 +74,7 @@ bool goInsideWithSuckingManipulator(){
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
-    servo_rotate_180();
+    servo_rotate_180(angle);
 
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -87,7 +87,7 @@ bool goInsideWithSuckingManipulator(){
     count_polulu = 0;
 }
 
-bool goInsideButDifferentRotate(){
+bool goInsideButDifferentRotate(int angle){
     count_polulu = 0;
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -99,7 +99,7 @@ bool goInsideButDifferentRotate(){
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
-    servo_rotate_90((uint16_t)160);
+    servo_rotate_90(angle);
 
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -358,9 +358,9 @@ void servo_rotate_90(int angl)
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 
-void servo_rotate_180()
+void servo_rotate_180(int angl)
 {
-    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 float CubesCatcherAngle = 0;
 float prevCubesCatcherAngle = 0;

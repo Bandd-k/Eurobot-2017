@@ -94,7 +94,7 @@ void UnTearFish(); //otсоеденить
 void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90(int angle1);
-void servo_rotate_180();
+void servo_rotate_180(int angle1);
 float encodermagner(float);
 
 void setPositionOfCylinderCarrier(float);
@@ -108,10 +108,10 @@ void setPositionOfCylinderCarrier(float);
 #define INPUT3_CONTROL EXTI8_PIN
 
 
-bool goInsideWithSuckingManipulator();
+bool goInsideWithSuckingManipulator(int angle1);
 bool goOutsideWithSuckingManipulator();
 
-bool goInsideButDifferentRotate();
+bool goInsideButDifferentRotate(int angle1);
 
 #define RGB_Cylinder 3
 #define CLOSE_RGB_Cylinder 0.045
@@ -130,7 +130,7 @@ void liftCylinderRGBManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  260
+#define SERVO_ROTATE_180  245//260
 
 
 bool moveSuckerManipulatorUp();
