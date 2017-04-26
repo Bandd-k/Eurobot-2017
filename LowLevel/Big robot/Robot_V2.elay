@@ -86,14 +86,18 @@
 			<Cursor1 position="41" topLine="0" />
 		</Cursor>
 	</File>
+<<<<<<< HEAD
 	<File name="Robot\Manipulators.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+=======
+	<File name="Robot\Manipulators.c" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+>>>>>>> 1f40e6eee59ce6fcec63309bd223cdc747b832bc
 		<Cursor>
-			<Cursor1 position="5056" topLine="161" />
+			<Cursor1 position="5056" topLine="387" />
 		</Cursor>
 	</File>
 	<File name="Robot\Manipulators.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1350" topLine="0" />
+			<Cursor1 position="1350" topLine="59" />
 		</Cursor>
 	</File>
 	<File name="Robot\Regulator.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -113,17 +117,30 @@
 	</File>
 	<File name="Robot\robot.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="1822" topLine="40" />
 		</Cursor>
 	</File>
 	<File name="USB App\stm32fxxx_it.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2511" topLine="41" />
+=======
+			<Cursor1 position="18566" topLine="687" />
+		</Cursor>
+	</File>
+	<File name="Robot\robot.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1779" topLine="36" />
+>>>>>>> 1f40e6eee59ce6fcec63309bd223cdc747b832bc
 		</Cursor>
 	</File>
 	<File name="src\main.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="1439" topLine="49" />
+=======
+			<Cursor1 position="2205" topLine="58" />
+>>>>>>> 1f40e6eee59ce6fcec63309bd223cdc747b832bc
 		</Cursor>
 	</File>
 	<File name="src\startup_stm32f4xx.S" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

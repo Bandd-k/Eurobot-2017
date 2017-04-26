@@ -54,8 +54,40 @@ bool stopRotateColoredCylinder(){
 }
 
 
-bool goInsideWithSuckingManipulator(){
 
+
+
+bool goInsideWithSuckingManipulator(int angle){
+
+    count_polulu = 0;
+    set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+
+    reset_pin(INPUT2_CONTROL);
+    reset_pin(INPUT2_CONTROL);
+    reset_pin(INPUT2_CONTROL);
+
+    softDelay(6000000/2);
+
+    reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+
+    servo_rotate_180(angle);
+
+    set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+    set_pin(INPUT1_CONTROL);
+
+    while(!pin_val(UPPER_SWITCH) && count_polulu < 10000000)count_polulu++;
+
+    reset_pin(INPUT1_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+    count_polulu = 0;
+}
+
+bool goInsideButDifferentRotate(int angle){
     count_polulu = 0;
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -67,7 +99,7 @@ bool goInsideWithSuckingManipulator(){
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
-    servo_rotate_180();
+    servo_rotate_90(angle);
 
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -82,11 +114,16 @@ bool goInsideWithSuckingManipulator(){
 bool goOutsideWithSuckingManipulator(){
 
     count_polulu = 0;
+
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
+    set_pin(INPUT2_CONTROL);
+
+    reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
     while(!pin_val(DOWN_SWITCH) && count_polulu < 10000000)count_polulu++;
 
+    reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
     count_polulu = 0;
 }
@@ -321,9 +358,9 @@ void servo_rotate_90(int angl)
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 
-void servo_rotate_180()
+void servo_rotate_180(int angl)
 {
-    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
 float CubesCatcherAngle = 0;
 float prevCubesCatcherAngle = 0;

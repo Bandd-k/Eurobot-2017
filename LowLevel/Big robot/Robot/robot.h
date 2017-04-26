@@ -45,10 +45,17 @@
 #define EXTI_DIG_OUTPUT 4
 #define NO_MOTOR 255
 
+<<<<<<< HEAD
 #define MAX_DIST_FRONT 520//instead of MAX_DIST
 #define MIN_DIST_FRONT 110//instead of MIN_DIST
 
 #define MAX_DIST_BACK 445
+=======
+#define MAX_DIST_FRONT 520
+#define MIN_DIST_FRONT 110
+
+#define MAX_DIST_BACK 445
+>>>>>>> 1f40e6eee59ce6fcec63309bd223cdc747b832bc
 #define MIN_DIST_BACK 105
 
 #define MAX_RAW_SENSOR 4095
