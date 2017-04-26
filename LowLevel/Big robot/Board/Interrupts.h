@@ -19,6 +19,7 @@ void add_ext_interrupt(unsigned char pin, char edge);
 extern void USB_OTG_BSP_TimerIRQ (void);
 extern char traceFlag;
 extern int stop_cnt;
+extern char allpointreached;
 void delay(__IO uint32_t nCount);
 
 

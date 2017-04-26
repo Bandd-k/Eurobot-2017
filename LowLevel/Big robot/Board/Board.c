@@ -373,6 +373,7 @@ OpenCyinderCorrector();
 upLeftCollectorWithBalls(80);
 upRightCollectorWithBalls(45);
 setServoTorque(DNMXL_SEESAW,950);
+CloseSeesawCorrector();
 __enable_irq();
 }
 ////////////////////////////////////////////////////////////////////////////////

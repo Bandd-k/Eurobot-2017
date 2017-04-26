@@ -10,7 +10,7 @@
 #include "Interrupts.h"
 
 int indexSpeeds = 0, indexDists= 0;
-char traceFlag, movFlag, endFlag;
+char traceFlag, movFlag, endFlag, allpointreached;
 
 int16_t int_cnt = 0;
 
@@ -40,6 +40,8 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
         setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
         float angle_;
+        upLeftCollectorWithBalls(80);
+        upRightCollectorWithBalls(45);
 //        getServoAngle(DNMXL_MAN_RIGHT,&angle_);
 //        setServoAngle(DNMXL_MAN_RIGHT,angle_);
 //        getServoAngle(DNMXL_MAN_LEFT,&angle_);
@@ -102,14 +104,17 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
  NVIC_DisableIRQ(TIM6_DAC_IRQn);  //отключение ПИД на время расчета
 
 
-
+    float temp = (curPath.phiZad-robotCoord[2]);
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу
-    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.04) && ((fabs(curPath.Coord_local_track[1])) < 0.04)&& // достигнута заданная точка по положению и углу
-     (fabs((curPath.phiZad)-(robotCoord[2])) < 0.02))
+    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.01) && ((fabs(curPath.Coord_local_track[1])) < 0.01)&& // достигнута заданная точка по положению и углу
+        (fabs(rangeAngle(&temp)) < 0.02))
         {
           traceFlag = 1;  // точка достигнута
         }
-  else traceFlag = 0;
+  else {
+        allpointreached = 0;
+        traceFlag = 0;
+       }
  if (!movFlag)
     if (points[0].movTask) movFlag=(points[0].movTask)(); else movFlag =1; // действие в процессе движения
  if (traceFlag&&movFlag&&(!endFlag))
@@ -124,6 +129,10 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
             endFlag=0;
             movFlag=0;
             traceFlag=0;
+            allpointreached=0;
+          }
+          else{
+            allpointreached = 1;
           }
         }
 

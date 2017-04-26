@@ -113,6 +113,7 @@ signed char digitalize(char data, char lowerLevel, char upperLevel);
 void CreatePath(pathPointStr * next_point, pathPointStr * cur_point, Path * out);
 void removePoint(pathPointStr * points,char *lastPoint);
 void SpeedFiltration(float *V,float *vF);
+float rangeAngle(float * angle);
 
 
 

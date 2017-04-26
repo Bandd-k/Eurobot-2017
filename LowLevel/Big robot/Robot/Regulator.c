@@ -41,7 +41,7 @@ Path curPath; //параметры активной пр€мой дл€ траекторного регул€тора
 
 float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, ј_уск, ј_торм  //непрерывное движение
 //float stopVelFast[5] = {0.4, 0.2, -0.2, 4.0, 4.0};
-float stopVelFast[5] = {0.6, 0.2, -0.2, 2.5, 2.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
+float stopVelFast[5] = {0.8, 0.34, -0.1, 3, 3}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
 float standVelFast[5] = {0.85, 0.2, -0.6, 2.0, 2.5};                                       //удержание заданного положени€
 
 float normalVelSlow[5] = {0.4, 0.1, 0.2, 1.5, 2.5};//V_уст, V_нач, V_кон, ј_уск, ј_торм  //непрерывное движение
@@ -60,12 +60,12 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },  //—тек точек траектории
-                                        {2.5, .00, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {1.0, 1.0, 3.14, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.4, 0.1, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
+pathPointStr points[POINT_STACK_SIZE]={ {000.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },  //—тек точек траектории
+                                        {0.0, 0.0, 0/2.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 3.14, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 3.14 + 3.14/2.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 2*3.14, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
                                         {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
                                         {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
                                         {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
@@ -370,11 +370,12 @@ float linars(float *x, float *x0, float *x1)
   return out;
 }
 
-void rangeAngle(float * angle)
+float rangeAngle(float * angle)
 {
-  *angle    = fmod(*angle,2.0*PI);
+  *angle = fmod(*angle, 2.0*PI);
   if (*angle<-PI) *angle+=2.0*PI;
   if (*angle>PI) *angle-=2.0*PI;
+    return *angle;
 }
 
 void RotMoving(float Start_a, float Coord_a_cur, float Coord_a_targ, float* parameters, float* v_out) //расчет скорости в зависимости от пройденного пути
@@ -558,6 +559,7 @@ void pidLowLevel(void) //вычисление ѕ»ƒ регул€тора колес
     if (curState.pidEnabled) setVoltage(WHEELS[i], wheelsPidStruct[i].output);
   }
 }
+
 
 void vectorAngle(float x, float y, float* angle)  //рассчет угла вектора
 {

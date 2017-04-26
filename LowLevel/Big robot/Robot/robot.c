@@ -15,7 +15,7 @@
 #include "manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
-extern char allpointsreached;
+char allpointreached;
 float distanceData[3][6] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float distanceFromIR;
 bool flag = 1;
@@ -611,7 +611,7 @@ case 0x132: // Unload seashels
 
 case 0x32:  // Flag of reached point
   {
-      sendAnswer(cmd->command, (char *)&traceFlag, sizeof(traceFlag));
+      sendAnswer(cmd->command, (char *)&allpointreached, sizeof(allpointreached));
   }
   break;
 
@@ -700,45 +700,6 @@ case 0x39:        // avoidance ENABLED
        sendAnswer(cmd->command, str, 3);
 }
 break;
-
-case 0x3A: // Distance from ultrasonic sensors
-{
-        float distance[2];
-
-        distance[FRONT] = 10 + MAX_DIST + (float)adcData[FRONT]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-
-//        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-//        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-        distance[BACK] = 10 + MAX_DIST + (float)adcData[BACK]*(MIN_DIST - MAX_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-
-        char distancec[2];
-        distancec[0] = (char) distance[0];
-        distancec[1] = (char) distance[1];
-
-        sendAnswer(cmd->command, (char* )distancec, sizeof(distancec));
-
-  }
-   break;
-
-case 0x77: // Funny action - open lid and shoot
-  {
-
-        OpenLauncher();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-
-  }
-   break;
-
-case 0x78: // Funny action - close lid
-  {
-        CloseLauncher();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-
-  }
-   break;
-
 
 
 case 0x41: // ОТКРЫТЬ ДВЕРИ
@@ -946,6 +907,24 @@ break;
         sendAnswer(cmd->command, str, 3);
     }
     break;
+
+case 0x75: // Distance from ultrasonic sensors i
+{
+        float distance[2];
+
+        distance[0] = MAX_DIST_FRONT + (float)adcData[FRONT]*(MIN_DIST_FRONT - MAX_DIST_FRONT)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+//        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[1] = MAX_DIST_BACK + 10 + (float)adcData[BACK]*(MIN_DIST_BACK - MAX_DIST_BACK)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+
+        char distancec[2];
+        distancec[0] = (char) distance[0];
+        distancec[1] = (char) distance[1];
+
+        sendAnswer(cmd->command, (char* )distancec, sizeof(distancec));
+
+  }
+   break;
   case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
   {
     distance_digital2[0] = pin_val(IR_LEFT_FRONT);
@@ -959,6 +938,26 @@ break;
     sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
   }
   break;
+
+  case 0x77: // Funny action - open lid and shoot
+  {
+
+        OpenLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
+case 0x78: // Funny action - close lid
+  {
+        CloseLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
 
   case 0x80: // Start flag command
   {
