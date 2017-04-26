@@ -9,6 +9,7 @@
 extern double timeofred;
 extern char color, color_check[8];
 extern float r,b,R,B;
+extern int stop_cnt;
 
 void softDelay(unsigned long int);
 

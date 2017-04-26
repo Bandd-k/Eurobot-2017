@@ -37,6 +37,7 @@
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
+long frequency = 9600;
 
 uint32_t ticks; // global "time" for mesuring frequency of rbg signal
 char color, color_check[8]; // for rgb sensor
@@ -56,6 +57,8 @@ void SysTick_Handler(void)
 
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
 
+int stop_cnt = 0;
+int flag_kostil = 0 ;
 
 int main(void)
 {
@@ -87,7 +90,7 @@ int main(void)
                 &USR_cb);
 
     __enable_irq();
-
+uint8_t ID_broadcast = 0xFE;
 // 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
 
 //long int tempora = 1000000*3 ;
@@ -95,66 +98,30 @@ int main(void)
     while(1)
     {
         if (pin_val (EXTI9_PIN)){
+            flag_kostil  = 1;
             startFlag = 1;
         }
-        else{
-            startFlag = 0;
-        }
-//        goOutsideWithSuckingManipulator();
-//        servo_rotate_90((uint16_t)160);
-//        switchOnPneumo();
-//        goInsideWithSuckingManipulator();
-//        switchOffPneumo();
-
-//        lowerCylinderRGBManipulator();
-//        rotateColoredCylinder();
-//        while(getCurrentColor() == 'B');
-//        stopRotateColoredCylinder();
-//        liftCylinderRGBManipulator();
-//        rotateColoredCylinder();
-//        stopRotateColoredCylinder();
-//        servo_rotate_90((uint16_t)160);
-//
-//        goOutsideWithSuckingManipulator();
-////        softDelay(2000000*3);
-//        goInsideWithSuckingManipulator();
-//
-//        goOutsideWithSuckingManipulator();
-//
-//        servo_rotate_180();
-//
-//        goInsideButDifferentRotate();
-//        softDelay(2000000*3);
-//        rotateColoredCylinder();
-//        stopRotateColoredCylinder();
-//        setPositionOfCylinderCarrierByTime(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(1000000*2);
-//        softDelay(1000000*2);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(4000000);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
+     else if (flag_kostil == 0)
+      {
+        stop_cnt = 0;
+        startFlag = 0;
+      }
 
 
-
+//for (; frequency <= 1001000; frequency *= 1.01)
+//      {
+//          uartInit(USART3, frequency);                                      //Включаем USART3 115200
+//          //setBaudRate (ID_broadcast, (uint8_t)0x02);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID((uint8_t)254,  (uint8_t)2);
+//          setServoAngle(2,100);
+//          setServoAngle(2,200);
+//          setServoCWAngleLimit (ID_broadcast, (uint16_t) 0);
+//          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
+//          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
+//      }
 
 
     }

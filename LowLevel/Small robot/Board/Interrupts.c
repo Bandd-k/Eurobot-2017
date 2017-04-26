@@ -33,6 +33,17 @@ float tempor = 0;
 
 void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
+  if (startFlag) {
+    stop_cnt ++;
+  }
+    if (stop_cnt >= 17500){
+        curState.pidEnabled = 0;
+        char i;
+        for (i = 0; i < 4; i++)
+        {
+            setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
+        }
+      }
   TIM6->SR = 0;
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
   GetDataForRegulators(); // обновление входных данных для ПИД

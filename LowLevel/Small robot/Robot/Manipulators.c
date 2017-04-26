@@ -8,7 +8,6 @@
 double timeofred;
 char color, color_check[8];
 float magnetincoderdata[10];
-uint16_t count_polulu;
 float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
 bool direction = true;
@@ -54,12 +53,8 @@ bool stopRotateColoredCylinder(){
 }
 
 
-
-
-
 bool goInsideWithSuckingManipulator(int angle){
 
-    count_polulu = 0;
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -79,16 +74,22 @@ bool goInsideWithSuckingManipulator(int angle){
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
-
-    while(!pin_val(UPPER_SWITCH) && count_polulu < 10000000)count_polulu++;
+    int starting_time = stop_cnt;
+    int button_cnt = 0;
+    while(stop_cnt - starting_time < 300){
+        if(pin_val(UPPER_SWITCH)){
+            button_cnt++;
+        }
+        if(button_cnt > 20){
+            break;
+        }
+    }
 
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
-    count_polulu = 0;
 }
 
 bool goInsideButDifferentRotate(int angle){
-    count_polulu = 0;
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
@@ -104,16 +105,22 @@ bool goInsideButDifferentRotate(int angle){
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
 
-    while(!pin_val(UPPER_SWITCH) && count_polulu < 10000000)count_polulu++;
+    int starting_time = stop_cnt;
+    int button_cnt = 0;
+    while(stop_cnt - starting_time < 300){
+        if(pin_val(UPPER_SWITCH)){
+            button_cnt++;
+        }
+        if(button_cnt > 20){
+            break;
+        }
+    }
 
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
-    count_polulu = 0;
 }
 
 bool goOutsideWithSuckingManipulator(){
-
-    count_polulu = 0;
 
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
     set_pin(INPUT2_CONTROL);
@@ -121,11 +128,19 @@ bool goOutsideWithSuckingManipulator(){
     reset_pin(INPUT1_CONTROL);
     reset_pin(INPUT1_CONTROL);
 
-    while(!pin_val(DOWN_SWITCH) && count_polulu < 10000000)count_polulu++;
+    int starting_time = stop_cnt;
+    int button_cnt = 0;
+    while(stop_cnt - starting_time < 300){
+        if(pin_val(DOWN_SWITCH)){
+            button_cnt++;
+        }
+        if(button_cnt > 20){
+            break;
+        }
+    }
 
     reset_pin(INPUT2_CONTROL);
     reset_pin(INPUT2_CONTROL);
-    count_polulu = 0;
 }
 /*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
