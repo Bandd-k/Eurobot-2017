@@ -707,7 +707,7 @@
 1491833481 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1493118451 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.h
+1493210573 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.h
 	"Communication.h"
 	"gpio.h"
 	<stdbool.h>
@@ -1131,7 +1131,7 @@
 	"Communication.h"
 	"manipulators.h"
 
-1493128970 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\regulator.c
+1493129682 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
