@@ -81,7 +81,7 @@ CMD_LIST = {
     'funny_action_close':0x78,
     # sensors
     'ir_sensors':0x76,
-    'us_sencsors':0x75,
+    'us_sensors':0x75,
     # seesaw
     'seesaw_hand_down':0x72,
     'seesaw_hand_up':0x73,
