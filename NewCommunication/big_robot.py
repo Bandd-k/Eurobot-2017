@@ -461,7 +461,7 @@ class Robot:
         
         #if mode == 3 or mode == 2: # normal speed 0 usage
         angle = np.pi/2
-        parameters = [ 875, 680, angle, 0]
+        parameters = [ 875, 580, angle, 0]
         self.go_to_coord_rotation(parameters)
         speed = 1
         parameters = [600, 1800, angle, speed]
@@ -575,10 +575,14 @@ class Robot:
             angle = 2*np.pi - np.pi/10
         speed = 1
         self.collision_avoidance = False
-        parameters = [870, 170, angle, speed] # 250
-        self.go_last(parameters, dur=2)
+        parameters = [860, 170, angle, speed] # 250 # 870
+        self.go_last(parameters, dur=3)
         #self.go_to_coord_rotation(parameters)
         self.seesaw_hand_down()
+        
+        
+        for i in xrange(3):
+            logging.info("Time passed:  " + str(time.time() - tmstmp))
         
         ######## From start area 2, via seesaw, to start area 1
         speed = 1
@@ -586,10 +590,13 @@ class Robot:
         parameters = [200, 300, angle, speed] # 235
         self.go_to_coord_rotation(parameters)
         self.seesaw_hand_up()
+        angle = 0.0
+        time.sleep(1)
+        parameters = [180, 250, angle, speed]
         self.go_last(parameters, dur = 1)
         ## BOARDER localisation
         angle = 0.0
-        parameters = [220, 280, angle, speed]# 225, 280
+        parameters = [220, 300, angle, speed]# 225, 280
         self.go_last(parameters, dur = 2)
             #corrections
         cur = rev_field(parameters, self.color)
@@ -607,7 +614,7 @@ class Robot:
         speed = 1
         angle = 0.0
         parameters = [200, 200, angle, speed]
-        self.go_last(parameters, dur=1)
+        self.go_last(parameters, dur=2)
         speed = 4
         angle = np.pi
         parameters = [200, 200, angle,speed]
@@ -628,6 +635,10 @@ class Robot:
         else:
             self.right_ball_drop()
             self.right_ball_up()
+        
+        
+        for i in xrange(3):
+            logging.info("Time passed:  " + str(time.time() - tmstmp))
         
         ####### From start area 1, via seesaw, to start area 2
         # TODO: go once more
@@ -656,6 +667,9 @@ class Robot:
         else:
             self.left_ball_down(dur = 1.5, angle=angle_left_down+10)
             self.left_ball_up(dur = 0.2)
+        
+        for i in xrange(3):
+            logging.info("Time passed:  " + str(time.time() - tmstmp))
         
         ##################### Drop to start area 1
         if True:
@@ -942,8 +956,8 @@ def test():
         #rb.back_down_cylinder_no()
         rb.back_up_cylinder_yes()
         signal.signal(signal.SIGALRM, rb.funny_action)
-        signal.alarm(3)
-        parameters = [500, 500, 0., 4]
+        signal.alarm(90)
+        parameters = [875, 1000, np.pi/2, 1]
         rb.go_to_coord_rotation(parameters)
         return
     if True:
