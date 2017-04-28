@@ -173,13 +173,13 @@ class ParticleFilter:
         # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*3.0,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*5.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
 
-        try:
+        if np.sum(weights)>0:
             weights /= np.sum(weights)
-        except:
+        else:
             weights = np.ones(self.particles_num, dtype=np.float)/self.particles_num
         return weights
         # TODO try use median instead mean
@@ -221,7 +221,7 @@ class ParticleFilter:
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
                 #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
-            time.sleep(0.08)
+            time.sleep(0.1)
 
 
 

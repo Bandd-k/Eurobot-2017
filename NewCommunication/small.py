@@ -5,6 +5,7 @@ import logging
 import signal
 import npParticle as pf
 import numpy as np
+import sys
 from multiprocessing import Process, Queue, Value,Array
 import random
 lvl = logging.INFO
@@ -32,10 +33,11 @@ class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         # Cylinder Staff
         self.cylinders = 0
-        self.cyl_prepare = [3000,2000,2000]
-        self.cyl_up = [7000,7000,9000]
-        self.cyl_down = [-11000,-9000,-10000]
+        self.cyl_prepare = [int(3000/1.2),int(2000/1.2),int(2000/1.2)]
+        self.cyl_up = [int(7300/1.2),int(8200/1.2),int(9300/1.2)]
+        self.cyl_down = [int(-11000/1.2),int(-9000/1.2),int(-10000/1.2)]
         self.coll_go = False
+        self.useLift = False
         self.collision_belts = False
         ##################
         self.color = color
@@ -65,13 +67,13 @@ class Robot:
         if small:
             #850 170 3p/2
             # 
-            self.coords = Array('d',rev_field([870, 170,3*np.pi/2],self.color))
+            self.coords = Array('d',rev_field([170, 170,3*np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
         self.input_queue = Queue()
         self.loc_queue = Queue()
-        self.fsm_queue = Queue()
+        self.fsm_queue = Queue() # 2000,25,25,0.1
         self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
 
         # driver process
@@ -86,10 +88,17 @@ class Robot:
         print "Process npParticle Init"
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
-        self.p2.start()
-        print "Process npParticle Start"
+        if self.lidar_on:
+            self.p2.start()
+            print "Process npParticle Start"
+        else:
+            self.localisation = Value('b', False)
         #time.sleep(0.1)
-        self.rotate_cylinder_vertical()
+        logging.info(self.send_command('rotate_cylinder_vertical',[148.0]))
+        #if self.color == "yellow":
+        #    self.rotate_cylinder_vertical()
+        #else:
+        #    self.rotate_cylinder_horizonal()
         print "Robot __init__ done!"
 
     def send_command(self,name,params=None):
@@ -126,7 +135,7 @@ class Robot:
             direction = (np.cos(angle),np.sin(angle))
             pm = [self.coords[0]+direction[0]*distance,self.coords[1]+direction[1]*distance,self.coords[2],parameters[3]]
             self.go_to(pm)
-            logging.critical("got to correct")
+            logging.critical("go to correct")
             self.coll_go = True
             ok = self.go_to(parameters)
             self.coll_go = False
@@ -143,6 +152,11 @@ class Robot:
         if self.coll_go == True:
             tm = 1
         logging.info(self.send_command('go_to_with_corrections',pm))
+        if self.useLift == True:
+            logging.info(self.send_command('lift_up',[30000]))
+            print "LIFT"
+            time.sleep(2)
+            self.useLift = False
         # After movement
         stamp = time.time()
         pids = True
@@ -175,10 +189,6 @@ class Robot:
                     logging.info(self.send_command('go_to_with_corrections',pm))
                     time.sleep(0.10000001)
                 # return False
-                # check untill ok and then move!
-            # add Collision Avoidance there
-            #if (time.time() - stamp) > 7:
-            #    return False  # Error, need to handle somehow (Localize and add new point maybe)
         if self.localisation.value == 0:
             self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
             self.coords[0] = parameters[0]
@@ -209,7 +219,7 @@ class Robot:
             answer.append((data & (1 << i)) != 0)
         return answer
 
-    def sensor_data(self):
+    def pre_sensor_data(self):
         data = self.send_command('sensors_data')['data']
         data.append(data[2])
         data.append(data[0])
@@ -219,9 +229,11 @@ class Robot:
             data[7]= False
             data[1] =  False
             data[8]= False
-        return data
+        return np.array(data)
 
-
+    def sensor_data(self):
+        return self.pre_sensor_data()*self.pre_sensor_data()*self.pre_sensor_data()
+        
     def check_map2(self,angle):
         direction = (np.cos(angle),np.sin(angle))
         for i in range(0, self.sensor_range, 2):
@@ -229,7 +241,7 @@ class Robot:
                 x = int(self.coords[0]/10+direction[0]*i+dx)
                 y = int(self.coords[1]/10+direction[1]*i)
                 #logging.info("x = "+str(x)+" y = " + str(y))
-                if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
+                if x >= pf.WORLD_X/10 or x <= 0 or y >= pf.WORLD_Y/10 or y <= 0:
                     return True
                     # Or maybe Continue
                 if self.map[x][y]:
@@ -259,6 +271,7 @@ class Robot:
         while abs(pm[0]-self.coords[0]) > 10 or abs(pm[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
+            time.sleep(0.1)
 
 
     ##########################################################
@@ -270,26 +283,47 @@ class Robot:
 
     def off_sucker(self):
         self.send_command('off_sucker')
+        time.sleep(0.3)
 
     def rotate_cylinder_horizonal(self):
-        logging.info(self.send_command('rotate_cylinder_horizonal'))
-        time.sleep(0.3)
+        if self.color == 'yellow':
+            logging.info(self.send_command('rotate_cylinder_horizonal',[247.0]))
+        else:
+            logging.info(self.send_command('rotate_cylinder_vertical',[148.0]))
+
+        time.sleep(0.1)
 
     def rotate_cylinder_vertical(self):
-        logging.info(self.send_command('rotate_cylinder_vertical',[150.0]))
-        time.sleep(0.3)
+        if self.color == 'yellow':
+            logging.info(self.send_command('rotate_cylinder_vertical',[148.0]))
+        else:
+            logging.info(self.send_command('rotate_cylinder_horizonal',[247.0]))
+        time.sleep(0.1)
 
     def take_cylinder_outside(self):
         logging.info(self.send_command('take_cylinder_outside'))
-        time.sleep(0.5)
+        time.sleep(0.3)
 
-    def take_cylinder_inside(self):
-        logging.info(self.send_command('take_cylinder_inside'))
+    def take_cylinder_inside(self,rotation = 'l'):
+        if self.color == 'yellow':
+            if rotation == 'l':
+                #rb.rotate_cylinder_vertical()
+                logging.info(self.send_command('take_cylinder_inside_l',[247.0]))
+            else:
+                #rb.rotate_cylinder_horizonal()
+                logging.info(self.send_command('take_cylinder_inside_r',[148.0]))
+        else:
+            if rotation == 'l':
+                #rb.rotate_cylinder_vertical()
+                logging.info(self.send_command('take_cylinder_inside_r',[148.0]))
+            else:
+                #rb.rotate_cylinder_horizonal()
+                logging.info(self.send_command('take_cylinder_inside_l',[247.0]))
         time.sleep(0.5)
 
     def lift_up(self):
         logging.info(self.send_command('lift_up',[self.cyl_up[self.cylinders]]))
-        time.sleep(0.3)
+        time.sleep(0.2)
 
     def store(self):
         logging.info(self.send_command('lift_up',[self.cyl_prepare[self.cylinders]]))
@@ -310,13 +344,19 @@ class Robot:
         logging.info(self.send_command('on_wheels'))
         
 
-    def pick_up(self):
+    def pick_up(self,version =False):
         #self.rotate_cylinder_vertical()
-        self.take_cylinder_inside()
+        if(version==False):
+            self.take_cylinder_inside()
+        else:
+            self.take_cylinder_inside('r')
         self.lift_up()
         self.off_sucker()
         self.store()
-        self.rotate_cylinder_vertical()
+        if (version==False):
+            self.rotate_cylinder_vertical()
+        else:
+            self.rotate_cylinder_horizonal()
         self.cylinders += 1
 
     def pick_up2(self):
@@ -345,34 +385,35 @@ class Robot:
             self.go_to_coord_rotation(parameters)
 
     def small_robot_trajectory(self,speed=1):
-        #signal.signal(signal.SIGALRM, rb.funny_action)
-        #signal.alarm(90)
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(90)
         angle = 3*np.pi / 2
-        self.rotate_cylinder_vertical()
+        #self.rotate_cylinder_vertical()
 
-        parameters = [870, 170, angle, speed]
+        parameters = [870, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         
-        parameters = [1150, 300, angle, speed]
+        parameters = [1150, 300, angle, 4]
         self.go_last(parameters)
-        #self.go_to_coord_rotation(parameters)
-        parameters = [1150, 290, angle, speed]
+        parameters = [1150, 290, angle, 4]
         self.go_to_coord_rotation(parameters)
+        #self.go_to_coord_rotation(parameters)
+        #parameters = [1150, 290, angle, speed]
+        #self.go_to_coord_rotation(parameters)
         self.collision_avoidance = False
         self.sensor_range = 60
-        speed =4
         #parameters = [1150, 250, angle, speed]
         #self.go_to_coord_rotation(parameters)
         self.collision_avoidance = True
         self.on_sucker()
         self.take_cylinder_outside()
         self.collision_avoidance = False
-        parameters = [1150, 180, angle, speed]
+        parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.collision_avoidance = True
-        time.sleep(0.2)
+        #time.sleep(0.2)
 
-        parameters = [1150, 340, angle, speed]
+        parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
         #time.sleep(3)
@@ -382,21 +423,21 @@ class Robot:
         self.on_sucker()
         self.take_cylinder_outside()
         self.collision_avoidance = False
-        parameters = [1150, 190, angle, speed]
+        parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.collision_avoidance = True
-        parameters = [1150, 340, angle, speed]
+        parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
         self.on_sucker()
         self.take_cylinder_outside()
         self.collision_avoidance = False
-        parameters = [1150, 190, angle, speed]
+        parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.collision_avoidance = True
-        speed = 6
-        parameters = [1150, 340, angle, speed]
+        speed = 4
+        parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
         self.pick_up()
 
@@ -407,22 +448,22 @@ class Robot:
         self.take_cylinder_outside()
 
 
-        parameters = [1250, 300, angle, speed]
+        parameters = [1250, 300, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1250, 210, angle, speed]
+        parameters = [1250, 210, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1190, 210, angle, speed]
+        parameters = [1190, 210, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1190, 300, angle, speed]
+        parameters = [1190, 300, angle, 1]
         self.go_to_coord_rotation(parameters)
         
-        parameters = [1050, 300, angle, speed]
+        parameters = [1050, 300, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1050, 210, angle, speed]
+        parameters = [1050, 210, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1105, 210, angle, speed]
+        parameters = [1105, 210, angle, 1]
         self.go_to_coord_rotation(parameters)
-        parameters = [1105, 300, angle, speed]
+        parameters = [1105, 300, angle, 1]
         self.go_to_coord_rotation(parameters)
         
 
@@ -430,7 +471,7 @@ class Robot:
         #self.go_to_coord_rotation(parameters)
         ###########
         
-        parameters = [1150, 170, angle, speed]
+        parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1150, 340, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -438,7 +479,7 @@ class Robot:
         self.sensor_range = 35
 
     def small_robot_trajectory_r(self, speed=1):
-        angle = np.pi
+        angle = 3*np.pi/2
         speed = 4
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -487,7 +528,8 @@ class Robot:
         self.take_cylinder_inside()
         speed = 4
         self.collision_belts = False
-        logging.info(self.send_command('lift_up',[30000]))
+        #logging.info(self.send_command('lift_up',[30000]))
+        self.useLift = True
         parameters = [875, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
@@ -500,10 +542,10 @@ class Robot:
         time.sleep(0.5)
         parameters = [780, 1380, angle, speed]
         self.go_to_coord_rotation(parameters)
-        if self.color == 'yellow': # maybe change
-            self.rotate_cylinder_horizonal()
-        else:
-            self.rotate_cylinder_vertical()
+        #if self.color == 'yellow': # maybe change
+        #    self.rotate_cylinder_horizonal()
+        #else:
+        #    self.rotate_cylinder_vertical()
             
         self.on_sucker()
         self.take_cylinder_outside()
@@ -515,17 +557,20 @@ class Robot:
         parameters = [700, 1360, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi
-        if self.color == 'yellow': # maybe change
-            self.rotate_cylinder_vertical()
-        else:
-            self.rotate_cylinder_horizonal()
+        self.rotate_cylinder_vertical()
+        #if self.color == 'yellow': # maybe change
+        #    self.rotate_cylinder_vertical()
+        #else:
+        #    self.rotate_cylinder_horizonal()
+        #self.take_cylinder_inside()
         parameters = [600, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [500, 1000, angle, speed] ## Warning
+        parameters = [500, 1000, angle, speed] 
         self.go_to_coord_rotation(parameters)
         speed = 4
         parameters = [120, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #self.take_cylinder_inside()
         #parameters = [130, 1050, angle, speed]
         #self.go_to_coord_rotation(parameters)
         self.off_sucker()
@@ -543,8 +588,9 @@ class Robot:
 
         parameters = [210, 580, angle, speed]
         self.go_to_coord_rotation(parameters)
-        if self.color == "yellow":
-            self.rotate_cylinder_vertical()
+        self.rotate_cylinder_vertical()
+        #if self.color == "yellow":
+        #    self.rotate_cylinder_vertical()
         ####self.on_sucker()
         ####self.take_cylinder_outside()
             
@@ -565,11 +611,11 @@ class Robot:
         parameters = [210, 580, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi
-
-        if self.color == "yellow":
-            self.rotate_cylinder_horizonal()
-        else:
-            self.rotate_cylinder_vertical()
+        self.rotate_cylinder_horizonal()
+        #if self.color == "yellow":
+        #    self.rotate_cylinder_horizonal()
+        #else:
+        #    self.rotate_cylinder_vertical()
             
         parameters = [300, 800, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -627,13 +673,7 @@ class Robot:
         return
 
         
-        
-
-        
-
         ### One cylinder more
-        
-
         
 
         #parameters = [1150, 1000, angle, speed]
@@ -643,8 +683,299 @@ class Robot:
         #parameters = [950, 270, 3*np.pi / 2,speed]
         #self.go_last(parameters)
 
-    def funny_action(self, signum, frame):
+    def second_trajectory_r(self,speed =1):
+        angle = 3*np.pi/2
+        speed = 4
+        parameters = [1250, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/4
+        parameters = [1320, 1520, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 6
+        #return
+        self.collision_belts = True
+        parameters = [1350, 1650, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.off_sucker()
+        self.take_cylinder_inside()
+        parameters = [1230, 1540, angle, speed] # [1250, 1560, angle, speed] no push
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.take_cylinder_outside()
+        #self.take_cylinder_inside()
+
+        ### PUSHING
+
+        #parameters = [1180, 1485, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        #self.take_cylinder_outside()
+
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside()
+        ######### 
+        parameters = [1210, 1510, angle, speed] # [1180, 1485, angle, speed] no push
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.take_cylinder_outside()
+        self.take_cylinder_inside()
+        parameters = [1120, 1440, angle, speed] # [1095, 1410, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.take_cylinder_outside()
+        self.take_cylinder_inside()
+        speed = 4
+        self.collision_belts = False
+        logging.info(self.send_command('lift_up',[40000]))
+        #self.useLift = True
+        parameters = [875, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi
+        
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
         self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_horizonal()
+        
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('r')
+        
+        parameters = [350, 1080, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 1080, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_vertical()
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('l')
+        
+        parameters = [350, 960, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 960, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_horizonal()
+        
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('r')
+        
+        parameters = [350, 840, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 840, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+        
+
+    
+    def without_last(self,speed = 1):
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(90)
+        angle = 3*np.pi/2
+        #self.rotate_cylinder_vertical()
+
+        parameters = [870, 160, angle, 6]
+        self.go_to_coord_rotation(parameters)
+        
+        parameters = [1150, 300, angle, 4]
+        self.go_last(parameters)
+        time.sleep(0.4)
+        parameters = [1150, 290, angle, 4]
+        self.go_to_coord_rotation(parameters)
+        #self.go_to_coord_rotation(parameters)
+        #parameters = [1150, 290, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = False
+        self.sensor_range = 60
+        #parameters = [1150, 250, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.collision_avoidance = False
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
+        #time.sleep(0.2)
+
+        parameters = [1150, 340, angle, 1]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up(self.color=='blue')
+        #time.sleep(3)
+        #parameters = [1150, 330, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.collision_avoidance = False
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
+        parameters = [1150, 340, angle, 1]
+        self.go_to_coord_rotation(parameters)
+        self.pick_up(self.color=='blue')
+
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.collision_avoidance = False
+        self.rotate_cylinder_vertical()
+        parameters = [1150, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.collision_avoidance = True
+        speed = 4
+        parameters = [1150, 340, angle, 1]
+        self.go_to_coord_rotation(parameters)
+        self.rotate_cylinder_horizonal()
+        #self.pick_up()
+
+        speed = 4
+
+    def without_last_r(self,speed = 1):
+        angle = 3*np.pi/2
+        speed = 4
+        parameters = [1250, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/4
+        parameters = [1320, 1520, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        speed = 6
+        self.collision_belts = True
+        parameters = [1350, 1650, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.off_sucker()
+        self.take_cylinder_inside()
+        parameters = [1230, 1540, angle, speed] # [1250, 1560, angle, speed] no push
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.take_cylinder_outside()
+        #self.take_cylinder_inside()
+
+        ### PUSHING
+
+        #parameters = [1180, 1485, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        #self.take_cylinder_outside()
+
+        #parameters = [1300, 1600, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside()
+        ######### 
+        parameters = [1120, 1440, angle, speed] # [1095, 1410, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.out_cylinders()
+        self.take_cylinder_outside()
+        self.take_cylinder_inside()
+        speed = 4
+        self.collision_belts = False
+        logging.info(self.send_command('lift_up',[int(38000/1.2)]))
+        parameters = [875, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        angle = np.pi
+        
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_horizonal()
+        
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('r')
+        
+        parameters = [350, 1080, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 1080, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_vertical()
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('l')
+        
+        parameters = [350, 960, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 960, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_to_coord_rotation(parameters)
+        self.on_sucker()
+        self.take_cylinder_outside()
+        self.rotate_cylinder_horizonal()
+        
+        parameters = [160, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [350, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_inside('r')
+        
+        parameters = [350, 840, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [180, 840, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder_outside()
+        self.off_sucker()
+
+    def bad_move(self,speed =1):
+        angle = 0.0
+        parameters = [1800, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        
+        
+        
+        
+    def funny_action(self, signum, frame):
+        self.off_sucker()
         logging.info(self.send_command('stopAllMotors'))
         logging.critical('FUNNNY ACTION')
         exit()
@@ -700,10 +1031,32 @@ class Robot:
 
 rb = None
 
+def last_strategy():
+    rb.without_last(4)
+    rb.without_last_r(4)
+    rb.bad_move(6)
+    return
 
-def test(color = "blue"):
+def first_strategy():
+    rb.small_robot_trajectory(4)
+    rb.small_robot_trajectory_r(4)
+    return
+
+def second_strategy():
+    rb.small_robot_trajectory(4)
+    rb.second_trajectory_r(4)
+    
+    
+    
+
+
+def test(color = "yellow"):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
+    rb.take_cylinder_outside()
+    #rb.rotate_cylinder_horizonal()
+    rb.take_cylinder_inside('r')
+    #return
     #rb.collisionTest(4)
     #return
     #while True:
@@ -751,12 +1104,48 @@ def test(color = "blue"):
  #   return
     # start system
     #print "go"
-    rb.small_robot_trajectory(4)
-    rb.small_robot_trajectory_r(4)
+
+
+
+    
+    #rb.small_robot_trajectory(4)
+    #rb.second_trajectory_r(4)
+    rb.without_last(4)
+    rb.without_last_r(4)
+    
     return
 
+def competition(color = "yellow",strategy = 2):
+    global rb
+    rb = Robot(lidar_on=True, small=True,color=color)
+    #rb.collisionTest(4)
+    #rb.take_cylinder_outside()
+    #rb.cylinder_test()
+    #return
+    #return
+    #return
+    #while True:
+    #    rb.take_cylinder_outside()
+    #    rb.take_cylinder_inside()
+    #rb.pick_up(rb.color=='blue')
+    #return
+    while not rb.is_start():
+        continue
+    strategies = {0:first_strategy,
+                  1:second_strategy,
+                  2:last_strategy,
+                  }
+    strategies[strategy]()
+    return
+    
+default_color = "yellow"
 try:
-    test()
+    try:
+        clr = sys.argv[1]
+    except IndexError:
+        print "no argument"
+        clr = default_color
+    competition(clr,2)
 except KeyboardInterrupt:
     rb.p.terminate()
     rb.p2.terminate()
