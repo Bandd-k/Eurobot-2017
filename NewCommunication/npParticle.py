@@ -209,8 +209,8 @@ class ParticleFilter:
                 ## Moscow Version
                 #self.move_particles(
                     #[coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
-                self.move_particles([coords[0] - prev[0], coords[1] - prev[1], coords[2] - prev[2]])
-                prev = [coords[0],coords[1],coords[2]]
+                self.move_particles([coords[0] - self.prev[0], coords[1] - self.prev[1], coords[2] - self.prev[2]])
+                self.prev = [coords[0],coords[1],coords[2]]
                 # add aproximation
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
