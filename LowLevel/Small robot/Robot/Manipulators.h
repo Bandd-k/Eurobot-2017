@@ -9,6 +9,7 @@
 extern double timeofred;
 extern char color, color_check[8];
 extern float r,b,R,B;
+extern int stop_cnt;
 
 void softDelay(unsigned long int);
 
@@ -94,7 +95,7 @@ void UnTearFish(); //otсоеденить
 void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90(int angle1);
-void servo_rotate_180();
+void servo_rotate_180(int angle1);
 float encodermagner(float);
 
 void setPositionOfCylinderCarrier(float);
@@ -104,11 +105,24 @@ void setPositionOfCylinderCarrier(float);
 #define DOWN_SWITCH EXTI3_PIN
 #define INPUT2_CONTROL EXTI5_PIN
 #define INPUT1_CONTROL EXTI6_PIN
+#define INPUT4_CONTROL EXTI7_PIN
+#define INPUT3_CONTROL EXTI8_PIN
 
 
-bool goInsideWithSuckingManipulator();
+bool goInsideWithSuckingManipulator(int angle1);
 bool goOutsideWithSuckingManipulator();
 
+bool goInsideButDifferentRotate(int angle1);
+
+#define RGB_Cylinder 3
+#define CLOSE_RGB_Cylinder 0.045
+#define OPEN_RGB_Cylinder 0.09
+
+bool rotateColoredCylinder();
+bool stopRotateColoredCylinder();
+
+void lowerCylinderRGBManipulator();
+void liftCylinderRGBManipulator();
 
 
 #define SERVO_ELEVATE  2//defining servos
@@ -117,7 +131,7 @@ bool goOutsideWithSuckingManipulator();
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
 #define SERVO_ROTATE_90  160//145
-#define SERVO_ROTATE_180  252 //240 or 235
+#define SERVO_ROTATE_180  245//260
 
 
 bool moveSuckerManipulatorUp();
@@ -138,8 +152,16 @@ void increaseByGivenAngle(float);
 void decreaseByGivenAngle(float);
 void dropAllCylinders();
 void setPositionOfCylinderCarrier(float);
+void setPositionOfCylinderCarrierByTime(float);
 extern float magnetincoderdata[10];
 
 float filtrating(float* array_to_filtrate, float new_data, int len_of_array);
+
+#define DETECT_CYLINDER EXTI10_PIN
+void DetectorCylinder();
+extern float HaveCylinder;
+extern bool start_cylinder_rot;
+extern int starting_time;
+extern float rot_time;
 
 #endif

@@ -13,6 +13,7 @@
 #include "Board.h"
 #include "Communication.h"
 #include "manipulators.h"
+#include "Manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
 extern char allpointsreached;
@@ -689,8 +690,10 @@ break;
 
   case 0x42:  //pump manipulator rotation for EuroBot 2017
   {
-    servo_rotate_180(); // rotate the pump 180 degrees - vertical
-    servo_rotate_180();
+    float *(temp) ={(float*)cmd->param};
+    int angleofsucker = (int) *temp;
+    servo_rotate_180(angleofsucker); // rotate the pump 180 degrees - vertical
+    servo_rotate_180(angleofsucker);
     char * str ="Ok";
     sendAnswer(cmd->command,str, 3);
   }
@@ -723,7 +726,7 @@ break;
 
   case 0x44:
   {
-    int *(temp) = (int*)(cmd->param);
+    float *(temp) = (float*)(cmd->param);
     setPositionOfCylinderCarrierByTime(*temp);
   }
     break;
@@ -742,15 +745,15 @@ break;
     goOutsideWithSuckingManipulator();
     switchOnPneumo();
     switchOnPneumo();
-    servo_rotate_180();
-    servo_rotate_180();
+//    servo_rotate_180((uint16_t)245);
+//    servo_rotate_180((uint16_t)245);
   }
     break;
 
   case 0x47:
   {
-    goInsideWithSuckingManipulator();
-    goInsideWithSuckingManipulator();
+//    goInsideWithSuckingManipulator((uint16_t)245);
+//    goInsideWithSuckingManipulator((uint16_t)245);
     increaseByGivenAngle(LIFT_CYLINDER);
     switchOffPneumo();
     switchOffPneumo();
@@ -768,15 +771,29 @@ break;
 
   case 0x49: // Sucking manipulator
   {
+
+
     goOutsideWithSuckingManipulator();
+    softDelay(150000);
     goOutsideWithSuckingManipulator();
   }
     break;
 
   case 0x4A: // Sucking manipulator
   {
-    goInsideWithSuckingManipulator();
-    goInsideWithSuckingManipulator();
+    float *(temp) ={(float*)cmd->param};
+    int angleofsucker = (int) *temp;
+    goInsideWithSuckingManipulator(angleofsucker);
+    goInsideWithSuckingManipulator(angleofsucker);
+  }
+    break;
+
+  case 0x4B: // Sucking manipulator
+  {
+    float *(temp) ={(float*)cmd->param};
+    int angleofsucker = (int) *temp;
+    goInsideButDifferentRotate(angleofsucker);
+    goInsideButDifferentRotate(angleofsucker);
   }
     break;
 
@@ -785,6 +802,30 @@ break;
     sendAnswer(cmd->command, &startFlag, sizeof(startFlag));
   }
     break;
+    case 0x81:  //Start flag command
+  {
+      set_pin(PWM_INHIBIT);
+      char * str ="Ok";
+      sendAnswer(cmd->command, str, 3);
+  }
+    break;
+    case 0x82:  //Start flag command
+  {
+      reset_pin(PWM_INHIBIT);
+      char * str ="Ok";
+      sendAnswer(cmd->command, str, 3);
+  }
+    break;
+
+
+    case 0x4C: // take cylinder flag
+  {
+
+    bool cilinder_taken = pin_val(DETECT_CYLINDER); // 1 - not taken; 0 -taken
+    sendAnswer(cmd->command, (char*)&cilinder_taken, sizeof(cilinder_taken));
+  }
+    break;
+
     default:
     return 0;
   break;

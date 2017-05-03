@@ -292,6 +292,18 @@ bool setBaudRate (const uint8_t servoId, uint8_t baudRate)
 
     sendServoCommand (servoId, WRITE, 2, params);
 
+
+
+     const uint8_t params2[4] = {BAUD_RATE,(uint8_t)0x00, baudRate & 0xff,(uint8_t)0x00};
+
+    sendServoCommand (servoId, WRITE, 4, params2);
+
+
+    const uint8_t params1[3] = {BAUD_RATE, baudRate & 0xff,(uint8_t)0x00};
+
+    sendServoCommand (servoId, WRITE, 3, params1);
+
+
 //    if (!getAndCheckResponse (servoId))
   //      return false;
 

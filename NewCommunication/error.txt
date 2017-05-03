@@ -1,0 +1,21 @@
+INFO: Connecting to the laser
+INFO: Updating sensor information
+INFO: Retrieving sensor internal parameters
+INFO: Activating sensor
+INFO: initialize time: 0.00471091270447
+Traceback (most recent call last):
+  File "big_robot.py", line 656, in <module>
+    test()
+  File "big_robot.py", line 573, in test
+    dist_noise=45, angle_noise=0.2)
+  File "big_robot.py", line 78, in __init__
+    self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
+  File "/home/pi/Desktop/Eurobot-2017/NewCommunication/driver.py", line 58, in __init__
+    self.connect()
+  File "/home/pi/Desktop/Eurobot-2017/NewCommunication/driver.py", line 67, in connect
+    baudrate=self.baudrate, timeout=self.timeout)
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialutil.py", line 240, in __init__
+    self.open()
+  File "/usr/local/lib/python2.7/dist-packages/serial/serialposix.py", line 268, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyACM0: [Errno 2] No such file or directory: '/dev/ttyACM0'

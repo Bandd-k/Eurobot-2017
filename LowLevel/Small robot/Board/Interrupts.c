@@ -16,6 +16,9 @@ char traceFlag, movFlag, endFlag, allpointsreached;
 double timeofred = 0;
 int16_t int_cnt = 0;
 static uint8_t prev_val, current_val;
+bool start_cylinder_rot;
+int starting_time;
+float rot_time;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +36,24 @@ float tempor = 0;
 
 void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
+  if (startFlag) {
+    stop_cnt++;
+  }
+  if((stop_cnt - starting_time > fabs(rot_time)) && start_cylinder_rot){
+        setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ÂÃÐÓÇÈÒÜ
+        setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+        setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ÂÃÐÓÇÈÒÜ
+        setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+        start_cylinder_rot = false;
+  }
+    if (stop_cnt >= 17500){
+        curState.pidEnabled = 0;
+        char i;
+        for (i = 0; i < 4; i++)
+        {
+            setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
+        }
+      }
   TIM6->SR = 0;
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
   GetDataForRegulators(); // обновление входных данных для ПИД
@@ -160,23 +181,20 @@ void EXTI1_IRQHandler(void)
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
-
-void EXTI2_IRQHandler(void) // DOWN CONTACT
+void EXTI2_IRQHandler(void)
 {
   EXTI->PR=0x4;
   char temp = 4;
-
   //if ( pin_val(EXTI4_PIN) ) temp |=0x80;
   //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
-void EXTI3_IRQHandler(void) // UP CONTACT
+void EXTI3_IRQHandler(void)
 {
   //  static uint32_t lasttick;
   EXTI->PR=0x8;
   char temp = 6;
-
 //  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
 //  sendAnswer(0x1E,&temp, 1);
 

@@ -99,7 +99,7 @@ int main(void)
     bool flag = 0;
 
 
-    uint8_t ID_test = 1;
+    uint8_t ID_test = 2;
     uint16_t testAngleVal1 = 150;
     uint16_t testAngleVal2 = 300;
     uint16_t i = 0;
@@ -113,7 +113,7 @@ int main(void)
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
 //          USART_Config(frequency);
-//          setID(ID_broadcast,  (uint8_t)1);
+//          setID(ID_broadcast,  (uint8_t)2);
 //          setBaudRate (ID_broadcast, 1000000);
 //          setServoAngle(ID_broadcast,100);
 //          setServoAngle(ID_broadcast,200);
@@ -121,19 +121,29 @@ int main(void)
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
 //          //setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
-//      if (frequency > 1000000) frequency = 5000;
+      if (frequency > 1000000) frequency = 5000;
 
 
 ////// Test section
 ////// Uncomment when done with first section to test
         USART_Config(1000000);
 //
-        setServoToJointMode(ID_test);
-        setServoAngle(ID_test, testAngleVal);
-        setServoAngle(ID_test, testAngleVal1);
-        setServoAngle(ID_test, testAngleVal2);
 
-        setServoToWheelMode(ID_test);
+        setID(ID_broadcast,  ID_test);
+
+
+
+        setID((uint8_t)0xFE,(uint8_t) 0x02);
+        setID((uint8_t)253,(uint8_t) 0x02);
+        setID((uint8_t)254,(uint8_t) 0x02);
+        setID((uint8_t)0xFE,(uint8_t) 0x02);
+
+        setServoAngle(ID_test, testAngleVal);
+        setServoAngle(ID_broadcast, testAngleVal1);
+        setServoAngle(ID_test, testAngleVal2);
+        setServoAngle(ID_broadcast, testAngleVal2);
+
+        //setServoToWheelMode(ID_test);
         setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
         setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
         setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);

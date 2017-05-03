@@ -79,6 +79,7 @@
 				</Compiler>
 				<Assembler>
 					<Add option="-Wa,--no-warn" />
+					<Add option="-Wa,--gdwarf-2" />
 				</Assembler>
 				<Linker>
 					<Add option="-eb_start_files" />
@@ -193,11 +194,12 @@
 		<Unit filename="Robot\Regulator.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Robot\Regulator.h" />
+		<Unit filename="Robot\Regulator.h.save" />
 		<Unit filename="Robot\matrix.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Robot\matrix.h" />
-		<Unit filename="Robot\regulator.h" />
 		<Unit filename="Robot\robot.c">
 			<Option compilerVar="CC" />
 		</Unit>

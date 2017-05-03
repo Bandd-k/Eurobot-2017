@@ -1,5 +1,5 @@
  #define DELTA 1
- #define DELTA_ROT 0.96
+ #define DELTA_ROT 1.03
  float MLineSpeed[4][3] = {  0.0,   -1.0, 0.0,  // матрица расчета линейных скоростей
                              -1.0,  0.0, 0.0,
                             0.0,     1.0, 0.0,

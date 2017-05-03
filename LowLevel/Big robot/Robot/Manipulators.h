@@ -29,7 +29,7 @@ bool close_tower(int8_t);
 #define CUBES_CATCHER_ADC 1
 #define CUBES_CATCHER_MOTOR_CH 5
 
-extern uint16_t adcData[10];
+extern uint16_t l[10];
 
 bool openCubesCatcher();
 bool closeCubesCatcher(uint8_t*);
@@ -39,7 +39,7 @@ void pidLowLevelManipulator(float, float);
 
 //////////////////////////FUNNY ACTION IN EUROBOT 2017/////////////////////////////////////
 
-#define CLOSE_LID_VALUE 0.027
+#define CLOSE_LID_VALUE 0.0401
 #define OPEN_LID_VALUE 0.07
 #define FUNNY_ACTION_BTN_CHANNEL 4
 
@@ -98,8 +98,6 @@ void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90();
 void servo_rotate_180();
-
-
 
 
 #define SERVO_ELEVATE  1 //defining servos
@@ -204,6 +202,6 @@ bool goUpWithSuckingManipulator();
 bool goDownWithSuckingManipulator();
 
 */
-
+extern int stop_cnt;
 
 #endif

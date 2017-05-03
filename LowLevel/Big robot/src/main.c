@@ -41,10 +41,12 @@
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 
 char mode;
-float distance[4];
-
+float distance[10];
+int stop_cnt = 0;
+int flag_kostil = 0 ;
 int main(void)
 {
+
     __disable_irq();
     initAll();
     CloseLauncher();
@@ -63,21 +65,29 @@ int main(void)
 
 
 //    __disable_irq();
+
 //    conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 __enable_irq();
 
 
 while(1){
+        //throwRightCollectorIntoBox(76);
 
-    if (pin_val(EXTI9_PIN))
+ if (pin_val(EXTI9_PIN))
       {
+        flag_kostil  = 1;
         startFlag = 1;
       }
-     else
-     {
+     else if (flag_kostil == 0)
+      {
+        stop_cnt = 0;
         startFlag = 0;
       }
-       //throwLeftCollectorIntoBox(120);
-   }
-
+//    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
+//    distance_digital2[1] = pin_val(IR_LEFT_BACK);
+//    distance_digital2[2] = pin_val(IR_FRONT);
+//    distance_digital2[3] = pin_val(IR_BACK);
+//    distance_digital2[4] = pin_val(IR_RIGHT_FRONT);
+//    distance_digital2[5] = pin_val(IR_RIGHT_BACK);
+    }
 }

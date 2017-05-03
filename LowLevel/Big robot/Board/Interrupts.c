@@ -1,5 +1,3 @@
-#include "Interrupts.h"
-
 #include "gpio.h"
 #include "Regulator.h"
 #include "Path.h"
@@ -9,9 +7,10 @@
 #include "robot.h"
 #include "board.h"
 #include "Manipulators.h"
+#include "Interrupts.h"
 
-int indexSpeeds = 0, indexDists = 0;
-char traceFlag, movFlag, endFlag;
+int indexSpeeds = 0, indexDists= 0;
+char traceFlag, movFlag, endFlag, allpointreached;
 
 int16_t int_cnt = 0;
 
@@ -30,8 +29,31 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 {
 //static char i=0; // Divider by 2 to get 10Hz frequency
    //   set_pin(PWM_DIR[8]);
+  if (startFlag) {
+    stop_cnt ++;
+  }
+  if (stop_cnt >= 8900){//8900
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
+    {
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
+    }
+        float angle_;
+        upLeftCollectorWithBalls(80);
+        upRightCollectorWithBalls(45);
+//        getServoAngle(DNMXL_MAN_RIGHT,&angle_);
+//        setServoAngle(DNMXL_MAN_RIGHT,angle_);
+//        getServoAngle(DNMXL_MAN_LEFT,&angle_);
+//        setServoAngle(DNMXL_MAN_LEFT,angle_);
+//        getServoAngle(DNMXL_SEESAW,&angle_);
+//        getServoAngle(DNMXL_SEESAW,&angle_);
 
 
+  }
+ if (stop_cnt >= 9100){//9100
+     OpenLauncher();
+ }
   TIM6->SR = 0;
 
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
@@ -53,7 +75,13 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlobF[0], &robotCoordTarget[0], &robotCoordTarget[0], &regulatorOut[0]); // рассчет  кинематики и насыщения
 
-  pidLowLevel();
+
+    char i = 0;
+    for(i; i < 4; i++)
+    {
+        if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
+    }
+//  pidLowLevel();
   //pidLowLevelManipulator();
 
    //   reset_pin(PWM_DIR[8]);
@@ -76,14 +104,17 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
  NVIC_DisableIRQ(TIM6_DAC_IRQn);  //отключение ПИД на время расчета
 
 
-
+    float temp = (curPath.phiZad-robotCoord[2]);
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу
-    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.04) && ((fabs(curPath.Coord_local_track[1])) < 0.04)&& // достигнута заданная точка по положению и углу
-     (fabs((curPath.phiZad)-(robotCoord[2])) < 0.02))
+    if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.01) && ((fabs(curPath.Coord_local_track[1])) < 0.01)&& // достигнута заданная точка по положению и углу
+        (fabs(rangeAngle(&temp)) < 0.02))
         {
           traceFlag = 1;  // точка достигнута
         }
-  else traceFlag = 0;
+  else {
+        allpointreached = 0;
+        traceFlag = 0;
+       }
  if (!movFlag)
     if (points[0].movTask) movFlag=(points[0].movTask)(); else movFlag =1; // действие в процессе движения
  if (traceFlag&&movFlag&&(!endFlag))
@@ -98,6 +129,10 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
             endFlag=0;
             movFlag=0;
             traceFlag=0;
+            allpointreached=0;
+          }
+          else{
+            allpointreached = 1;
           }
         }
 

@@ -37,6 +37,7 @@
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
+long frequency = 9600;
 
 uint32_t ticks; // global "time" for mesuring frequency of rbg signal
 char color, color_check[8]; // for rgb sensor
@@ -56,6 +57,8 @@ void SysTick_Handler(void)
 
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
 
+int stop_cnt = 0;
+int flag_kostil = 0 ;
 
 int main(void)
 {
@@ -63,7 +66,7 @@ int main(void)
     __disable_irq();
     initAll();
 
-
+/*
     NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;
 	// Set priority
@@ -73,7 +76,7 @@ int main(void)
 	// Enable interrupt
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	// Add to NVIC
-	NVIC_Init(&NVIC_InitStruct);
+	NVIC_Init(&NVIC_InitStruct);*/
     SysTick_Config(840);
 
     USBD_Init(&USB_OTG_dev,
@@ -85,58 +88,45 @@ int main(void)
                 &USR_desc,
                 &USBD_CDC_cb,
                 &USR_cb);
-
+ int angle = 180;
     __enable_irq();
-
+uint8_t ID_broadcast = 0xFE;
 // 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
-
+long int time = 0;
 //long int tempora = 1000000*3 ;
 //numberofrot = 0;
     while(1)
     {
+        //servo_rotate_180(angle);
+        //servo_rotate_180(angle);
+    //setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);
 
-//        if (pin_val (EXTI9_PIN)){
-//            startFlag = 1;
-//        }
-//        else{
-//            startFlag = 0;
-//        }
+        if (pin_val (EXTI9_PIN)){
+            flag_kostil  = 1;
+            startFlag = 1;
+        }
+     else if (flag_kostil == 0)
+      {
+        stop_cnt = 0;
+        startFlag = 0;
+      }
 
-//        goOutsideWithSuckingManipulator();
-//        switchOnPneumo();
-//        softDelay(3000000);
-//        goInsideWithSuckingManipulator();
-//        switchOffPneumo();
-//        softDelay(3000000);
-//        servo_rotate_90((uint16_t)160);
-//        setPositionOfCylinderCarrierByTime(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(1000000*2);
-//        softDelay(1000000*2);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        softDelay(1000000*3);
-//        setPositionOfCylinderCarrierByTime(4000000);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        softDelay(2000000*3);
-//        setPositionOfCylinderCarrierByTime(-(4000000+2000000*3+1000000*2+2000000*3+1000000*3));
+        //goOutsideWithSuckingManipulator();
 
-
-
+//for (; frequency <= 1001000; frequency *= 1.01)
+//      {
+//          uartInit(USART3, frequency);                                      //Включаем USART3 115200
+//          //setBaudRate (ID_broadcast, (uint8_t)0x02);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID((uint8_t)254,  (uint8_t)2);
+//          setServoAngle(2,100);
+//          setServoAngle(2,200);
+//          setServoCWAngleLimit (ID_broadcast, (uint16_t) 0);
+//          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
+//          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
+//      }
 
 
     }
