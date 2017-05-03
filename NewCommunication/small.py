@@ -33,12 +33,9 @@ class Robot:
     def __init__(self, lidar_on=True, small=True, color = 'yellow'):
         # Cylinder Staff
         self.cylinders = 0
-        #self.cyl_prepare = [3000/1.1,2000/1.1,2000/1.1]
-        #self.cyl_up = [7300/1.1,8200/1.1,9300/1.1]
-        #self.cyl_down = [-11000/1.1,-9000/1.1,-10000/1.1]
-        self.cyl_prepare = [3000./3000*0.215,2000./3000*0.215,2000./3000*0.215]
-        self.cyl_up = [7300./3000*0.215,8500./3000*0.215*1.05,9300./3000*0.215]
-        self.cyl_down = [-11000./3000*0.215,-9000./3000*0.215*1.05,-10000./3000*0.215]
+        self.cyl_prepare = [0.215,0.143,0.143]
+        self.cyl_up = [0.523,0.64,0.66]
+        self.cyl_down = [-0.79,-0.67,-0.72]
         self.coll_go = False
         self.useLift = False
         self.collision_belts = False
@@ -155,11 +152,6 @@ class Robot:
         if self.coll_go == True:
             tm = 1
         logging.info(self.send_command('go_to_with_corrections',pm))
-        if self.useLift == True:
-            logging.info(self.send_command('lift_up',[30000.]))
-            print "LIFT"
-            time.sleep(2)
-            self.useLift = False
         # After movement
         stamp = time.time()
         pids = True
@@ -365,15 +357,6 @@ class Robot:
         else:
             self.rotate_cylinder_horizonal()
         self.cylinders += 1
-
-    def pick_up2(self):
-        self.rotate_cylinder_vertical()
-        self.take_cylinder_inside()
-        self.lift_up()
-        self.off_sucker()
-        self.rotate_cylinder_horizonal()
-
-
 
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
@@ -737,7 +720,7 @@ class Robot:
         self.take_cylinder_inside()
         speed = 4
         self.collision_belts = False
-        logging.info(self.send_command('lift_up',[40000.]))
+        logging.info(self.send_command('lift_up',[2.55]))
         #self.useLift = True
         parameters = [875, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -820,22 +803,13 @@ class Robot:
         time.sleep(0.4)
         parameters = [1150, 290, angle, 4]
         self.go_to_coord_rotation(parameters)
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [1150, 290, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = False
         self.sensor_range = 60
         #parameters = [1150, 250, angle, speed]
         #self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
         self.on_sucker()
         self.take_cylinder_outside()
-        self.collision_avoidance = False
         parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
-        #time.sleep(0.2)
-
         parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
         ### New concevik
@@ -846,16 +820,11 @@ class Robot:
             self.go_to_coord_rotation(parameters)
             
         self.pick_up(self.color=='blue')
-        #time.sleep(3)
-        #parameters = [1150, 330, angle, speed]
-        #self.go_to_coord_rotation(parameters)
 
         self.on_sucker()
         self.take_cylinder_outside()
-        self.collision_avoidance = False
         parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
         parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
 
@@ -869,11 +838,9 @@ class Robot:
 
         self.on_sucker()
         self.take_cylinder_outside()
-        self.collision_avoidance = False
         self.rotate_cylinder_vertical()
         parameters = [1150, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.collision_avoidance = True
         speed = 4
         parameters = [1150, 340, angle, 1]
         self.go_to_coord_rotation(parameters)
@@ -933,7 +900,7 @@ class Robot:
         #KL#self.take_cylinder_inside()
         speed = 4
         self.collision_belts = False
-        logging.info(self.send_command('lift_up',[36000./3000*0.215]))
+        logging.info(self.send_command('lift_up',[2.55]))
         parameters = [875, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
@@ -945,13 +912,8 @@ class Robot:
         self.on_sucker()
         self.take_cylinder_outside()
         self.rotate_cylinder_horizonal()
-        
-        #parameters = [160, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [350, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
 
-        ### New concevik
+    ### New concevik
         while(self.is_cylinder_taken()==0):
             #self.take_cylinder_outside()
             parameters = [145, 1350, angle, speed]
@@ -974,11 +936,8 @@ class Robot:
         self.on_sucker()
         #self.take_cylinder_outside()
         self.rotate_cylinder_vertical()
-        #parameters = [160, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [350, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        ### New concevik
+
+    ### New concevik
         while (self.is_cylinder_taken()==0):
             #self.take_cylinder_outside()
             parameters = [145, 1350, angle, speed]
@@ -1001,11 +960,6 @@ class Robot:
         self.on_sucker()
         #self.take_cylinder_outside()
         self.rotate_cylinder_horizonal()
-        
-        #parameters = [160, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
-        #parameters = [350, 1350, angle, speed]
-        #self.go_to_coord_rotation(parameters)
 
     ### New concevik
         while (self.is_cylinder_taken()==0):
@@ -1185,25 +1139,8 @@ def test(color = "yellow"):
 def competition(color = "yellow",strategy = 2):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
-    #logging.info(rb.send_command('lift_up',[2000/3000*0.2]))
-    #return
-    #rb.collisionTest(4)
-    #rb.take_cylinder_outside()
-    #return
-    #rb.cylinder_test()
-    #return
-    #rb.on_sucker()
-    #while True:
-    #    rb.rotate_cylinder_horizonal()
-    #    time.sleep(0.5)
-    #    rb.rotate_cylinder_vertical()
-    #    time.sleep(0.5)
-    #    print rb.is_cylinder_taken()
-    #    rb.take_cylinder_outside()
-    #    rb.take_cylinder_inside()
-    #rb.pick_up(rb.color=='blue')
-    #return
     while not rb.is_start():
+        print color
         continue
     strategies = {0:first_strategy,
                   1:second_strategy,
