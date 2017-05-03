@@ -57,6 +57,9 @@ CMD_LIST = {
     'store':0x45,
     'out_cylinders':0x48,
     'in+store':0x47,
+    
+    'cylinder_taken':0x4c,
+    
     #'drop':0x48,
 
     ## Big Robot
