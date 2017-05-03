@@ -21,7 +21,7 @@ float distanceFromIR;
 bool flag = 1;
 uint16_t distance_digital[10] = {0,0,0,0,0,0,0,0,0,0};
 uint16_t distance_digital1[10] = {0,0,0,0,0,0,0,0,0,0};
-uint8_t distance_digital2[6] = {0,0,0,0,0,0};
+uint8_t distance_digital2[8] = {0,0,0,0,0,0,0,0};
 float vTargetGlob_last[3]={0,0,0};
 float robotCoordTarget[3] = {0,0,0}; // Целевые координаты робота в глоб сис-ме координат
 float robotSpeedTarget[3] = {0,0,0}; // Целевые скорости робота в глоб сис-ме координат
@@ -850,6 +850,27 @@ break;
 //    sendAnswer(cmd->command, str, 3);
     }
     break;
+
+
+     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+  {
+    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
+    distance_digital2[1] = pin_val(IR_LEFT_BACK);
+    distance_digital2[2] = pin_val(IR_FRONT);
+    distance_digital2[3] = pin_val(IR_BACK);
+    distance_digital2[4] = pin_val(IR_RIGHT_FRONT);
+    distance_digital2[5] = pin_val(IR_RIGHT_BACK);
+    distance_digital2[6] = pin_val(IR_FRONT2); //6
+    distance_digital2[7] = pin_val(IR_BACK2);
+
+
+    sendAnswer(cmd->command, (char* )distance_digital2, 8);
+  }
+  break;
+
+
+
+
     case 0x6C:
     {
         DownFaceCylinder();
@@ -926,19 +947,6 @@ case 0x75: // Distance from ultrasonic sensors i
 
   }
    break;
-  case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
-  {
-    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
-    distance_digital2[1] = pin_val(IR_LEFT_BACK);
-    distance_digital2[2] = pin_val(IR_FRONT);
-    distance_digital2[3] = pin_val(IR_BACK);
-    distance_digital2[4] = pin_val(IR_RIGHT_FRONT);
-    distance_digital2[5] = pin_val(IR_RIGHT_BACK);
-
-
-    sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
-  }
-  break;
 
   case 0x77: // Funny action - open lid and shoot
   {

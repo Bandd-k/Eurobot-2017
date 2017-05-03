@@ -11,7 +11,9 @@ float magnetincoderdata[10];
 float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
 bool direction = true;
-
+bool start_cylinder_rot;
+int starting_time;
+float rot_time;
 extern int numberofrot;
 
 //values[0] = 0;
@@ -80,7 +82,7 @@ bool goInsideWithSuckingManipulator(int angle){
         if(pin_val(UPPER_SWITCH)){
             button_cnt++;
         }
-        if(button_cnt > 20){
+        if(button_cnt > 100){
             break;
         }
     }
@@ -111,7 +113,7 @@ bool goInsideButDifferentRotate(int angle){
         if(pin_val(UPPER_SWITCH)){
             button_cnt++;
         }
-        if(button_cnt > 20){
+        if(button_cnt > 100){
             break;
         }
     }
@@ -121,8 +123,9 @@ bool goInsideButDifferentRotate(int angle){
 }
 
 bool goOutsideWithSuckingManipulator(){
-
+    softDelay(300000);
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
+    softDelay(300000);
     set_pin(INPUT2_CONTROL);
 
     reset_pin(INPUT1_CONTROL);
@@ -130,11 +133,11 @@ bool goOutsideWithSuckingManipulator(){
 
     int starting_time = stop_cnt;
     int button_cnt = 0;
-    while(stop_cnt - starting_time < 300){
+    while((stop_cnt - starting_time) < 300){ //300
         if(pin_val(DOWN_SWITCH)){
             button_cnt++;
         }
-        if(button_cnt > 20){
+        if(button_cnt > 100){
             break;
         }
     }
@@ -322,29 +325,48 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 
 }
 
-void setPositionOfCylinderCarrierByTime(long int time){
-    time *= 1000;
-    if (time>0){
-             time= time*1.00; //experimental difference in speed
-             setServoMovingSpeed(3, (uint16_t)(720), 0x0000);//CCW    // ¬√–”«»“‹
-             setServoMovingSpeed(2, (uint16_t)(870 + 1024), 0x0400);//CW  ¬√–”«»“‹
-             softDelay(time);
+void setPositionOfCylinderCarrierByTime(float time){
+    rot_time = time * 200;
+    start_cylinder_rot = true;
+    starting_time = stop_cnt;
+    if (time > 0){
+        setServoMovingSpeed(3, (uint16_t)(720*1.2), 0x0000);
+        setServoMovingSpeed(2, (uint16_t)(730*1.17 + 1024), 0x0400);
+        setServoMovingSpeed(3, (uint16_t)(720*1.2), 0x0000);
+        setServoMovingSpeed(2, (uint16_t)(730*1.17 + 1024), 0x0400);
 
-             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
-             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
-             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
-             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
     }
-    else {
+    else{
+        setServoMovingSpeed(3, (uint16_t)(827*1.2 + 1024), 0x0400);//CW ¬€√–”«»“‹
+        setServoMovingSpeed(2, (uint16_t)(750*1.17), 0x0000);//CCW  ¬€√–”«»“‹
+        setServoMovingSpeed(3, (uint16_t)(827*1.2 + 1024), 0x0400);//CW ¬€√–”«»“‹
+        setServoMovingSpeed(2, (uint16_t)(750*1.17), 0x0000);//CCW  ¬€√–”«»“‹
 
-            setServoMovingSpeed(3, (uint16_t)(827 + 1024), 0x0400);//CW ¬€√–”«»“‹
-            setServoMovingSpeed(2, (uint16_t)(860), 0x0000);//CCW  ¬€√–”«»“‹
-            softDelay(-time);
-            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
-            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
-            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
-            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
     }
+
+
+//    time *= 1000;
+//    if (time>0){
+//             time= time*1.00; //experimental difference in speed
+//             setServoMovingSpeed(3, (uint16_t)(720*1.2), 0x0000);//CCW    // ¬√–”«»“‹
+//             setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);//CW  ¬√–”«»“‹
+//             softDelay(time);
+//
+//             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+//             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+//             setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+//             setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+//    }
+//    else {
+//
+//            setServoMovingSpeed(3, (uint16_t)(827*1.2 + 1024), 0x0400);//CW ¬€√–”«»“‹
+//            setServoMovingSpeed(2, (uint16_t)(750*1.2), 0x0000);//CCW  ¬€√–”«»“‹
+//            softDelay(-time);
+//            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+//            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+//            setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ¬√–”«»“‹
+//            setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
+//    }
 }
 
 void increaseByGivenAngle(float givenAngle){
@@ -377,6 +399,19 @@ void servo_rotate_180(int angl)
 {
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) angl);
 }
+
+//
+//
+//float HaveCylinder = 0;
+//void DetectorCylinder()
+//{
+//    if (pin_val(DETECT_CYLINDER))
+//    {
+//        HaveCylinder = 1;
+//    }
+//}
+
+
 float CubesCatcherAngle = 0;
 float prevCubesCatcherAngle = 0;
 float diff;

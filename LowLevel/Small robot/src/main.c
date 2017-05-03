@@ -88,15 +88,19 @@ int main(void)
                 &USR_desc,
                 &USBD_CDC_cb,
                 &USR_cb);
-
+ int angle = 180;
     __enable_irq();
 uint8_t ID_broadcast = 0xFE;
 // 1000000*3 // 2000000*3 // 1000000*2 // 2000000*3 // 4000000
-
+long int time = 0;
 //long int tempora = 1000000*3 ;
 //numberofrot = 0;
     while(1)
     {
+        //servo_rotate_180(angle);
+        //servo_rotate_180(angle);
+    //setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);
+
         if (pin_val (EXTI9_PIN)){
             flag_kostil  = 1;
             startFlag = 1;
@@ -107,6 +111,7 @@ uint8_t ID_broadcast = 0xFE;
         startFlag = 0;
       }
 
+        //goOutsideWithSuckingManipulator();
 
 //for (; frequency <= 1001000; frequency *= 1.01)
 //      {

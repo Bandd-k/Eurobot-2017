@@ -570,67 +570,25 @@
 1492248766 source:f:\from git\lowlevel\big robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-<<<<<<< Updated upstream
+1493131699 ated upstream
+
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\adc.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\adc.c
->>>>>>> Stashed changes
+
+1493131699 shed changes
 	"adc.h"
 	"math.h"
 	"stm32f4xx.h"
 	"robot.h"
-
-<<<<<<< Updated upstream
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\adc.h
-
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\stm32f4xx.h
-=======
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\adc.h
-
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\stm32f4xx.h
->>>>>>> Stashed changes
 	"core_cm4.h"
 	"system_stm32f4xx.h"
 	<stdint.h>
 	"stm32f4xx_conf.h"
-
-<<<<<<< Updated upstream
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core_cm4.h
-=======
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core_cm4.h
->>>>>>> Stashed changes
 	<stdint.h>
 	<core_cmInstr.h>
 	<core_cmFunc.h>
 	<core_cm4_simd.h>
-
-<<<<<<< Updated upstream
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cminstr.h
-	<cmsis_iar.h>
-
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cmfunc.h
-	<cmsis_iar.h>
-
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cm4_simd.h
-	<cmsis_iar.h>
-
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\system_stm32f4xx.h
-
-1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\stm32f4xx_conf.h
-=======
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cminstr.h
-	<cmsis_iar.h>
-
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cmfunc.h
-	<cmsis_iar.h>
-
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cm4_simd.h
-	<cmsis_iar.h>
-
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\system_stm32f4xx.h
-
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\stm32f4xx_conf.h
->>>>>>> Stashed changes
 	"stm32f4xx_adc.h"
 	"stm32f4xx_can.h"
 	"stm32f4xx_crc.h"
@@ -657,8 +615,118 @@
 	"stm32f4xx_usart.h"
 	"stm32f4xx_wwdg.h"
 	"misc.h"
+	"Communication.h"
+	"gpio.h"
+	<stdbool.h>
+	"stm322xg_eval.h"
+	"stm322xg_eval_lcd.h"
+	"stm32f4xx.h"
+	"stm32f4xx.h"
+	"stm324x9i_eval.h"
+	"stm324x9i_eval_lcd.h"
+	"stm32f10x.h"
+	"stm3210c_eval.h"
+	"stm3210c_eval_lcd.h"
+	"stm32f4xx.h"
+	"stm32f4xx_rcc.h"
+	"stm32f4xx_conf.h"
+	<stdbool.h>
+	<stdint.h>
+	"pins.h"
+	"usart.h"
+	"Dynamixel_control.h"
+	"robot.h"
+	"usbd_cdc_core.h"
+	"usbd_desc.h"
+	"usbd_req.h"
+	"usb_dcd.h"
+	"usbd_def.h"
+	"usbd_conf.h"
+	"usb_conf.h"
+	"usb_regs.h"
+	"usb_defines.h"
+	"usbd_def.h"
+	"usbd_core.h"
+	"usbd_conf.h"
+	"usbd_core.h"
+	"usbd_req.h"
+	"usbd_ioreq.h"
+	"usb_dcd_int.h"
+	"usb_bsp.h"
+	"usbd_req.h"
+	"usbd_ioreq.h"
+	"usbd_desc.h"
+	"Communication.h"
+	"stdint.h"
+	"robot.h"
+	"stm32f4xx_conf.h"
+	"stm32f4xx_gpio.h"
+	"stm32f4xx_usart.h"
+	"Dynamixel_control.h"
+	"Manipulators.h"
+	"Dynamixel_control.h"
+	"Regulator.h"
+	"Board.h"
+	"Interrupts.h"
+	"usbd_core.h"
+	"usbd_desc.h"
+	"usbd_req.h"
+	"usbd_conf.h"
+	"usb_regs.h"
+	"robot.h"
+	"pins.h"
+	"usart.h"
+	"usbd_cdc_core.h"
+	"usbd_usr.h"
+	"usb_conf.h"
+	"usbd_desc.h"
+	"stm32fxxx_it.h"
+	"usbd_cdc_vcp.h"
+	"string.h"
+	"regulator.h"
+	"interrupts.h"
+	"Board.h"
+	"Communication.h"
+	"manipulators.h"
 
-<<<<<<< Updated upstream
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\adc.h
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\stm32f4xx.h
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\adc.h
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\stm32f4xx.h
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core_cm4.h
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core_cm4.h
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cminstr.h
+	<cmsis_iar.h>
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cmfunc.h
+	<cmsis_iar.h>
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\cmsis\core_cm4_simd.h
+	<cmsis_iar.h>
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\system_stm32f4xx.h
+
+1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\stm32f4xx_conf.h
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cminstr.h
+	<cmsis_iar.h>
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cmfunc.h
+	<cmsis_iar.h>
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\cmsis\core_cm4_simd.h
+	<cmsis_iar.h>
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\system_stm32f4xx.h
+
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\stm32f4xx_conf.h
+
 1491833481 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\spl\inc\stm32f4xx_adc.h
 	"stm32f4xx.h"
 
@@ -738,7 +806,7 @@
 	"stm32f4xx.h"
 
 1493210573 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.h
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\spl\inc\stm32f4xx_adc.h
 	"stm32f4xx.h"
 
@@ -817,13 +885,11 @@
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1493131699 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.h
->>>>>>> Stashed changes
+1493401505 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.h
 	"Communication.h"
 	"gpio.h"
 	<stdbool.h>
 
-<<<<<<< Updated upstream
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\communication.h
 	"robot.h"
 	"usbd_conf.h"
@@ -832,7 +898,7 @@
 	"usb_conf.h"
 
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\usb app\usb_conf.h
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\communication.h
 	"robot.h"
 	"usbd_conf.h"
@@ -841,27 +907,11 @@
 	"usb_conf.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\usb app\usb_conf.h
->>>>>>> Stashed changes
-	"stm322xg_eval.h"
-	"stm322xg_eval_lcd.h"
-	"stm32f4xx.h"
-	"stm32f4xx.h"
-	"stm324x9i_eval.h"
-	"stm324x9i_eval_lcd.h"
-	"stm32f10x.h"
-	"stm3210c_eval.h"
-	"stm3210c_eval_lcd.h"
 
-<<<<<<< Updated upstream
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\gpio.h
-=======
-1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\gpio.h
->>>>>>> Stashed changes
-	"stm32f4xx.h"
-	"stm32f4xx_rcc.h"
-	"stm32f4xx_conf.h"
 
-<<<<<<< Updated upstream
+1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\gpio.h
+
 1493125878 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\interrupts.c
 	"gpio.h"
 	"Regulator.h"
@@ -890,7 +940,7 @@
 	"stdint.h"
 
 1492965673 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.h
-=======
+
 1492897118 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
@@ -914,7 +964,7 @@
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\i2c.h
 	"stm32f4xx.h"
 
-1492281562 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\interrupts.h
+1493215801 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\interrupts.h
 	"stm32f4xx.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\usart.h
@@ -923,19 +973,14 @@
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\tim.h
 	"stm32f4xx.h"
 
-1492712974 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.h
+1493215801 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.h
 	"stm32f4xx.h"
 	"Path.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\path.h
 
 1493131699 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\manipulators.h
->>>>>>> Stashed changes
-	<stdbool.h>
-	<stdint.h>
-	"pins.h"
 
-<<<<<<< Updated upstream
 1493121606 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\interrupts.h
 	"stm32f4xx.h"
 
@@ -946,13 +991,13 @@
 	"stm32f4xx.h"
 
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\board\usart.c
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\dynamixel_control.h
 	<inttypes.h>
 	<stdbool.h>
 	<stdlib.h>
 
-1492889786 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\interrupts.c
+1493215801 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\interrupts.c
 	"gpio.h"
 	"Regulator.h"
 	"Path.h"
@@ -968,26 +1013,16 @@
 	"tim.h"
 
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\board\usart.c
->>>>>>> Stashed changes
-	"usart.h"
-	"Dynamixel_control.h"
-	"robot.h"
 
-<<<<<<< Updated upstream
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\dynamixel_control.h
 	<inttypes.h>
 	<stdbool.h>
 	<stdlib.h>
 
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\cdc\src\usbd_cdc_core.c
-=======
-1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\cdc\src\usbd_cdc_core.c
->>>>>>> Stashed changes
-	"usbd_cdc_core.h"
-	"usbd_desc.h"
-	"usbd_req.h"
 
-<<<<<<< Updated upstream
+1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\cdc\src\usbd_cdc_core.c
+
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\cdc\inc\usbd_cdc_core.h
 	"usbd_ioreq.h"
 
@@ -999,7 +1034,7 @@
 	"usbd_conf.h"
 
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\inc\usbd_core.h
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\cdc\inc\usbd_cdc_core.h
 	"usbd_ioreq.h"
 
@@ -1011,27 +1046,17 @@
 	"usbd_conf.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\inc\usbd_core.h
->>>>>>> Stashed changes
-	"usb_dcd.h"
-	"usbd_def.h"
-	"usbd_conf.h"
 
-<<<<<<< Updated upstream
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\inc\usb_dcd.h
 	"usb_core.h"
 
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\inc\usb_core.h
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\inc\usb_dcd.h
 	"usb_core.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\inc\usb_core.h
->>>>>>> Stashed changes
-	"usb_conf.h"
-	"usb_regs.h"
-	"usb_defines.h"
 
-<<<<<<< Updated upstream
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\inc\usb_regs.h
 	"usb_conf.h"
 
@@ -1042,7 +1067,7 @@
 	"usbd_req.h"
 
 1491833480 c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\inc\usbd_req.h
-=======
+
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\inc\usb_regs.h
 	"usb_conf.h"
 
@@ -1053,12 +1078,7 @@
 	"usbd_req.h"
 
 1492136002 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\inc\usbd_req.h
->>>>>>> Stashed changes
-	"usbd_def.h"
-	"usbd_core.h"
-	"usbd_conf.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\src\usb_core.c
 	"usb_core.h"
 	"usb_bsp.h"
@@ -1077,7 +1097,7 @@
 	"usb_dcd.h"
 
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\src\usbd_core.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\src\usb_core.c
 	"usb_core.h"
 	"usb_bsp.h"
@@ -1096,63 +1116,33 @@
 	"usb_dcd.h"
 
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\src\usbd_core.c
->>>>>>> Stashed changes
-	"usbd_core.h"
-	"usbd_req.h"
-	"usbd_ioreq.h"
-	"usb_dcd_int.h"
-	"usb_bsp.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\src\usbd_ioreq.c
 	"usbd_ioreq.h"
 
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\library\core\src\usbd_req.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\src\usbd_ioreq.c
 	"usbd_ioreq.h"
 
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\library\core\src\usbd_req.c
->>>>>>> Stashed changes
-	"usbd_req.h"
-	"usbd_ioreq.h"
-	"usbd_desc.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\communication.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\communication.c
->>>>>>> Stashed changes
-	"Communication.h"
-	"stdint.h"
-	"robot.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\dynamixel_control.c
-=======
-1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\dynamixel_control.c
->>>>>>> Stashed changes
-	"stm32f4xx_conf.h"
-	"stm32f4xx_gpio.h"
-	"stm32f4xx_usart.h"
-	"Dynamixel_control.h"
 
-<<<<<<< Updated upstream
+1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\dynamixel_control.c
+
 1492965673 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\kinematics.c
 
 1492965673 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\manipulators.c
-=======
+
 1492800181 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\kinematics.c
 
 1492787090 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\manipulators.c
->>>>>>> Stashed changes
-	"Manipulators.h"
-	"Dynamixel_control.h"
-	"Regulator.h"
-	"Board.h"
-	"Interrupts.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\path.c
 	"Path.h"
 
@@ -1179,11 +1169,11 @@
 	"usbd_conf.h"
 
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\usb app\usbd_desc.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\path.c
 	"Path.h"
 
-1492877395 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
+1493215801 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -1216,14 +1206,7 @@
 	"usbd_conf.h"
 
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\usb app\usbd_desc.c
->>>>>>> Stashed changes
-	"usbd_core.h"
-	"usbd_desc.h"
-	"usbd_req.h"
-	"usbd_conf.h"
-	"usb_regs.h"
 
-<<<<<<< Updated upstream
 1491833480 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\usb app\usbd_usr.c
 	"usbd_usr.h"
 
@@ -1427,7 +1410,7 @@
 	"stm32f4xx.h"
 
 1493121917 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\robot.c
-=======
+
 1492136002 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\usb app\usbd_usr.c
 	"usbd_usr.h"
 
@@ -1597,24 +1580,7 @@
 	"stm32f4xx.h"
 
 1493131699 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\robot\robot.c
->>>>>>> Stashed changes
-	"robot.h"
-	"pins.h"
-	"usart.h"
-	"usbd_cdc_core.h"
-	"usbd_usr.h"
-	"usb_conf.h"
-	"usbd_desc.h"
-	"stm32fxxx_it.h"
-	"usbd_cdc_vcp.h"
-	"string.h"
-	"regulator.h"
-	"interrupts.h"
-	"Board.h"
-	"Communication.h"
-	"manipulators.h"
 
-<<<<<<< Updated upstream
 1493129682 source:c:\users\пользователь\desktop\евробот17\eurobot-2017\lowlevel\big robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
@@ -1624,7 +1590,9 @@
 	<math.h>
 	"adc.h"
 	"Board.h"
-=======
+
+1493129682 
+
 1493131699 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
@@ -1641,5 +1609,4 @@
 	"usb_conf.h"
 	"usbd_desc.h"
 	"usbd_cdc_vcp.h"
->>>>>>> Stashed changes
 

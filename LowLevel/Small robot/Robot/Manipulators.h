@@ -152,8 +152,16 @@ void increaseByGivenAngle(float);
 void decreaseByGivenAngle(float);
 void dropAllCylinders();
 void setPositionOfCylinderCarrier(float);
+void setPositionOfCylinderCarrierByTime(float);
 extern float magnetincoderdata[10];
 
 float filtrating(float* array_to_filtrate, float new_data, int len_of_array);
+
+#define DETECT_CYLINDER EXTI10_PIN
+void DetectorCylinder();
+extern float HaveCylinder;
+extern bool start_cylinder_rot;
+extern int starting_time;
+extern float rot_time;
 
 #endif

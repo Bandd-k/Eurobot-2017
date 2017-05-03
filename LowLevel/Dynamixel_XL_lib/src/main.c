@@ -131,9 +131,18 @@ int main(void)
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
 
-
-
-
+//for (; frequency <= 1001000; frequency *= 1.01)
+//      {
+//        setDefault(0xFE);
+//        USART_Config(frequency);
+//        setBaudRate (ID_broadcast, (uint8_t) 0x03);
+//        //setDefault((uint8_t)254);
+//        setServoAngle((uint8_t)1, (uint16_t) 100);
+//        setServoAngle((uint8_t)254, (uint16_t) 150);
+//        setServoAngle((uint8_t)1, (uint16_t) 200);
+//        setServoAngle((uint8_t)254, (uint16_t) 250);
+//        setID(ID_broadcast, (uint8_t) 1);
+//      }
 
 
 
