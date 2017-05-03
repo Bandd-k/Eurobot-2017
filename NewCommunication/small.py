@@ -37,7 +37,6 @@ class Robot:
         self.cyl_up = [0.523,0.64,0.66]
         self.cyl_down = [-0.79,-0.67,-0.72]
         self.coll_go = False
-        self.useLift = False
         self.collision_belts = False
         ##################
         self.color = color
@@ -519,7 +518,6 @@ class Robot:
         speed = 4
         self.collision_belts = False
         #logging.info(self.send_command('lift_up',[30000]))
-        self.useLift = True
         parameters = [875, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
@@ -721,7 +719,6 @@ class Robot:
         speed = 4
         self.collision_belts = False
         logging.info(self.send_command('lift_up',[2.55]))
-        #self.useLift = True
         parameters = [875, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi

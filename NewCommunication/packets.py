@@ -67,7 +67,7 @@ def decode_params(cmd, params):
     if cmd == 'sensors_data' or cmd =='ir_sensors':
         return [
             struct.unpack('>B', params[i * 1:(i + 1) * 1])[0]==0  # TODO check correctness
-            for i in range(8)
+            for i in range(6)
             ]
         #return struct.unpack('<i', params[0:4])[0]
 
