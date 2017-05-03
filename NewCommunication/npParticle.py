@@ -39,6 +39,7 @@ class ParticleFilter:
         orient = np.random.normal(in_angle, angle_noise, particles) % (2 * np.pi)
         self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
         logging.info('initialize time: '+str(time.time()-stamp))
+        self.prev = [x,y,in_angle]
         # Added Andrei for debug
         self.debug_info = []
         self.start_time = time.time()
@@ -195,6 +196,7 @@ class ParticleFilter:
     def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
         #time.sleep(50)
+
         while True:
             if localisation.value:
                 tmstmp = time.time() - self.start_time
@@ -204,8 +206,11 @@ class ParticleFilter:
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
-                self.move_particles(
-                    [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                ## Moscow Version
+                #self.move_particles(
+                    #[coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                self.move_particles([coords[0] - prev[0], coords[1] - prev[1], coords[2] - prev[2]])
+                prev = [coords[0],coords[1],coords[2]]
                 # add aproximation
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)

@@ -151,6 +151,7 @@ class Robot:
         if self.coll_go == True:
             tm = 1
         logging.info(self.send_command('go_to_with_corrections',pm))
+        self.PF.prev = [self.coords[0],self.coords[1],self.coords[2]]
         # After movement
         stamp = time.time()
         pids = True
