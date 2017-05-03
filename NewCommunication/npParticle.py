@@ -98,8 +98,8 @@ class ParticleFilter:
         temporary = ((self.particles[:, 2]-zero_elem+np.pi) % (2.0 * np.pi))+zero_elem-np.pi
         orient = np.mean(temporary)
         answer = (x, y, orient)
-        #logging.info('main_calculation time' + str(time.time() - stamp))
-        #logging.info("Particle Filter coordinates: "+str(answer))
+        logging.info('main_calculation time' + str(time.time() - stamp))
+        logging.info("Particle Filter coordinates: "+str(answer))
         return answer
 
     def particle_sense(self, scan):
@@ -227,10 +227,6 @@ class ParticleFilter:
                 #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
             time.sleep(0.1)
 
-                #logging.info("Odometry        coords: " + str(list(coords[:2]
-                                #+ [np.rad2deg(coords[2])])))
-                #logging.info("Particel Filter coords: " + str(shared_coords[:2]
-                                #+ [np.rad2deg(shared_coords[2])]))
 # help functions
 
 def get_landmarks(scan):
