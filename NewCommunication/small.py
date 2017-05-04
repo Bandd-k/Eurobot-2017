@@ -33,8 +33,8 @@ logger = logging.getLogger(__name__)
 # sharing coords
 app = Flask(__name__)
 @app.route('/coords')
-def coords():
-    return '5 5 5'
+def get_coords():
+    return str(rb.coords[0])+" "+ str(rb.coords[1])+" "+ str(rb.coords[2])
 
 
 
@@ -84,9 +84,7 @@ class Robot:
         self.fsm_queue = Queue() # 2000,25,25,0.1
         self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
         # coords sharing procces
-        app.run('0.0.0.0')
         self.p3 = Process(target=app.run,args = ("0.0.0.0"))
-        self.p3.run()
         # driver process
         print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -1149,6 +1147,7 @@ def test(color = "yellow"):
 def competition(color = "yellow",strategy = 2):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
+    rb.p3.start()
     while not rb.is_start():
         print color
         continue
@@ -1170,3 +1169,4 @@ try:
 except KeyboardInterrupt:
     rb.p.terminate()
     rb.p2.terminate()
+    rb.p3.terminate()
