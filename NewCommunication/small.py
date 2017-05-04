@@ -8,6 +8,7 @@ import numpy as np
 import sys
 from multiprocessing import Process, Queue, Value,Array
 import random
+from flask import Flask,jsonify
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
@@ -27,6 +28,14 @@ console.setFormatter(formatter)
 # add the handler to the root logger
 logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
+
+
+# sharing coords
+app = Flask(__name__)
+@app.route('/coords')
+def coords():
+    return '5 5 5'
+
 
 
 class Robot:
@@ -74,7 +83,10 @@ class Robot:
         self.loc_queue = Queue()
         self.fsm_queue = Queue() # 2000,25,25,0.1
         self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
-
+        # coords sharing procces
+        app.run('0.0.0.0')
+        self.p3 = Process(target=app.run,args = ("0.0.0.0"))
+        self.p3.run()
         # driver process
         print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
