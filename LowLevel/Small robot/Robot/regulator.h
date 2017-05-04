@@ -91,7 +91,7 @@ extern float MLineSpeed[4][3];          //
 extern float MRotSpeed[4][3];           // Матрицы должны быть определены из вне
 extern float InverseKinematics[4][4];   //
 
-
+float rangeAngle(float*);
 void pidCalc(PidStruct *pid_control); //Расчитать ПИД, в качестве параметра - указатель на структуру
 void FunctionalRegulator(float *V_target, float *V_out);
 void pidWheelsFinishWait(void); // Ожидание окончания регулирования пидов колес

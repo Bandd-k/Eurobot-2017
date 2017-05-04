@@ -45,7 +45,6 @@
 #define EXTI_DIG_OUTPUT 4
 #define NO_MOTOR 255
 
-
 #define MAX_DIST_FRONT 520//instead of MAX_DIST
 #define MIN_DIST_FRONT 110//instead of MIN_DIST
 
@@ -70,6 +69,8 @@
 #define IR_RIGHT_FRONT  GENERAL_PIN_4
 #define IR_RIGHT_BACK   GENERAL_PIN_5
 
+#define IR_FRONT2       GENERAL_PIN_6
+#define IR_BACK2        GENERAL_PIN_7
 #pragma pack(push,1)
 typedef struct {
   char sync;
@@ -128,7 +129,7 @@ extern robStateStruct curState;
 extern encOutPackStruct outEnc;
 extern float vTargetGlob[3];
 
-extern uint8_t distance_digital2[6];
+extern uint8_t distance_digital2[8];
 
 extern uint32_t  PWM_DIR[10];
 extern uint32_t * PWM_CCR[10];

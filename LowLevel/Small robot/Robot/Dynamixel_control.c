@@ -240,10 +240,24 @@ bool setID (const uint8_t servoId, uint8_t newID)
 {
     if (newID > 253)
         return false;
+    uint8_t newidd = newID & 0xff;
 
-    const uint8_t params[3] = {ID, (uint8_t)0x00, newID & 0xff};
+    const uint8_t params[4] = {ID,(uint8_t)0x00, newID & 0xff,(uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 4, params);
+
+    if (newID > 253)
+        return false;
+
+    const uint8_t params1[3] = {ID, newID & 0xff,(uint8_t)0x00};
+
+    sendServoCommand (servoId, WRITE, 3, params1);
+    if (newID > 253)
+        return false;
+
+    const uint8_t params2[2] = {ID, newID & 0xff};
+
+    sendServoCommand (servoId, WRITE, 2, params2);
 
 //    if (!getAndCheckResponse (newID))
 //        return false;

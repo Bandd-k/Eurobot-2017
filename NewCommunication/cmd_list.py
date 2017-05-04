@@ -50,12 +50,16 @@ CMD_LIST = {
     'off_sucker':0x3d,
     'rotate_cylinder_horizonal':0x42,
     'rotate_cylinder_vertical':0x41,
-    'take_cylinder_inside':0x4A,
+    'take_cylinder_inside_l':0x4A,
+    'take_cylinder_inside_r':0x4B,
     'take_cylinder_outside':0x49,
     'lift_up':0x44,
     'store':0x45,
     'out_cylinders':0x48,
     'in+store':0x47,
+    
+    'cylinder_taken':0x4c,
+    
     #'drop':0x48,
 
     ## Big Robot
@@ -81,7 +85,7 @@ CMD_LIST = {
     'funny_action_close':0x78,
     # sensors
     'ir_sensors':0x76,
-    'us_sencsors':0x75,
+    'us_sensors':0x75,
     # seesaw
     'seesaw_hand_down':0x72,
     'seesaw_hand_up':0x73,
@@ -89,6 +93,7 @@ CMD_LIST = {
     ## General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
     'setCoordinates': 0x02,  # expected parameters: float32[3]
+    'setCoordinates2': 0x99,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
     'sensors_data': 0x3a,  # no parameters, returns integer with first 6 bits sensor data
@@ -97,6 +102,8 @@ CMD_LIST = {
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
     'stopAllMotors': 0x40,
     'start_flag': 0x80,
+    'off_wheels':0x81,
+    'on_wheels':0x82 ,
 
 }
 

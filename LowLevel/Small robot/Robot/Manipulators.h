@@ -9,6 +9,7 @@
 extern double timeofred;
 extern char color, color_check[8];
 extern float r,b,R,B;
+extern int stop_cnt;
 
 void softDelay(unsigned long int);
 
@@ -107,6 +108,7 @@ void setPositionOfCylinderCarrier(float);
 #define INPUT4_CONTROL EXTI7_PIN
 #define INPUT3_CONTROL EXTI8_PIN
 
+#define BTN_SUCKING_MANIPULATOR 5
 
 bool goInsideWithSuckingManipulator(int angle1);
 bool goOutsideWithSuckingManipulator();
@@ -151,8 +153,16 @@ void increaseByGivenAngle(float);
 void decreaseByGivenAngle(float);
 void dropAllCylinders();
 void setPositionOfCylinderCarrier(float);
+void setPositionOfCylinderCarrierByTime(float);
 extern float magnetincoderdata[10];
 
 float filtrating(float* array_to_filtrate, float new_data, int len_of_array);
+
+#define DETECT_CYLINDER EXTI10_PIN
+void DetectorCylinder();
+extern float HaveCylinder;
+extern bool start_cylinder_rot;
+extern int starting_time;
+extern float rot_time;
 
 #endif

@@ -72,17 +72,25 @@ __enable_irq();
 
 while(1){
         //throwRightCollectorIntoBox(76);
+    setVoltage(6, 0.1);
+    setVoltage(6, 0.4);
+    setVoltage(6, 0.9);
 
- if (pin_val(EXTI9_PIN))
-      {
-        flag_kostil  = 1;
-        startFlag = 1;
-      }
-     else if (flag_kostil == 0)
-      {
-        stop_cnt = 0;
-        startFlag = 0;
-      }
+    setVoltage(6, -0.1);
+    setVoltage(6, -0.4);
+    setVoltage(6, -0.9);
+
+    setVoltage(6, 0.0);
+// if (pin_val(EXTI9_PIN))
+//      {
+//        flag_kostil  = 1;
+//        startFlag = 1;
+//      }
+//     else if (flag_kostil == 0)
+//      {
+//        stop_cnt = 0;
+//        startFlag = 0;
+//      }
 //    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
 //    distance_digital2[1] = pin_val(IR_LEFT_BACK);
 //    distance_digital2[2] = pin_val(IR_FRONT);

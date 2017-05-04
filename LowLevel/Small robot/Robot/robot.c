@@ -13,6 +13,7 @@
 #include "Board.h"
 #include "Communication.h"
 #include "manipulators.h"
+#include "Manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
 extern char allpointsreached;
@@ -725,7 +726,7 @@ break;
 
   case 0x44:
   {
-    int *(temp) = (int*)(cmd->param);
+    float *(temp) = (float*)(cmd->param);
     setPositionOfCylinderCarrierByTime(*temp);
   }
     break;
@@ -771,6 +772,7 @@ break;
   case 0x49: // Sucking manipulator
   {
     goOutsideWithSuckingManipulator();
+    softDelay(150000);
     goOutsideWithSuckingManipulator();
   }
     break;
@@ -810,6 +812,15 @@ break;
       reset_pin(PWM_INHIBIT);
       char * str ="Ok";
       sendAnswer(cmd->command, str, 3);
+  }
+    break;
+
+
+    case 0x4C: // take cylinder flag
+  {
+
+    bool cilinder_taken = pin_val(DETECT_CYLINDER); // 1 - not taken; 0 -taken
+    sendAnswer(cmd->command, (char*)&cilinder_taken, sizeof(cilinder_taken));
   }
     break;
 

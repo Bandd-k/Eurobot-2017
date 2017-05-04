@@ -170,11 +170,15 @@ class ParticleFilter:
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
+        # median version
+        #weights = self.gaus(np.median(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
+        # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*3.0,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*5.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
+
 
         if np.sum(weights) > 0:
             weights /= np.sum(weights)
@@ -220,24 +224,13 @@ class ParticleFilter:
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
-                logging.info("Odometry        coords: " + str(list(coords[:2] 
-                                + [np.rad2deg(coords[2])])))
-                logging.info("Particel Filter coords: " + str(shared_coords[:2]
-                                + [np.rad2deg(shared_coords[2])]))
-<<<<<<< HEAD
-                #self.debug_info += [time.time() - tmstmp, list(coords[:2] + 
-                #                    [np.rad2deg(coords[2])]),
-                #                    shared_coords[:2] + [np.rad2deg(shared_coords[2])]]          
-                #logging.info(self.send_command('setCoordinates', [shared_coords[0]/1000.,
-                #                                                   shared_coords[1]/1000.,
-                #                                                    shared_coords[2]]))
-=======
-                self.debug_info += [time.time() - tmstmp, list(coords[:2] + 
-                                    [np.rad2deg(coords[2])]),
-                                    shared_coords[:2] + [np.rad2deg(shared_coords[2])]]
->>>>>>> d3e667a8cc12054335c7c1703930fd2050f89ee7
-            time.sleep(0.2)
+                #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
+            time.sleep(0.1)
 
+                #logging.info("Odometry        coords: " + str(list(coords[:2]
+                                #+ [np.rad2deg(coords[2])])))
+                #logging.info("Particel Filter coords: " + str(shared_coords[:2]
+                                #+ [np.rad2deg(shared_coords[2])]))
 # help functions
 
 def get_landmarks(scan):
@@ -247,7 +240,7 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     #logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4+ np.pi) % (2 * np.pi), distances  # delete +np.pi for our robot
+    return (angles + np.pi / 4) % (2 * np.pi), distances  # delete +np.pi for our robot ANDREW you NEED return (angles + np.pi / 4 + np.pi) % (2 * np.pi), distances
 
 
 def p_trans(agl, pit):

@@ -23,4 +23,5 @@ obj\debug\robot\robot.o: Robot\robot.c Robot\Robot.h \
  Library\core\inc/usbd_usr.h Library\core\inc/usbd_ioreq.h \
  USB\ App/usbd_desc.h Library\core\inc/usbd_req.h USB\ App/stm32fxxx_it.h \
  USB\ App/usbd_cdc_vcp.h USB\ App/usbd_conf.h Robot\Regulator.h \
- Robot\Path.h Board/interrupts.h Board/Board.h Robot\manipulators.h
+ Robot\Path.h Board/interrupts.h Board/Board.h Robot\manipulators.h \
+ Robot\Manipulators.h
