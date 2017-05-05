@@ -176,7 +176,7 @@ class ParticleFilter:
         # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*5.0,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*10.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
 
@@ -215,22 +215,44 @@ class ParticleFilter:
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
                 if self.warning:
-                    x = np.random.normal(self.last[0], 200, self.particles_num)
-                    y = np.random.normal(self.last[1], 200, self.particles_num)
-                    orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
+                    temp_num = self.particles_num
+                    self.particles_num = 5000
+                    x = np.random.uniform(self.last[0]-200,self.last[0]+ 200, self.particles_num)
+                    y = np.random.uniform(self.last[1]-200,self.last[1]+ 200, self.particles_num)
+                    orient = np.random.uniform(self.last[2]-np.pi/2,self.last[2]+ np.pi/2, self.particles_num) % (2 * np.pi)
                     self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
+                    temp_sense = self.sense_noise
+                    self.sense_noise = 25
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    self.sense_noise = temp_sense
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
                     self.warning = False
+
+                    
+                    main_robot = self.calculate_main()
+                    self.particles_num = temp_num
+                    x = np.random.normal(main_robot[0], 100, self.particles_num)
+                    y = np.random.normal(main_robot[1], 100, self.particles_num)
+                    orient = np.random.normal(main_robot[2], np.pi/2, self.particles_num)
+                    self.particles = np.array([x, y, orient]).T
+                    lidar_data = get_raw()
                     self.particle_sense(lidar_data)
-                    self.move_particles([0, 0, 0])
-                    self.particle_sense(lidar_data)
-                    self.move_particles([0, 0, 0])
+                    
                 main_robot = self.calculate_main()
                 self.last = main_robot
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
                 #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
-            time.sleep(0.1)
+            time.sleep(0.05)
 
 # help functions
 
