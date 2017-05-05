@@ -9,6 +9,7 @@ import sys
 from multiprocessing import Process, Queue, Value,Array
 import random
 from flask import Flask,jsonify
+import requests
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
@@ -84,7 +85,7 @@ class Robot:
         self.fsm_queue = Queue() # 2000,25,25,0.1
         self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
         # coords sharing procces
-        self.p3 = Process(target=app.run,args = ("0.0.0.0"))
+        self.p3 = Process(target=app.run,args = ("0.0.0.0",))
         # driver process
         print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -126,6 +127,11 @@ class Robot:
         except:
             self.lidar_on = False
             logging.warning('Lidar off')
+
+    def second_robot_cords(self):
+        r = requests.get("http://192.168.1.184:5000/coords")
+        return ([float(i) for i in r.content.split()])
+
 
     def go_to_coord_rotation(self, parameters):
         # beta version of clever go_to
