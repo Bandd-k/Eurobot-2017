@@ -76,14 +76,14 @@ class Robot:
         if small:
             #850 170 3p/2
             # 
-            self.coords = Array('d',rev_field([170, 170,3*np.pi/2],self.color))
+            self.coords = Array('d',rev_field([850, 170,3*np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue() # 2000,25,25,0.1
-        self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
+        self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=20, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
         # coords sharing procces
         self.p3 = Process(target=app.run,args = ("0.0.0.0",))
         # driver process
@@ -155,11 +155,18 @@ class Robot:
             ok = self.go_to(parameters)
             self.coll_go = False
         
-
+    def warn_check(self):
+        a = self.PF.warning
+        time.sleep(1)
+        b = self.PF.warning
+        return a*b
+        
     def go_to(self, parameters):  # parameters [x,y,angle,speed]
         parameters = rev_field(parameters,self.color)
         if self.PF.warning:
             time.sleep(1)
+            while self.warn_check()==False:
+                time.sleep(1)
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]
@@ -1154,6 +1161,10 @@ def competition(color = "yellow",strategy = 2):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
     rb.p3.start()
+    #rb.take_cylinder_inside()
+    #time.sleep(3)
+    #rb.take_cylinder_outside()
+    return
     while not rb.is_start():
         print color
         continue
