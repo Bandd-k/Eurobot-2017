@@ -39,13 +39,13 @@ float ACCEL_INC = 0.02;
 char lastPoint = 0;// последняя активная точка в очереди
 Path curPath; //параметры активной прямой для траекторного регулятора
 
-float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
+float normalVelFast[5] = {1.0, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
 //float stopVelFast[5] = {0.4, 0.2, -0.2, 4.0, 4.0};
-float stopVelFast[5] = {0.8, 0.34, -0.1, 3, 3}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
-float standVelFast[5] = {0.85, 0.2, -0.6, 2.0, 2.5};                                       //удержание заданного положения
+float stopVelFast[5] = {2.0, 0.34, -0.1, 1.5, 1.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
+float standVelFast[5] = {0.85, 0.2, -0.6, 1.0, 1.0};                                       //удержание заданного положения
 
 float normalVelSlow[5] = {0.4, 0.1, 0.2, 1.5, 2.5};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
-float stopVelSlow[5] = {0.6, 0.1, -0.05, 2.0, 2.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
+float stopVelSlow[5] = {0.3, 0.1, -0.05, 1.0, 1.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
 float standVelSlow[5] = {0.4, 0.1, -0.05, 1.5, 2.5};                                       //удержание заданного положения
 
 
@@ -60,11 +60,11 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
-pathPointStr points[POINT_STACK_SIZE]={ {000.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.0, 0.0, 0/2.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
-                                        {0.0, 0.0, 3.14, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
-                                        {0.0, 0.0, 3.14 + 3.14/2.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 2*3.14, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+pathPointStr points[POINT_STACK_SIZE]={ {000.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {1.0, 0.0, 0.00, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {1.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotFast,0,1 },
                                         {0.0, 0.0, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
                                         {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
                                         {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
@@ -150,10 +150,10 @@ void initRegulators(void)  // инициализация регуляторов
   }
     //OrtoPos //регулятор ошибки отклонения от траектории
   {
-        ortoPos.p_k = 1.8;
-        ortoPos.i_k = 0.05;
+        ortoPos.p_k = 1.8*2;
+        ortoPos.i_k = 0.05*3;
         ortoPos.d_k = 0.0;
-        ortoPos.max_output = 4.0;
+        ortoPos.max_output = 10.0; //4
         ortoPos.max_sum_error = 0.05;
         ortoPos.pid_on = 1;
   }
@@ -190,7 +190,7 @@ void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur,
 
   float localVelocity[3];
   //float Radian       = (*(V_target+2));
-  float realRad        = robotCoord[2];
+  float realRad        = -robotCoord[2];
 
   //float Ml[4][2]     = {(sinus+cosinus), (cosinus-sinus), (cosinus-sinus), -(sinus+cosinus), (cosinus-sinus), -(sinus+cosinus), (sinus+cosinus), (cosinus-sinus)};
  // float Mfi[4]       = {-(0.14), -(0.14),-(0.14), -(0.14)};  //матрица расчета угловой скорости
@@ -519,7 +519,7 @@ int16_t motorSpeedBuf[4];
     motorCoord[i] += motorSpeed[i] * PID_PERIOD;
   }
    #endif
-  float realRad = -robotCoord[2];
+  float realRad = robotCoord[2];
   float J_inv[4][4];
   float temp[4];
   float temp2[4];

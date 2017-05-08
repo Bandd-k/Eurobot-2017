@@ -3,8 +3,8 @@
 
 #include "stdint.h"
 
-#define MAX_RPM 13100 // Maxon max rpm
-#define REDUCTION 26 // Gearbox reduction
+#define MAX_RPM 18000 // Maxon max rpm
+#define REDUCTION 28 // Gearbox reduction
 #define MAX_MAXON_PWM 0.9
 #define MIN_MAXON_PWM 0.1
 

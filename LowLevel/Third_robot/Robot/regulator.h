@@ -15,12 +15,12 @@
 #define PHI_RAD             0.5236
 #define distA	 	        0.31819
 #define distB		        0.2625
-#define RO                  (0.03*1.33*1.03)           // Радиус колес
+#define RO                  (0.03*1.0*0.836*1.069)           // Радиус колес
 #define L                   (0.1)         // Расстояние от центра робота до плоскости колеса энкодера
 #define JOYST_RAD_VEL_KOFF  MAX_RAD_SPEED/128.0 //(MAX_WHEEL_SPEED/distA/128.0/5.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/106496.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/4096.0/26)
-#define DISKR_TO_REAL       (2.0*PI*RO/106496/1.65)
+#define DISKR_TO_REAL       (2.0*PI*RO/(4096.0*28.0))
 #define ONE_RO_COS_PHI      1.0                   // 23.0947
 //#define COFF_TO_RAD         (2.0*PI/(4658.346666667))
 #define MAX_CAPACITANCE     0.9 //(120.0*DISKR_TO_REAL/PID_PERIOD)*1.5   // Максимальный вектор задания на ПИДЫ
