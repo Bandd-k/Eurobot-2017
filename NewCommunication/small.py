@@ -9,6 +9,7 @@ import sys
 from multiprocessing import Process, Queue, Value,Array
 import random
 from flask import Flask,jsonify
+import requests
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
@@ -131,6 +132,11 @@ class Robot:
         except:
             self.lidar_on = False
             logging.warning('Lidar off')
+
+    def second_robot_cords(self):
+        r = requests.get("http://192.168.1.184:5000/coords")
+        return ([float(i) for i in r.content.split()])
+
 
     def go_to_coord_rotation(self, parameters):
         # beta version of clever go_to
