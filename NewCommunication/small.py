@@ -36,6 +36,11 @@ app = Flask(__name__)
 def get_coords():
     return str(rb.coords[0])+" "+ str(rb.coords[1])+" "+ str(rb.coords[2])
 
+@app.route('/stop')
+def stop():
+    print "stop from phone"
+    rb.funny_action(1,2)
+
 
 
 class Robot:
@@ -75,7 +80,7 @@ class Robot:
         if small:
             #850 170 3p/2
             # 
-            self.coords = Array('d',rev_field([850, 170,3*np.pi/2],self.color))
+            self.coords = Array('d',rev_field([170, 170,3*np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
@@ -1155,10 +1160,20 @@ def competition(color = "yellow",strategy = 2):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
     rb.p3.start()
+    #rb.on_sucker()
+    #print "Start"
+    #return
+    #print "Start"
+    #while True:
+    #    rb.on_sucker()
+    #    time.sleep(2)
+    #    rb.off_sucker()
+    #    time.sleep(2)
+    #print "ok"
+    #return
     #rb.take_cylinder_inside()
+    #return
     #time.sleep(3)
-    #rb.take_cylinder_outside()
-    return
     while not rb.is_start():
         print color
         continue
