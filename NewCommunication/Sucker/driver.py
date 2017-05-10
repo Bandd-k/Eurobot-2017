@@ -14,7 +14,7 @@ import logging
 #PORT_SNR = '3677346C3034'
 #DEVICE_NAME = '/dev/ttyACM0'
 #=======
-PORT_SNR = '325936843235'
+PORT_SNR = '336834593435'
 DEVICE_NAME = '/dev/ttyACM0'# 'ACMO'
 #>>>>>>> 4ead14e6dbd7bdcaae48a8ba2a886a9ec203a0d3
 
@@ -55,11 +55,7 @@ class Driver(Process):
         self.input_cmd_queue = inp_queue
         self.output_queues = {'fsm':fsm_queue,'loc':loc_queue}
         if connect:
-            try:
-                self.connect()
-            except:
-                self.device = '/dev/ttyACM1'
-                self.connect()
+            self.connect()
                 
 
     def connect(self):

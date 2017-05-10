@@ -266,8 +266,11 @@ def get_landmarks(scan):
     return (angles + np.pi / 4) % (2 * np.pi), distances  # delete +np.pi for our robot ANDREW you NEED return (angles + np.pi / 4 + np.pi) % (2 * np.pi), distances
 
 
+# lidar shift
+x_shift = 17.5
+
 def p_trans(agl, pit):
-    x_beac = pit*np.cos(agl) # multiply by minus in our robot
+    x_beac = pit*np.cos(agl)+x_shift # multiply by minus in our robot
     y_beac = pit*np.sin(agl)
     return x_beac,y_beac
 
