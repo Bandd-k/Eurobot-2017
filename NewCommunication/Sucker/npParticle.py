@@ -39,6 +39,7 @@ class ParticleFilter:
         orient = np.random.normal(in_angle, angle_noise, particles) % (2 * np.pi)
         self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
         logging.info('initialize time: '+str(time.time()-stamp))
+        self.prev = [x,y,in_angle]
         # Added Andrei for debug
         self.debug_info = []
         self.start_time = time.time()
@@ -98,8 +99,8 @@ class ParticleFilter:
         temporary = ((self.particles[:, 2]-zero_elem+np.pi) % (2.0 * np.pi))+zero_elem-np.pi
         orient = np.mean(temporary)
         answer = (x, y, orient)
-        #logging.info('main_calculation time' + str(time.time() - stamp))
-        #logging.info("Particle Filter coordinates: "+str(answer))
+        logging.info('main_calculation time' + str(time.time() - stamp))
+        logging.info("Particle Filter coordinates: "+str(answer))
         return answer
 
     def particle_sense(self, scan):
@@ -175,7 +176,7 @@ class ParticleFilter:
         # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(self.sense_noise*5.0,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*10.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
 
@@ -195,6 +196,7 @@ class ParticleFilter:
     def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
         #time.sleep(50)
+
         while True:
             if localisation.value:
                 tmstmp = time.time() - self.start_time
@@ -204,33 +206,54 @@ class ParticleFilter:
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
-                self.move_particles(
-                    [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                ## Moscow Version
+                #self.move_particles(
+                    #[coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                self.move_particles([coords[0] - self.prev[0], coords[1] - self.prev[1], coords[2] - self.prev[2]])
+                self.prev = [coords[0],coords[1],coords[2]]
                 # add aproximation
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
                 if self.warning:
-                    x = np.random.normal(self.last[0], 200, self.particles_num)
-                    y = np.random.normal(self.last[1], 200, self.particles_num)
-                    orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
+                    temp_num = self.particles_num
+                    self.particles_num = 5000
+                    x = np.random.uniform(self.last[0]-200,self.last[0]+ 200, self.particles_num)
+                    y = np.random.uniform(self.last[1]-200,self.last[1]+ 200, self.particles_num)
+                    orient = np.random.uniform(self.last[2]-np.pi/2,self.last[2]+ np.pi/2, self.particles_num) % (2 * np.pi)
                     self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
+                    temp_sense = self.sense_noise
+                    self.sense_noise = 25
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    self.sense_noise = temp_sense
+                    lidar_data = get_raw()
+                    self.particle_sense(lidar_data)
                     self.warning = False
+
+                    
+                    main_robot = self.calculate_main()
+                    self.particles_num = temp_num
+                    x = np.random.normal(main_robot[0], 100, self.particles_num)
+                    y = np.random.normal(main_robot[1], 100, self.particles_num)
+                    orient = np.random.normal(main_robot[2], np.pi/2, self.particles_num)
+                    self.particles = np.array([x, y, orient]).T
+                    lidar_data = get_raw()
                     self.particle_sense(lidar_data)
-                    self.move_particles([0, 0, 0])
-                    self.particle_sense(lidar_data)
-                    self.move_particles([0, 0, 0])
+                    
                 main_robot = self.calculate_main()
                 self.last = main_robot
                 shared_coords[0] = main_robot[0]
                 shared_coords[1] = main_robot[1]
                 shared_coords[2] = main_robot[2]
                 #logging.info(self.send_command('setCoordinates',[shared_coords[0] / 1000., shared_coords[1] / 1000., shared_coords[2]]))
-            time.sleep(0.1)
+            time.sleep(0.05)
 
-                #logging.info("Odometry        coords: " + str(list(coords[:2]
-                                #+ [np.rad2deg(coords[2])])))
-                #logging.info("Particel Filter coords: " + str(shared_coords[:2]
-                                #+ [np.rad2deg(shared_coords[2])]))
 # help functions
 
 def get_landmarks(scan):
@@ -242,10 +265,9 @@ def get_landmarks(scan):
     #logging.info('scan preproccesing time: ' + str(time.time() - stamp))
     return (angles + np.pi / 4) % (2 * np.pi), distances  # delete +np.pi for our robot ANDREW you NEED return (angles + np.pi / 4 + np.pi) % (2 * np.pi), distances
 
-# lidar shifts
-x_shift = 17.5
+
 def p_trans(agl, pit):
-    x_beac = pit*np.cos(agl) + x_shift
+    x_beac = pit*np.cos(agl) # multiply by minus in our robot
     y_beac = pit*np.sin(agl)
     return x_beac,y_beac
 
