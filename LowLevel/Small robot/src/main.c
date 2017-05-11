@@ -99,8 +99,11 @@ long int time = 0;
     {
         //servo_rotate_180(angle);
         //servo_rotate_180(angle);
-    //setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);
+    //setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);3
+//    servo_rotate_90(146);
+//    servo_rotate_90(246);
 
+/*
         if (pin_val (EXTI9_PIN)){
             flag_kostil  = 1;
             startFlag = 1;
@@ -109,8 +112,12 @@ long int time = 0;
       {
         stop_cnt = 0;
         startFlag = 0;
-      }
-//        goInsideWithSuckingManipulator(160);
+      }*/
+//        set_pin(BTN5_DIR_PIN);
+//        reset_pin(BTN5_DIR_PIN);
+//      goInsideWithSuckingManipulator(160);
+//      goOutsideWithSuckingManipulator();
+////        goInsideWithSuckingManipulator(160);
 //        servo_rotate_180(250);
 //        goOutsideWithSuckingManipulator();
 

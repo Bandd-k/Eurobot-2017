@@ -149,7 +149,7 @@ bool goInsideWithSuckingManipulator(int angle){
 }*/
 bool goInsideButDifferentRotate(int angle){
 
-    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
+    setVoltage(BTN_SUCKING_MANIPULATOR-1, -0.8);
 
     softDelay(6000000/2);
 
@@ -157,7 +157,7 @@ bool goInsideButDifferentRotate(int angle){
 
     servo_rotate_90(angle);
 
-    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
+    setVoltage(BTN_SUCKING_MANIPULATOR-1, -0.8);
 
     int starting_time = stop_cnt;
     int button_cnt = 0;
@@ -199,7 +199,7 @@ bool goOutsideWithSuckingManipulator(){
 
 bool goOutsideWithSuckingManipulator(){
 
-    setVoltage(BTN_SUCKING_MANIPULATOR-1, 1);
+    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0.8);
 
     int starting_time = stop_cnt;
     int button_cnt = 0;
