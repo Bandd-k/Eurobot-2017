@@ -58,7 +58,7 @@ void SysTick_Handler(void)
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
 
 int stop_cnt = 0;
-int flag_kostil = 0 ;
+int flag_kostil = 0;
 
 int main(void)
 {
@@ -114,9 +114,9 @@ long int time = 0;
         startFlag = 0;
       }*/
 //        set_pin(BTN5_DIR_PIN);
-//        reset_pin(BTN5_DIR_PIN);
-//      goInsideWithSuckingManipulator(160);
+//        reset_pin(BTN5_DIR_PIN
 //      goOutsideWithSuckingManipulator();
+//      goInsideButDifferentRotate(160);
 ////        goInsideWithSuckingManipulator(160);
 //        servo_rotate_180(250);
 //        goOutsideWithSuckingManipulator();
