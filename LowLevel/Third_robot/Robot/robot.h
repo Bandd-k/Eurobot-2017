@@ -62,15 +62,15 @@
 
 #define threshhold -7
 
-#define IR_LEFT_FRONT   GENERAL_PIN_0
-#define IR_LEFT_BACK    GENERAL_PIN_1
-#define IR_FRONT        GENERAL_PIN_2
-#define IR_BACK         GENERAL_PIN_3
-#define IR_RIGHT_FRONT  GENERAL_PIN_4
-#define IR_RIGHT_BACK   GENERAL_PIN_5
+#define D62_FRONT   GENERAL_PIN_0
+#define D62_RIGHT   GENERAL_PIN_1
+#define D62_BACK    GENERAL_PIN_2
+#define D62_LEFT    GENERAL_PIN_3
+#define ARD_FRONT   GENERAL_PIN_4
+#define ARD_RIGHT   GENERAL_PIN_5
+#define ARD_BACK    GENERAL_PIN_6
+#define ARD_LEFT    GENERAL_PIN_7
 
-#define IR_FRONT2       GENERAL_PIN_6
-#define IR_BACK2        GENERAL_PIN_7
 #pragma pack(push,1)
 typedef struct {
   char sync;
