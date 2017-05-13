@@ -72,14 +72,7 @@ __enable_irq();
 
 while(1){
         //throwRightCollectorIntoBox(76);
-    distance_digital2[0] = pin_val(D62_FRONT);
-    distance_digital2[1] = pin_val(D62_RIGHT);
-    distance_digital2[2] = pin_val(D62_BACK);
-    distance_digital2[3] = pin_val(D62_LEFT);
-    distance_digital2[4] = pin_val(ARD_FRONT);
-    distance_digital2[5] = pin_val(ARD_RIGHT);
-    distance_digital2[6] = pin_val(ARD_BACK); //6
-    distance_digital2[7] = pin_val(ARD_LEFT);
+
 
     //PropollersToForward();
     //PropollersToNeitral();
