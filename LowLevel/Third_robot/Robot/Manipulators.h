@@ -197,7 +197,7 @@ void CloseSeesawCorrector();
 #define REVERSE 0.105999
 void PropollersToForward(void);
 void PropollersToNeitral(void);
-void PropollersToForward(void);
+void PropollersToReverse(void);
 ///////////////////////////////////////////////////////////////////
 
 /////////////////small robot eurobot 2017 for manipulators

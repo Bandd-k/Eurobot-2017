@@ -72,15 +72,19 @@ __enable_irq();
 
 while(1){
         //throwRightCollectorIntoBox(76);
-    setVoltage(6, 0.1);
-    setVoltage(6, 0.4);
-    setVoltage(6, 0.9);
+    distance_digital2[0] = pin_val(D62_FRONT);
+    distance_digital2[1] = pin_val(D62_RIGHT);
+    distance_digital2[2] = pin_val(D62_BACK);
+    distance_digital2[3] = pin_val(D62_LEFT);
+    distance_digital2[4] = pin_val(ARD_FRONT);
+    distance_digital2[5] = pin_val(ARD_RIGHT);
+    distance_digital2[6] = pin_val(ARD_BACK); //6
+    distance_digital2[7] = pin_val(ARD_LEFT);
 
-    setVoltage(6, -0.1);
-    setVoltage(6, -0.4);
-    setVoltage(6, -0.9);
+    //PropollersToForward();
+    //PropollersToNeitral();
+    //PropollersToReverse();
 
-    setVoltage(6, 0.0);
 // if (pin_val(EXTI9_PIN))
 //      {
 //        flag_kostil  = 1;
