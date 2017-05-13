@@ -852,7 +852,7 @@ break;
     break;
 
 
-     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+     case 0x76: // Distance from IR sensors , 0 - something is there, bigger than 0 - nothing
   {
     distance_digital2[0] = pin_val(D62_FRONT);//upper front
     distance_digital2[1] = pin_val(D62_RIGHT);
