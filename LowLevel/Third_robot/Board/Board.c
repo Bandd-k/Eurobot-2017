@@ -306,7 +306,7 @@ initRegulators();
   conf_pin(GENERAL_PIN_6, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_7, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(GENERAL_PIN_8, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(GENERAL_PIN_9, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(GENERAL_PIN_9, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   adcConfig();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 

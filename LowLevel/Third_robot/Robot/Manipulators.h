@@ -188,6 +188,16 @@ void CloseGetterBackCylinderManipulator();
 #define DNMXL_SEESAW_OFF 145
 void OpenSeesawCorrector();
 void CloseSeesawCorrector();
+
+#define LEFTUP 6
+#define RIGHTUP 7
+#define DOWNONE 8
+#define ForwardConstant 0.0909
+#define NEITRAL 0.12999
+#define REVERSE 0.105999
+void PropollersToForward(void);
+void PropollersToNeitral(void);
+void PropollersToReverse(void);
 ///////////////////////////////////////////////////////////////////
 
 /////////////////small robot eurobot 2017 for manipulators

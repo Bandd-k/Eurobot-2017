@@ -72,15 +72,12 @@ __enable_irq();
 
 while(1){
         //throwRightCollectorIntoBox(76);
-//    setVoltage(6, 0.1);
-//    setVoltage(6, 0.4);
-//    setVoltage(6, 0.9);
-//
-//    setVoltage(6, -0.1);
-//    setVoltage(6, -0.4);
-//    setVoltage(6, -0.9);
-//
-//    setVoltage(6, 0.0);
+
+
+    //PropollersToForward();
+    //PropollersToNeitral();
+    //PropollersToReverse();
+
 // if (pin_val(EXTI9_PIN))
 //      {
 //        flag_kostil  = 1;

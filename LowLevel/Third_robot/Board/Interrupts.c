@@ -40,8 +40,8 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
         setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
         float angle_;
-        upLeftCollectorWithBalls(80);
-        upRightCollectorWithBalls(45);
+    //upLeftCollectorWithBalls(80);
+    //upRightCollectorWithBalls(45);
 //        getServoAngle(DNMXL_MAN_RIGHT,&angle_);
 //        setServoAngle(DNMXL_MAN_RIGHT,angle_);
 //        getServoAngle(DNMXL_MAN_LEFT,&angle_);
@@ -58,7 +58,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
 
-    takeadc(distanceData,1,2,3);
+    //takeadc(distanceData,1,2,3);
   if (curState.filtering) SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
   else
    {
@@ -143,7 +143,7 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 {
    TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
 }
-takeadc(distanceData,1,2,3);
+//takeadc(distanceData,1,2,3);
    if (curState.filtering)
        {
             SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
