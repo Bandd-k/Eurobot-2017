@@ -35,10 +35,11 @@ class Robot:
         self.coll_go = False
         ##################
         self.color = color
+        self.cur_state = 0 # 0-neutral,1-suck,2-throw
         self.sensor_range = 35
         self.collision_d = 9
         self.coll_ind = -1
-        self.collision_avoidance = True
+        self.collision_avoidance = False
         self.localisation = Value('b', True)
         if small:
             self.sensors_places = [0,0,0,np.pi,np.pi/2,3*np.pi/2,0,0,0]
@@ -61,7 +62,7 @@ class Robot:
         if small:
             #850 170 3p/2
             # 
-            self.coords = Array('d',rev_field([850, 170,3*np.pi/2],self.color))
+            self.coords = Array('d',rev_field([920, 200,3*np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
@@ -301,25 +302,121 @@ class Robot:
     ############################################################################
 
     def first(self,speed = 4):
-        angle = 0.0
-        parameters = [350, 840, angle, speed]
+        angle = 3*np.pi/2
+        parameters = [920,1000 , angle, speed]
         self.go_to_coord_rotation(parameters)
         return
     def first_back(self,speed = 4):
-        angle = 0.0
-        parameters = [350, 840, angle, speed]
-        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2
+        parameters = [920, 200, angle, speed]
+        self.go_last(parameters)
         return
+
+    def cube(self,speed = 4):
+        angle = 3*np.pi/2
+        while True:
+            parameters = [1200, 500, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            angle = np.pi
+            parameters = [1200, 1000, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            continue
+            parameters = [1700, 1000, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [1700, 500, angle, speed]
+            self.go_to_coord_rotation(parameters)
+
+    def coolers_test(self):
+        self.on_mixer()
+        self.open_door()
+        self.off_coolers()
+        #time.sleep(10)
+        time.sleep(0.5)
+        self.on_coolers_suck()     
+        time.sleep(2)
+        self.close_door()
+        self.on_coolers_throw()
+        self.off_coolers()
+        time.sleep(0.1)
+        self.on_coolers_throw()
+        self.off_coolers()
+        time.sleep(1)
+        self.on_coolers_throw()
+        time.sleep(7)
+        self.on_coolers_throw()
+        time.sleep(10)
+        self.off_coolers()
+        return
+
+    def test44(self):
+        self.suck()
+        time.sleep(2)
+        self.stop()
+        time.sleep(1)
+        self.suck()
+        time.sleep(1)
+        #self.stop()
+        self.throw()
+        return
+        time.sleep(2)
+        self.stop()
+        time.sleep(2)
+        self.throw()
+        time.sleep(2)
+        self.stop()
+
+    def throw(self):
+        self.cur_state = 2
+        self.close_door()
+        self.off_coolers()
+        time.sleep(0.2)
+        self.on_coolers_throw()
+        self.off_coolers()
+        self.on_coolers_throw()
+        self.off_coolers()
+
+    def suck(self):
+        self.open_door()
+        time.sleep(0.1)
+        self.off_coolers()
+        self.on_coolers_suck()
+
+    def stop(self):
+        self.close_door()
+        if self.cur_state == 1:
+            self.on_coolers_throw()
+            self.off_coolers()
+        else:
+            self.off_coolers()
+            self.on_coolers_throw()
+        self.cur_state = 0
+        
+
+
+        
+        
+        
+            
 
 def first_strategy():
     rb.first()
+    print "GOGOGOGOGOGOGOGO"
     rb.first_back()
-def competition(color = "yellow",strategy = 2):
+def competition(color = "yellow",strategy = 0):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
-    while not rb.is_start():
-        print color
-        continue
+    rb.up_front_seasaw()
+    time.sleep(1)
+    rb.down_front_seasaw()
+    time.sleep(1)
+    rb.up_back_seasaw()
+    time.sleep(1)
+    rb.down_back_seasaw()
+    return
+    rb.test44()
+    return
+    #while not rb.is_start():
+    #    continue
 
     strategies = {0:first_strategy,
                   #1:second_strategy,
@@ -335,7 +432,7 @@ try:
     except IndexError:
         print "no argument"
         clr = default_color
-    competition(clr,2)
+    competition(clr,0)
 except KeyboardInterrupt:
     rb.p.terminate()
     rb.p2.terminate()
