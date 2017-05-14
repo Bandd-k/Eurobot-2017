@@ -1,4 +1,4 @@
-cscope 15 F:\From Git\LowLevel\Small robot"               0001577259
+cscope 15 F:\From Git\LowLevel\Small robot"               0001577291
 	@F:\From Git\LowLevel\Small robot\Board\ADC.c
 
 5 
@@ -471,7 +471,15 @@ PWM_DIR
 ch
 ]);
 
-57 *
+54 
+	`£t_pö
+(
+PWM_DIR
+[
+ch
+]);
+
+58 *
 PWM_CCR
 [
 ch
@@ -483,7 +491,7 @@ duty
 MAX_PWM
 );
 
-58 
+59 
 	`ª£t_pö
 (
 PWM_DIR
@@ -491,11 +499,11 @@ PWM_DIR
 ch
 ]);
 
-61 
+62 
 	}
 }
 
-63 
+64 
 	$£tPWM
 (
 ch
@@ -503,15 +511,15 @@ ch
 duty
 )
 
-65 i‡(
+66 i‡(
 duty
  > 1 ) duty = 1;
 
-66 i‡(
+67 i‡(
 duty
  < 0 ) duty = 0;
 
-67 *
+68 *
 PWM_CCR
 [
 ch
@@ -523,11 +531,11 @@ duty
 MAX_PWM
 ));
 
-69 
+70 
 	}
 }
 
-74 
+75 
 	$£tVﬁègeMax⁄
 (
 ch
@@ -539,23 +547,23 @@ pwm_dú
 duty
 )
 
-76 i‡(
+77 i‡(
 ch
  == 255)
 
-78 i‡(
+79 i‡(
 duty
  > 0.9 ) duty = 0.9;
 
-79 i‡(
+80 i‡(
 duty
  < 0.1 ) duty = 0.1;
 
-80 i‡(
+81 i‡(
 pwm_dú
  > 0)
 
-82 *
+83 *
 PWM_CCR
 [
 ch
@@ -567,7 +575,7 @@ duty
 MAX_PWM
 );
 
-83 
+84 
 	`£t_pö
 (
 PWM_DIR
@@ -575,11 +583,11 @@ PWM_DIR
 ch
 ]);
 
-85 i‡(
+86 i‡(
 pwm_dú
  < 0)
 
-87 *
+88 *
 PWM_CCR
 [
 ch
@@ -591,7 +599,7 @@ duty
 MAX_PWM
 );
 
-88 
+89 
 	`ª£t_pö
 (
 PWM_DIR
@@ -599,11 +607,11 @@ PWM_DIR
 ch
 ]);
 
-92 
+93 
 	}
 }
 
-94 
+95 
 	$£tS≥edMax⁄
 (
 ch
@@ -611,23 +619,23 @@ ch
 èrgëS≥ed
 )
 
-96 
+97 
 pwm_dú
  = 0;
 
-97 i‡(
+98 i‡(
 èrgëS≥ed
  > 0)
 
-99 
+100 
 pwm_dú
  = 1;
 
-103 
+104 
 pwm_dú
  = -1;
 
-105 
+106 
 pwm
  = (
 MAX_MAXON_PWM
@@ -647,7 +655,7 @@ PI
 RO
 ) + MIN_MAXON_PWM;
 
-107 
+108 
 	`£tVﬁègeMax⁄
 (
 ch
@@ -657,11 +665,11 @@ pwm_dú
 pwm
 );
 
-108 
+109 
 	}
 }
 
-113 
+114 
 	$add_ext_öãºu±
 (
 pö
@@ -669,7 +677,7 @@ pö
 edge
 )
 
-115 
+116 
 SYSCFG
 ->
 EXTICR
@@ -677,7 +685,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] |= (pin>>4) << ((((pin)&0xF) % 4) << 0x02);
 
-116 
+117 
 EXTI
 ->
 IMR
@@ -685,55 +693,43 @@ IMR
 pö
 )&0xF));
 
-118 
+119 
 edge
 )
 
-120 
+121 
 EXTI_FALLING_EDGE
 :
-
-122 
-EXTI
-->
-FTSR
- |(1<<((
-pö
-)&0xF));
 
 123 
 EXTI
 ->
+FTSR
+ |(1<<((
+pö
+)&0xF));
+
+124 
+EXTI
+->
 RTSR
  &~(1<<((
 pö
 )&0xF));
 
-127 
+128 
 EXTI_RISING_EDGE
 :
-
-129 
-EXTI
-->
-FTSR
- &~(1<<((
-pö
-)&0xF));
 
 130 
 EXTI
 ->
-RTSR
- |(1<<((
+FTSR
+ &~(1<<((
 pö
 )&0xF));
 
-134 
-EXTI_BOTH_EDGES
-:
-
-136 
+131 
 EXTI
 ->
 RTSR
@@ -741,7 +737,19 @@ RTSR
 pö
 )&0xF));
 
+135 
+EXTI_BOTH_EDGES
+:
+
 137 
+EXTI
+->
+RTSR
+ |(1<<((
+pö
+)&0xF));
+
+138 
 EXTI
 ->
 FTSR
@@ -749,17 +757,17 @@ FTSR
 pö
 )&0xF));
 
-141 
+142 
 	}
 }
 
-142 
+143 
 	$˛ór_ext_öãºu±
 (
 pö
 )
 
-144 
+145 
 SYSCFG
 ->
 EXTICR
@@ -767,7 +775,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] &= ~((pin>>4) << ((((pin)&0xF) % 4) << 0x02));
 
-145 
+146 
 EXTI
 ->
 IMR
@@ -775,15 +783,15 @@ IMR
 pö
 )&0xF));
 
-147 
+148 
 	}
 }
 
-151 
+152 
 	$öôAŒ
 ()
 
-154 
+155 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_PWR
@@ -791,7 +799,7 @@ RCC_APB1Pîùh_PWR
 ENABLE
 );
 
-155 
+156 
 PWR
 ->
 CR
@@ -799,15 +807,15 @@ CR
 PWR_CR_DBP
 ;
 
-156 
+157 
 	`__dißbÀ_úq
 ();
 
-158 
+159 
 	`öôReguœt‹s
 ();
 
-163 
+164 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_CRC
@@ -815,7 +823,7 @@ RCC_AHB1Pîùh_CRC
 ENABLE
 );
 
-164 
+165 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOA
@@ -823,7 +831,7 @@ RCC_AHB1Pîùh_GPIOA
 ENABLE
 );
 
-165 
+166 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOB
@@ -831,7 +839,7 @@ RCC_AHB1Pîùh_GPIOB
 ENABLE
 );
 
-166 
+167 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOC
@@ -839,7 +847,7 @@ RCC_AHB1Pîùh_GPIOC
 ENABLE
 );
 
-167 
+168 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOD
@@ -847,7 +855,7 @@ RCC_AHB1Pîùh_GPIOD
 ENABLE
 );
 
-168 
+169 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOE
@@ -855,7 +863,7 @@ RCC_AHB1Pîùh_GPIOE
 ENABLE
 );
 
-170 
+171 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM1
@@ -863,7 +871,7 @@ RCC_APB2Pîùh_TIM1
 ENABLE
 );
 
-171 
+172 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM2
@@ -871,7 +879,7 @@ RCC_APB1Pîùh_TIM2
 ENABLE
 );
 
-172 
+173 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM3
@@ -879,7 +887,7 @@ RCC_APB1Pîùh_TIM3
 ENABLE
 );
 
-173 
+174 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM4
@@ -887,7 +895,7 @@ RCC_APB1Pîùh_TIM4
 ENABLE
 );
 
-174 
+175 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM6
@@ -895,7 +903,7 @@ RCC_APB1Pîùh_TIM6
 ENABLE
 );
 
-175 
+176 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM7
@@ -903,7 +911,7 @@ RCC_APB1Pîùh_TIM7
 ENABLE
 );
 
-176 
+177 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM8
@@ -911,7 +919,7 @@ RCC_APB2Pîùh_TIM8
 ENABLE
 );
 
-177 
+178 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM9
@@ -919,7 +927,7 @@ RCC_APB2Pîùh_TIM9
 ENABLE
 );
 
-178 
+179 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM10
@@ -927,7 +935,7 @@ RCC_APB2Pîùh_TIM10
 ENABLE
 );
 
-179 
+180 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM11
@@ -935,7 +943,7 @@ RCC_APB2Pîùh_TIM11
 ENABLE
 );
 
-180 
+181 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM12
@@ -943,7 +951,7 @@ RCC_APB1Pîùh_TIM12
 ENABLE
 );
 
-181 
+182 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM13
@@ -951,7 +959,7 @@ RCC_APB1Pîùh_TIM13
 ENABLE
 );
 
-182 
+183 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_ADC1
@@ -959,7 +967,7 @@ RCC_APB2Pîùh_ADC1
 ENABLE
 );
 
-185 
+186 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB2Pîùh_USART1
@@ -967,7 +975,7 @@ RCC_APB2Pîùh_USART1
 ENABLE
 );
 
-186 
+187 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_USART3
@@ -975,7 +983,7 @@ RCC_APB1Pîùh_USART3
 ENABLE
 );
 
-188 
+189 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA1
@@ -983,7 +991,7 @@ RCC_AHB1Pîùh_DMA1
 ENABLE
 );
 
-189 
+190 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA2
@@ -991,7 +999,7 @@ RCC_AHB1Pîùh_DMA2
 ENABLE
 );
 
-191 
+192 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_SYSCFG
@@ -999,7 +1007,7 @@ RCC_APB2Pîùh_SYSCFG
 ENABLE
 );
 
-195 
+196 
 	`c⁄f_pö
 (
 BTN1_DIR_PIN
@@ -1013,7 +1021,7 @@ FAST_S
 NO_PULL_UP
 );
 
-196 
+197 
 	`c⁄f_pö
 (
 BTN2_DIR_PIN
@@ -1027,7 +1035,7 @@ FAST_S
 NO_PULL_UP
 );
 
-197 
+198 
 	`c⁄f_pö
 (
 BTN3_DIR_PIN
@@ -1041,7 +1049,7 @@ FAST_S
 NO_PULL_UP
 );
 
-198 
+199 
 	`c⁄f_pö
 (
 BTN4_DIR_PIN
@@ -1055,7 +1063,7 @@ FAST_S
 NO_PULL_UP
 );
 
-199 
+200 
 	`c⁄f_pö
 (
 BTN5_DIR_PIN
@@ -1069,7 +1077,7 @@ FAST_S
 NO_PULL_UP
 );
 
-200 
+201 
 	`c⁄f_pö
 (
 BTN6_DIR_PIN
@@ -1083,7 +1091,7 @@ FAST_S
 NO_PULL_UP
 );
 
-201 
+202 
 	`c⁄f_pö
 (
 BTN7_DIR_PIN
@@ -1097,7 +1105,7 @@ FAST_S
 NO_PULL_UP
 );
 
-202 
+203 
 	`c⁄f_pö
 (
 BTN8_DIR_PIN
@@ -1111,7 +1119,7 @@ FAST_S
 NO_PULL_UP
 );
 
-203 
+204 
 	`c⁄f_pö
 (
 BTN9_DIR_PIN
@@ -1125,7 +1133,7 @@ FAST_S
 NO_PULL_UP
 );
 
-204 
+205 
 	`c⁄f_pö
 (
 BTN10_DIR_PIN
@@ -1139,7 +1147,7 @@ FAST_S
 NO_PULL_UP
 );
 
-205 
+206 
 	`c⁄f_pö
 (
 PWM_INHIBIT
@@ -1153,7 +1161,7 @@ FAST_S
 NO_PULL_UP
 );
 
-210 
+211 
 	`c⁄f_pö
 (
 PIN1_12V
@@ -1167,7 +1175,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-211 
+212 
 	`c⁄f_pö
 (
 PIN2_12V
@@ -1181,7 +1189,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-212 
+213 
 	`c⁄f_pö
 (
 PIN3_12V
@@ -1195,7 +1203,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-213 
+214 
 	`c⁄f_pö
 (
 PIN4_12V
@@ -1209,7 +1217,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-214 
+215 
 	`c⁄f_pö
 (
 PIN5_12V
@@ -1223,7 +1231,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-215 
+216 
 	`c⁄f_pö
 (
 PIN6_12V
@@ -1237,7 +1245,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-220 
+221 
 	`c⁄f_pö
 (
 BTN1_PWM_PIN
@@ -1249,31 +1257,31 @@ PUSH_PULL
 FAST_S
 , 
 NO_PULL_UP
-);
-
-221 
-	`c⁄f_af
-(
-BTN1_PWM_PIN
-, 
-AF2
 );
 
 222 
-	`c⁄f_pö
+	`c⁄f_af
 (
-BTN2_PWM_PIN
+BTN1_PWM_PIN
 , 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
+AF2
 );
 
 223 
+	`c⁄f_pö
+(
+BTN2_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+224 
 	`c⁄f_af
 (
 BTN2_PWM_PIN
@@ -1281,7 +1289,7 @@ BTN2_PWM_PIN
 AF2
 );
 
-224 
+225 
 	`c⁄f_pö
 (
 BTN3_PWM_PIN
@@ -1293,17 +1301,17 @@ PUSH_PULL
 FAST_S
 , 
 NO_PULL_UP
-);
-
-225 
-	`c⁄f_af
-(
-BTN3_PWM_PIN
-, 
-AF2
 );
 
 226 
+	`c⁄f_af
+(
+BTN3_PWM_PIN
+, 
+AF2
+);
+
+227 
 	`c⁄f_pö
 (
 BTN4_PWM_PIN
@@ -1317,7 +1325,7 @@ FAST_S
 NO_PULL_UP
 );
 
-227 
+228 
 	`c⁄f_af
 (
 BTN4_PWM_PIN
@@ -1325,7 +1333,7 @@ BTN4_PWM_PIN
 AF2
 );
 
-228 
+229 
 	`c⁄f_pö
 (
 BTN5_PWM_PIN
@@ -1337,31 +1345,31 @@ PUSH_PULL
 FAST_S
 , 
 NO_PULL_UP
-);
-
-229 
-	`c⁄f_af
-(
-BTN5_PWM_PIN
-, 
-AF3
 );
 
 230 
-	`c⁄f_pö
+	`c⁄f_af
 (
-BTN6_PWM_PIN
+BTN5_PWM_PIN
 , 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
+AF3
 );
 
 231 
+	`c⁄f_pö
+(
+BTN6_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+232 
 	`c⁄f_af
 (
 BTN6_PWM_PIN
@@ -1369,7 +1377,7 @@ BTN6_PWM_PIN
 AF3
 );
 
-232 
+233 
 	`c⁄f_pö
 (
 BTN7_PWM_PIN
@@ -1381,17 +1389,17 @@ PUSH_PULL
 FAST_S
 , 
 NO_PULL_UP
-);
-
-233 
-	`c⁄f_af
-(
-BTN7_PWM_PIN
-, 
-AF3
 );
 
 234 
+	`c⁄f_af
+(
+BTN7_PWM_PIN
+, 
+AF3
+);
+
+235 
 	`c⁄f_pö
 (
 BTN8_PWM_PIN
@@ -1405,7 +1413,7 @@ FAST_S
 NO_PULL_UP
 );
 
-235 
+236 
 	`c⁄f_af
 (
 BTN8_PWM_PIN
@@ -1413,7 +1421,7 @@ BTN8_PWM_PIN
 AF3
 );
 
-236 
+237 
 	`c⁄f_pö
 (
 BTN9_PWM_PIN
@@ -1425,17 +1433,17 @@ PUSH_PULL
 FAST_S
 , 
 NO_PULL_UP
-);
-
-237 
-	`c⁄f_af
-(
-BTN9_PWM_PIN
-, 
-AF9
 );
 
 238 
+	`c⁄f_af
+(
+BTN9_PWM_PIN
+, 
+AF9
+);
+
+239 
 	`c⁄f_pö
 (
 BTN10_PWM_PIN
@@ -1449,7 +1457,7 @@ FAST_S
 NO_PULL_UP
 );
 
-239 
+240 
 	`c⁄f_af
 (
 BTN10_PWM_PIN
@@ -1457,7 +1465,7 @@ BTN10_PWM_PIN
 AF9
 );
 
-242 
+243 
 	`timPWMC⁄figuª
 (
 TIM4
@@ -1465,7 +1473,7 @@ TIM4
 MAX_PWM
 , 1, 1, 1, 1);
 
-243 
+244 
 	`timPWMC⁄figuª
 (
 TIM11
@@ -1473,7 +1481,7 @@ TIM11
 MAX_PWM
 , 1, 0, 0, 0);
 
-244 
+245 
 	`timPWMC⁄figuª
 (
 TIM10
@@ -1481,7 +1489,7 @@ TIM10
 MAX_PWM
 , 1, 0, 0, 0);
 
-245 
+246 
 	`timPWMC⁄figuª
 (
 TIM9
@@ -1489,7 +1497,7 @@ TIM9
 MAX_PWM
 , 1, 1, 0, 0);
 
-246 
+247 
 	`timPWMC⁄figuª
 (
 TIM12
@@ -1497,43 +1505,43 @@ TIM12
 MAX_PWM
 , 1, 1, 0, 0);
 
-250 
+251 
 	`timPIDC⁄figuª
 (
 TIM6
 , 13107/2, 64);
 
-251 
+252 
 	`NVIC_E«bÀIRQ
 (
 TIM6_DAC_IRQn
 );
 
-255 
+256 
 	`timPIDC⁄figuª
 (
 TIM7
 , 10, 255);
 
-256 
+257 
 	`NVIC_E«bÀIRQ
 (
 TIM7_IRQn
 );
 
-261 
+262 
 	`timPIDC⁄figuª
 (
 TIM13
 , 8400, 1000);
 
-262 
+263 
 	`NVIC_E«bÀIRQ
 (
 TIM8_UP_TIM13_IRQn
 );
 
-267 
+268 
 	`c⁄f_pö
 (
 ENCODER1A_PIN
@@ -1545,17 +1553,17 @@ PUSH_PULL
 LOW_S
 , 
 PULL_UP
-);
-
-268 
-	`c⁄f_af
-(
-ENCODER1A_PIN
-, 
-AF3
 );
 
 269 
+	`c⁄f_af
+(
+ENCODER1A_PIN
+, 
+AF3
+);
+
+270 
 	`c⁄f_pö
 (
 ENCODER1B_PIN
@@ -1569,7 +1577,7 @@ LOW_S
 PULL_UP
 );
 
-270 
+271 
 	`c⁄f_af
 (
 ENCODER1B_PIN
@@ -1577,7 +1585,7 @@ ENCODER1B_PIN
 AF3
 );
 
-272 
+273 
 	`c⁄f_pö
 (
 ENCODER2A_PIN
@@ -1589,31 +1597,31 @@ PUSH_PULL
 LOW_S
 , 
 PULL_UP
-);
-
-273 
-	`c⁄f_af
-(
-ENCODER2A_PIN
-, 
-AF1
 );
 
 274 
-	`c⁄f_pö
+	`c⁄f_af
 (
-ENCODER2B_PIN
+ENCODER2A_PIN
 , 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-LOW_S
-, 
-PULL_UP
+AF1
 );
 
 275 
+	`c⁄f_pö
+(
+ENCODER2B_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+LOW_S
+, 
+PULL_UP
+);
+
+276 
 	`c⁄f_af
 (
 ENCODER2B_PIN
@@ -1621,7 +1629,7 @@ ENCODER2B_PIN
 AF1
 );
 
-277 
+278 
 	`c⁄f_pö
 (
 ENCODER3A_PIN
@@ -1633,17 +1641,17 @@ PUSH_PULL
 LOW_S
 , 
 PULL_UP
-);
-
-278 
-	`c⁄f_af
-(
-ENCODER3A_PIN
-, 
-AF2
 );
 
 279 
+	`c⁄f_af
+(
+ENCODER3A_PIN
+, 
+AF2
+);
+
+280 
 	`c⁄f_pö
 (
 ENCODER3B_PIN
@@ -1657,7 +1665,7 @@ LOW_S
 PULL_UP
 );
 
-280 
+281 
 	`c⁄f_af
 (
 ENCODER3B_PIN
@@ -1665,7 +1673,7 @@ ENCODER3B_PIN
 AF2
 );
 
-282 
+283 
 	`c⁄f_pö
 (
 ENCODER4A_PIN
@@ -1677,17 +1685,17 @@ PUSH_PULL
 LOW_S
 , 
 PULL_UP
-);
-
-283 
-	`c⁄f_af
-(
-ENCODER4A_PIN
-, 
-AF1
 );
 
 284 
+	`c⁄f_af
+(
+ENCODER4A_PIN
+, 
+AF1
+);
+
+285 
 	`c⁄f_pö
 (
 ENCODER4B_PIN
@@ -1701,39 +1709,39 @@ LOW_S
 PULL_UP
 );
 
-285 
+286 
 	`c⁄f_af
 (
 ENCODER4B_PIN
 , 
 AF1
-);
-
-287 
-	`timEncodîC⁄figuª
-(
-TIM8
 );
 
 288 
 	`timEncodîC⁄figuª
 (
-TIM1
+TIM8
 );
 
 289 
 	`timEncodîC⁄figuª
 (
-TIM3
+TIM1
 );
 
 290 
 	`timEncodîC⁄figuª
 (
+TIM3
+);
+
+291 
+	`timEncodîC⁄figuª
+(
 TIM2
 );
 
-294 
+295 
 	`c⁄f_pö
 (
 RX3_PIN
@@ -1745,17 +1753,17 @@ PUSH_PULL
 LOW_S
 , 
 PULL_UP
-);
-
-295 
-	`c⁄f_af
-(
-RX3_PIN
-, 
-AF7
 );
 
 296 
+	`c⁄f_af
+(
+RX3_PIN
+, 
+AF7
+);
+
+297 
 	`c⁄f_pö
 (
 TX3_PIN
@@ -1769,7 +1777,7 @@ LOW_S
 PULL_UP
 );
 
-297 
+298 
 	`c⁄f_af
 (
 TX3_PIN
@@ -1777,13 +1785,13 @@ TX3_PIN
 AF7
 );
 
-298 
+299 
 	`u¨tInô
 (
 USART3
 , 1000000);
 
-300 
+301 
 USART3
 ->
 CR3
@@ -1791,7 +1799,7 @@ CR3
 USART_CR3_DMAT
 ;
 
-306 
+307 
 	`c⁄f_pö
 (
 GENERAL_PIN_0
@@ -1805,7 +1813,7 @@ FAST_S
 NO_PULL_UP
 );
 
-307 
+308 
 	`c⁄f_pö
 (
 GENERAL_PIN_1
@@ -1819,7 +1827,7 @@ FAST_S
 NO_PULL_UP
 );
 
-308 
+309 
 	`c⁄f_pö
 (
 GENERAL_PIN_2
@@ -1833,7 +1841,7 @@ FAST_S
 PULL_UP
 );
 
-309 
+310 
 	`c⁄f_pö
 (
 GENERAL_PIN_3
@@ -1847,7 +1855,7 @@ FAST_S
 PULL_UP
 );
 
-310 
+311 
 	`c⁄f_pö
 (
 GENERAL_PIN_4
@@ -1861,7 +1869,7 @@ FAST_S
 PULL_UP
 );
 
-311 
+312 
 	`c⁄f_pö
 (
 GENERAL_PIN_5
@@ -1875,7 +1883,7 @@ FAST_S
 PULL_UP
 );
 
-312 
+313 
 	`c⁄f_pö
 (
 GENERAL_PIN_6
@@ -1889,7 +1897,7 @@ FAST_S
 PULL_UP
 );
 
-313 
+314 
 	`c⁄f_pö
 (
 GENERAL_PIN_7
@@ -1903,7 +1911,7 @@ FAST_S
 PULL_UP
 );
 
-314 
+315 
 	`c⁄f_pö
 (
 GENERAL_PIN_8
@@ -1917,7 +1925,7 @@ FAST_S
 NO_PULL_UP
 );
 
-315 
+316 
 	`c⁄f_pö
 (
 GENERAL_PIN_9
@@ -1931,11 +1939,11 @@ FAST_S
 NO_PULL_UP
 );
 
-316 
+317 
 	`adcC⁄fig
 ();
 
-320 
+321 
 	`c⁄f_pö
 (
 EXTI1_PIN
@@ -1949,7 +1957,7 @@ FAST_S
 NO_PULL_UP
 );
 
-321 
+322 
 	`c⁄f_pö
 (
 EXTI2_PIN
@@ -1963,24 +1971,10 @@ FAST_S
 PULL_UP
 );
 
-322 
-	`c⁄f_pö
-(
-EXTI3_PIN
-, 
-INPUT
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-PULL_UP
-);
-
 323 
 	`c⁄f_pö
 (
-EXTI4_PIN
+EXTI3_PIN
 , 
 INPUT
 , 
@@ -1994,21 +1988,21 @@ PULL_UP
 324 
 	`c⁄f_pö
 (
-EXTI5_PIN
+EXTI4_PIN
 , 
-GENERAL
+INPUT
 , 
 PUSH_PULL
 , 
 FAST_S
 , 
-NO_PULL_UP
+PULL_UP
 );
 
 325 
 	`c⁄f_pö
 (
-EXTI6_PIN
+EXTI5_PIN
 , 
 GENERAL
 , 
@@ -2022,7 +2016,7 @@ NO_PULL_UP
 326 
 	`c⁄f_pö
 (
-EXTI7_PIN
+EXTI6_PIN
 , 
 GENERAL
 , 
@@ -2036,7 +2030,7 @@ NO_PULL_UP
 327 
 	`c⁄f_pö
 (
-EXTI8_PIN
+EXTI7_PIN
 , 
 GENERAL
 , 
@@ -2050,6 +2044,20 @@ NO_PULL_UP
 328 
 	`c⁄f_pö
 (
+EXTI8_PIN
+, 
+GENERAL
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+329 
+	`c⁄f_pö
+(
 EXTI9_PIN
 , 
 INPUT
@@ -2061,7 +2069,7 @@ FAST_S
 PULL_UP
 );
 
-329 
+330 
 	`c⁄f_pö
 (
 EXTI10_PIN
@@ -2075,7 +2083,7 @@ FAST_S
 PULL_UP
 );
 
-331 
+332 
 	`add_ext_öãºu±
 (
 EXTI1_PIN
@@ -2083,7 +2091,7 @@ EXTI1_PIN
 EXTI_BOTH_EDGES
 );
 
-332 
+333 
 	`add_ext_öãºu±
 (
 EXTI2_PIN
@@ -2091,7 +2099,7 @@ EXTI2_PIN
 EXTI_BOTH_EDGES
 );
 
-333 
+334 
 	`add_ext_öãºu±
 (
 EXTI3_PIN
@@ -2099,7 +2107,7 @@ EXTI3_PIN
 EXTI_BOTH_EDGES
 );
 
-334 
+335 
 	`add_ext_öãºu±
 (
 EXTI4_PIN
@@ -2107,7 +2115,7 @@ EXTI4_PIN
 EXTI_BOTH_EDGES
 );
 
-335 
+336 
 	`add_ext_öãºu±
 (
 EXTI5_PIN
@@ -2115,7 +2123,7 @@ EXTI5_PIN
 EXTI_BOTH_EDGES
 );
 
-336 
+337 
 	`add_ext_öãºu±
 (
 EXTI6_PIN
@@ -2123,7 +2131,7 @@ EXTI6_PIN
 EXTI_BOTH_EDGES
 );
 
-337 
+338 
 	`add_ext_öãºu±
 (
 EXTI7_PIN
@@ -2131,7 +2139,7 @@ EXTI7_PIN
 EXTI_BOTH_EDGES
 );
 
-338 
+339 
 	`add_ext_öãºu±
 (
 EXTI8_PIN
@@ -2139,7 +2147,7 @@ EXTI8_PIN
 EXTI_BOTH_EDGES
 );
 
-339 
+340 
 	`add_ext_öãºu±
 (
 EXTI9_PIN
@@ -2147,7 +2155,7 @@ EXTI9_PIN
 EXTI_BOTH_EDGES
 );
 
-340 
+341 
 	`add_ext_öãºu±
 (
 EXTI10_PIN
@@ -2155,13 +2163,13 @@ EXTI10_PIN
 EXTI_BOTH_EDGES
 );
 
-342 
+343 
 NVIC_InôTy≥Def
  
 NVIC_InôSåu˘
 ;
 
-343 
+344 
 NVIC_InôSåu˘
 .
 NVIC_IRQCh™√l
@@ -2169,19 +2177,19 @@ NVIC_IRQCh™√l
 EXTI0_IRQn
 ;
 
-345 
+346 
 NVIC_InôSåu˘
 .
 NVIC_IRQCh™√lPªem±i⁄Pri‹ôy
  = 0x10;
 
-347 
+348 
 NVIC_InôSåu˘
 .
 NVIC_IRQCh™√lSubPri‹ôy
  = 0x00;
 
-349 
+350 
 NVIC_InôSåu˘
 .
 NVIC_IRQCh™√lCmd
@@ -2189,45 +2197,45 @@ NVIC_IRQCh™√lCmd
 ENABLE
 ;
 
-351 
+352 
 	`NVIC_Inô
 (&
 NVIC_InôSåu˘
 );
 
-352 
+353 
 	`SysTick_C⁄fig
 (840);
 
-353 
+354 
 	`__íabÀ_úq
 ();
 
-355 
+356 
 	`£t_pö
 (
 PWM_INHIBIT
 );
 
-356 
+357 
 	`so·Dñay
 (5000000);
 
-357 
+358 
 	`ª£t_pö
 (
 PWM_INHIBIT
 );
 
-359 
+360 
 i
  = 0;
 
-360 
+361 
 i
 ; i < 4; i++)
 
-362 
+363 
 	`£tS≥edMax⁄
 (
 WHEELS
@@ -2235,27 +2243,27 @@ WHEELS
 i
 ], () 0.0);
 
-364 
+365 
 	`goInsideWôhSuckögM™ùuœt‹
 ((
 uöt16_t
 )160);
 
-365 
+366 
 	`£rvo_rŸ©e_90
 ((
 uöt16_t
 )160);
 
-366 
+367 
 	`£tCuºítAngÀAsBegönög
 ();
 
-367 
+368 
 	`li·CylödîRGBM™ùuœt‹
 ();
 
-368 
+369 
 	}
 }
 
@@ -131821,199 +131829,199 @@ boﬁ
 BTN_SUCKING_MANIPULATOR
 -1, -1);
 
-154 
+154 
+°¨tög_time
+ = 
+°›_˙t
+;
+
+155 
+buâ⁄_˙t
+ = 0;
+
+157 
 	`so·Dñay
 (6000000/2);
 
-156 
+159 
 	`£tVﬁège
 (
 BTN_SUCKING_MANIPULATOR
 -1, 0);
 
-158 
+161 
 	`£rvo_rŸ©e_90
 (
 ™gÀ
 );
 
-160 
+163 
 	`£tVﬁège
 (
 BTN_SUCKING_MANIPULATOR
 -1, -1);
 
-162 
-°¨tög_time
- = 
-°›_˙t
-;
-
-163 
-buâ⁄_˙t
- = 0;
-
-164 
+165 
 °›_˙t
  - 
 °¨tög_time
  < 300){
 
-165 if(
+166 if(
 	`pö_vÆ
 (
 UPPER_SWITCH
 )){
 
-166 
+167 
 buâ⁄_˙t
 ++;
 
-168 if(
+169 if(
 buâ⁄_˙t
  > 100){
 
-173 
+174 
 	`£tVﬁège
 (
 BTN_SUCKING_MANIPULATOR
 -1, 0);
 
-174 
+176 
 	}
 }
 
-200 
+202 
 boﬁ
  
 	$goOutsideWôhSuckögM™ùuœt‹
 (){
 
-202 
+204 
 	`£tVﬁège
 (
 BTN_SUCKING_MANIPULATOR
--1, 1);
+-1, 0.8);
 
-204 
+206 
 °¨tög_time
  = 
 °›_˙t
 ;
 
-205 
+207 
 buâ⁄_˙t
  = 0;
 
-206 (
+208 (
 °›_˙t
  - 
 °¨tög_time
 ) < 300){
 
-207 if(
+209 if(
 	`pö_vÆ
 (
 DOWN_SWITCH
 )){
 
-208 
+210 
 buâ⁄_˙t
 ++;
 
-210 if(
+212 if(
 buâ⁄_˙t
  > 100){
 
-215 
+217 
 	`£tVﬁège
 (
 BTN_SUCKING_MANIPULATOR
 -1, 0);
 
-216 
+218 
 	}
 }
 
-251 
+253 
 	$gëCuºítCﬁ‹
 (){
 
-252 
+254 
 z
  = 1000;
 
-253 
+255 
 z
 >0){
 
-254 
+256 
 z
 --;
 
-255 
+257 
 	`ª£t_pö
 (
 EXTI2_PIN
 );
 
-256 
+258 
 j
 ,
 i
  = 15000;
 
-257 ; 
+259 ; 
 i
 > 0; i--);
 
-258 
+260 
 r
  = 
 timeo‰ed
 ;
 
-259 
+261 
 R
  = 10000./(
 r
 );
 
-260 
+262 
 i
  = 15000;
 
-261 ; 
+263 ; 
 i
 > 0; i--);
 
-263 
+265 
 	`£t_pö
 (
 EXTI2_PIN
 );
 
-265 
+267 
 i
  = 15000;
 
-266 ; 
+268 ; 
 i
 > 0; i--);
 
-267 
+269 
 b
  = 
 timeo‰ed
 ;
 
-268 
+270 
 B
  = 10000./(
 b
 );
 
-270 if(
+272 if(
 R
  > 
 B
@@ -132021,7 +132029,7 @@ B
 cﬁ‹
  = 'Y';
 
-271 if(
+273 if(
 B
  > 
 R
@@ -132029,27 +132037,27 @@ R
 cﬁ‹
  = 'B';
 
-272 
+274 
 cﬁ‹
  = 'W';
 
-274 
+276 
 	`so·Dñay
 (500);
 
-275 
+277 
 j
 =0;j<7;j++)
 cﬁ‹_check
 [j] = color_check[j+1];
 
-276 
+278 
 cﬁ‹_check
 [7] = 
 cﬁ‹
 ;
 
-278 
+280 
 j
 =0;j<8;j++)if(
 cﬁ‹_check
@@ -132059,23 +132067,23 @@ i
 cﬁ‹
 ){color='n';;}
 
-280 if(
+282 if(
 cﬁ‹
 !='n') ;
 
-283  
+285  
 cﬁ‹
 ;
 
-284 
+286 
 	}
 }
 
-286 
+288 
 	$gëCuºítEncodîAngÀ
 (){
 
-288 
+290 
 ™gÀ_ícodî
  = 
 adcD©a
@@ -132083,7 +132091,7 @@ adcD©a
 CUBES_CATCHER_ADC
  - 1] *360 / 4096.0;
 
-289 
+291 
 ™gÀ_íc_ªÆ
  = 32*
 	`pow
@@ -132093,7 +132101,7 @@ CUBES_CATCHER_ADC
 	`exp
 (-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
 
-290 
+292 
 ™gÀ_íc_ªÆ
  = 
 	`fûå©ög
@@ -132101,15 +132109,15 @@ CUBES_CATCHER_ADC
 mag√töcodîd©a
 [0],angle_enc_real,10);
 
-292  
+294  
 ™gÀ_íc_ªÆ
 ;
 
-293 
+295 
 	}
 }
 
-295 
+297 
 	$fûå©ög
 (* 
 ¨øy_to_fûå©e
@@ -132119,27 +132127,27 @@ mag√töcodîd©a
 Àn_of_¨øy
 ){
 
-296 
+298 
 i
 ;
 
-297 
+299 
 sum
 =0;
 
-298 
+300 
 i
 =0;i<
 Àn_of_¨øy
 -1;i++){
 
-299 
+301 
 ¨øy_to_fûå©e
 [
 i
 ]=array_to_filtrate[i+1];
 
-301 
+303 
 ¨øy_to_fûå©e
 [
 Àn_of_¨øy
@@ -132147,13 +132155,13 @@ i
 √w_d©a
 ;
 
-302 
+304 
 i
 =0;i<
 Àn_of_¨øy
 ;i++){
 
-303 
+305 
 sum
  +
 ¨øy_to_fûå©e
@@ -132161,59 +132169,59 @@ sum
 i
 ];
 
-305 
+307 
 sum
  = sum/
 Àn_of_¨øy
 ;
 
-306  
+308  
 sum
 ;
 
-307 
+309 
 	}
 }
 
-311 
+313 
 	$£tCuºítAngÀAsBegönög
 (){
 
-312 
+314 
 whﬁe_™gÀ
  = 
 	`gëCuºítEncodîAngÀ
 ();
 
-313 
+315 
 whﬁe_°¨tög_™gÀ
  = 
 	`gëCuºítEncodîAngÀ
 ();
 
-314 
+316 
 	}
 }
 
-316 
+318 
 	$£tPosôi⁄OfCylödîC¨rõr
 (
 desúedAngÀ
 ){
 
-321 
+323 
 ™gÀ_bef‹e_movemít
  = 
 whﬁe_™gÀ
 ;
 
-323 if(
+325 if(
 desúedAngÀ
  < 
 whﬁe_™gÀ
 ){
 
-325 
+327 
 	`Ábs
 (
 desúedAngÀ
@@ -132221,19 +132229,19 @@ desúedAngÀ
 whﬁe_™gÀ
 ) > 30 || (desiredAngle < whole_angle)){
 
-331 
+333 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(720), 0x0000);
 
-332 
+334 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(850 + 1024), 0x0400);
 
-345 if(
+347 if(
 	`Ábs
 (
 ™gÀ_bef‹e_movemít
@@ -132243,37 +132251,37 @@ whﬁe_™gÀ
 desúedAngÀ
  -ángle_before_movement)){
 
-346 
+348 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-347 
+349 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-351 
+353 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  - 20;
 
-356 if(
+358 if(
 desúedAngÀ
  > 
 whﬁe_™gÀ
 ){
 
-358 
+360 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  + 10;
 
-360 
+362 
 	`Ábs
 (
 desúedAngÀ
@@ -132281,19 +132289,19 @@ desúedAngÀ
 whﬁe_™gÀ
 ) > 30 || (desiredAngle > whole_angle)){
 
-366 
+368 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(827 + 1024), 0x0400);
 
-367 
+369 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(860), 0x0000);
 
-380 if–
+382 if–
 	`Ábs
 (
 ™gÀ_bef‹e_movemít
@@ -132303,79 +132311,67 @@ whﬁe_™gÀ
 desúedAngÀ
  -ángle_before_movement)){
 
-381 
+383 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-382 
+384 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-387 
+389 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  + 20;
 
-392 
+394 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-393 
+395 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-395 
+397 
 	}
 }
 
-397 
+399 
 	$£tPosôi⁄OfCylödîC¨rõrByTime
 (
 time
 ){
 
-398 
+400 
 rŸ_time
  = 
 time
  * 200;
 
-399 
+401 
 °¨t_cylödî_rŸ
  = 
 åue
 ;
 
-400 
+402 
 °¨tög_time
  = 
 °›_˙t
 ;
 
-401 i‡(
+403 i‡(
 time
  > 0){
-
-402 
-	`£tSîvoMovögS≥ed
-(3, (
-uöt16_t
-)(720*1.2), 0x0000);
-
-403 
-	`£tSîvoMovögS≥ed
-(2, (
-uöt16_t
-)(730*1.17 + 1024), 0x0400);
 
 404 
 	`£tSîvoMovögS≥ed
@@ -132389,17 +132385,17 @@ uöt16_t
 uöt16_t
 )(730*1.17 + 1024), 0x0400);
 
-409 
+406 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
-)(827*1.2 + 1024), 0x0400);
+)(720*1.2), 0x0000);
 
-410 
+407 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
-)(750*1.17), 0x0000);
+)(730*1.17 + 1024), 0x0400);
 
 411 
 	`£tSîvoMovögS≥ed
@@ -132413,17 +132409,29 @@ uöt16_t
 uöt16_t
 )(750*1.17), 0x0000);
 
-439 
+413 
+	`£tSîvoMovögS≥ed
+(3, (
+uöt16_t
+)(827*1.2 + 1024), 0x0400);
+
+414 
+	`£tSîvoMovögS≥ed
+(2, (
+uöt16_t
+)(750*1.17), 0x0000);
+
+441 
 	}
 }
 
-441 
+443 
 	$ö¸ó£ByGivíAngÀ
 (
 givíAngÀ
 ){
 
-442 
+444 
 	`£tPosôi⁄OfCylödîC¨rõr
 (
 whﬁe_™gÀ
@@ -132431,17 +132439,17 @@ whﬁe_™gÀ
 givíAngÀ
 );
 
-443 
+445 
 	}
 }
 
-447 
+449 
 	$de¸ó£ByGivíAngÀ
 (
 givíAngÀ
 ){
 
-448 
+450 
 	`£tPosôi⁄OfCylödîC¨rõr
 (
 whﬁe_™gÀ
@@ -132449,15 +132457,15 @@ whﬁe_™gÀ
 givíAngÀ
 );
 
-449 
+451 
 	}
 }
 
-452 
+454 
 	$£rvo_ñev©e_ö
 ()
 
-454 
+456 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132469,15 +132477,15 @@ uöt16_t
 SERVO_ELEVATE_IN
 );
 
-455 
+457 
 	}
 }
 
-457 
+459 
 	$£rvo_ñev©e_out
 ()
 
-459 
+461 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132489,17 +132497,17 @@ uöt16_t
 SERVO_ELEVATE_OUT
 );
 
-460 
+462 
 	}
 }
 
-462 
+464 
 	$£rvo_rŸ©e_90
 (
 ™gl
 )
 
-464 
+466 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132511,17 +132519,17 @@ uöt16_t
 ™gl
 );
 
-465 
+467 
 	}
 }
 
-467 
+469 
 	$£rvo_rŸ©e_180
 (
 ™gl
 )
 
-469 
+471 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132533,57 +132541,57 @@ uöt16_t
 ™gl
 );
 
-470 
+472 
 	}
 }
 
-484 
+486 
 	gCubesC©chîAngÀ
  = 0;
 
-485 
+487 
 	g¥evCubesC©chîAngÀ
  = 0;
 
-486 
+488 
 	gdiff
 ;
 
-487 
+489 
 	g¨CubesC©chîAngÀ
 [10];
 
-489 
+491 
 	$ícodîmag√r
 (
 ¥evícodîmag√r
 ){
 
-491 
+493 
 ¨CubesC©chîAngÀ
 [9] = 
 ™gÀ_íc_ªÆ
 ;
 
-492 
+494 
 i
  = 0;
 
-493 
+495 
 smoŸhed
  = 0;
 
-494 
+496 
 i
 ;i<9;i++) {
 
-495 
+497 
 ¨CubesC©chîAngÀ
 [
 i
 ] =árCubesCatcherAngle[i+1];
 
-496 
+498 
 smoŸhed
 +
 ¨CubesC©chîAngÀ
@@ -132591,91 +132599,91 @@ smoŸhed
 i
 ];
 
-498 
+500 
 smoŸhed
  /= 10;
 
-501 i‡((
+503 i‡((
 ¨CubesC©chîAngÀ
 [0] -árCubesCatcherAngle[9]) > 100) {
 
-502 
+504 
 diff
  = 1;
 
-505 i‡((
+507 i‡((
 ¨CubesC©chîAngÀ
 [0]-árCubesCatcherAngle[9]) < -100) {
 
-506 
+508 
 diff
  = -1;
 
-509 
+511 
 diff
  = 0;
 
-510 
+512 
 ¥evCubesC©chîAngÀ
  = 
 smoŸhed
 ;
 
-511 i‡((
+513 i‡((
 diff
  !0Ë&& (
 ¥evícodîmag√r
  !=0)){
 
-512 
+514 
 diff
  =2;}
 
-513  
+515  
 diff
 ;
 
-514 
+516 
 	}
 }
 
-516 
+518 
 	gdiff
 ;
 
-517 
+519 
 	g¨CubesC©chîAngÀ
 [10];
 
-521 
+523 
 boﬁ
  
 	$swôchOnP√umo
 ()
 
-524 
+526 
 	`£t_pö
 (
 PIN2_12V
 );
 
-530 
+532 
 	}
 }
 
-532 
+534 
 boﬁ
  
 	$swôchOffP√umo
 ()
 
-535 
+537 
 	`ª£t_pö
 (
 PIN2_12V
 );
 
-541 
+543 
 	}
 }
 
@@ -252145,15 +252153,15 @@ ID_brﬂdˇ°
 time
  = 0;
 
-113 
-	`goInsideWôhSuckögM™ùuœt‹
-(160),
-
-114 
+118 
 	`goOutsideWôhSuckögM™ùuœt‹
 ();
 
-133 
+119 
+	`goInsideButDif„ª¡RŸ©e
+(160);
+
+141 
 	}
 }
 

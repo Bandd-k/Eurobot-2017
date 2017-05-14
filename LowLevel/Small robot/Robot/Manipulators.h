@@ -103,12 +103,13 @@ void setPositionOfCylinderCarrier(float);
 
 #define UPPER_SWITCH  EXTI4_PIN
 #define DOWN_SWITCH EXTI3_PIN
+
 #define INPUT2_CONTROL EXTI5_PIN
 #define INPUT1_CONTROL EXTI6_PIN
 #define INPUT4_CONTROL EXTI7_PIN
 #define INPUT3_CONTROL EXTI8_PIN
 
-#define BTN_SUCKING_MANIPULATOR 5
+#define BTN_SUCKING_MANIPULATOR 6
 
 bool goInsideWithSuckingManipulator(int angle1);
 bool goOutsideWithSuckingManipulator();

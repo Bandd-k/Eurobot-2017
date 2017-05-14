@@ -51,6 +51,7 @@ char setVoltage(char ch, float duty) // установить напряжени�
     {
           *PWM_CCR[ch] = (int32_t)(MAX_PWM +  (duty * MAX_PWM));
           set_pin(PWM_DIR[ch]);
+          set_pin(PWM_DIR[ch]);
     }
   else
     {

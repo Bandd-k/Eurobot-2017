@@ -852,16 +852,17 @@ break;
     break;
 
 
-     case 0x76: // Distance from IR sensors , 0 - nothing, bigger than 0 - something is there
+     case 0x76: // Distance from IR sensors , 0 - something is there, bigger than 0 - nothing
   {
-    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
-    distance_digital2[1] = pin_val(IR_LEFT_BACK);
-    distance_digital2[2] = pin_val(IR_FRONT);
-    distance_digital2[3] = pin_val(IR_BACK);
-    distance_digital2[4] = pin_val(IR_RIGHT_FRONT);
-    distance_digital2[5] = pin_val(IR_RIGHT_BACK);
-    distance_digital2[6] = pin_val(IR_FRONT2); //6
-    distance_digital2[7] = pin_val(IR_BACK2);
+    distance_digital2[0] = pin_val(D62_FRONT);//upper front
+    distance_digital2[1] = pin_val(D62_RIGHT);
+    distance_digital2[2] = pin_val(D62_BACK);
+    distance_digital2[3] = pin_val(D62_LEFT);
+    distance_digital2[4] = pin_val(ARD_FRONT); //lower front
+    distance_digital2[5] = pin_val(ARD_RIGHT);
+    distance_digital2[6] = pin_val(ARD_BACK); //6
+    distance_digital2[7] = pin_val(ARD_LEFT);
+
 
 
     sendAnswer(cmd->command, (char* )distance_digital2, 8);

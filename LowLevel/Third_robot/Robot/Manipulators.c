@@ -472,6 +472,30 @@ void DownFaceCylinder()
     setPWM((char)SRV_FACE_BTN,(float)UP_FACE_CYL);
 }
 
+
+
+void PropollersToForward(void)
+{
+    setVoltage((char)LEFTUP,(float)ForwardConstant);
+    setVoltage((char)RIGHTUP,(float)ForwardConstant);
+    setVoltage((char)DOWNONE,(float)ForwardConstant);
+}
+
+void PropollersToNeitral(void)
+{
+    setVoltage((char)LEFTUP,(float)NEITRAL);
+    setVoltage((char)RIGHTUP,(float)NEITRAL);
+    setVoltage((char)DOWNONE,(float)NEITRAL);
+}
+
+void PropollersToReverse(void)
+{
+    setVoltage((char)LEFTUP,(float)REVERSE);
+    setVoltage((char)RIGHTUP,(float)REVERSE);
+    setVoltage((char)DOWNONE,(float)REVERSE);
+}
+
+
 /*void GoToTripFaceCylinder()
 {
    setPWM((char)SRV_GETTER_FACE_BTN,(float)CLOSE_GETTER_FACE);
