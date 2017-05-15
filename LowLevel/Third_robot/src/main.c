@@ -69,7 +69,6 @@ int main(void)
 //    conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 __enable_irq();
 
-
 while(1){
         //throwRightCollectorIntoBox(76);
 

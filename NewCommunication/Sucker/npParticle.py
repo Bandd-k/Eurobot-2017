@@ -207,14 +207,14 @@ class ParticleFilter:
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
                 ## Moscow Version
-                #self.move_particles(
-                    #[coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                #self.move_particles([coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
                 self.move_particles([coords[0] - self.prev[0], coords[1] - self.prev[1], coords[2] - self.prev[2]])
                 self.prev = [coords[0],coords[1],coords[2]]
                 # add aproximation
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
                 if self.warning:
+                    print "Finding place"
                     temp_num = self.particles_num
                     self.particles_num = 5000
                     x = np.random.uniform(self.last[0]-200,self.last[0]+ 200, self.particles_num)
@@ -267,7 +267,7 @@ def get_landmarks(scan):
 
 
 # lidar shift
-x_shift = 17.5
+x_shift = 0 #17.5
 
 def p_trans(agl, pit):
     x_beac = pit*np.cos(agl)+x_shift # multiply by minus in our robot

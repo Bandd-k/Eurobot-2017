@@ -507,8 +507,8 @@ bool setServoAngle ( const uint8_t servoId,
 
     sendServoCommand (servoId, WRITE, 4, params);
 
-    if (!getAndCheckResponse (servoId))
-        return false;
+//    if (!getAndCheckResponse (servoId))
+//        return false;
 
     return true;
 }
