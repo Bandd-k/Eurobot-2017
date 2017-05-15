@@ -216,6 +216,7 @@ class Robot:
 
     def pre_sensor_data(self):
         data = self.send_command('sensors_data')['data']
+        return data
         data.append(data[2])
         data.append(data[0])
         data.append(data[1])
@@ -1139,6 +1140,11 @@ def test(color = "yellow"):
 def competition(color = "yellow",strategy = 2):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
+    while True:  
+        rb.pre_sensor_data()
+        time.sleep(0.1)
+    return
+    
     while not rb.is_start():
         print color
         continue

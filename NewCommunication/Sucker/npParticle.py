@@ -176,7 +176,7 @@ class ParticleFilter:
         # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*10.0,mu =0,sigma= self.sense_noise)*self.particles_num:
+        if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*15.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning = True
 
@@ -263,11 +263,11 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     #logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4) % (2 * np.pi), distances  # delete +np.pi for our robot ANDREW you NEED return (angles + np.pi / 4 + np.pi) % (2 * np.pi), distances
+    return (angles + np.pi / 4+3*np.pi/2) % (2 * np.pi), distances  # delete +np.pi for our robot ANDREW you NEED return (angles + np.pi / 4 + np.pi) % (2 * np.pi), distances
 
 
 # lidar shift
-x_shift = 0 #17.5
+x_shift = 17.5
 
 def p_trans(agl, pit):
     x_beac = pit*np.cos(agl)+x_shift # multiply by minus in our robot

@@ -91,7 +91,7 @@ CMD_LIST = {
     'setCoordinates2': 0x99,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
-    'sensors_data': 0x3a,  # no parameters, returns integer with first 6 bits sensor data
+    #'sensors_data': 0x3a,  # no parameters, returns integer with first 6 bits sensor data
     'getCurrentCoordinates': 0x13,
     'getCurrentSpeed': 0x14,
     'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
@@ -112,13 +112,13 @@ CMD_LIST = {
     'down_front_seasaw':0x96,
     'open_door':0x97,
     'close_door':0x98,
-    'up_back_seasaw': 0x9b,
-    'down_back_seasaw': 0x9c,
+    'up_back_seasaw': 0x9c,
+    'down_back_seasaw': 0x9b,
     # face
     'funny_action_open': 0x77,
     'funny_action_close': 0x78,
     # sensors
-    'ir_sensors': 0x76,
+    'sensors_data': 0x76,
 
 }
 

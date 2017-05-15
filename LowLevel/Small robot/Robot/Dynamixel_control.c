@@ -246,12 +246,16 @@ bool setID (const uint8_t servoId, uint8_t newID)
 
     sendServoCommand (servoId, WRITE, 4, params);
 
+    setServoAngle(254, 90);
+
     if (newID > 253)
         return false;
 
     const uint8_t params1[3] = {ID, newID & 0xff,(uint8_t)0x00};
 
     sendServoCommand (servoId, WRITE, 3, params1);
+
+    setServoAngle(254, 90);
     if (newID > 253)
         return false;
 
@@ -259,8 +263,10 @@ bool setID (const uint8_t servoId, uint8_t newID)
 
     sendServoCommand (servoId, WRITE, 2, params2);
 
+    setServoAngle(254, 90);
+
 //    if (!getAndCheckResponse (newID))
-//        return false;
+//        return false;*/
 
     return true;
 }
@@ -294,7 +300,10 @@ bool setBaudRate (const uint8_t servoId, uint8_t baudRate)
 
 //    if (!getAndCheckResponse (servoId))
   //      return false;
-
+//    const uint8_t params[4] = {BAUD_RATE, (uint8_t)0x00, baudRate & 0xff, (uint8_t)0x00};
+//
+//    sendServoCommand(servoId, WRITE, 4, params)
+//
     return true;
 }
 
