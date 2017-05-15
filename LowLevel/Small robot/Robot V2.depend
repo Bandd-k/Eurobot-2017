@@ -312,7 +312,7 @@
 	"stdint.h"
 	"robot.h"
 
-1493911345 source:f:\from git\lowlevel\small robot\robot\dynamixel_control.c
+1494779515 source:f:\from git\lowlevel\small robot\robot\dynamixel_control.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx_gpio.h"
 	"stm32f4xx_usart.h"
@@ -543,7 +543,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1494583198 source:f:\from git\lowlevel\small robot\src\main.c
+1494845519 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -567,7 +567,7 @@
 1492248766 source:f:\from git\lowlevel\small robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1494517633 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1494845447 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"

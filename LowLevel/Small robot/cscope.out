@@ -1,4 +1,4 @@
-cscope 15 F:\From Git\LowLevel\Small robot"               0001577291
+cscope 15 F:\From Git\LowLevel\Small robot"               0001577089
 	@F:\From Git\LowLevel\Small robot\Board\ADC.c
 
 5 
@@ -129265,7 +129265,7 @@ uöt8_t
 
 241 i‡(
 √wID
- > 253)
+ > 254)
 
 242  
 Ál£
@@ -129301,7 +129301,7 @@ WRITE
 
 249 i‡(
 √wID
- > 253)
+ > 254)
 
 250  
 Ál£
@@ -129329,7 +129329,7 @@ WRITE
 
 255 i‡(
 √wID
- > 253)
+ > 254)
 
 256  
 Ál£
@@ -131897,131 +131897,89 @@ boﬁ
 	$goOutsideWôhSuckögM™ùuœt‹
 (){
 
-204 
-	`£tVﬁège
-(
-BTN_SUCKING_MANIPULATOR
--1, 0.8);
-
-206 
-°¨tög_time
- = 
-°›_˙t
-;
-
-207 
-buâ⁄_˙t
- = 0;
-
-208 (
-°›_˙t
- - 
-°¨tög_time
-) < 300){
-
-209 if(
-	`pö_vÆ
-(
-DOWN_SWITCH
-)){
-
-210 
-buâ⁄_˙t
-++;
-
-212 if(
-buâ⁄_˙t
- > 100){
-
-217 
-	`£tVﬁège
-(
-BTN_SUCKING_MANIPULATOR
--1, 0);
-
-218 
+221 
 	}
 }
 
-253 
+256 
 	$gëCuºítCﬁ‹
 (){
 
-254 
+257 
 z
  = 1000;
 
-255 
+258 
 z
 >0){
 
-256 
+259 
 z
 --;
 
-257 
+260 
 	`ª£t_pö
 (
 EXTI2_PIN
 );
 
-258 
+261 
 j
 ,
 i
  = 15000;
 
-259 ; 
+262 ; 
 i
 > 0; i--);
 
-260 
+263 
 r
  = 
 timeo‰ed
 ;
 
-261 
+264 
 R
  = 10000./(
 r
 );
 
-262 
+265 
 i
  = 15000;
 
-263 ; 
+266 ; 
 i
 > 0; i--);
 
-265 
+268 
 	`£t_pö
 (
 EXTI2_PIN
 );
 
-267 
+270 
 i
  = 15000;
 
-268 ; 
+271 ; 
 i
 > 0; i--);
 
-269 
+272 
 b
  = 
 timeo‰ed
 ;
 
-270 
+273 
 B
  = 10000./(
 b
 );
 
-272 if(
+275 if(
 R
  > 
 B
@@ -132029,7 +131987,7 @@ B
 cﬁ‹
  = 'Y';
 
-273 if(
+276 if(
 B
  > 
 R
@@ -132037,27 +131995,27 @@ R
 cﬁ‹
  = 'B';
 
-274 
+277 
 cﬁ‹
  = 'W';
 
-276 
+279 
 	`so·Dñay
 (500);
 
-277 
+280 
 j
 =0;j<7;j++)
 cﬁ‹_check
 [j] = color_check[j+1];
 
-278 
+281 
 cﬁ‹_check
 [7] = 
 cﬁ‹
 ;
 
-280 
+283 
 j
 =0;j<8;j++)if(
 cﬁ‹_check
@@ -132067,23 +132025,23 @@ i
 cﬁ‹
 ){color='n';;}
 
-282 if(
+285 if(
 cﬁ‹
 !='n') ;
 
-285  
+288  
 cﬁ‹
 ;
 
-286 
+289 
 	}
 }
 
-288 
+291 
 	$gëCuºítEncodîAngÀ
 (){
 
-290 
+293 
 ™gÀ_ícodî
  = 
 adcD©a
@@ -132091,7 +132049,7 @@ adcD©a
 CUBES_CATCHER_ADC
  - 1] *360 / 4096.0;
 
-291 
+294 
 ™gÀ_íc_ªÆ
  = 32*
 	`pow
@@ -132101,7 +132059,7 @@ CUBES_CATCHER_ADC
 	`exp
 (-pow((angle_encoder-55)/60, 2)) + 25*exp(-pow((angle_encoder-117)/33, 2));
 
-292 
+295 
 ™gÀ_íc_ªÆ
  = 
 	`fûå©ög
@@ -132109,15 +132067,15 @@ CUBES_CATCHER_ADC
 mag√töcodîd©a
 [0],angle_enc_real,10);
 
-294  
+297  
 ™gÀ_íc_ªÆ
 ;
 
-295 
+298 
 	}
 }
 
-297 
+300 
 	$fûå©ög
 (* 
 ¨øy_to_fûå©e
@@ -132127,27 +132085,27 @@ mag√töcodîd©a
 Àn_of_¨øy
 ){
 
-298 
+301 
 i
 ;
 
-299 
+302 
 sum
 =0;
 
-300 
+303 
 i
 =0;i<
 Àn_of_¨øy
 -1;i++){
 
-301 
+304 
 ¨øy_to_fûå©e
 [
 i
 ]=array_to_filtrate[i+1];
 
-303 
+306 
 ¨øy_to_fûå©e
 [
 Àn_of_¨øy
@@ -132155,13 +132113,13 @@ i
 √w_d©a
 ;
 
-304 
+307 
 i
 =0;i<
 Àn_of_¨øy
 ;i++){
 
-305 
+308 
 sum
  +
 ¨øy_to_fûå©e
@@ -132169,59 +132127,59 @@ sum
 i
 ];
 
-307 
+310 
 sum
  = sum/
 Àn_of_¨øy
 ;
 
-308  
+311  
 sum
 ;
 
-309 
+312 
 	}
 }
 
-313 
+316 
 	$£tCuºítAngÀAsBegönög
 (){
 
-314 
+317 
 whﬁe_™gÀ
  = 
 	`gëCuºítEncodîAngÀ
 ();
 
-315 
+318 
 whﬁe_°¨tög_™gÀ
  = 
 	`gëCuºítEncodîAngÀ
 ();
 
-316 
+319 
 	}
 }
 
-318 
+321 
 	$£tPosôi⁄OfCylödîC¨rõr
 (
 desúedAngÀ
 ){
 
-323 
+326 
 ™gÀ_bef‹e_movemít
  = 
 whﬁe_™gÀ
 ;
 
-325 if(
+328 if(
 desúedAngÀ
  < 
 whﬁe_™gÀ
 ){
 
-327 
+330 
 	`Ábs
 (
 desúedAngÀ
@@ -132229,19 +132187,19 @@ desúedAngÀ
 whﬁe_™gÀ
 ) > 30 || (desiredAngle < whole_angle)){
 
-333 
+336 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(720), 0x0000);
 
-334 
+337 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(850 + 1024), 0x0400);
 
-347 if(
+350 if(
 	`Ábs
 (
 ™gÀ_bef‹e_movemít
@@ -132251,37 +132209,37 @@ whﬁe_™gÀ
 desúedAngÀ
  -ángle_before_movement)){
 
-348 
+351 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-349 
+352 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-353 
+356 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  - 20;
 
-358 if(
+361 if(
 desúedAngÀ
  > 
 whﬁe_™gÀ
 ){
 
-360 
+363 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  + 10;
 
-362 
+365 
 	`Ábs
 (
 desúedAngÀ
@@ -132289,19 +132247,19 @@ desúedAngÀ
 whﬁe_™gÀ
 ) > 30 || (desiredAngle > whole_angle)){
 
-368 
+371 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(827 + 1024), 0x0400);
 
-369 
+372 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(860), 0x0000);
 
-382 if–
+385 if–
 	`Ábs
 (
 ™gÀ_bef‹e_movemít
@@ -132311,127 +132269,127 @@ whﬁe_™gÀ
 desúedAngÀ
  -ángle_before_movement)){
 
-383 
+386 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-384 
+387 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-389 
+392 
 whﬁe_™gÀ_¥ev
  = 
 whﬁe_™gÀ
  + 20;
 
-394 
+397 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )0, 0x0000);
 
-395 
+398 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )0, 0x0000);
 
-397 
+400 
 	}
 }
 
-399 
+402 
 	$£tPosôi⁄OfCylödîC¨rõrByTime
 (
 time
 ){
 
-400 
+403 
 rŸ_time
  = 
 time
  * 200;
 
-401 
+404 
 °¨t_cylödî_rŸ
  = 
 åue
 ;
 
-402 
+405 
 °¨tög_time
  = 
 °›_˙t
 ;
 
-403 i‡(
+406 i‡(
 time
  > 0){
 
-404 
+408 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(720*1.2), 0x0000);
 
-405 
+409 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(730*1.17 + 1024), 0x0400);
 
-406 
+410 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(720*1.2), 0x0000);
-
-407 
-	`£tSîvoMovögS≥ed
-(2, (
-uöt16_t
-)(730*1.17 + 1024), 0x0400);
 
 411 
 	`£tSîvoMovögS≥ed
-(3, (
-uöt16_t
-)(827*1.2 + 1024), 0x0400);
-
-412 
-	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
-)(750*1.17), 0x0000);
+)(730*1.17 + 1024), 0x0400);
 
-413 
+415 
 	`£tSîvoMovögS≥ed
 (3, (
 uöt16_t
 )(827*1.2 + 1024), 0x0400);
 
-414 
+416 
 	`£tSîvoMovögS≥ed
 (2, (
 uöt16_t
 )(750*1.17), 0x0000);
 
-441 
+417 
+	`£tSîvoMovögS≥ed
+(3, (
+uöt16_t
+)(827*1.2 + 1024), 0x0400);
+
+418 
+	`£tSîvoMovögS≥ed
+(2, (
+uöt16_t
+)(750*1.17), 0x0000);
+
+445 
 	}
 }
 
-443 
+447 
 	$ö¸ó£ByGivíAngÀ
 (
 givíAngÀ
 ){
 
-444 
+448 
 	`£tPosôi⁄OfCylödîC¨rõr
 (
 whﬁe_™gÀ
@@ -132439,17 +132397,17 @@ whﬁe_™gÀ
 givíAngÀ
 );
 
-445 
+449 
 	}
 }
 
-449 
+453 
 	$de¸ó£ByGivíAngÀ
 (
 givíAngÀ
 ){
 
-450 
+454 
 	`£tPosôi⁄OfCylödîC¨rõr
 (
 whﬁe_™gÀ
@@ -132457,15 +132415,15 @@ whﬁe_™gÀ
 givíAngÀ
 );
 
-451 
+455 
 	}
 }
 
-454 
+458 
 	$£rvo_ñev©e_ö
 ()
 
-456 
+460 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132477,15 +132435,15 @@ uöt16_t
 SERVO_ELEVATE_IN
 );
 
-457 
+461 
 	}
 }
 
-459 
+463 
 	$£rvo_ñev©e_out
 ()
 
-461 
+465 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132497,17 +132455,17 @@ uöt16_t
 SERVO_ELEVATE_OUT
 );
 
-462 
+466 
 	}
 }
 
-464 
+468 
 	$£rvo_rŸ©e_90
 (
 ™gl
 )
 
-466 
+470 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132519,17 +132477,17 @@ uöt16_t
 ™gl
 );
 
-467 
+471 
 	}
 }
 
-469 
+473 
 	$£rvo_rŸ©e_180
 (
 ™gl
 )
 
-471 
+475 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132541,57 +132499,57 @@ uöt16_t
 ™gl
 );
 
-472 
+476 
 	}
 }
 
-486 
+490 
 	gCubesC©chîAngÀ
  = 0;
 
-487 
+491 
 	g¥evCubesC©chîAngÀ
  = 0;
 
-488 
+492 
 	gdiff
 ;
 
-489 
+493 
 	g¨CubesC©chîAngÀ
 [10];
 
-491 
+495 
 	$ícodîmag√r
 (
 ¥evícodîmag√r
 ){
 
-493 
+497 
 ¨CubesC©chîAngÀ
 [9] = 
 ™gÀ_íc_ªÆ
 ;
 
-494 
+498 
 i
  = 0;
 
-495 
+499 
 smoŸhed
  = 0;
 
-496 
+500 
 i
 ;i<9;i++) {
 
-497 
+501 
 ¨CubesC©chîAngÀ
 [
 i
 ] =árCubesCatcherAngle[i+1];
 
-498 
+502 
 smoŸhed
 +
 ¨CubesC©chîAngÀ
@@ -132599,91 +132557,91 @@ smoŸhed
 i
 ];
 
-500 
+504 
 smoŸhed
  /= 10;
 
-503 i‡((
+507 i‡((
 ¨CubesC©chîAngÀ
 [0] -árCubesCatcherAngle[9]) > 100) {
 
-504 
+508 
 diff
  = 1;
 
-507 i‡((
+511 i‡((
 ¨CubesC©chîAngÀ
 [0]-árCubesCatcherAngle[9]) < -100) {
 
-508 
+512 
 diff
  = -1;
 
-511 
+515 
 diff
  = 0;
 
-512 
+516 
 ¥evCubesC©chîAngÀ
  = 
 smoŸhed
 ;
 
-513 i‡((
+517 i‡((
 diff
  !0Ë&& (
 ¥evícodîmag√r
  !=0)){
 
-514 
+518 
 diff
  =2;}
 
-515  
+519  
 diff
 ;
 
-516 
+520 
 	}
 }
 
-518 
+522 
 	gdiff
 ;
 
-519 
+523 
 	g¨CubesC©chîAngÀ
 [10];
 
-523 
+527 
 boﬁ
  
 	$swôchOnP√umo
 ()
 
-526 
+530 
 	`£t_pö
 (
 PIN2_12V
 );
 
-532 
+536 
 	}
 }
 
-534 
+538 
 boﬁ
  
 	$swôchOffP√umo
 ()
 
-537 
+541 
 	`ª£t_pö
 (
 PIN2_12V
 );
 
-543 
+547 
 	}
 }
 
@@ -133069,7 +133027,7 @@ EXTI3_PIN
 
 	)
 
-106 
+107 
 	#INPUT2_CONTROL
  
 EXTI5_PIN
@@ -133077,7 +133035,7 @@ EXTI5_PIN
 
 	)
 
-107 
+108 
 	#INPUT1_CONTROL
  
 EXTI6_PIN
@@ -133085,7 +133043,7 @@ EXTI6_PIN
 
 	)
 
-108 
+109 
 	#INPUT4_CONTROL
  
 EXTI7_PIN
@@ -133093,7 +133051,7 @@ EXTI7_PIN
 
 	)
 
-109 
+110 
 	#INPUT3_CONTROL
  
 EXTI8_PIN
@@ -133101,13 +133059,13 @@ EXTI8_PIN
 
 	)
 
-111 
+112 
 	#BTN_SUCKING_MANIPULATOR
- 5
+ 6
 
 	)
 
-113 
+114 
 boﬁ
  
 goInsideWôhSuckögM™ùuœt‹
@@ -133115,13 +133073,13 @@ goInsideWôhSuckögM™ùuœt‹
 ™gÀ1
 );
 
-114 
+115 
 boﬁ
  
 goOutsideWôhSuckögM™ùuœt‹
 ();
 
-116 
+117 
 boﬁ
  
 goInsideButDif„ª¡RŸ©e
@@ -133129,149 +133087,149 @@ goInsideButDif„ª¡RŸ©e
 ™gÀ1
 );
 
-118 
+119 
 	#RGB_Cylödî
  3
 
 	)
 
-119 
+120 
 	#CLOSE_RGB_Cylödî
  0.045
 
 	)
 
-120 
+121 
 	#OPEN_RGB_Cylödî
  0.09
 
 	)
 
-122 
+123 
 boﬁ
  
 rŸ©eCﬁ‹edCylödî
 ();
 
-123 
+124 
 boﬁ
  
 °›RŸ©eCﬁ‹edCylödî
 ();
 
-125 
+126 
 lowîCylödîRGBM™ùuœt‹
 ();
 
-126 
+127 
 li·CylödîRGBM™ùuœt‹
 ();
 
-129 
+130 
 	#SERVO_ELEVATE
  2
 
-130 
+131 
 	#SERVO_ROTATE
  1
 
 	)
 
-132 
+133 
 	#SERVO_ELEVATE_IN
  0
 
-133 
+134 
 	#SERVO_ELEVATE_OUT
  155
 
 	)
 
-134 
+135 
 	#SERVO_ROTATE_90
  160
 
-135 
+136 
 	#SERVO_ROTATE_180
  245
 
-136 
+137 
 
 	)
 
-138 
+139 
 boﬁ
  
 moveSuckîM™ùuœt‹Up
 ();
 
-139 
+140 
 boﬁ
  
 moveSuckîM™ùuœt‹Down
 ();
 
-142 
+143 
 	#ZERO_ANGLE_FUTABA_S3154
  0.05
 
 	)
 
-143 
+144 
 	#MAX_ANGLE_FUTABA_S3154
  0.1
 
 	)
 
-145 
+146 
 gëCuºítCﬁ‹
 ();
 
-147 
+148 
 	#LIFT_CYLINDER
  145
 
 	)
 
-148 
+149 
 	#STORE_CYLINDER
  145
 
 	)
 
-150 
+151 
 £tCuºítAngÀAsBegönög
 ();
 
-151 
+152 
 gëCuºítEncodîAngÀ
 ();
 
-152 
+153 
 ö¸ó£ByGivíAngÀ
 ();
 
-153 
+154 
 de¸ó£ByGivíAngÀ
 ();
 
-154 
+155 
 dr›AŒCylödîs
 ();
 
-155 
+156 
 £tPosôi⁄OfCylödîC¨rõr
 ();
 
-156 
+157 
 £tPosôi⁄OfCylödîC¨rõrByTime
 ();
 
-157 
+158 
 mag√töcodîd©a
 [10];
 
-159 
+160 
 fûå©ög
 (* 
 ¨øy_to_fûå©e
@@ -133281,7 +133239,7 @@ fûå©ög
 Àn_of_¨øy
 );
 
-161 
+162 
 	#DETECT_CYLINDER
  
 EXTI10_PIN
@@ -133289,25 +133247,25 @@ EXTI10_PIN
 
 	)
 
-162 
+163 
 Dëe˘‹Cylödî
 ();
 
-163 
+164 
 HaveCylödî
 ;
 
-164 
+165 
 boﬁ
  
 °¨t_cylödî_rŸ
 ;
 
-165 
+166 
 °¨tög_time
 ;
 
-166 
+167 
 rŸ_time
 ;
 
@@ -252087,7 +252045,7 @@ ticks
 
 61 
 	gÊag_ko°û
- = 0 ;
+ = 0;
 
 63 
 	$maö
@@ -252153,15 +252111,27 @@ ID_brﬂdˇ°
 time
  = 0;
 
-118 
-	`goOutsideWôhSuckögM™ùuœt‹
-();
+100 
+	`£tDeÁu…
+(4);
 
-119 
-	`goInsideButDif„ª¡RŸ©e
-(160);
+101 
+	`£tSîvoT‹que
+ (4, 1000);
 
-141 
+108 
+	`£tSîvoAngÀ
+(254, 90);
+
+109 
+	`£tSîvoAngÀ
+(254, 180);
+
+110 
+	`£tSîvoAngÀ
+(254, 270);
+
+152 
 	}
 }
 

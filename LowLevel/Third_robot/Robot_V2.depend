@@ -3048,7 +3048,7 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1494170260 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\kinematics.c
+1494833585 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\kinematics.c
 
 1494699584 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\manipulators.c
 	"Manipulators.h"
@@ -3060,7 +3060,7 @@
 1494061852 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\path.c
 	"Path.h"
 
-1494256372 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\regulator.c
+1494833539 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -3262,7 +3262,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1494707213 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\src\main.c
+1494708736 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -3296,7 +3296,7 @@
 	"Manipulators.h"
 	"Interrupts.h"
 
-1494698501 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\robot.c
+1494708840 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\third_robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"

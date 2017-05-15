@@ -19,6 +19,7 @@
 
 #define MBPS 0x01
 
+uint16_t testAngleVal2 = 0;
 void delay(int n){
     while(n>0)n--;
 }
@@ -87,7 +88,7 @@ long frequency = 9600;
     int i;
     for(i=0; i<n; i++);
 }*/
-
+uint16_t testAngleVal1 = 150;
 int main(void)
 {
     SystemInit();
@@ -100,8 +101,13 @@ int main(void)
 
 
     uint8_t ID_test = 0x02;
-    uint16_t testAngleVal1 = 150;
+<<<<<<< HEAD
+
     uint16_t testAngleVal2 = 300;
+=======
+    uint16_t testAngleVal1 = 150;
+
+>>>>>>> f173980c4fe54215001a78e943da3fa85301dee0
     uint16_t i = 0;
     //setServoMovingSpeed(254, 200, 0);
 
@@ -111,25 +117,116 @@ int main(void)
   {
 // Uploading standart paramiters
 
-       // setDefault(0xFE);
+  //      setDefault(254);
 //        int i = 0;
-//            for(;i < 70000000; i++){ // Delay to set servo parameters to default
+//            for(;i < 7000000; i++){ // Delay to set servo parameters to default
 //                asm("nop");
 //            }
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
 //          USART_Config(frequency);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
 //          setBaudRate (ID_broadcast, (uint8_t) 0x03);
-//          setServoAngle(2,100);
-//          setServoAngle(2,200);
+//          setServoAngle(ID_broadcast,100);
+//          setServoAngle(ID_broadcast,200);
 //          setServoCWAngleLimit (ID_broadcast, (uint16_t) 0);
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
+//      setDefault(254);
+      USART_Config(1000000);
+//        setServoAngle(1,100);
+//        setServoAngle(1,200);
+//
+//        setServoAngle(2,100);
+//        setServoAngle(2,200);
+//
+//        setServoAngle(3,100);
+//        setServoAngle(3,200);
+//        setServoToJointMode((uint8_t)4);
+        setServoAngle((uint8_t)4, testAngleVal1);
+//        setServoAngle(4,200);
+
+//        setServoAngle(254,100);
+//        setServoAngle(254,200);
+//
+//        USART_Config(57600);
+//
+//        setServoAngle(1,100);
+//        setServoAngle(1,200);
+//
+//        setServoAngle(2,100);
+//        setServoAngle(2,200);
+//
+//        setServoAngle(3,100);
+//        setServoAngle(3,200);
+//
+//        setServoAngle(4,100);
+//        setServoAngle(4,200);
+//
+//        setServoAngle(254,100);
+//        setServoAngle(254,200);
+//
+//
+//        USART_Config(115200);
+//
+//        setServoAngle(1,100);
+//        setServoAngle(1,200);
+//
+//        setServoAngle(2,100);
+//        setServoAngle(2,200);
+//
+//        setServoAngle(3,100);
+//        setServoAngle(3,200);
+//
+//        setServoAngle(4,100);
+//        setServoAngle(4,200);
+//
+//        setServoAngle(254,100);
+//        setServoAngle(254,200);
+//
+//
+//        USART_Config(1000000);
+//
+//        setServoAngle(1,100);
+//        setServoAngle(1,200);
+//
+//        setServoAngle(2,100);
+//        setServoAngle(2,200);
+//
+//        setServoAngle(3,100);
+//        setServoAngle(3,200);
+//
+//        setServoAngle(4,100);
+//        setServoAngle(4,200);
+//
+//        setServoAngle(254,100);
+//        setServoAngle(254,200);
+//
+//        setID(254, 4);
+//
+//        setServoAngle(2,100);
+//        setServoAngle(2,200);
+//
+//        setServoAngle(4,100);
+//        setServoAngle(4,200);
+//
+
+
+
+      USART_Config(1000000);
+      setServoAngle(4,testAngleVal2);
+//      setServoAngle(4,010);
+//      setServoAngle(4,050);
+//      setServoAngle(4,);
+//      USART_Config(9600);
+//      setServoAngle(ID_broadcast,100);
+//      setServoAngle(ID_broadcast,000);
+      //setServoMovingSpeed(ID_broadcast,500);
+
 
 //for (; frequency <= 1001000; frequency *= 1.01)
 //      {
