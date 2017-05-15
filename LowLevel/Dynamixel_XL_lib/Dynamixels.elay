@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <EmBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="SPL\inc\stm32f4xx_usart.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="9989" topLine="240" />
@@ -8,12 +8,12 @@
 	</File>
 	<File name="SPL\src\stm32f4xx_usart.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="48411" topLine="1276" />
+			<Cursor1 position="48550" topLine="1259" />
 		</Cursor>
 	</File>
-	<File name="src\Dynamixel_control.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Dynamixel_control.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7501" topLine="250" />
+			<Cursor1 position="18574" topLine="626" />
 		</Cursor>
 	</File>
 	<File name="src\Dynamixel_control.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -21,9 +21,9 @@
 			<Cursor1 position="1073" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\main.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\main.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3627" topLine="88" />
+			<Cursor1 position="3846" topLine="112" />
 		</Cursor>
 	</File>
 </EmBlocks_layout_file>
