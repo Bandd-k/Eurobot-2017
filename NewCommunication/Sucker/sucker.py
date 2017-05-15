@@ -39,11 +39,11 @@ class Robot:
         self.sensor_range = 35
         self.collision_d = 9
         self.coll_ind = -1
-        self.collision_avoidance = False
+        self.collision_avoidance = True
         self.localisation = Value('b', True)
         if small:
-            self.sensors_places = [0,0,0,np.pi,np.pi/2,3*np.pi/2,0,0,0]
-            self.sensors_map = {0:(0, np.pi/3),7:(7*np.pi/4, 2*np.pi),3: (np.pi*0.7, np.pi*1.3),1: (5/3.*np.pi,2*np.pi),2:(0,np.pi*1/4.),6:(7/4.*np.pi,2*np.pi),8:(0,np.pi/4),4:(np.pi/4,3*np.pi/4),5:(np.pi*5/4,7*np.pi/4)}
+            self.sensors_places = [np.pi/2,0,3*np.pi/2,np.pi,3*np.pi/2,0,np.pi,np.pi/2,0,0]
+            self.sensors_map = {1:(0,np.pi/4),5:(0,np.pi/4),7:(np.pi/4,3*np.pi/4),0:(np.pi/4,3*np.pi/4),6:(3*np.pi/4,5*np.pi/4),3:(3*np.pi/4,5*np.pi/4),2:(5*np.pi/4,7*np.pi/4),4:(5*np.pi/4,7*np.pi/4),8:(7*np.pi/4,2*np.pi),9:(7*np.pi/4,2*np.pi)}
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
         if lidar_on:
@@ -61,15 +61,15 @@ class Robot:
         # self.angle = 0.0  # pi
         if small:
             #850 170 3p/2
-            # 
-            self.coords = Array('d',rev_field([920, 200,3*np.pi/2],self.color))
+            # 900 200
+            self.coords = Array('d',rev_field([900, 200,np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue() # 2000,25,25,0.1
-        self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=25, angle_noise=0.1, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
+        self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=30, angle_noise=0.15, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
 
         # driver process
         print "Paricle filter On"
@@ -205,9 +205,8 @@ class Robot:
 
     def pre_sensor_data(self):
         data = self.send_command('sensors_data')['data']
-        data.append(data[2])
-        data.append(data[0])
         data.append(data[1])
+        data.append(data[5])
         return np.array(data)
 
     def sensor_data(self):
@@ -302,18 +301,84 @@ class Robot:
     ############################################################################
 
     def first(self,speed = 4):
-        angle = 3*np.pi/2
-        parameters = [920,1000 , angle, speed]
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(89)
+        angle = np.pi/2
+        self.on_mixer()
+        self.suck()
+        parameters = [880,500 ,angle, 4]
         self.go_to_coord_rotation(parameters)
+        parameters = [900,900 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        self.stop()
+        angle = np.pi/4
+        parameters = [500,1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.suck()
+        time.sleep(2)
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 0.0
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/2
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [920,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        time.sleep(1)
+        #parameters = [600,1600, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.stop()
+        angle = 0.0
+        parameters = [650,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [650,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        
         return
     def first_back(self,speed = 4):
-        angle = 3*np.pi/2
-        parameters = [920, 200, angle, speed]
-        self.go_last(parameters)
+        # 500 1500 np.pi/2
+        angle = 0.0
+        parameters = [920, 900, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [920, 250, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [850, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.down_back_seasaw()
+        parameters = [400, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.up_back_seasaw()
+        parameters = [200,200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [200,200 , angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.throw()
+        time.sleep(3)
+        self.stop()
+        time.sleep(1)
+        self.suck()
+        time.sleep(1)
+        self.stop()
+        time.sleep(0.2)
+        self.throw()
+        time.sleep(3)
+        self.stop()
+        self.off_mixer()
+        time.sleep(40) # Check
         return
 
     def cube(self,speed = 4):
-        angle = 3*np.pi/2
+        angle = 0.0
+        #parameters = [920, 200, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        parameters = [920,600 , angle, speed]
+        self.go_to_coord_rotation(parameters)
+        return
         while True:
             parameters = [1200, 500, angle, speed]
             self.go_to_coord_rotation(parameters)
@@ -348,48 +413,38 @@ class Robot:
         self.off_coolers()
         return
 
-    def test44(self):
-        self.suck()
-        time.sleep(2)
-        self.stop()
-        time.sleep(1)
-        self.suck()
-        time.sleep(1)
-        #self.stop()
-        self.throw()
-        return
-        time.sleep(2)
-        self.stop()
-        time.sleep(2)
-        self.throw()
-        time.sleep(2)
-        self.stop()
 
     def throw(self):
         self.cur_state = 2
         self.close_door()
+        self.on_coolers_throw()
+        time.sleep(0.2)
         self.off_coolers()
         time.sleep(0.2)
         self.on_coolers_throw()
-        self.off_coolers()
-        self.on_coolers_throw()
-        self.off_coolers()
 
     def suck(self):
-        self.open_door()
-        time.sleep(0.1)
         self.off_coolers()
+        time.sleep(0.1)
         self.on_coolers_suck()
+        # self.open_door()
+
 
     def stop(self):
         self.close_door()
-        if self.cur_state == 1:
-            self.on_coolers_throw()
-            self.off_coolers()
-        else:
-            self.off_coolers()
-            self.on_coolers_throw()
-        self.cur_state = 0
+        time.sleep(0.2)
+        self.off_coolers()
+
+    def funny_action(self, signum, frame):
+        self.open_door()
+        self.stop()
+        self.off_mixer()
+        time.sleep(1)
+        logging.info(self.send_command('stopAllMotors'))
+        logging.info(self.send_command('funny_action_open'))
+        logging.critical('FUNNNY ACTION')
+        exit()
+
         
 
 
@@ -400,24 +455,26 @@ class Robot:
 
 def first_strategy():
     rb.first()
-    print "GOGOGOGOGOGOGOGO"
     rb.first_back()
 def competition(color = "yellow",strategy = 0):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
-    rb.up_front_seasaw()
-    time.sleep(1)
-    rb.down_front_seasaw()
-    time.sleep(1)
-    rb.up_back_seasaw()
-    time.sleep(1)
-    rb.down_back_seasaw()
-    return
-    rb.test44()
+    rb.on_mixer()
+    rb.suck()
+    time.sleep(1.5)
+    rb.stop()
+    time.sleep(0.5)
+    rb.throw()
     return
     #while not rb.is_start():
     #    continue
-
+    #time.sleep(5)
+    #rb.off_mixer()
+    #return
+    first_strategy()
+    return
+    rb.test44()
+    return
     strategies = {0:first_strategy,
                   #1:second_strategy,
                   #2:last_strategy,
