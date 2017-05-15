@@ -116,11 +116,11 @@ typedef struct {
 } robStateStruct;
 
 extern float robotCoordTarget[3];
-extern float robotSpeedTarget[3] ;
+extern float robotSpeedTarget[3];
 extern float motorSpeed[4];
-extern float motorCoord[4] ;
-extern float robotCoord[3] ;
-extern float robotSpeed[3] ;
+extern float motorCoord[4];
+extern float robotCoord[3];
+extern float robotSpeed[3];
 extern robStateStruct curState;
 extern encOutPackStruct outEnc;
 extern float vTargetGlob[3];

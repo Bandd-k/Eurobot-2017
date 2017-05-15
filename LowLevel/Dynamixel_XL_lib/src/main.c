@@ -19,6 +19,7 @@
 
 #define MBPS 0x01
 
+uint16_t testAngleVal2 = 0;
 void delay(int n){
     while(n>0)n--;
 }
@@ -101,7 +102,7 @@ int main(void)
 
     uint8_t ID_test = 0x02;
     uint16_t testAngleVal1 = 150;
-    uint16_t testAngleVal2 = 300;
+
     uint16_t i = 0;
     //setServoMovingSpeed(254, 200, 0);
 
@@ -130,6 +131,19 @@ int main(void)
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
+
+
+
+      USART_Config(1000000);
+      setServoAngle(4,testAngleVal2);
+//      setServoAngle(4,010);
+//      setServoAngle(4,050);
+//      setServoAngle(4,);
+//      USART_Config(9600);
+//      setServoAngle(ID_broadcast,100);
+//      setServoAngle(ID_broadcast,000);
+      //setServoMovingSpeed(ID_broadcast,500);
+
 
 //for (; frequency <= 1001000; frequency *= 1.01)
 //      {
