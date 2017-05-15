@@ -37,7 +37,7 @@
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
-long frequency = 9600;
+long frequency = 9000;
 
 uint32_t ticks; // global "time" for mesuring frequency of rbg signal
 char color, color_check[8]; // for rgb sensor
@@ -95,8 +95,47 @@ uint8_t ID_broadcast = 0xFE;
 long int time = 0;
 //long int tempora = 1000000*3 ;
 //numberofrot = 0;
-    while(1)
+//setID(254, (uint8_t)1);
+
+while(1)
     {
+        goInsideWithSuckingManipulator(100);
+        servo_rotate_180(200);
+        goOutsideWithSuckingManipulator();
+//        int i;
+//        int t = 10000;
+//        setServoMovingSpeed(4, (uint16_t)(860), 0x0000);
+//        while(t>0){t--;}
+//        setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+
+//        for(i=1; i<254; i++){
+//            setServoAngle(i, 90);
+//            setServoAngle(i, 180);
+//            setServoAngle(i, 270);
+//        }
+
+//        setBaudRate (ID_broadcast, (uint8_t)0x01);
+//        uartInit(USART3, 57600);
+
+
+
+//        setID(2,  (uint8_t)4);
+//        setID(2,  (uint8_t)4);
+//        setID(2,  (uint8_t)4);
+//
+//        setServoAngle(2, 90);
+//        setServoAngle(2, 180);
+//
+//        setID(254,  (uint8_t)4);
+//        setID(254,  (uint8_t)4);
+//        setID(254,  (uint8_t)4);
+//
+//        setServoAngle(4, 90);
+//        setServoAngle(4, 180);
+//
+//        setServoAngle(254, 90);
+//        setServoAngle(254, 180);
+
         //servo_rotate_180(angle);
         //servo_rotate_180(angle);
     //setServoMovingSpeed(2, (uint16_t)(730*1.2 + 1024), 0x0400);3
@@ -120,21 +159,45 @@ long int time = 0;
 ////        goInsideWithSuckingManipulator(160);
 //        servo_rotate_180(250);
 //        goOutsideWithSuckingManipulator();
-
-//for (; frequency <= 1001000; frequency *= 1.01)
+//        setBaudRate (ID_broadcast, (uint8_t) 0x00);
+//    uartInit(USART3, 1000000);
+//    setBaudRate (ID_broadcast, (uint8_t)0x03);
+//      setServoAngle(254, 90);
+//      setServoAngle(254, 180);
+//      setServoAngle(254, 270);
+//
+//      setServoAngle(4, 90);
+//      setServoAngle(4, 180);
+//      setServoAngle(4, 270);
+//setBaudRate (ID_broadcast, (uint8_t)0x03);
+//    for (frequency = 9600; frequency <= 1001000; frequency *= 1.01)
 //      {
-//          uartInit(USART3, frequency);                                      //Включаем USART3 115200
+//          //setBaudRate (ID_broadcast, (uint8_t)0x03);
+//          uartInit(USART3, frequency);
+//          setBaudRate (ID_broadcast, (uint8_t)0x03);
+//                                     //Включаем USART3 115200
+////          setBaudRate (ID_broadcast, (uint8_t)0x03);
 //          //setBaudRate (ID_broadcast, (uint8_t)0x02);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID(ID_broadcast,  (uint8_t)2);
-//          setID((uint8_t)254,  (uint8_t)2);
-//          setServoAngle(2,100);
-//          setServoAngle(2,200);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID((uint8_t)254,  (uint8_t)4);
+//
+//          setServoAngle(4, 100);
+//          setServoAngle(4, 200);
 //          setServoCWAngleLimit (ID_broadcast, (uint16_t) 0);
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
+//        uartInit(USART3, 1000000);
+//        setBaudRate (ID_broadcast, (uint8_t)0x03);
+//      setServoAngle(254, 90);
+//      setServoAngle(254, 180);
+//      setServoAngle(254, 270);
+//
+//      setServoAngle(4, 90);
+//      setServoAngle(4, 180);
+//      setServoAngle(4, 270);
 
 
     }
