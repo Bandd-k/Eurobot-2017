@@ -266,8 +266,8 @@ class Robot:
     def off_coolers(self):
         logging.info(self.send_command('off_coolers'))
 
-    def on_mixer(self):
-        logging.info(self.send_command('on_mixer'))
+    def on_mixer(self,direction = 1):
+        logging.info(self.send_command('on_mixer',[direction]))
 
     def off_mixer(self):
         logging.info(self.send_command('off_mixer'))
@@ -329,14 +329,16 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [920,1800, angle, speed]
         self.go_to_coord_rotation(parameters)
+        parameters = [920,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
         time.sleep(1)
         #parameters = [600,1600, angle, speed]
         #self.go_to_coord_rotation(parameters)
         self.stop()
         angle = 0.0
-        parameters = [650,1300, angle, speed]
+        parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [650,1300, angle, speed]
+        parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
         
         return
@@ -345,22 +347,43 @@ class Robot:
         angle = 0.0
         parameters = [920, 900, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [920, 250, angle, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [850, 200, angle, speed]
+        if True:
+            angle = 3*np.pi/2
+            parameters = [1000, 600, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [1500, 550, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [2120, 550, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            self.suck()
+            time.sleep(2)
+            self.stop()
+            parameters = [1500, 550, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            angle = 0.0
+            parameters = [1050, 550, angle, speed]
+            self.go_to_coord_rotation(parameters)
+            parameters = [950, 280, angle, speed]
+            self.go_to_coord_rotation(parameters)
+        else:
+            parameters = [920, 250, angle, speed]
+            self.go_to_coord_rotation(parameters)
+        
+        parameters = [850, 210, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.down_back_seasaw()
-        parameters = [400, 200, angle, speed]
+        parameters = [400, 210, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.up_back_seasaw()
-        parameters = [200,200, angle, speed]
+        parameters = [200,210, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [200,200 , angle, speed]
+        parameters = [215,170 , angle, speed]
         self.go_to_coord_rotation(parameters)
         self.throw()
         time.sleep(3)
         self.stop()
         time.sleep(1)
+        self.on_mixer(0)
         self.suck()
         time.sleep(1)
         self.stop()
@@ -406,6 +429,7 @@ class Robot:
         self.on_coolers_throw()
         self.off_coolers()
         time.sleep(1)
+        self.on_mixer()
         self.on_coolers_throw()
         time.sleep(7)
         self.on_coolers_throw()
@@ -427,22 +451,23 @@ class Robot:
         self.off_coolers()
         time.sleep(0.1)
         self.on_coolers_suck()
-        # self.open_door()
+        self.open_door()
 
 
     def stop(self):
         self.close_door()
-        time.sleep(0.2)
+        time.sleep(0.4)
         self.off_coolers()
 
     def funny_action(self, signum, frame):
-        self.open_door()
+        logging.critical('FUNNNY ACTION')
+        #self.open_door()
         self.stop()
         self.off_mixer()
-        time.sleep(1)
-        logging.info(self.send_command('stopAllMotors'))
-        logging.info(self.send_command('funny_action_open'))
         logging.critical('FUNNNY ACTION')
+        logging.info(self.send_command('stopAllMotors'))
+        logging.critical('FUNNNY ACTION')
+        logging.info(self.send_command('funny_action_open'))
         exit()
 
         
@@ -459,17 +484,9 @@ def first_strategy():
 def competition(color = "yellow",strategy = 0):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
-    rb.on_mixer()
-    rb.suck()
-    time.sleep(1.5)
-    rb.stop()
-    time.sleep(0.5)
-    rb.throw()
-    return
     #while not rb.is_start():
     #    continue
     #time.sleep(5)
-    #rb.off_mixer()
     #return
     first_strategy()
     return
