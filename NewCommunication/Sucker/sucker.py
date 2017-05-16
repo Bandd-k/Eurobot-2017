@@ -7,6 +7,8 @@ import npParticle as pf
 import numpy as np
 import sys
 from multiprocessing import Process, Queue, Value,Array
+from flask import Flask,jsonify
+import requests
 import random
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
@@ -27,6 +29,17 @@ console.setFormatter(formatter)
 # add the handler to the root logger
 logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
+
+# sharing coords
+app = Flask(__name__)
+@app.route('/coords')
+def get_coords():
+    return str(rb.coords[0])+" "+ str(rb.coords[1])+" "+ str(rb.coords[2])
+
+@app.route('/stop')
+def stop():
+    print "stop from phone"
+    rb.funny_action(1,2)
 
 
 class Robot:
@@ -70,7 +83,9 @@ class Robot:
         self.loc_queue = Queue()
         self.fsm_queue = Queue() # 2000,25,25,0.1
         self.PF = pf.ParticleFilter(particles=2000, sense_noise=25, distance_noise=30, angle_noise=0.15, in_x=self.coords[0], in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue,color = self.color)
-
+        
+        # coords sharing procces
+        self.p3 = Process(target=app.run,args = ("0.0.0.0",))
         # driver process
         print "Paricle filter On"
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -99,6 +114,11 @@ class Robot:
         timestamp, scan = self.lidar.get_intens()
         return scan
         # return scan[::-1]  our robot(old)
+
+
+    def second_robot_cords(self):
+        r = requests.get("http://192.168.1.213:5000/coords")
+            return ([float(i) for i in r.content.split()])
 
     def check_lidar(self):
         try:
@@ -484,6 +504,7 @@ def first_strategy():
 def competition(color = "yellow",strategy = 0):
     global rb
     rb = Robot(lidar_on=True, small=True,color=color)
+    rb.p3.start()
     #while not rb.is_start():
     #    continue
     #time.sleep(5)
