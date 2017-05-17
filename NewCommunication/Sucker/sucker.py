@@ -1,3 +1,6 @@
+
+#! /usr/bin/env python
+
 import driver
 import time
 from hokuyolx import HokuyoLX
@@ -16,10 +19,11 @@ logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:
 
 console = logging.StreamHandler()
 
+funny_done = 0
 
 def rev_field(val, color):
     if color == "blue":
-        return [3000-val[0], val[1], (np.pi - val[2] + 2*np.pi)%(2*np.pi)] + val[3:]
+        return [3000-val[0], val[1], (2*np.pi - val[2] + 2*np.pi)%(2*np.pi)] + val[3:] ## was np.pi - ...
     return val
 
 console.setLevel(lvl)
@@ -75,7 +79,7 @@ class Robot:
         if small:
             #850 170 3p/2
             # 900 200
-            self.coords = Array('d',rev_field([900, 200,np.pi/2],self.color))
+            self.coords = Array('d',rev_field([900, 200, np.pi/2],self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
@@ -118,7 +122,7 @@ class Robot:
 
     def second_robot_cords(self):
         r = requests.get("http://192.168.1.213:5000/coords")
-            return ([float(i) for i in r.content.split()])
+        return ([float(i) for i in r.content.split()])
 
     def check_lidar(self):
         try:
@@ -142,7 +146,8 @@ class Robot:
             logging.critical("Collision, go back")
             angle = (self.coords[2] + self.sensors_places[self.coll_ind] +random.choice(direct_random)) %(np.pi*2)
             direction = (np.cos(angle),np.sin(angle))
-            pm = [self.coords[0]+direction[0]*distance,self.coords[1]+direction[1]*distance,self.coords[2],parameters[3]]
+            pm = [self.coords[0]+direction[0]*distance, self.coords[1]+direction[1]*distance, self.coords[2], parameters[3]]
+            logging.critical("New point " + str(pm))
             self.go_to(pm)
             logging.critical("go to correct")
             self.coll_go = True
@@ -326,7 +331,7 @@ class Robot:
         angle = np.pi/2
         self.on_mixer()
         self.suck()
-        parameters = [880,500 ,angle, 4]
+        parameters = [950,550 ,angle, 4]
         self.go_to_coord_rotation(parameters)
         parameters = [900,900 ,angle, 4]
         self.go_to_coord_rotation(parameters)
@@ -356,18 +361,18 @@ class Robot:
         #self.go_to_coord_rotation(parameters)
         self.stop()
         angle = 0.0
-        parameters = [600,1300, angle, speed]
+        parameters = [600,1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
-        
         return
+    
     def first_back(self,speed = 4):
         # 500 1500 np.pi/2
         angle = 0.0
         parameters = [920, 900, angle, speed]
         self.go_to_coord_rotation(parameters)
-        if True:
+        if False:
             angle = 3*np.pi/2
             parameters = [1000, 600, angle, speed]
             self.go_to_coord_rotation(parameters)
@@ -415,6 +420,150 @@ class Robot:
         time.sleep(40) # Check
         return
 
+    def steal_strategy(self,speed = 4):
+        angle = np.pi/2
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(89)
+        self.on_mixer()
+        self.suck()
+        parameters = [880,500 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        
+        if False:
+            angle = 3*np.pi/2
+            parameters = [880,500 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            self.stop()
+            parameters = [1500,500 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            parameters = [2120,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            self.suck()
+            time.sleep(1)
+            self.stop()
+            parameters = [1000,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+
+        angle = np.pi/2
+        parameters = [900,900 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        self.stop()
+        angle = np.pi/4
+        parameters = [500,1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.suck()
+        time.sleep(2)
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 0.0
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi/2
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 3*np.pi/2
+        parameters = [300,1700, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [920,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [920,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        time.sleep(1)
+        #parameters = [600,1600, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.stop()
+        angle = 0.0
+        parameters = [600,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [600,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        return
+
+    def steal_strategy2(self,speed = 4):
+        angle = np.pi/2
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(89)
+        self.on_mixer()
+        self.suck()
+        parameters = [900,550 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        
+        if False:
+            parameters = [900,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            angle = 3*np.pi/2
+            parameters = [1000,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            self.stop()
+            parameters = [1500,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            parameters = [2120,550 ,angle, 4]
+            self.go_to_coord_rotation(parameters)
+            self.suck()
+            time.sleep(2)
+        
+        self.stop()
+        parameters = [1000,550 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        #~ angle = 0.0
+        #~ parameters = [900,900 ,angle, 4]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ self.stop()
+        #~ parameters = [250,1350, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ self.suck()
+        #~ time.sleep(1)
+        #~ parameters = [250,1700, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ angle = 3*np.pi/2
+        #~ parameters = [250,1700, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ parameters = [920,1800, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ parameters = [920,1800, angle, speed]
+        #~ self.go_to_coord_rotation(parameters)
+        #~ time.sleep(1)
+        parameters = [550, 2000-480, angle, 4]
+        self.go_to_coord_rotation(parameters)
+        self.stop()
+        self.suck()
+        time.sleep(1)
+        angle = np.pi/6
+        parameters = [300,2000-630 ,angle, 4]
+        self.go_to_coord_rotation(parameters)
+        #self.stop()
+        #self.suck()
+        #time.sleep(1)
+        parameters = [225,2000-440, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 0.0
+        parameters = [225,2000-300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 2*np.pi - np.pi/6
+        parameters = [190, 2000-310, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = 2*np.pi - np.pi/2 - np.pi/6
+        parameters = [265, 2000-230, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [650,2000-330, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        # suck front crater
+        angle = 2*np.pi - np.pi/2
+        parameters = [900,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900,1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        time.sleep(1)
+        #parameters = [600,1600, angle, speed]
+        #self.go_to_coord_rotation(parameters)
+        self.stop()
+        angle = 0.0
+        parameters = [600,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [600,1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        return
+
     def cube(self,speed = 4):
         angle = 0.0
         #parameters = [920, 200, angle, speed]
@@ -434,30 +583,6 @@ class Robot:
             parameters = [1700, 500, angle, speed]
             self.go_to_coord_rotation(parameters)
 
-    def coolers_test(self):
-        self.on_mixer()
-        self.open_door()
-        self.off_coolers()
-        #time.sleep(10)
-        time.sleep(0.5)
-        self.on_coolers_suck()     
-        time.sleep(2)
-        self.close_door()
-        self.on_coolers_throw()
-        self.off_coolers()
-        time.sleep(0.1)
-        self.on_coolers_throw()
-        self.off_coolers()
-        time.sleep(1)
-        self.on_mixer()
-        self.on_coolers_throw()
-        time.sleep(7)
-        self.on_coolers_throw()
-        time.sleep(10)
-        self.off_coolers()
-        return
-
-
     def throw(self):
         self.cur_state = 2
         self.close_door()
@@ -473,7 +598,6 @@ class Robot:
         self.on_coolers_suck()
         self.open_door()
 
-
     def stop(self):
         self.close_door()
         time.sleep(0.4)
@@ -488,46 +612,80 @@ class Robot:
         logging.info(self.send_command('stopAllMotors'))
         logging.critical('FUNNNY ACTION')
         logging.info(self.send_command('funny_action_open'))
+        funny_done = 1
         exit()
+   
+def third_strategy():
+    rb.steal_strategy2()
+    rb.first_back()
 
-        
-
-
-        
-        
-        
-            
-
+def second_strategy():
+    rb.steal_strategy()
+    rb.first_back()
+    
 def first_strategy():
     rb.first()
     rb.first_back()
-def competition(color = "yellow",strategy = 0):
+    
+rb = None
+tmstmp = None
+def competition(color = "yellow",strategy = 1):
     global rb
+    global tmstmp
     rb = Robot(lidar_on=True, small=True,color=color)
     rb.p3.start()
-    #while not rb.is_start():
-    #    continue
-    #time.sleep(5)
-    #return
-    first_strategy()
-    return
-    rb.test44()
-    return
-    strategies = {0:first_strategy,
-                  #1:second_strategy,
-                  #2:last_strategy,
-                  }
-    strategies[strategy]()
+    if False:
+        rb.first_back()
+        return
+    if False:
+        third_strategy()
+    if False:
+        rb.test44()
+    if False: # funny action in movement and sucking
+        signal.signal(signal.SIGALRM, rb.funny_action)
+        signal.alarm(3)
+        rb.open_door()
+        rb.on_mixer()
+        rb.on_coolers_suck()
+        rb.go_to_coord_rotation([900, 1300, np.pi/2, 4])
+        return
+    if True:
+        strategies = {1:first_strategy,
+                      2:second_strategy,
+                      3:third_strategy,
+                      }
+        tmstmp = time.time()
+        if strategy not in strategies.keys():
+            raise NameError('\n\t\t\Strategy NUMBER invalid!\n \t\t\t1 or 2  or 3\n')
+        strategies[strategy]()
+        if tmstmp is not None:
+            logging.info("Time for strategy passes:  " + str(time.time() - tmstmp))
     return
     
-default_color = "yellow"
+clr = "yellow"
+if len(sys.argv) > 1:
+    if sys.argv[1].lower() != "yellow" and sys.argv[1].lower() != "blue":
+        raise NameError('\n\t\t\tCOLOR side invalid!\n\t\t\tYELLOW or BLUE (or lowercase)\n')
+    clr = sys.argv[1].lower()
+
+str_num = 1
+if len(sys.argv) > 2:
+    str_num = int(sys.argv[2])
+
 try:
-    try:
-        clr = sys.argv[1]
-    except IndexError:
-        print "no argument"
-        clr = default_color
-    competition(clr,0)
+    competition(clr,str_num)
 except KeyboardInterrupt:
+    logging.exception('KeyboardInterrupt!')
+except NameError:
+    logging.exception('Custom NAME ERROR')
+except Exception:
+    logging.exception('High level Error!')
+finally:
+    #while not funny_done:
+    #    continue
+    if tmstmp is not None:
+        logging.info("Time for strategy passes:  " + str(time.time() - tmstmp))
+    logging.info("Finally DONE")
     rb.p.terminate()
     rb.p2.terminate()
+    rb.p3.terminate()
