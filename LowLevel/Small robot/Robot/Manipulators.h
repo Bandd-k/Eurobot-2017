@@ -166,4 +166,25 @@ extern bool start_cylinder_rot;
 extern int starting_time;
 extern float rot_time;
 
+#define MANIP_START 0
+#define MANIP_OUT 1
+#define MANIP_IN 2
+#define MANIP_MOVE_OUT 4
+#define MANIP_MOVE_IN 8
+#define MANIP_GO_OUT 16
+#define MANIP_GO_IN 32
+#define MANIP_DIN_READY 64
+
+typedef struct {
+  int manipState;
+  int angle;
+  int starting_time;
+  int button_cnt;
+} manipStateStruct;
+//extern manipStateStruct mState;
 #endif
+
+
+
+
+
