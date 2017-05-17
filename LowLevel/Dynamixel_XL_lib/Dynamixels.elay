@@ -6,42 +6,19 @@
 			<Cursor1 position="9989" topLine="240" />
 		</Cursor>
 	</File>
-	<File name="SPL\src\stm32f4xx_usart.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="SPL\src\stm32f4xx_usart.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="48411" topLine="1260" />
-=======
-
 			<Cursor1 position="48411" topLine="1272" />
->>>>>>> 51f80d370c87ed0b99803aa4b21a1dc738ecf2e5
 		</Cursor>
 	</File>
-	<File name="src\Dynamixel_control.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Dynamixel_control.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="15905" topLine="550" />
-=======
-			<Cursor1 position="16295" topLine="576" />
-
->>>>>>> 51f80d370c87ed0b99803aa4b21a1dc738ecf2e5
+			<Cursor1 position="16295" topLine="497" />
 		</Cursor>
 	</File>
 	<File name="src\Dynamixel_control.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1073" topLine="0" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="src\main.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7088" topLine="236" />
-=======
-
-	<File name="src\main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4068" topLine="143" />
-
->>>>>>> 51f80d370c87ed0b99803aa4b21a1dc738ecf2e5
 		</Cursor>
 	</File>
 </EmBlocks_layout_file>
