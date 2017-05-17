@@ -626,14 +626,14 @@ case 0x33: //open doors
 }
 break;
 
-case 0x94: //UMBRELLA
-{    if (pin_val(GENERAL_PIN_0))
-        { set_pin (PIN6_12V);}
-        else {reset_pin (PIN6_12V);}
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
+//break;//case 0x94: //UMBRELLA
+//{    if (pin_val(GENERAL_PIN_0))
+//        { set_pin (PIN6_12V);}
+//        else {reset_pin (PIN6_12V);}
+//        char * str ="Ok";
+//    sendAnswer(cmd->command, str, 3);
+//}
+
 
 case 0x35: //halfopen
 {
@@ -777,79 +777,6 @@ break;
 
 */
 
-case  0x64:  //DWN LIGHT BALL COLLECTOR TO GET BALL
-    {
-        float *(temp) = (float*)(cmd -> param);
-        int angle_down = (int) *temp;
-        //int speed = (int) *(temp+1);
-       downRightCollectorToGetBalls(angle_down);//,speed);
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-    }
-    break;
- case 0x65: //UP BALLCOLLECTOR WITH BALLS
-    {
-        float *(temp) = (float*)(cmd -> param);
-        int angle_up = (int) *temp;
-        //int speed = (int) *(temp+1);
-       upRightCollectorWithBalls(angle_up);//, speed);
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-
-    }
-break;
- case 0x66: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
-     {
-        float *(temp) = (float*)(cmd -> param);
-        int angle = (int) *temp;
-        throwRightCollectorIntoBox(angle);
-//        char * str ="Ok";
-//       sendAnswer(cmd->command, str, 3);
-     }
-break;
- case 0x67: //DWN LEFT BALLCOLLECTOR TO GET BALLS
-    {
-        float *(temp) = (float*)(cmd -> param);
-        int angle_down = (int) *temp;
-        //int speed = (int) *(temp+1);
-        downLeftCoolectorToGetBalls(angle_down);//,speed);
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
-break;
- case 0x68: // UP LEFT BALLCOLLECTOR
-    {
-        float *(temp) = (float*)(cmd -> param);
-        int angle_up = (int) *temp;
-        //int speed = (int) *(temp+1);
-        upLeftCollectorWithBalls(angle_up);//,speed);
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
-break;
- case 0x69: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
-    {
-        float *(temp) = (float*)(cmd -> param);
-        int angle = (int) *temp;
-        throwLeftCollectorIntoBox(angle);
-//        char * str ="Ok";
-//        sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x6A:
-    {
-        GetFaceCylinder();
-//        char * str ="Ok";
-//        sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x6B:
-    {
-      GoBackFaceCylinderManipulator();
-//      char * str ="Ok";
-//    sendAnswer(cmd->command, str, 3);
-    }
-    break;
 
 
      case 0x76: // Distance from IR sensors , 0 - something is there, bigger than 0 - nothing
@@ -870,85 +797,6 @@ break;
   break;
 
 
-
-
-    case 0x6C:
-    {
-        DownFaceCylinder();
-//        char * str ="Ok";
-//    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x6D:
-    {
-        GetBackCylinder();
-//         char * str ="Ok";
-//    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x6E:
-    {
-        GoBackBackCylinderManipulator();
-//        char * str ="Ok";
-//    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x6F:
-    {
-      DownBackCylinder();
-//       char * str ="Ok";
-//    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x70: //OPEN CYL CORRECTOR
-    {
-        CloseCylinderCorrector();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x71: // CLOSE CYL CORRECTOR
-    {
-        OpenCyinderCorrector();
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-    }
-    break;
-
-    case 0x72: // OPEN SEESAW CORRECTOR
-    {
-        OpenSeesawCorrector();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
-    break;
-    case 0x73: // CLOSE SEESAW CORRECTOR
-    {
-        CloseSeesawCorrector();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-    }
-    break;
-
-
-case 0x75: // Distance from ultrasonic sensors i
-{
-        float distance[2];
-
-        distance[0] = MAX_DIST_FRONT + (float)adcData[FRONT]*(MIN_DIST_FRONT - MAX_DIST_FRONT)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-//        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-//        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-        distance[1] = MAX_DIST_BACK + 10 + (float)adcData[BACK]*(MIN_DIST_BACK - MAX_DIST_BACK)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-
-        char distancec[2];
-        distancec[0] = (char) distance[0];
-        distancec[1] = (char) distance[1];
-
-        sendAnswer(cmd->command, (char* )distancec, sizeof(distancec));
-
-  }
-   break;
-
   case 0x77: // Funny action - open lid and shoot
   {
 
@@ -968,7 +816,91 @@ case 0x78: // Funny action - close lid
   }
    break;
 
+case 0x90://COOLERS FWD
+    {
+        PropollersToForward();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x91://COOLERS NEUTRAL
+    {
+         PropollersToNeitral();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
 
+    case 0x92://COOLERS REVERSE
+    {
+         PropollersToReverse();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x93: //ROTATE MIXING MANIPULATOR
+    {
+        char * ch = cmd->param;
+        SwitchOnRotating(*ch);
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+  case 0x94: //STOP ROTATING MIXING MANIPULATOR
+    {
+        SwitchOffRotating();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+     case 0x95: // OPEN RIGHT SEESAW CORRECTOR
+    {
+        OpenRihgtSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x96: // CLOSE RIGHT SEESAW CORRECTOR
+    {
+        CloseRightSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+     case 0x9B: // OPEN LEFT SEESAW CORRECTOR
+    {
+        OpenLeftSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+    case 0x9C: // CLOSE LEFT SEESAW CORRECTOR
+    {
+        CloseLeftSeesawCorrector();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+    case 0x97: //OPEN DOOR FOR SUCKING BALLS
+    {
+        OpenDoor();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+    case 0x98: //CLOSE DOOR FOR SUCKING BALLS
+    {
+        CloseDoor();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
   case 0x80: // Start flag command
   {
     sendAnswer(cmd->command, (char* )&startFlag, sizeof(startFlag));

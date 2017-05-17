@@ -69,14 +69,26 @@ int main(void)
 //    conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
 __enable_irq();
 
+
 while(1){
+
+//PropollersToNeitral();
+//PropollersToForward();
+//PropollersToNeitral();
+//PropollersToReverse();
+//PropollersToNeitral();
+//PropollersToReverse();
+        //OpenLeftSeesawCorrector();
+//OpenRihgtSeesawCorrector();
+        //SwitchOnRotating();
+  //      SwitchOffRotating();
         //throwRightCollectorIntoBox(76);
-
-
+//OpenDoor();
+//OpenLauncher();
+//CloseLauncher();
     //PropollersToForward();
     //PropollersToNeitral();
     //PropollersToReverse();
-
 // if (pin_val(EXTI9_PIN))
 //      {
 //        flag_kostil  = 1;

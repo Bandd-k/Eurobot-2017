@@ -12,6 +12,7 @@ char setVoltage(char ch, float duty); // установить напряжени
 char setVoltageMaxon (char ch, int8_t pwm_dir , float duty);
 char setSpeedMaxon(char ch, float targetSpeed);
 char setPWM(char ch, float duty);
+char setVoltageBrushless(char ch, float duty);
 
 extern uint32_t * PWM_CCR[10];  //регистры сравнения каналов ШИМ
 extern uint32_t  PWM_DIR[10];

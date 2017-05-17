@@ -101,6 +101,14 @@ char setPWM(char ch, float duty) // установить заполнение н
     return 0;
 }
 
+char setVoltageBrushless(char ch, float duty)
+{
+    if (ch == 255)
+        return 0;
+    *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
+    return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //__________________________________EXTI______________________________________//
 ////////////////////////////////////////////////////////////////////////////////
@@ -235,8 +243,8 @@ initRegulators();
 
   timPWMConfigure(TIM4, 2*33600, MAX_PWM, 1, 1, 1, 1); // 1000Hz
   timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
-  timPWMConfigure(TIM10, 2*1667, MAX_PWM, 1, 0, 0, 0);
-  timPWMConfigure(TIM9, 2*1667, MAX_PWM, 1, 1, 0, 0);
+  timPWMConfigure(TIM10, 2*1667*0.8, MAX_PWM, 1, 0, 0, 0);
+  timPWMConfigure(TIM9, 2*1667*0.8, MAX_PWM, 1, 1, 0, 0);
   timPWMConfigure(TIM12, 2*1667, MAX_PWM, 1, 1, 0, 0);
 
 //___PID_TIM________________________________________________________________
@@ -365,15 +373,11 @@ for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
-upLeftCollectorWithBalls(80);
-upRightCollectorWithBalls(45);
-polulu_outside_right();
-polulu_outside_left();
-OpenCyinderCorrector();
-upLeftCollectorWithBalls(80);
-upRightCollectorWithBalls(45);
-setServoTorque(DNMXL_SEESAW,950);
-CloseSeesawCorrector();
+CloseRightSeesawCorrector();
+CloseLeftSeesawCorrector();
+CloseDoor();
+SwitchOffRotating();
+CloseLauncher();
 __enable_irq();
 }
 ////////////////////////////////////////////////////////////////////////////////
