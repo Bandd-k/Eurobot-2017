@@ -101,13 +101,10 @@ int main(void)
 
 
     uint8_t ID_test = 0x02;
-<<<<<<< HEAD
+
 
     uint16_t testAngleVal2 = 300;
-=======
-    uint16_t testAngleVal1 = 150;
 
->>>>>>> f173980c4fe54215001a78e943da3fa85301dee0
     uint16_t i = 0;
     //setServoMovingSpeed(254, 200, 0);
 
@@ -124,11 +121,11 @@ int main(void)
 //            }
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
-//          USART_Config(frequency);
-//          setID(ID_broadcast,  (uint8_t)4);
-//          setID(ID_broadcast,  (uint8_t)4);
-//          setID(ID_broadcast,  (uint8_t)4);
-//          setID(ID_broadcast,  (uint8_t)4);
+//          USART_Config(1000000);
+//          setID(ID_broadcast,  (uint8_t)5);
+//          setID(ID_broadcast,  (uint8_t)5);
+//          setID(ID_broadcast,  (uint8_t)5);
+//          setID(ID_broadcast,  (uint8_t)5);
 //          setBaudRate (ID_broadcast, (uint8_t) 0x03);
 //          setServoAngle(ID_broadcast,100);
 //          setServoAngle(ID_broadcast,200);
@@ -137,17 +134,27 @@ int main(void)
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
 //      setDefault(254);
-      USART_Config(1000000);
-//        setServoAngle(1,100);
+     // USART_Config(1000000);
+//        USART_Config(1000000);
+//        setServoToJointMode(5);
+//        setBaudRate(5, (uint8_t) 0x03);
+//        setDefault(5);
+//        setID(254, 5);
+//        setServoToJointMode(5);
+//        setBaudRate(254, (uint8_t) 0x00);
+//        USART_Config(9600);
+//
+//        setServoAngle(254, testAngleVal1);
 //        setServoAngle(1,200);
 //
-//        setServoAngle(2,100);
-//        setServoAngle(2,200);
+//        setServoToWheelMode(4);
+//        setServoMovingSpeed (4, 100, 0x0000);
+//        setServoMovingSpeed (4, 0, 0x0000);
 //
 //        setServoAngle(3,100);
 //        setServoAngle(3,200);
 //        setServoToJointMode((uint8_t)4);
-        setServoAngle((uint8_t)4, testAngleVal1);
+     //   setServoAngle((uint8_t)4, testAngleVal1);
 //        setServoAngle(4,200);
 
 //        setServoAngle(254,100);
@@ -217,8 +224,8 @@ int main(void)
 
 
 
-      USART_Config(1000000);
-      setServoAngle(4,testAngleVal2);
+//      USART_Config(1000000);
+//      setServoAngle(4,testAngleVal2);
 //      setServoAngle(4,010);
 //      setServoAngle(4,050);
 //      setServoAngle(4,);
@@ -251,8 +258,12 @@ int main(void)
 //        USART_Config(1000000);
 //        setDefault(ID_broadcast);
 //        setID(ID_broadcast,  ID_test);
-//        setDefault(ID_broadcast);
-//
+//        setServoToWheelMode(4);
+        setServoMovingSpeed(4, 1023+150, 0x0400);
+        setServoMovingSpeed(4, 1023, 0x0400);
+
+        setServoMovingSpeed(4, 150, 0x000);
+        setServoMovingSpeed(4, 0, 0x0000);
 //        setID(ID_broadcast,  ID_test);
 //        setID(ID_broadcast,  ID_test);
 //        setID(ID_broadcast,  ID_test);

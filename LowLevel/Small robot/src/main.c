@@ -56,10 +56,10 @@ void SysTick_Handler(void)
 }
 
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
-
+int test_angle = 0;
 int stop_cnt = 0;
 int flag_kostil = 0;
-
+int U, D;
 int main(void)
 {
 
@@ -99,9 +99,9 @@ long int time = 0;
 
 while(1)
     {
-        goInsideWithSuckingManipulator(100);
-        servo_rotate_180(200);
-        goOutsideWithSuckingManipulator();
+//        goInsideWithSuckingManipulator(100);
+//        servo_rotate_180(200);
+//        goOutsideWithSuckingManipulator();
 //        int i;
 //        int t = 10000;
 //        setServoMovingSpeed(4, (uint16_t)(860), 0x0000);
@@ -130,8 +130,6 @@ while(1)
 //        setID(254,  (uint8_t)4);
 //        setID(254,  (uint8_t)4);
 //
-//        setServoAngle(4, 90);
-//        setServoAngle(4, 180);
 //
 //        setServoAngle(254, 90);
 //        setServoAngle(254, 180);
@@ -142,8 +140,10 @@ while(1)
 //    servo_rotate_90(146);
 //    servo_rotate_90(246);
 
-/*
-        if (pin_val (EXTI9_PIN)){
+
+
+
+    if (pin_val (EXTI9_PIN)){
             flag_kostil  = 1;
             startFlag = 1;
         }
@@ -151,7 +151,10 @@ while(1)
       {
         stop_cnt = 0;
         startFlag = 0;
-      }*/
+      }
+
+
+//        U = pin_val(DETECT_CYLINDER);
 //        set_pin(BTN5_DIR_PIN);
 //        reset_pin(BTN5_DIR_PIN
 //      goOutsideWithSuckingManipulator();
@@ -191,14 +194,27 @@ while(1)
 //      }
 //        uartInit(USART3, 1000000);
 //        setBaudRate (ID_broadcast, (uint8_t)0x03);
-//      setServoAngle(254, 90);
+//      setServoAngle(1, test_angle);
 //      setServoAngle(254, 180);
 //      setServoAngle(254, 270);
 //
-//      setServoAngle(4, 90);
+//      setServoAngle(4, 0);
+//      setServoAngle(4, 60);
+      //setServoAngle(4, 120);
 //      setServoAngle(4, 180);
-//      setServoAngle(4, 270);
-
+//      setServoAngle(4, 240);
+//      setServoAngle(4, 300);
+//        U = pin_val(UPPER_SWITCH);
+//        D = pin_val(DOWN_SWITCH);
+//        switchOnPneumo();
+//        goOutsideWithSuckingManipulator();
+//        goInsideButDifferentRotate(250);
+//        switchOffPneumo();
+//        setServoAngle(1, 150);
+//        setPositionOfCylinderCarrierByTime(0);
+//        goInsideButDifferentRotate(260);
+//        goOutsideWithSuckingManipulator();
+//        goInsideButDifferentRotate(160);
 
     }
 }

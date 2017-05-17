@@ -95,29 +95,38 @@ bool goInsideWithSuckingManipulator(int angle){
 
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
 //
-//    softDelay(6000000/2);
+    setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+    setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+
+    int starting_time = stop_cnt;
+    int button_cnt = 0;
+
+    softDelay(4800000/2);
 //
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
 //
-//    servo_rotate_180(angle);
+//    setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+    servo_rotate_180(angle);
 //
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
 //
-//    int starting_time = stop_cnt;
-//    int button_cnt = 0;
-//    while(stop_cnt - starting_time < 300){
-//        if(pin_val(UPPER_SWITCH)){
-//            button_cnt++;
-//        }
-//        if(button_cnt > 100){
-//            break;
-//        }
-//    }
+//    setServoMovingSpeed(4, (uint16_t)(1024+650), 0x0400);
+//
+
+    while(stop_cnt - starting_time < 300){
+        if(pin_val(UPPER_SWITCH)){
+            button_cnt++;
+        }
+        if(button_cnt > 100){
+            break;
+        }
+    }
+    setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
 //
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
-    setServoAngle(4,200);
-    servo_rotate_90(angle);
-    setServoAngle(4,0);
+//    setServoAngle(4,200);
+//    servo_rotate_90(angle);
+//    setServoAngle(4,0);
 }
 
 /*bool goInsideButDifferentRotate(int angle){
@@ -154,30 +163,40 @@ bool goInsideButDifferentRotate(int angle){
 
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
 //
-//    int starting_time = stop_cnt;
-//    int button_cnt = 0;
-//
-//    softDelay(6000000/2);
-//
+    setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+    int starting_time = stop_cnt;
+    int button_cnt = 0;
+
+    softDelay(4800000/2);
+
+
+
+//    setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+
+
+
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
-//
-//    servo_rotate_90(angle);
-//
-//    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
-//
-//    while(stop_cnt - starting_time < 300){
-//        if(pin_val(UPPER_SWITCH)){
-//            button_cnt++;
-//        }
-//        if(button_cnt > 100){
-//            break;
-//        }
-//    }
-//
-//    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
-    setServoAngle(4,200);
     servo_rotate_90(angle);
-    setServoAngle(4,0);
+
+
+
+//    setServoMovingSpeed(4, (uint16_t)(650+1024), 0x0400);
+
+
+
+
+//    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
+
+    while(stop_cnt - starting_time < 300){
+        if(pin_val(UPPER_SWITCH)){
+            button_cnt++;
+        }
+        if(button_cnt > 100){
+            break;
+        }
+    }
+    setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+//    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
 
 }
 /*
@@ -207,10 +226,11 @@ bool goOutsideWithSuckingManipulator(){
 
 bool goOutsideWithSuckingManipulator(){
 
-    setServoAngle(4, 300);
+
+    setServoMovingSpeed(4, (uint16_t)(900), 0x0000);//CCW    // ¬√–”«»“‹
 
 
-    /*setVoltage(BTN_SUCKING_MANIPULATOR-1, 1);
+    /*setVoltage(BTN_SUCKING_MANIPULATOR-1, 1);*/
 
     int starting_time = stop_cnt;
     int button_cnt = 0;
@@ -222,8 +242,8 @@ bool goOutsideWithSuckingManipulator(){
             break;
         }
     }
-
-    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);*/
+    setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+    /*setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);*/
 }
 /*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
