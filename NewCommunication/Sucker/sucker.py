@@ -14,16 +14,20 @@ from flask import Flask,jsonify
 import requests
 import random
 lvl = logging.INFO
-logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
+fl_log = 'Eurobot.log'
+if sys.argv[-1][:2] == "lo":
+    fl_log = sys.argv[-1]
+logging.basicConfig(filename=fl_log, filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
 
 console = logging.StreamHandler()
 
 funny_done = 0
+funny_delay = 5
 
 def rev_field(val, color):
     if color == "blue":
-        return [3000-val[0], val[1], (2*np.pi - val[2] + 2*np.pi)%(2*np.pi)] + val[3:] ## was np.pi - ...
+        return [3000-val[0], val[1], (2*np.pi - val[2])%(2*np.pi)] + val[3:] ## was np.pi - ...
     return val
 
 console.setLevel(lvl)
@@ -47,14 +51,14 @@ def stop():
 
 
 class Robot:
-    def __init__(self, lidar_on=True, small=True, color = 'yellow'):
+    def __init__(self, lidar_on=True, small=True, init_coord =[900, 200, np.pi/2], color = 'yellow'):
         # Cylinder Staff
         self.coll_go = False
         ##################
         self.color = color
         self.cur_state = 0 # 0-neutral,1-suck,2-throw
         self.sensor_range = 35
-        self.collision_d = 9
+        self.collision_d = 16
         self.coll_ind = -1
         self.collision_avoidance = True
         self.localisation = Value('b', True)
@@ -78,8 +82,9 @@ class Robot:
         # self.angle = 0.0  # pi
         if small:
             #850 170 3p/2
-            # 900 200
-            self.coords = Array('d',rev_field([900, 200, np.pi/2],self.color))
+            # 900 200 np.pi/2
+            # 400, 850, 0.
+            self.coords = Array('d',rev_field(init_coord, self.color))
         else:
             driver.PORT_SNR = '325936843235' # need change
             self.coords = Array('d', rev_field([170, 170, 0], self.color))
@@ -170,7 +175,10 @@ class Robot:
         stamp = time.time()
         pids = True
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
-        while not (self.send_command('is_point_was_reached')['data']):
+        filter_queue = [self.send_command('is_point_was_reached')['data'], 
+                        self.send_command('is_point_was_reached')['data'],
+                        self.send_command('is_point_was_reached')['data']]
+        while not np.prod(filter_queue):
             time.sleep(0.05)
             if self.collision_avoidance:
                 direction = (float(x), float(y))
@@ -197,6 +205,7 @@ class Robot:
                     pm[2] = cur[2]
                     logging.info(self.send_command('go_to_with_corrections',pm))
                     time.sleep(0.10000001)
+            filter_queue = filter_queue[1:] + [self.send_command('is_point_was_reached')['data']]
                 # return False
         if self.localisation.value == 0:
             self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
@@ -326,8 +335,6 @@ class Robot:
     ############################################################################
 
     def first(self,speed = 4):
-        signal.signal(signal.SIGALRM, rb.funny_action)
-        signal.alarm(89)
         angle = np.pi/2
         self.on_mixer()
         self.suck()
@@ -359,12 +366,12 @@ class Robot:
         time.sleep(1)
         #parameters = [600,1600, angle, speed]
         #self.go_to_coord_rotation(parameters)
-        self.stop()
         angle = 0.0
         parameters = [600,1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.stop()
         return
     
     def first_back(self,speed = 4):
@@ -396,10 +403,17 @@ class Robot:
         
         parameters = [850, 210, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.down_back_seasaw()
+        if self.color == "yellow":
+            self.down_back_seasaw()
+        else:
+            self.down_front_seasaw()
+        time.sleep(1)
         parameters = [400, 210, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.up_back_seasaw()
+        if self.color == "yellow":
+            self.up_back_seasaw()
+        else:
+            self.up_front_seasaw()
         parameters = [200,210, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [215,170 , angle, speed]
@@ -407,10 +421,10 @@ class Robot:
         self.throw()
         time.sleep(3)
         self.stop()
-        time.sleep(1)
+        time.sleep(0.2)
         self.on_mixer(0)
         self.suck()
-        time.sleep(1)
+        time.sleep(2)
         self.stop()
         time.sleep(0.2)
         self.throw()
@@ -422,8 +436,6 @@ class Robot:
 
     def steal_strategy(self,speed = 4):
         angle = np.pi/2
-        signal.signal(signal.SIGALRM, rb.funny_action)
-        signal.alarm(89)
         self.on_mixer()
         self.suck()
         parameters = [880,500 ,angle, 4]
@@ -471,18 +483,16 @@ class Robot:
         time.sleep(1)
         #parameters = [600,1600, angle, speed]
         #self.go_to_coord_rotation(parameters)
-        self.stop()
         angle = 0.0
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.stop()
         return
 
     def steal_strategy2(self,speed = 4):
         angle = np.pi/2
-        signal.signal(signal.SIGALRM, rb.funny_action)
-        signal.alarm(89)
         self.on_mixer()
         self.suck()
         parameters = [900,550 ,angle, 4]
@@ -503,7 +513,7 @@ class Robot:
             time.sleep(2)
         
         self.stop()
-        parameters = [1000,550 ,angle, 4]
+        parameters = [1000,550 ,angle, speed]
         self.go_to_coord_rotation(parameters)
         #~ angle = 0.0
         #~ parameters = [900,900 ,angle, 4]
@@ -523,17 +533,18 @@ class Robot:
         #~ parameters = [920,1800, angle, speed]
         #~ self.go_to_coord_rotation(parameters)
         #~ time.sleep(1)
-        parameters = [550, 2000-480, angle, 4]
+        angle = np.pi/6
+        parameters = [550, 2000-480, angle, 1]
         self.go_to_coord_rotation(parameters)
         self.stop()
         self.suck()
-        time.sleep(1)
-        angle = np.pi/6
+        time.sleep(0.2)
         parameters = [300,2000-630 ,angle, 4]
         self.go_to_coord_rotation(parameters)
         #self.stop()
         #self.suck()
         #time.sleep(1)
+        speed = 4
         parameters = [225,2000-440, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = 0.0
@@ -556,12 +567,12 @@ class Robot:
         time.sleep(1)
         #parameters = [600,1600, angle, speed]
         #self.go_to_coord_rotation(parameters)
-        self.stop()
         angle = 0.0
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [600,1300, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.stop()
         return
 
     def cube(self,speed = 4):
@@ -593,47 +604,109 @@ class Robot:
         self.on_coolers_throw()
 
     def suck(self):
+        self.cur_state = 1
         self.off_coolers()
         time.sleep(0.1)
         self.on_coolers_suck()
         self.open_door()
 
     def stop(self):
+        self.cur_state = 0
         self.close_door()
         time.sleep(0.4)
         self.off_coolers()
 
     def funny_action(self, signum, frame):
-        logging.critical('FUNNNY ACTION')
-        #self.open_door()
-        self.stop()
-        self.off_mixer()
-        logging.critical('FUNNNY ACTION')
-        logging.info(self.send_command('stopAllMotors'))
-        logging.critical('FUNNNY ACTION')
-        logging.info(self.send_command('funny_action_open'))
-        funny_done = 1
-        exit()
+        logging.critical('FUNNNY ACTION start')
+        logging.critical('CHECK if not throwing')
+        if self.cur_state == 1:
+            self.stop()
+            time.sleep(0.2)
+        tms = time.time()
+        logging.critical('Adjust position')
+        try:
+            self.collision_avoidance = False ## Not to be stucked in while
+            self.localisation.value = False ## Not to correct
+            x, y, ang = self.coords[:3]
+            throw_x, throw_y = 260, 110
+            ang_dir = np.arctan2(y-throw_y, x - throw_x) # wil be from 0 to pi/2
+            new_ang =  (2*np.pi - (np.pi/2 + np.pi/2 - ang_dir) + np.pi/2) % (2*np.pi) #(... + np.pi/2 because of have hole at right)
+            new_x = x; new_y = y
+            speed = 4 # isn't too slow??
+            ## TODO if collision or bad place to rotate -> go away first: x->new_x, y->new_y
+            pm = [new_x, new_y, new_ang, speed]
+            self.go_to_coord_rotation(pm)
+            logging.critical('Start Throw')
+            if self.cur_state == 0:
+                self.throw()
+                logging.info("Throw")
+            tms_n = time.time()
+            while tms_n - tms < funny_delay:
+                time.sleep(0.1)
+                logging.info("Here in While!")
+                tms_n = time.time()
+            logging.info("Stopping")
+            self.stop()
+            self.off_mixer()
+            logging.critical('Stop Propeller. Stop mixer.')
+            logging.info(self.send_command('stopAllMotors'))
+            logging.critical('Stop All Motors')
+            logging.info(self.send_command('funny_action_open'))
+            funny_done = 1
+            logging.critical('FUNNNY ACTION end')
+        except Exception:
+            logging.critical("We failed to throw. Error in High level code or in Low level!")
+        finally:
+            exit()
    
 def third_strategy():
     rb.steal_strategy2()
     rb.first_back()
+    return
 
 def second_strategy():
     rb.steal_strategy()
     rb.first_back()
+    return
     
 def first_strategy():
     rb.first()
     rb.first_back()
+    return
     
 rb = None
 tmstmp = None
 def competition(color = "yellow",strategy = 1):
     global rb
     global tmstmp
-    rb = Robot(lidar_on=True, small=True,color=color)
+    init_test = None
+    init_coords = {'main': [900, 200, np.pi/2], 'test1': [400, 850, 0.0]}
+    init_coord = init_coords['main']
+    if init_test is not None:
+        init_coord = init_coords['test'+str(init_test)]
+    rb = Robot(lidar_on=True, small=True, init_coord = init_coord, color=color)
     rb.p3.start()
+    if init_test == 1:
+        rb.localisation.value = False
+        logging.info("Start speed test: " + "speed 1")
+        tms = time.time()
+        speed = 1
+        parameters = [1150, 850, 0.0, speed]
+        rb.go_to_coord_rotation(parameters)
+        parameters = [1900, 850, 0.0, speed]
+        rb.go_to_coord_rotation(parameters)
+        parameters = [1150, 850, 0.0, speed]
+        rb.go_to_coord_rotation(parameters)
+        parameters = [400, 850, 0.0, speed]
+        rb.go_to_coord_rotation(parameters)
+        logging.info("4 points forward-f-back-b time: " + str(time.time() - tms))
+        #time.sleep(5)
+        #parameters = [1900, 850, 0.0, speed]
+        #rb.go_to_coord_rotation(parameters)
+        #parameters = [400, 850, 0.0, speed]
+        #rb.go_to_coord_rotation(parameters)
+        #logging.info("2 points forward-back time: " + str(time.time() - tms))
+        return
     if False:
         rb.first_back()
         return
@@ -643,7 +716,7 @@ def competition(color = "yellow",strategy = 1):
         rb.test44()
     if False: # funny action in movement and sucking
         signal.signal(signal.SIGALRM, rb.funny_action)
-        signal.alarm(3)
+        signal.alarm(10)
         rb.open_door()
         rb.on_mixer()
         rb.on_coolers_suck()
@@ -652,14 +725,15 @@ def competition(color = "yellow",strategy = 1):
     if True:
         strategies = {1:first_strategy,
                       2:second_strategy,
-                      3:third_strategy,
-                      }
-        tmstmp = time.time()
+                      3:third_strategy}
         if strategy not in strategies.keys():
             raise NameError('\n\t\t\Strategy NUMBER invalid!\n \t\t\t1 or 2  or 3\n')
-        strategies[strategy]()
-        if tmstmp is not None:
-            logging.info("Time for strategy passes:  " + str(time.time() - tmstmp))
+        if True:
+            signal.signal(signal.SIGALRM, rb.funny_action)
+            signal.alarm(89-funny_delay)
+        tmstmp = time.time()
+        strategies[strategy]();
+        logging.critical("Time passed for strategy:  " + str(time.time() - tmstmp));
     return
     
 clr = "yellow"
