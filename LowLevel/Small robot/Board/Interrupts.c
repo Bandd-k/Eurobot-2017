@@ -36,9 +36,11 @@ float tempor = 0;
 
 void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
+
   if (startFlag) {
     stop_cnt++;
   }
+  manip_core();
   if((stop_cnt - starting_time > fabs(rot_time)) && start_cylinder_rot){
         setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ÂÃÐÓÇÈÒÜ
         setServoMovingSpeed(2, (uint16_t)(0), 0x0000);

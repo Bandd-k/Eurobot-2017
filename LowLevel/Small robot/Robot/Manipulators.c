@@ -12,9 +12,12 @@ float r,b,R,B;
 float whole_angle, values[10], angle_encoder, angle_enc_real, whole_starting_angle, whole_angle_prev, angle_before_movement;
 bool direction = true;
 bool start_cylinder_rot;
-int starting_time;
+
 float rot_time;
 extern int numberofrot;
+
+manipStateStruct mState = {0,0,0,0} ;
+
 
 //values[0] = 0;
 //values[1] = 0;
@@ -27,6 +30,81 @@ extern int numberofrot;
 //values[8] = 0;
 //values[9] = 0;
 
+void manip_core()
+{
+  if (mState.manipState==MANIP_START)
+  {
+    mState.manipState|=MANIP_GO_IN;
+  }
+  //-GO---IN---------------------------------------------------------
+
+  if (mState.manipState&MANIP_GO_IN)
+  {
+    if (!(mState.manipState&MANIP_IN))
+    {
+        mState.manipState&=~(MANIP_GO_IN|MANIP_GO_OUT|MANIP_MOVE_OUT);
+        mState.manipState|=MANIP_MOVE_IN;
+        setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+        setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+
+        mState.starting_time = stop_cnt;
+        mState.button_cnt = 0;
+        mState.manipState&=~MANIP_DIN_READY;
+    } else mState.manipState&=~MANIP_GO_IN;
+  }
+  if (mState.manipState&MANIP_MOVE_IN)
+  {
+
+    if ((stop_cnt - mState.starting_time < 1)&&(!(mState.manipState&MANIP_DIN_READY)))
+    {
+        mState.manipState|=MANIP_DIN_READY;
+        servo_rotate_180(mState.angle);
+        servo_rotate_180(mState.angle);
+    }
+
+
+    if(pin_val(UPPER_SWITCH)){
+            mState.button_cnt++;
+        }
+
+    if ((stop_cnt - mState.starting_time > 300)||(mState.button_cnt > 5))
+    {
+       mState.manipState&=~MANIP_MOVE_IN;
+       mState.manipState|=MANIP_IN;
+       setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+       setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+    }
+  }
+    //---GO--OUT-------------------------------------------------
+
+    if (mState.manipState&MANIP_GO_OUT)
+  {
+    if (!(mState.manipState&MANIP_OUT))
+    {
+        mState.manipState&=~(MANIP_GO_OUT|MANIP_GO_IN|MANIP_MOVE_IN);
+        mState.manipState|=MANIP_MOVE_OUT;
+        setServoMovingSpeed(4, (uint16_t)(900), 0x0000);
+        setServoMovingSpeed(4, (uint16_t)(900), 0x0000);
+
+    mState.starting_time = stop_cnt;
+    mState.button_cnt = 0;
+    } else mState.manipState&=~MANIP_GO_OUT;
+  }
+  if (mState.manipState&MANIP_MOVE_OUT)
+  {
+
+    if(pin_val(DOWN_SWITCH)){
+            mState.button_cnt++;
+        }
+    if ((stop_cnt - mState.starting_time > 300)||(mState.button_cnt > 5))
+    {
+       mState.manipState&=~MANIP_MOVE_OUT;
+       mState.manipState|=MANIP_OUT;
+       setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
+    }
+
+  }
+}
 
 void softDelay(__IO unsigned long int ticks)
 {
@@ -92,7 +170,10 @@ bool goInsideWithSuckingManipulator(int angle){
 }*/
 
 bool goInsideWithSuckingManipulator(int angle){
-
+    mState.angle = angle;
+    mState.manipState|=MANIP_GO_IN;
+}
+/*
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
 //
     setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
@@ -128,7 +209,7 @@ bool goInsideWithSuckingManipulator(int angle){
 //    servo_rotate_90(angle);
 //    setServoAngle(4,0);
 }
-
+*/
 /*bool goInsideButDifferentRotate(int angle){
     set_pin(INPUT1_CONTROL);
     set_pin(INPUT1_CONTROL);
@@ -160,7 +241,10 @@ bool goInsideWithSuckingManipulator(int angle){
     reset_pin(INPUT1_CONTROL);
 }*/
 bool goInsideButDifferentRotate(int angle){
-
+    mState.angle = angle;
+    mState.manipState|=MANIP_GO_IN;
+}
+/*
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, -1);
 //
     setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
@@ -199,6 +283,7 @@ bool goInsideButDifferentRotate(int angle){
 //    setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
 
 }
+*/
 /*
 bool goOutsideWithSuckingManipulator(){
     softDelay(300000);
@@ -226,11 +311,15 @@ bool goOutsideWithSuckingManipulator(){
 
 bool goOutsideWithSuckingManipulator(){
 
+    //mState.angle = angle;
+    mState.manipState|=MANIP_GO_OUT;
 
+}
+/*
     setServoMovingSpeed(4, (uint16_t)(900), 0x0000);//CCW    // ¬√–”«»“‹
 
 
-    /*setVoltage(BTN_SUCKING_MANIPULATOR-1, 1);*/
+    //setVoltage(BTN_SUCKING_MANIPULATOR-1, 1);
 
     int starting_time = stop_cnt;
     int button_cnt = 0;
@@ -243,8 +332,10 @@ bool goOutsideWithSuckingManipulator(){
         }
     }
     setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
-    /*setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);*/
-}
+    //setVoltage(BTN_SUCKING_MANIPULATOR-1, 0);
+}*/
+
+
 /*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
 {
@@ -544,9 +635,6 @@ float encodermagner(float prevencodermagner){
             diff =2;}
         return diff;
 }
-
-float diff;
-float arCubesCatcherAngle[10];
 
 
 
