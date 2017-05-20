@@ -51,7 +51,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 
 
   }
- if (stop_cnt >= 9100){//9100
+ if (stop_cnt >= 9300){//9100
      OpenLauncher();
  }
   TIM6->SR = 0;

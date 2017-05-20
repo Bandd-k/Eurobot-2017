@@ -72,33 +72,31 @@ __enable_irq();
 
 while(1){
 
+//    setVoltageBrushless((char)LEFTUP,(float)NEUTRAL);
+//    setVoltageBrushless((char)DOWNONE,(float)NEUTRAL);
+//    setVoltageBrushless((char)RIGHTUP,(float)NEUTRAL);
+//
+//    setVoltageBrushless((char)LEFTUP,(float)FORWARD);
+//    setVoltageBrushless((char)RIGHTUP,(float)FORWARD);
+//    setVoltageBrushless((char)DOWNONE,(float)FORWARD);
+
 //PropollersToNeitral();
 //PropollersToForward();
 //PropollersToNeitral();
 //PropollersToReverse();
 //PropollersToNeitral();
 //PropollersToReverse();
-        //OpenLeftSeesawCorrector();
-//OpenRihgtSeesawCorrector();
-        //SwitchOnRotating();
-  //      SwitchOffRotating();
-        //throwRightCollectorIntoBox(76);
-//OpenDoor();
-//OpenLauncher();
-//CloseLauncher();
-    //PropollersToForward();
-    //PropollersToNeitral();
-    //PropollersToReverse();
-// if (pin_val(EXTI9_PIN))
-//      {
-//        flag_kostil  = 1;
-//        startFlag = 1;
-//      }
-//     else if (flag_kostil == 0)
-//      {
-//        stop_cnt = 0;
-//        startFlag = 0;
-//      }
+
+ if (pin_val(EXTI9_PIN))
+      {
+        flag_kostil  = 1;
+        startFlag = 1;
+      }
+     else if (flag_kostil == 0)
+      {
+stop_cnt = 0;
+startFlag = 0;
+    }
 //    distance_digital2[0] = pin_val(IR_LEFT_FRONT);
 //    distance_digital2[1] = pin_val(IR_LEFT_BACK);
 //    distance_digital2[2] = pin_val(IR_FRONT);

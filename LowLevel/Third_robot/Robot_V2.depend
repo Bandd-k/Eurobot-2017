@@ -136,7 +136,7 @@
 1494683680 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1494683680 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\robot.h
+1495219552 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\robot.h
 	"Communication.h"
 	"gpio.h"
 	<stdbool.h>
@@ -164,7 +164,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1494783555 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\board\board.c
+1495200905 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -196,13 +196,13 @@
 1494683680 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\board\tim.h
 	"stm32f4xx.h"
 
-1494683680 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\regulator.h
+1495195861 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\regulator.h
 	"stm32f4xx.h"
 	"Path.h"
 
 1494683680 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\path.h
 
-1494856777 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\manipulators.h
+1495211152 c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -212,7 +212,7 @@
 	<stdbool.h>
 	<stdlib.h>
 
-1494683680 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\board\interrupts.c
+1495291752 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\board\interrupts.c
 	"gpio.h"
 	"Regulator.h"
 	"Path.h"
@@ -317,9 +317,9 @@
 	"stm32f4xx_usart.h"
 	"Dynamixel_control.h"
 
-1494846366 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\kinematics.c
+1495196571 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\kinematics.c
 
-1494855698 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\manipulators.c
+1494870791 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -329,7 +329,7 @@
 1494683680 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\path.c
 	"Path.h"
 
-1494848023 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\regulator.c
+1495227036 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -345,7 +345,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1494790119 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\robot.c
+1494877443 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -548,7 +548,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1494849208 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\src\main.c
+1495291814 source:c:\users\пользователь\desktop\044\eurobot-2017-master\lowlevel\third_robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
