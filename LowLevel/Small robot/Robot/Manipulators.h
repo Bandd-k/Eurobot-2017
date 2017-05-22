@@ -105,7 +105,7 @@ void setPositionOfCylinderCarrier(float);
 #define DOWN_SWITCH EXTI3_PIN
 
 #define INPUT2_CONTROL EXTI5_PIN
-#define INPUT1_CONTROL EXTI6_PIN
+#define INPUT1_CONTROL EXTI10_PIN
 #define INPUT4_CONTROL EXTI7_PIN
 #define INPUT3_CONTROL EXTI8_PIN
 
@@ -159,7 +159,7 @@ extern float magnetincoderdata[10];
 
 float filtrating(float* array_to_filtrate, float new_data, int len_of_array);
 
-#define DETECT_CYLINDER EXTI10_PIN
+#define DETECT_CYLINDER EXTI6_PIN
 void DetectorCylinder();
 extern float HaveCylinder;
 extern bool start_cylinder_rot;

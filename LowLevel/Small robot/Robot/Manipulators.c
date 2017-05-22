@@ -16,7 +16,7 @@ bool start_cylinder_rot;
 float rot_time;
 extern int numberofrot;
 
-manipStateStruct mState = {0,0,0,0} ;
+manipStateStruct mState = {0,148,0,0} ;
 
 
 //values[0] = 0;
@@ -32,10 +32,10 @@ manipStateStruct mState = {0,0,0,0} ;
 
 void manip_core()
 {
-  if (mState.manipState==MANIP_START)
-  {
-    mState.manipState|=MANIP_GO_IN;
-  }
+  //if (mState.manipState==MANIP_START)
+  //{
+  //  mState.manipState|=MANIP_GO_IN;
+  //}
   //-GO---IN---------------------------------------------------------
 
   if (mState.manipState&MANIP_GO_IN)
@@ -55,7 +55,7 @@ void manip_core()
   if (mState.manipState&MANIP_MOVE_IN)
   {
 
-    if ((stop_cnt - mState.starting_time < 1)&&(!(mState.manipState&MANIP_DIN_READY)))
+    if ((stop_cnt - mState.starting_time > 0)&&(!(mState.manipState&MANIP_DIN_READY)))
     {
         mState.manipState|=MANIP_DIN_READY;
         servo_rotate_180(mState.angle);
@@ -69,7 +69,7 @@ void manip_core()
 
     if ((stop_cnt - mState.starting_time > 300)||(mState.button_cnt > 5))
     {
-       mState.manipState&=~MANIP_MOVE_IN;
+       mState.manipState&=0;
        mState.manipState|=MANIP_IN;
        setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
        setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
@@ -98,7 +98,7 @@ void manip_core()
         }
     if ((stop_cnt - mState.starting_time > 300)||(mState.button_cnt > 5))
     {
-       mState.manipState&=~MANIP_MOVE_OUT;
+       mState.manipState&=0;
        mState.manipState|=MANIP_OUT;
        setServoMovingSpeed(4, (uint16_t)(0), 0x0000);
     }
@@ -517,22 +517,27 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 }
 
 void setPositionOfCylinderCarrierByTime(float time){
+    // 3 is left, 2 is right; from front
     rot_time = time * 200;
     start_cylinder_rot = true;
+    float coef_left=1.23*1.15;
+    float coef_right=1.15*1.07;
     starting_time = stop_cnt;
     if (time > 0){
         // direction CCW = 0x0000, CW = 0x0400
-        setServoMovingSpeed(3, (uint16_t)(720*1.2), 0x0000);
-        setServoMovingSpeed(2, (uint16_t)(730*1.17 + 1024), 0x0400);
-        setServoMovingSpeed(3, (uint16_t)(720*1.2), 0x0000);
-        setServoMovingSpeed(2, (uint16_t)(730*1.17 + 1024), 0x0400);
+        setServoMovingSpeed(3, (uint16_t)(720*coef_left), 0x0000);
+        setServoMovingSpeed(2, (uint16_t)(720*coef_right + 1024), 0x0400);
+        setServoMovingSpeed(3, (uint16_t)(720*coef_left), 0x0000);
+        setServoMovingSpeed(2, (uint16_t)(720*coef_right + 1024), 0x0400);
 
     }
     else{
-        setServoMovingSpeed(3, (uint16_t)(827*1.2 + 1024), 0x0400);//CW ¬€√–”«»“‹
-        setServoMovingSpeed(2, (uint16_t)(750*1.17), 0x0000);//CCW  ¬€√–”«»“‹
-        setServoMovingSpeed(3, (uint16_t)(827*1.2 + 1024), 0x0400);//CW ¬€√–”«»“‹
-        setServoMovingSpeed(2, (uint16_t)(750*1.17), 0x0000);//CCW  ¬€√–”«»“‹
+        coef_left=1.23;
+        coef_right=1.17;
+        setServoMovingSpeed(3, (uint16_t)(827*coef_left + 1024), 0x0400);//CW ¬€√–”«»“‹
+        setServoMovingSpeed(2, (uint16_t)(750*coef_right), 0x0000);//CCW  ¬€√–”«»“‹
+        setServoMovingSpeed(3, (uint16_t)(827*coef_left + 1024), 0x0400);//CW ¬€√–”«»“‹
+        setServoMovingSpeed(2, (uint16_t)(750*coef_right), 0x0000);//CCW  ¬€√–”«»“‹
 
     }
 

@@ -152,6 +152,10 @@ while(1)
         stop_cnt = 0;
         startFlag = 0;
       }
+ //     setServoMovingSpeed(4, (uint16_t)(850+1024), 0x0400);
+//      setServoMovingSpeed(4, (uint16_t)(850), 0x0000);
+//       setServoMovingSpeed(254, (uint16_t)(850+1024), 0x0400);
+  //    setServoMovingSpeed(254, (uint16_t)(850), 0x0400);
 
 
 //        U = pin_val(DETECT_CYLINDER);
