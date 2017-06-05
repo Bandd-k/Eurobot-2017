@@ -112,7 +112,7 @@ int main(void)
 // Uploading standart paramiters
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
-          USART_Config(1000000);
+
 //          setID(ID_broadcast,  (uint8_t)2);
 //          setBaudRate (ID_broadcast, 1000000);
 //          setServoAngle(ID_broadcast,100);
@@ -130,8 +130,23 @@ int main(void)
 ////
 //
 //        setID(ID_broadcast,  ID_test);
-//
-        setServoToWheelMode((uint8_t)4);
+USART_Config(9600);
+        setDefault(ID_broadcast);
+
+
+       setServoAngle(ID_broadcast,100);
+       setServoAngle(ID_broadcast,200);
+       setBaudRate(ID_broadcast,(uint8_t)testAngleVal2);
+       USART_Config(115200);
+       setServoAngle(ID_broadcast,100);
+       setServoAngle(ID_broadcast,200);
+       USART_Config(57600);
+       setServoAngle(ID_broadcast,100);
+       setServoAngle(ID_broadcast,200);
+       USART_Config(1000000);
+       setServoAngle(ID_broadcast,100);
+       setServoAngle(ID_broadcast,200);//
+
 //
 //
 //        setID((uint8_t)0xFE,(uint8_t) 0x02);

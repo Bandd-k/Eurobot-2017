@@ -72,6 +72,7 @@ __enable_irq();
 
 while(1){
 
+
 //    setVoltageBrushless((char)LEFTUP,(float)NEUTRAL);
 //    setVoltageBrushless((char)DOWNONE,(float)NEUTRAL);
 //    setVoltageBrushless((char)RIGHTUP,(float)NEUTRAL);

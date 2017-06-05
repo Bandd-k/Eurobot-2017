@@ -319,7 +319,7 @@ initRegulators();
 
 //___EXTI____________________________________________________________________
   conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);//output frequency receiver
-  conf_pin(EXTI2_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);//changes between red and blue color
+  conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//changes between red and blue color
   conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for DOWN_SWITCH for the sucking manipulator
   conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);//will be used for the UP_SWITCH for the sucking manipulator
   conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);//will be used for controlling the direction of sucking manipulator
@@ -364,6 +364,7 @@ for(i; i < 4; i++)
 }
 //setServoToWheelMode(4);
 goInsideWithSuckingManipulator((uint16_t)148);
+setServoTorque(4,1000); // #TOCHECK
 //servo_rotate_90((uint16_t)160);
 //setCurrentAngleAsBeginning();
 //liftCylinderRGBManipulator();

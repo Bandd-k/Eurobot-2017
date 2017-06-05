@@ -40,7 +40,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
   if (startFlag) {
     stop_cnt++;
   }
-  manip_core();
+
   if((stop_cnt - starting_time > fabs(rot_time)) && start_cylinder_rot){
         setServoMovingSpeed(3, (uint16_t)(0), 0x0000);//CCW    // ÂÃÐÓÇÈÒÜ
         setServoMovingSpeed(2, (uint16_t)(0), 0x0000);
@@ -57,7 +57,11 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
         }
       }
   TIM6->SR = 0;
+
+
+
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
+
   GetDataForRegulators(); // обновление входных данных для ПИД
   NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn);
 
@@ -69,12 +73,12 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
     {
         if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
     }
-    tempor = encodermagner(tempor);
-    if (tempor !=2)
-    {
-        numberofrot += tempor;
-    }
-    whole_angle = numberofrot * 360 + getCurrentEncoderAngle();
+//    tempor = encodermagner(tempor);
+//    if (tempor !=2)
+//    {
+//        numberofrot += tempor;
+//    }
+//    whole_angle = numberofrot * 360 + getCurrentEncoderAngle();
 }
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -89,11 +93,10 @@ void TIM7_IRQHandler() // 33kHz
 
 void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного регулятора
 {
-   // set_pin(PWM_DIR[8]);
 
   TIM13->SR = 0;
  NVIC_DisableIRQ(TIM6_DAC_IRQn);  //отключение ПИД на время расчета
-
+manip_core();
 float temp = (curPath.phiZad-robotCoord[2]);
 
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу

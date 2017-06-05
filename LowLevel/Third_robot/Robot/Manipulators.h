@@ -39,8 +39,8 @@ void pidLowLevelManipulator(float, float);
 
 //////////////////////////FUNNY ACTION IN EUROBOT 2017/////////////////////////////////////
 
-#define CLOSE_LID_VALUE 0.0621
-#define OPEN_LID_VALUE 0.08
+#define CLOSE_LID_VALUE 0.0735
+#define OPEN_LID_VALUE 0.0895
 #define FUNNY_ACTION_BTN_CHANNEL 4
 
 void OpenLauncher();

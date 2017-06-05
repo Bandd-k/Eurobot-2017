@@ -339,6 +339,14 @@ bool setDefault(const uint8_t servoId)
 
     sendServoCommand (servoId, RESETING, 1, params);
 
+    const uint8_t params1[2] = {0x02,0x00};
+
+    sendServoCommand (servoId, RESETING, 2, params1);
+
+    const uint8_t params2[2] = {0x00};
+
+    sendServoCommand (servoId, RESETING, 1, params2);
+
     if (!getAndCheckResponse (servoId))
         return false;
 

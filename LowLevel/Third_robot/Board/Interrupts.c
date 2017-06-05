@@ -40,18 +40,9 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
         setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
         float angle_;
-    //upLeftCollectorWithBalls(80);
-    //upRightCollectorWithBalls(45);
-//        getServoAngle(DNMXL_MAN_RIGHT,&angle_);
-//        setServoAngle(DNMXL_MAN_RIGHT,angle_);
-//        getServoAngle(DNMXL_MAN_LEFT,&angle_);
-//        setServoAngle(DNMXL_MAN_LEFT,angle_);
-//        getServoAngle(DNMXL_SEESAW,&angle_);
-//        getServoAngle(DNMXL_SEESAW,&angle_);
-
 
   }
- if (stop_cnt >= 9300){//9100
+ if (stop_cnt >= 9150){//9100
      OpenLauncher();
  }
   TIM6->SR = 0;

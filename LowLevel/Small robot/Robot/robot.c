@@ -466,7 +466,11 @@ switch(cmd->command)
 
   case 0x24:  //Включить ПИД регуляторы приводов
   {
+
+      //ortoPos.sum_error=0;
+      ortoPos.max_output=6.0;
       curState.pidEnabled=1;
+      curState.trackEn =1;
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }
@@ -667,6 +671,8 @@ break;
   case 0x40:  // Stop command
   {
     curState.pidEnabled = 0;
+    ortoPos.max_output=0.0;
+    curState.trackEn=0;
     char i;
     for (i = 0; i < 4; i++)
     {
@@ -704,12 +710,14 @@ break;
       __disable_irq();
     float *(temp) ={(float*)cmd->param};
     char * ch = cmd->param + 24;
+    curState.trackEn=0;
     robotCoord[0] = temp[0]; //# TODO TEST SPEED
     robotCoord[1] = temp[1];
     robotCoord[2] = temp[2];
     points[lastPoint].center[0] = robotCoord[0];
     points[lastPoint].center[1] = robotCoord[1];
     points[lastPoint].center[2] = robotCoord[2];
+    curState.trackEn=1;
     lastPoint++;
     points[lastPoint].center[0] = temp[3];
     points[lastPoint].center[1] = temp[4];
@@ -790,8 +798,8 @@ break;
   {
     float *(temp) ={(float*)cmd->param};
     int angleofsucker = (int) *temp;
-    goInsideButDifferentRotate(angleofsucker);
-    goInsideButDifferentRotate(angleofsucker);
+    goInsideWithSuckingManipulator(angleofsucker);
+    goInsideWithSuckingManipulator(angleofsucker);
   }
     break;
 

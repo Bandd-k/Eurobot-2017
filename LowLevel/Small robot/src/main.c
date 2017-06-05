@@ -40,6 +40,7 @@ __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 long frequency = 9000;
 
 uint32_t ticks; // global "time" for mesuring frequency of rbg signal
+uint16_t upper, down;
 char color, color_check[8]; // for rgb sensor
 float r,b,R,B; //for rgb sensor
 //extern char lastPoint ;
@@ -63,7 +64,7 @@ int U, D;
 int main(void)
 {
 
-    __disable_irq();
+        __disable_irq();
     initAll();
 
 /*
@@ -99,6 +100,9 @@ long int time = 0;
 
 while(1)
     {
+
+
+
 //        goInsideWithSuckingManipulator(100);
 //        servo_rotate_180(200);
 //        goOutsideWithSuckingManipulator();

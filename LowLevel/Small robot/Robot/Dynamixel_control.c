@@ -119,6 +119,7 @@ void sendServoCommand (const uint8_t servoId,
 
 bool getServoResponse (void)
 {
+    return 0;
     uint16_t retries = 0;
 
     clearServoReceiveBuffer();

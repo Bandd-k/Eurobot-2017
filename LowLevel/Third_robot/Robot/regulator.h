@@ -114,7 +114,7 @@ void CreatePath(pathPointStr * next_point, pathPointStr * cur_point, Path * out)
 void removePoint(pathPointStr * points,char *lastPoint);
 void SpeedFiltration(float *V,float *vF);
 float rangeAngle(float * angle);
-
+extern PidStruct ortoPos;
 
 
 #endif

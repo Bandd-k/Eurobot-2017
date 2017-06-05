@@ -103,7 +103,7 @@ int main(void)
     uint8_t ID_test = 0x02;
 
 
-    uint16_t testAngleVal2 = 300;
+    uint16_t testAngleVal2 = 3;
 
     uint16_t i = 0;
     //setServoMovingSpeed(254, 200, 0);
@@ -121,11 +121,11 @@ int main(void)
 //            }
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
-//          USART_Config(1000000);
-//          setID(ID_broadcast,  (uint8_t)5);
-//          setID(ID_broadcast,  (uint8_t)5);
-//          setID(ID_broadcast,  (uint8_t)5);
-//          setID(ID_broadcast,  (uint8_t)5);
+//          USART_Config(frequency);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
+//          setID(ID_broadcast,  (uint8_t)4);
 //          setBaudRate (ID_broadcast, (uint8_t) 0x03);
 //          setServoAngle(ID_broadcast,100);
 //          setServoAngle(ID_broadcast,200);
@@ -133,6 +133,26 @@ int main(void)
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
 //          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
+//       USART_Config(9600);
+////       setDefault(ID_broadcast);
+//       setServoAngle(ID_broadcast,100);
+//       setServoAngle(ID_broadcast,200);
+////       setBaudRate(ID_broadcast,(uint8_t)testAngleVal2);
+//       USART_Config(115200);
+//       setServoAngle(ID_broadcast,100);
+//       setServoAngle(ID_broadcast,200);
+//       USART_Config(57600);
+//       setServoAngle(ID_broadcast,100);
+//       setServoAngle(ID_broadcast,200);
+//       USART_Config(1000000);
+//       setServoAngle(ID_broadcast,100);
+//       setServoAngle(ID_broadcast,200);
+//       setID(ID_broadcast,4);
+//       setServoAngle(4,100);
+//       setServoAngle(4,200);
+
+
+
 //      setDefault(254);
      // USART_Config(1000000);
 //        USART_Config(1000000);
@@ -259,11 +279,11 @@ int main(void)
 //        setDefault(ID_broadcast);
 //        setID(ID_broadcast,  ID_test);
 //        setServoToWheelMode(4);
-        setServoMovingSpeed(4, 1023+150, 0x0400);
-        setServoMovingSpeed(4, 1023, 0x0400);
-
-        setServoMovingSpeed(4, 150, 0x000);
-        setServoMovingSpeed(4, 0, 0x0000);
+//        setServoMovingSpeed(4, 1023+150, 0x0400);
+//        setServoMovingSpeed(4, 1023, 0x0400);
+//
+//        setServoMovingSpeed(4, 150, 0x000);
+//        setServoMovingSpeed(4, 0, 0x0000);
 //        setID(ID_broadcast,  ID_test);
 //        setID(ID_broadcast,  ID_test);
 //        setID(ID_broadcast,  ID_test);
