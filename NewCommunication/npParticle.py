@@ -176,14 +176,14 @@ class ParticleFilter:
         # mean version
         weights = self.gaus(np.mean(beacon_error_sum, axis=1),mu=0, sigma=self.sense_noise)
         # check weights
-        if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*10.0,mu =0,sigma= self.sense_noise)*self.particles_num:
-            logging.info("Dangerous Situation")
+        #if self.warning == False and np.sum(weights)<self.gaus(self.sense_noise*10.0,mu =0,sigma= self.sense_noise)*self.particles_num:
             #self.warning = True
-
+            
 
         if np.sum(weights) > 0:
             weights /= np.sum(weights)
         else:
+            logging.info("Dangerous Situation")
             weights = np.ones(self.particles_num, dtype=np.float)/self.particles_num
         return weights
         # TODO try use median instead mean
@@ -206,10 +206,11 @@ class ParticleFilter:
                     continue
                 coords[0] = coords[0]*1000
                 coords[1] = coords[1]*1000
+                logging.info("ODOMETRY= "+ str(coords))
+                logging.info("PREV= "+ str(self.prev))
                 ## Moscow Version
-                #self.move_particles(
-                    #[coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
-                self.move_particles([coords[0] - self.prev[0], coords[1] - self.prev[1], coords[2] - self.prev[2]])
+                #self.move_particles([coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                self.move_particles([(coords[0] - self.prev[0]), (coords[1] - self.prev[1]), (coords[2] - self.prev[2])*1.05])
                 self.prev = [coords[0],coords[1],coords[2]]
                 # add aproximation
                 lidar_data = get_raw()
